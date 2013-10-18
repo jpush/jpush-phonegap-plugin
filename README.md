@@ -1,7 +1,5 @@
 ## JPush PhoneGap Plugin ##
 
-**MarkdownPad** 是 Windows 平台上一个功能完善的 Markdown 编辑器。
-
 ### Installation ###
 
 1.使用 phonegap 或者 cordova cli 添加插件:
