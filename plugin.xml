@@ -127,7 +127,7 @@
             <meta-data android:name="JPUSH_APPKEY" android:value="299d0fee887820e7d90a68b2"/>
         </config-file>
         <source-file src="src/android/jpush-sdk-release1.5.0.jar" target-dir="libs"/>
-        <source-file src="src/android/armeabi/libjpush.so" target-dir="libs/armeabi"/>
+        <source-file src="src/android/libjpush.so" target-dir="libs/armeabi"/>
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap"/>
         <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap"/>
     	<source-file src="src/android/test_notification_layout.xml" target-dir="res/layout"/>
