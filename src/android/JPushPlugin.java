@@ -16,7 +16,6 @@ import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import android.util.Log;
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.CustomPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
@@ -29,7 +28,15 @@ public class JPushPlugin extends CordovaPlugin {
 					"setAlias", 
 					"getIncoming",
 					"setBasicPushNotificationBuilder",
-					"setCustomPushNotificationBuilder");
+					"setCustomPushNotificationBuilder",
+					"setPushTime",
+					"init",
+					"setDebugable",
+					"stopPush",
+					"resumePush",
+					"isPushStopped",
+					"setLatestNotificationNum",
+					"setPushTime");
 	private ExecutorService executorService = Executors.newFixedThreadPool(1);
 	private static JPushPlugin instance;
 
@@ -95,7 +102,85 @@ public class JPushPlugin extends CordovaPlugin {
 		});
 		return true;
 	}
-
+	
+	void init(JSONArray data,
+			CallbackContext callbackContext){
+		JPushInterface.init(this.cordova.getActivity().getApplicationContext());
+		callbackContext.success();
+	}
+	
+	void setDebugable(JSONArray data,
+			CallbackContext callbackContext){
+		String mode = data.getString(0);
+		if(mode.equals(true)){
+			JPushInterface.setDebugMode(true);
+		}else if(mode.equals(false)){
+			JPushInterface.setDebugMode(false);
+		}else{
+			callbackContext.error("error mode");
+		}
+		callbackContext.success();
+	}
+	
+	void stopPush(JSONArray data,
+			CallbackContext callbackContext){
+		JPushInterface.stopPush(this.cordova.getActivity().getApplicationContext());
+		callbackContext.success();
+	}
+	
+	void resumePush(JSONArray data,
+			CallbackContext callbackContext){
+		JPushInterface.resumePush(this.cordova.getActivity().getApplicationContext());
+		callbackContext.success();
+	}
+	
+	void isPushStopped(JSONArray data,
+			CallbackContext callbackContext){
+		JPushInterface.isPushStopped(this.cordova.getActivity().getApplicationContext());
+		callbackContext.success();
+	}
+	
+	void setLatestNotificationNum(JSONArray data,
+			CallbackContext callbackContext){
+		int num = -1;
+		try {
+			num = data.getInt(0);
+		} catch (JSONException e) {
+			e.printStackTrace();
+			callbackContext.error("error reading num json");
+		}
+		if(num != -1){
+			JPushInterface.setLatestNotifactionNumber(this.cordova.getActivity().getApplicationContext(), num);
+		}else{
+			callbackContext.error("error num");
+		}
+	}
+	
+	void setPushTime(JSONArray data,
+			CallbackContext callbackContext){
+		Set<Integer> days = new HashSet<Integer>();
+		JSONArray dayArr;
+		int startHour = -1;
+		int endHour = -1;
+		try {
+			dayArr = data.getJSONArray(0);
+			for (int i = 0; i < dayArr.length(); i++) {
+				days.add(dayArr.getInt(i));
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+			callbackContext.error("error reading days json");
+		}
+		try{
+			startHour = data.getInt(1);
+			endHour = data.getInt(2);
+		}catch(JSONException e){
+			callbackContext.error("error reading hour json");
+		}
+		JPushInterface.setPushTime(this.cordova.getActivity().getApplicationContext(), days, startHour, endHour);
+		callbackContext.success();
+	}
+	
 	void setTags(JSONArray data, CallbackContext callbackContext) {
 		HashSet<String> tags = new HashSet<String>();
 		try {
@@ -115,12 +200,10 @@ public class JPushPlugin extends CordovaPlugin {
 	}
 
 	void setAlias(JSONArray data, CallbackContext callbackContext) {
-		Log.e("lincoln", "set alias start");
 		try {
 			String alias = data.getString(0);
 			JPushInterface.setAlias(this.cordova.getActivity()
 					.getApplicationContext(), alias, null);
-			Log.e("lincoln", "set alias:" + alias);
 			callbackContext.success();
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -195,5 +278,25 @@ public class JPushPlugin extends CordovaPlugin {
 			e.printStackTrace();
 		}
 		callbackContext.success(obj);
+	}
+	void clearAllNotification(JSONArray data,
+			CallbackContext callbackContext){
+		JPushInterface.clearAllNotifications(this.cordova.getActivity());
+		callbackContext.success();
+	}
+	void clearNotificationById(JSONArray data,
+			CallbackContext callbackContext){
+		int notificationId=-1;
+		try {
+			notificationId = data.getInt(0);
+		} catch (JSONException e) {
+			e.printStackTrace();
+			callbackContext.error("error reading id json");
+		}
+		if(notificationId != -1){
+		JPushInterface.clearNotificationById(this.cordova.getActivity(), notificationId);
+		}else{
+			callbackContext.error("error id");
+		}
 	}
 }
