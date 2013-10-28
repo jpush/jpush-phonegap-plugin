@@ -37,11 +37,11 @@ public class JPushPlugin extends CordovaPlugin {
 					"isPushStopped",
 					"setLatestNotificationNum",
 					"setPushTime");
-	private ExecutorService executorService = Executors.newFixedThreadPool(1);
+	private ExecutorService threadPool = Executors.newFixedThreadPool(1);
 	private static JPushPlugin instance;
 
-	public static String incomingAlert;
-	public static Map<String, String> incomingExtras;
+	public static String notificationAlert;
+	public static Map<String, String> notificationExtras;
 
 	public JPushPlugin() {
 		instance = this;
@@ -66,7 +66,7 @@ public class JPushPlugin extends CordovaPlugin {
 		return data;
 	}
 
-	static void raisePush(String message, Map<String, String> extras) {
+	static void transmitPush(String message, Map<String, String> extras) {
 		if (instance == null) {
 			return;
 		}
@@ -89,7 +89,7 @@ public class JPushPlugin extends CordovaPlugin {
 		if (!methodList.contains(action)) {
 			return false;
 		}
-		executorService.execute(new Runnable() {
+		threadPool.execute(new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -230,9 +230,9 @@ public class JPushPlugin extends CordovaPlugin {
 		}
 	}
 
-	void getIncoming(JSONArray data, CallbackContext callBackContext) {
-		String alert = JPushPlugin.incomingAlert;
-		Map<String, String> extras = JPushPlugin.incomingExtras;
+	void getNotification(JSONArray data, CallbackContext callBackContext) {
+		String alert = JPushPlugin.notificationAlert;
+		Map<String, String> extras = JPushPlugin.notificationExtras;
 
 		JSONObject jsonData = new JSONObject();
 		try {
@@ -244,8 +244,8 @@ public class JPushPlugin extends CordovaPlugin {
 
 		callBackContext.success(jsonData);
 
-		JPushPlugin.incomingAlert = "";
-		JPushPlugin.incomingExtras = new HashMap<String, String>();
+		JPushPlugin.notificationAlert = "";
+		JPushPlugin.notificationExtras = new HashMap<String, String>();
 	}
 
 	void setBasicPushNotificationBuilder(JSONArray data,

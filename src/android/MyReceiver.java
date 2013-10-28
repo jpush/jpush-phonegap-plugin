@@ -37,7 +37,7 @@ public class MyReceiver extends BroadcastReceiver {
 		String msg = intent.getStringExtra(JPushInterface.EXTRA_MESSAGE);
 		Map<String,String> extras = getNotificationExtras(intent);
 		
-		JPushPlugin.raisePush(msg, extras);
+		JPushPlugin.transmitPush(msg, extras);
 	}
 	 private void handlingNotificationOpen(Context context,Intent intent){
 		 String alert = intent.getStringExtra(JPushInterface.EXTRA_ALERT);
@@ -47,8 +47,8 @@ public class MyReceiver extends BroadcastReceiver {
 		 launch.addCategory(Intent.CATEGORY_LAUNCHER);
 		 launch.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		 
-		 JPushPlugin.incomingAlert = alert;
-		 JPushPlugin.incomingExtras = extras;
+		 JPushPlugin.notificationAlert = alert;
+		 JPushPlugin.notificationExtras = extras;
 		 
 		 context.startActivity(launch);
 	 }

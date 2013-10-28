@@ -32,8 +32,8 @@ JPushPlugin.prototype.pushCallback = function (data) {
   
 }
 
-JPushPlugin.prototype.getIncoming = function (callback) {
-  this.call_native(callback, "getIncoming");
+JPushPlugin.prototype.getNotification = function (callback) {
+  this.call_native(callback, "getNotification");
 }
 
 JPushPlugin.prototype.setBasicPushNotificationBuilder = function(callback){
