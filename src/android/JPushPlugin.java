@@ -26,7 +26,7 @@ public class JPushPlugin extends CordovaPlugin {
 					"setTags",
 					"setTagAlias", 
 					"setAlias", 
-					"getIncoming",
+					"getNotification",
 					"setBasicPushNotificationBuilder",
 					"setCustomPushNotificationBuilder",
 					"setPushTime",
