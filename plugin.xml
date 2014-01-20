@@ -14,13 +14,40 @@
         <engine name="cordova" version=">=3.0"/>
     </engines>
 
+    <js-module src="www/JPushPlugin.js" name="JPushPlugin">
+            <clobbers target="window.plugins.jPushPlugin"/>
+    </js-module>
+
+    <platform name="ios">
+            <config-file target="config.xml" parent="/*">
+                <feature name="JPushPlugin">
+                    <param name="ios-package" value="JPushPlugin"/>
+                </feature>
+            </config-file>
+
+            <header-file src="str/ios/Plugins/JPushPlugin.h"/>
+            <source-file src="str/ios/Plugins/JPushPlugin.m"/>
+           
+            <header-file src="str/ios/lib/APService.h" />
+            <source-file src="str/ios/lib/libPushSDK.a" framework="true" />
+            
+            <resource-file src="str/ios/PushConfig.plist" />
+                
+            <framework src="CFNetwork.framework" weak="true" />
+            <framework src="CoreFoundation.framework" weak="true" />
+            <framework src="SystemConfiguration.framework" weak="true" />
+            <framework src="CoreGraphics.framework" weak="true" />
+            <framework src="Foundation.framework" weak="true" />
+            <framework src="CoreFoundation.framework" weak="true" />
+            <framework src="UIKit.framework" weak="true" />
+            <framework src="CoreTelephony.framework" weak="true" />
+
+
+        </platform>
+        
     <!-- android -->
     <platform name="android">
-
-        <js-module src="www/JPushPlugin.js" name="JPushPlugin">
-            <clobbers target="window.plugins.jPushPlugin"/>
-        </js-module>
-
+    
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="JPushPlugin">
                 <param name="android-package" value="cn.jpush.phonegap.JPushPlugin"/>
