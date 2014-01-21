@@ -25,13 +25,13 @@
                 </feature>
             </config-file>
 
-            <header-file src="str/ios/Plugins/JPushPlugin.h"/>
-            <source-file src="str/ios/Plugins/JPushPlugin.m"/>
+            <header-file src="src/ios/Plugins/JPushPlugin.h"/>
+            <source-file src="src/ios/Plugins/JPushPlugin.m"/>
            
-            <header-file src="str/ios/lib/APService.h" />
-            <source-file src="str/ios/lib/libPushSDK.a" framework="true" />
+            <header-file src="src/ios/lib/APService.h" />
+            <source-file src="src/ios/lib/libPushSDK.a" framework="true" />
             
-            <resource-file src="str/ios/PushConfig.plist" />
+            <resource-file src="src/ios/PushConfig.plist" />
                 
             <framework src="CFNetwork.framework" weak="true" />
             <framework src="CoreFoundation.framework" weak="true" />
