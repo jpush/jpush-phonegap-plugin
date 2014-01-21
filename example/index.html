@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+            <title>Phonegap Sample App</title>
+            
+            <link href="css/jquery.mobile-1.1.1.css" rel="stylesheet" type="text/css"/>
+            
+            <script type="text/javascript" src="js/jquery.js"></script>
+            <script type="text/javascript" src="js/jquery.mobile-1.1.1.js"></script>
+            
+            <script type="text/javascript" src="cordova.js"></script>
+            <script type="text/javascript">
+                
+                
+                var onDeviceReady = function() {
+                    console.log("Device ready!")
+                    initiateUI();
+                }
+            var initiateUI = function() {
+                $("#setAliasButton").click(function(ev) {
+                       console.log("setAliasButton");
+                       try{window.plugins.jPushPlugin.setAlias("myAlias");}
+                       catch(exception){console.log(exception);}
+                        
+               })
+               $("#setTagButton").click(function(ev) {
+                        console.log("setTagButton");
+                        try{window.plugins.jPushPlugin.setTags("myAlias");}
+                        catch(exception){console.log(exception);}
+                        
+                })
+               $("#setTagWithAliasButton").click(function(ev) {
+                        console.log("setTagWithAliasButton");
+                        try{window.plugins.jPushPlugin.setTagsWithAlias("myTags","myTags1","myTags2","myAlias");}
+                        catch(exception){console.log(exception);}
+
+                })
+            }
+            document.addEventListener("deviceready", onDeviceReady, false)
+        </script>
+    </head>
+    <body>
+        <div data-role="page" id="page">
+            
+            <div data-role="header" class="ui-bar ui-bar-b">
+                <center>
+                    <img border="0" src="img/logo.png" alt="Urban Airship" align="center" />
+                </center>
+            </div>
+            <div data-role="content">
+                <form>
+                    <div class="ui-body ui-body-b">
+                        
+                        <div data-role="fieldcontain">
+                            <center><h3>JPushPlugin Example</h3></center>
+                            <span name="alias" id="alias"></span><hr />
+                            <label>Alias: </label>
+                            <input type="button" id="setAliasButton" value="Set alias" />
+                        </div>
+                        <div data-role="fieldcontain">
+                            <label>Tags: </label>
+                            <input type="button" id="setTagButton" value="Add tag" />
+                            <div id="tags"></div>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <label>Tags and Alias: </label>
+                            <input type="button" id="setTagWithAliasButton" value="Add tag and alias" />
+                            <div id="tags"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </body>
+</html>
+
+
