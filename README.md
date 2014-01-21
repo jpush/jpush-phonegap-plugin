@@ -11,7 +11,7 @@ cd Myproj :不进行这一步可能会出现[RangeError:Maximum call stack size 
 cordova platform add android  
 ```
 
-### 安装 ###
+### Android自动安装 ###
 
 1. 使用 phonegap 或者 cordova cli 添加插件(建议在git客户端下使用，在windows 的cmd界面下 该命令提示git command line tool 不可用):
 ```
@@ -19,6 +19,45 @@ cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git
 ```
 
 2. 修改www/config.xml文件，添加或者覆盖以下字段
+
+####IOS使用PhoneGap/Cordova CLI自动安装
+
+1.使用PhoneGap/Cordova CLI命令安装
+```
+cordova plugin add https://github.com/zhangqinghe/test.phonegap.git
+cordova build ios
+```
+
+2.修改Resources/PushConfig.plist文件
+```
+在APP_KEY和CHANNLE字段 分别添加您的appkey和channle
+```
+3.添加监听系统事件，相应地调用 JPush SDK 提供的 API 来实现功能
+```
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+    // Required
+    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                    UIRemoteNotificationTypeSound |
+                                                    UIRemoteNotificationTypeAlert)];
+    // Required
+    [APService setupWithOption:launchOptions];
+    return YES;
+}
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    // Required
+    [APService registerDeviceToken:deviceToken];
+}
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    // Required
+    [APService handleRemoteNotification:userInfo];
+}
+```
+
 
 ###Android 手工安装###
 1. 复制src/android/*.java 到cn/jpush/phonega/目录下(即：cn.jpush.phonegap的包下)
@@ -128,6 +167,81 @@ cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git
             <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
             <meta-data android:name="JPUSH_APPKEY" android:value="299d0fee887820e7d90a68b2"/>
 
+```
+### IOS手工安装
+
+1.添加src/ios/Plugins/到project中  
+2.添加src/ios/lib/到project中  
+3.设置 Search Paths 下的 User Header Search Paths 和 Library Search Paths  
+```
+
+比如SDK文件夹（默认为lib）与工程文件在同一级目录下，则都设置为"$(SRCROOT)/[文件夹名称]"即可。
+```
+
+4.确认一下的框架是存在的(Target -> Build Phases -> Link Binary With Libraries)
+```
+
+CFNetwork.framework
+CoreFoundation.framework
+CoreTelephony.framework
+SystemConfiguration.framework
+CoreGraphics.framework
+Foundation.framework
+UIKit.framework
+```
+
+5.在你的工程中创建一个新的Property List文件
+```
+
+并将其命名为PushConfig.plist，填入Portal为你的应用提供的APP_KEY等参数
+```
+
+6.调用代码,监听系统事件，相应地调用 JPush SDK 提供的 API 来实现功能
+```
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+ 
+    // Required
+    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                    UIRemoteNotificationTypeSound |
+                                                    UIRemoteNotificationTypeAlert)];
+    // Required
+    [APService setupWithOption:launchOptions];
+     
+    return YES;
+}
+ 
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+     
+    // Required
+    [APService registerDeviceToken:deviceToken];
+}
+ 
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+     
+    // Required
+    [APService handleRemoteNotification:userInfo];
+}
+```
+
+7.修改phonegap config.xml文件用来包含Plugin/内的插件
+```
+
+<feature name="JPushPlugin">
+    <param name="ios-package" value="JPushPlugin" />
+    <param name="onload" value="true" />
+</feature>
+```
+
+8.复制www/PushNotification.js到工程的www目录下面  
+9.在需要使用插件处加入
+```
+
+<script type="text/javascript" src="JPushPlugin.js"></script>
 ```
 
 
