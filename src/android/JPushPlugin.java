@@ -109,17 +109,20 @@ public class JPushPlugin extends CordovaPlugin {
 		callbackContext.success();
 	}
 	
-	void setDebugable(JSONArray data,
-			CallbackContext callbackContext){
-		String mode = data.getString(0);
-		if(mode.equals(true)){
-			JPushInterface.setDebugMode(true);
-		}else if(mode.equals(false)){
-			JPushInterface.setDebugMode(false);
-		}else{
-			callbackContext.error("error mode");
+	void setDebugable(JSONArray data, CallbackContext callbackContext) {
+		String mode;
+		try {
+			mode = data.getString(0);
+			if (mode.equals("true")) {
+				JPushInterface.setDebugMode(true);
+			} else if (mode.equals("false")) {
+				JPushInterface.setDebugMode(false);
+			} else {
+				callbackContext.error("error mode");
+			}
+			callbackContext.success();
+		} catch (JSONException e) {
 		}
-		callbackContext.success();
 	}
 	
 	void stopPush(JSONArray data,
@@ -266,7 +269,7 @@ public class JPushPlugin extends CordovaPlugin {
 	void setCustomPushNotificationBuilder(JSONArray data,
 			CallbackContext callbackContext) {
 		CustomPushNotificationBuilder builder = new CustomPushNotificationBuilder(
-				this.cordova.getActivity(), R.layout.test_notitfication_layout,
+				this.cordova.getActivity(), R.layout.test_notification_layout,
 				R.id.icon, R.id.title, R.id.text);
 		builder.developerArg0 = "Custom Builder 1";
 		builder.layoutIconDrawable = R.drawable.jpush_notification_icon;
