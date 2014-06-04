@@ -20,22 +20,18 @@
                     initiateUI();
                 }
             var initiateUI = function() {
-                $("#setAliasButton").click(function(ev) {
-                       console.log("setAliasButton");
-                       try{window.plugins.jPushPlugin.setAlias("myAlias");}
-                       catch(exception){console.log(exception);}
-                        
-               })
-               $("#setTagButton").click(function(ev) {
-                        console.log("setTagButton");
-                        try{window.plugins.jPushPlugin.setTags("myAlias");}
-                        catch(exception){console.log(exception);}
-                        
-                })
                $("#setTagWithAliasButton").click(function(ev) {
-                        console.log("setTagWithAliasButton");
-                        try{window.plugins.jPushPlugin.setTagsWithAlias("myTags","myTags1","myTags2","myAlias");}
-                        catch(exception){console.log(exception);}
+                        console.log("tap set tag/alias button!");
+
+                        try{
+                            var tag1 = $("#tagText1").attr("value");
+                            console.log("tag1:"+tag1);
+
+                            window.plugins.jPushPlugin.setTagsWithAlias("myTags","myTags1","myTags2","myAlias");
+                        }
+                        catch(exception){
+                            console.log(exception);
+                        }
 
                 })
             }
@@ -57,18 +53,37 @@
                         <div data-role="fieldcontain">
                             <center><h3>JPushPlugin Example</h3></center>
                             <span name="alias" id="alias"></span><hr />
-                            <label>Alias: </label>
-                            <input type="button" id="setAliasButton" value="Set alias" />
                         </div>
                         <div data-role="fieldcontain">
                             <label>Tags: </label>
-                            <input type="button" id="setTagButton" value="Add tag" />
-                            <div id="tags"></div>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input type="text"  id="tagText1"/>
+                                    </td>                                    
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text"  id="tagText2"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text"  id="tagText3">
+                                    </td>
+                                </tr>
+                            </table>
+                            <label>Alias: </label>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input type="text"   id="aliasText">
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                         <div data-role="fieldcontain">
-                            <label>Tags and Alias: </label>
                             <input type="button" id="setTagWithAliasButton" value="Add tag and alias" />
-                            <div id="tags"></div>
                         </div>
                     </div>
                 </form>

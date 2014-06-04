@@ -15,4 +15,5 @@
 -(void)setTagsWithAlias:(CDVInvokedUrlCommand*)command;
 -(void)setTags:(CDVInvokedUrlCommand*)command;
 -(void)setAlias:(CDVInvokedUrlCommand*)command;
+-(void)getRegistrationID:(CDVInvokedUrlCommand*)command;
 @end

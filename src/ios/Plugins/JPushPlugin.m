@@ -59,7 +59,7 @@
 -(void)tagsWithAliasCallback:(int)resultCode tags:(NSSet *)tags alias:(NSString *)alias{
     
     
-    NSLog(@"recode is %d  tags is %@ alias %@",resultCode,tags,alias);
+    //NSLog(@"recode is %d  tags is %@ alias %@",resultCode,tags,alias);
     NSDictionary *dict=[NSDictionary dictionaryWithObjectsAndKeys:
                               [NSNumber numberWithInt:resultCode],@"resultCode",
                         tags==nil?[NSNull null]:[tags allObjects],@"resultTags",
@@ -72,6 +72,9 @@
        [self writeJavascript:[NSString stringWithFormat:@"window.plugins.jPushPlugin.pushCallback('%@')",jsonString]];
     });
 }
-    
+-(void)getRegistrationID:(CDVInvokedUrlCommand*)command{
+        
+}
+
 
 @end
