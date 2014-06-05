@@ -10,7 +10,8 @@
 #import "APService.h"
 
 @implementation JPushPlugin
-    
+
+
 -(void)setTagsWithAlias:(CDVInvokedUrlCommand*)command{
     
     NSArray *arguments=command.arguments;
@@ -55,11 +56,23 @@
    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     
 }
+
+-(void)getRegistrationID:(CDVInvokedUrlCommand*)command{
+    NSString* registratonID = [APService registrionID];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //
+        NSString *script=[NSString stringWithFormat:@"cordova.fireDocumentEvent('registrationID','[%@]')",registratonID];
+        [self.commandDelegate evalJs:script];
+        [self writeJavascript:[NSString stringWithFormat:@"window.plugins.jPushPlugin.registrationCallback('%@')",registratonID]];
+    });
+
+}
+
     
 -(void)tagsWithAliasCallback:(int)resultCode tags:(NSSet *)tags alias:(NSString *)alias{
     
     
-    //NSLog(@"recode is %d  tags is %@ alias %@",resultCode,tags,alias);
+    NSLog(@"recode is %d  tags is %@ alias %@",resultCode,tags,alias);
     NSDictionary *dict=[NSDictionary dictionaryWithObjectsAndKeys:
                               [NSNumber numberWithInt:resultCode],@"resultCode",
                         tags==nil?[NSNull null]:[tags allObjects],@"resultTags",
@@ -68,12 +81,71 @@
     NSData   *jsonData   = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
     NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
     dispatch_async(dispatch_get_main_queue(), ^{
-        
+      [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('setTagsWithAlias','[%@]')",jsonString]];
+
        [self writeJavascript:[NSString stringWithFormat:@"window.plugins.jPushPlugin.pushCallback('%@')",jsonString]];
     });
 }
--(void)getRegistrationID:(CDVInvokedUrlCommand*)command{
-        
+- (void)networkDidSetup:(NSNotification *)notification {
+    [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('networkDidSetup')"]];
+}
+
+- (void)networkDidClose:(NSNotification *)notification {
+    [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('networkDidClose')"]];
+}
+
+- (void)networkDidRegister:(NSNotification *)notification {
+    [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('networkDidRegister')"]];
+}
+
+- (void)networkDidLogin:(NSNotification *)notification {
+    [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('networkDidLogin')"]];
+}
+
+-(void)initNotifacationCenter:(CDVInvokedUrlCommand*)command{
+    
+    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+    
+    [defaultCenter addObserver:self
+                      selector:@selector(networkDidSetup:)
+                          name:kAPNetworkDidSetupNotification
+                        object:nil];
+    [defaultCenter addObserver:self
+                      selector:@selector(networkDidClose:)
+                          name:kAPNetworkDidCloseNotification
+                        object:nil];
+    [defaultCenter addObserver:self
+                      selector:@selector(networkDidRegister:)
+                          name:kAPNetworkDidRegisterNotification
+                        object:nil];
+    [defaultCenter addObserver:self
+                      selector:@selector(networkDidLogin:)
+                          name:kAPNetworkDidLoginNotification
+                        object:nil];
+    
+}
+-(void)startLogPageView:(CDVInvokedUrlCommand*)command{
+    NSArray *arguments=command.arguments;
+    if (!arguments||[arguments count]<1) {
+        NSLog(@"startLogPageView argument  error");
+        return ;
+    }
+    NSString * pageName=[arguments objectAtIndex:0];
+    if (pageName) {
+        [APService startLogPageView:pageName];
+    }
+}
+-(void)stopLogPageView:(CDVInvokedUrlCommand*)command{
+    NSArray *arguments=command.arguments;
+    if (!arguments||[arguments count]<1) {
+        NSLog(@"stopLogPageView argument  error");
+        return ;
+    }
+    NSString * pageName=[arguments objectAtIndex:0];
+    if (pageName) {
+        [APService stopLogPageView:pageName];
+    }
+
 }
 
 

@@ -14,28 +14,98 @@
             <script type="text/javascript" src="cordova.js"></script>
             <script type="text/javascript">
                 
-                
-                var onDeviceReady = function() {
+            var onDeviceReady   = function() {
                     console.log("Device ready!")
                     initiateUI();
+                    
+            }
+            var onTagsWithAlias = function(data) {
+                try{
+                    var tagaliasJson=window.plugins.jPushPlugin.parseEvent(data);
+                    $("#tagAliasResult").html(tagaliasJson);;
+                    
                 }
-            var initiateUI = function() {
-               $("#setTagWithAliasButton").click(function(ev) {
-                        console.log("tap set tag/alias button!");
+                catch(exception){
+                    console.log(exception)
+                }
+            }
+            var onDidSetup = function() {
+                try{
+                    $("#connectState").html("建立连接");;
+                    
+                }
+                catch(exception){
+                    console.log(exception)
+                }
+            }
+            var onDidClose = function() {
+                try{
+                    $("#connectState").html("连接关闭");;
+                    
+                }
+                catch(exception){
+                    console.log(exception)
+                }
+            }
+            var onDidRegister = function() {
+                try{
+                    $("#connectState").html("注册成功");;
+                    
+                }
+                catch(exception){
+                    console.log(exception)
+                }
+            }
+            var onDidLogin = function() {
+                try{
+                    $("#connectState").html("登录成功");;
+                    
+                }
+                catch(exception){
+                    console.log(exception)
+                }
+            }
+            var onGetRegistradionID = function(data) {
+                try{
+                    var registrationID=window.plugins.jPushPlugin.parseEvent(data);
+                    $("#registrationid").html(registrationID);;
 
+                }
+                catch(exception){
+                    console.log(exception)
+                    
+                }
+            }
+           
+            var initiateUI = function() {
+
+                window.plugins.jPushPlugin.getRegistrationID();
+                window.plugins.jPushPlugin.initNotificationCenter();
+                window.plugins.jPushPlugin.startLogPageView("mianPage");
+                //window.plugins.jPushPlugin.stopLogPageView("mianPage");
+               $("#setTagWithAliasButton").click(function(ev) {
+                         
                         try{
                             var tag1 = $("#tagText1").attr("value");
                             console.log("tag1:"+tag1);
-
+                            
                             window.plugins.jPushPlugin.setTagsWithAlias("myTags","myTags1","myTags2","myAlias");
                         }
                         catch(exception){
                             console.log(exception);
                         }
-
                 })
             }
+            
+            document.addEventListener("networkDidSetup", onDidSetup, false)
+            document.addEventListener("networkDidClose", onDidClose, false)
+            document.addEventListener("networkDidRegister", onDidRegister, false)
+            document.addEventListener("networkDidLogin", onDidLogin, false)
+
+            document.addEventListener("setTagsWithAlias", onTagsWithAlias, false)
+            document.addEventListener("registrationID", onGetRegistradionID, false)
             document.addEventListener("deviceready", onDeviceReady, false)
+            
         </script>
     </head>
     <body>
@@ -53,6 +123,12 @@
                         <div data-role="fieldcontain">
                             <center><h3>JPushPlugin Example</h3></center>
                             <span name="alias" id="alias"></span><hr />
+                            <label>RegistrationID: </label>
+                            <label id="registrationid">null</label>
+                        </div>
+                        <div>
+                            <label>connected state: </label>
+                            <label id="connectState">未连接</label>
                         </div>
                         <div data-role="fieldcontain">
                             <label>Tags: </label>
@@ -85,6 +161,10 @@
                         <div data-role="fieldcontain">
                             <input type="button" id="setTagWithAliasButton" value="Add tag and alias" />
                         </div>
+                        <div data-role="fieldcontain">
+                            <label id="tagAliasResult" >null</label>
+                        </div>
+
                     </div>
                 </form>
             </div>

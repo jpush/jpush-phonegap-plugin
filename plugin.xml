@@ -41,8 +41,9 @@
             <framework src="CoreFoundation.framework" weak="true" />
             <framework src="UIKit.framework" weak="true" />
             <framework src="CoreTelephony.framework" weak="true" />
-
-
+            <framework src="Security.framework" weak="true" />
+            <framework src="libz.dylib" weak="true" />
+            
         </platform>
         
     <!-- android -->
