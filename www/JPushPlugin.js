@@ -93,7 +93,7 @@ JPushPlugin.prototype.setTags = function (data) {
             this.call_native("setTags", [data]);
          }
          catch(exception){
-            alert(exception);
+            console.log(exception);
          }
 }
 JPushPlugin.prototype.setAlias = function (data) {
@@ -104,7 +104,7 @@ JPushPlugin.prototype.setAlias = function (data) {
          }
          catch(exception){
              
-            alert(exception);
+            console.log(exception);
          }
 }
 JPushPlugin.prototype.pushCallback = function (data) {
@@ -117,7 +117,7 @@ JPushPlugin.prototype.pushCallback = function (data) {
          }
          catch(exception){
                
-            alert(exception);
+            console.log(exception);
          }
 }
 JPushPlugin.prototype.registrationCallback = function (data) {
@@ -125,7 +125,7 @@ JPushPlugin.prototype.registrationCallback = function (data) {
              console.log("registrationCallback--registraionID is "+data);
         }
         catch(exception){
-            alert(exception);
+            console.log(exception);
         }
 }
 if(!window.plugins) {

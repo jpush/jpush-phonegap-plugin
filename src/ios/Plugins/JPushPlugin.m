@@ -19,11 +19,11 @@
         [self writeJavascript:[NSString stringWithFormat:@"window.plugins.jPushPlugin.pushCallback('%@')",@""]];
         return ;
     }
-    NSString *tags=[arguments objectAtIndex:0];
-    NSString *alias=[arguments objectAtIndex:1];
-    NSArray  *arrayTags=[tags componentsSeparatedByString:@","];
+    NSString *alias=[arguments objectAtIndex:0];
+    NSArray  *arrayTags=[arguments objectAtIndex:1];
    // NSArray  *tags=[arguments subarrayWithRange:range];
-   [APService setTags:[NSSet setWithArray:arrayTags]
+    NSSet* set=[NSSet setWithArray:arrayTags];
+   [APService setTags:set
                  alias:alias
       callbackSelector:@selector(tagsWithAliasCallback:tags:alias:)
                 object:self];

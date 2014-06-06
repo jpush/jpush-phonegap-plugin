@@ -87,9 +87,21 @@
                          
                         try{
                             var tag1 = $("#tagText1").attr("value");
-                            console.log("tag1:"+tag1);
+                            var tag2 = $("#tagText2").attr("value");
+                            var tag3 = $("#tagText3").attr("value");
                             
-                            window.plugins.jPushPlugin.setTagsWithAlias("myTags","myTags1","myTags2","myAlias");
+                            var alias = $("#aliasText").attr("value");
+
+                            console.log("tag1:"+tag1==null);
+                            console.log("tag1:"+tag2==null);
+                            console.log("tag1:"+tag3==null);
+                            var dd = [];
+                            dd[0]=tag1
+                            dd[1]=tag2
+                            dd[2]=tag3
+                            
+                            console.log("dd:"+dd);
+                            window.plugins.jPushPlugin.setTagsWithAlias(dd,alias);
                         }
                         catch(exception){
                             console.log(exception);
