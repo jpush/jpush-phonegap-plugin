@@ -92,16 +92,23 @@
                             
                             var alias = $("#aliasText").attr("value");
 
-                            console.log("tag1:"+tag1==null);
-                            console.log("tag1:"+tag2==null);
-                            console.log("tag1:"+tag3==null);
                             var dd = [];
-                            dd[0]=tag1
-                            dd[1]=tag2
-                            dd[2]=tag3
                             
+                            if(tag1==""&&tag2==""&&tag3==""){
+                                                 
+                            }
+                            else{
+                                if(tag1 != "")
+                                    dd.push(tag1);
+                                if(tag2 != "")
+                                    dd.push(tag2);
+                                if(tag3 != "")
+                                    dd.push(tag3);
+                                                 
+                            }
+                                                 
                             console.log("dd:"+dd);
-                            window.plugins.jPushPlugin.setTagsWithAlias(dd,alias);
+                            window.plugins.jPushPlugin.setTagsWithAlias(dd,"");
                         }
                         catch(exception){
                             console.log(exception);
