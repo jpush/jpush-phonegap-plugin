@@ -2,6 +2,10 @@ cordova.define("cn.jpush.phonegap.JPushPlugin.JPushPlugin", function(require, ex
 var JPushPlugin = function(){
 };
 
+JPushPlugin.prototype.isPlatformIOS = function(){
+	return device.platform == "iPhone" || device.platform == "iPad" || device.platform == "iPod touch" || device.platform == "iOS"
+}
+
 JPushPlugin.prototype.error_callback = function(msg){
 	console.log("Javascript Callback Error: " + msg)
 }
@@ -14,7 +18,6 @@ JPushPlugin.prototype.call_native = function(name, args, callback){
 JPushPlugin.prototype.getRegistrationID = function(callback){
 	this.call_native("getRegistrationID",null,callback);
 }
-
 JPushPlugin.prototype.startLogPageView = function(data){        
 	this.call_native( "startLogPageView",[data],null); 
 }

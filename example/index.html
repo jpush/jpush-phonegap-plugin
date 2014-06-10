@@ -12,6 +12,7 @@
             <script type="text/javascript"> 
             var onDeviceReady   = function(){
                 console.log("Device ready!")
+                console.log("iOS is "+window.plugins.jPushPlugin.isPlatformIOS());
                 initiateUI();    
             }
             var onTagsWithAlias = function(event){
