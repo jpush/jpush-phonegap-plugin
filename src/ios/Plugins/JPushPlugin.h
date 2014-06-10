@@ -16,7 +16,6 @@
 -(void)setTags:(CDVInvokedUrlCommand*)command;
 -(void)setAlias:(CDVInvokedUrlCommand*)command;
 -(void)getRegistrationID:(CDVInvokedUrlCommand*)command;
--(void)initNotifacationCenter:(CDVInvokedUrlCommand*)command;
 -(void)startLogPageView:(CDVInvokedUrlCommand*)command;
 -(void)stopLogPageView:(CDVInvokedUrlCommand*)command;
 

@@ -5,61 +5,21 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
             <title>Phonegap Sample App</title>
-            
             <link href="css/jquery.mobile-1.1.1.css" rel="stylesheet" type="text/css"/>
-            
             <script type="text/javascript" src="js/jquery.js"></script>
             <script type="text/javascript" src="js/jquery.mobile-1.1.1.js"></script>
-            
             <script type="text/javascript" src="cordova.js"></script>
-            <script type="text/javascript">
-                
-            var onDeviceReady   = function() {
-                    console.log("Device ready!")
-                    initiateUI();
-                    
+            <script type="text/javascript"> 
+            var onDeviceReady   = function(){
+                console.log("Device ready!")
+                initiateUI();    
             }
-            var onTagsWithAlias = function(data) {
+            var onTagsWithAlias = function(event){
                 try{
-                    var tagaliasJson=window.plugins.jPushPlugin.parseEvent(data);
-                    $("#tagAliasResult").html(tagaliasJson);;
-                    
-                }
-                catch(exception){
-                    console.log(exception)
-                }
-            }
-            var onDidSetup = function() {
-                try{
-                    $("#connectState").html("建立连接");;
-                    
-                }
-                catch(exception){
-                    console.log(exception)
-                }
-            }
-            var onDidClose = function() {
-                try{
-                    $("#connectState").html("连接关闭");;
-                    
-                }
-                catch(exception){
-                    console.log(exception)
-                }
-            }
-            var onDidRegister = function() {
-                try{
-                    $("#connectState").html("注册成功");;
-                    
-                }
-                catch(exception){
-                    console.log(exception)
-                }
-            }
-            var onDidLogin = function() {
-                try{
-                    $("#connectState").html("登录成功");;
-                    
+                    var result="result code:"+event.resultCode+" ";
+                    result+="tags:"+event.tags;
+                    result+="alias"+event.alias;
+                    $("#tagAliasResult").html(result);
                 }
                 catch(exception){
                     console.log(exception)
@@ -67,64 +27,45 @@
             }
             var onGetRegistradionID = function(data) {
                 try{
-                    var registrationID=window.plugins.jPushPlugin.parseEvent(data);
-                    $("#registrationid").html(registrationID);;
-
+                    $("#registrationid").html(data);
                 }
                 catch(exception){
-                    console.log(exception)
-                    
+                    console.log(exception);
                 }
             }
-           
-            var initiateUI = function() {
-
-                window.plugins.jPushPlugin.getRegistrationID();
-                window.plugins.jPushPlugin.initNotificationCenter();
+            var initiateUI = function(){
+                window.plugins.jPushPlugin.getRegistrationID(onGetRegistradionID);
                 window.plugins.jPushPlugin.startLogPageView("mianPage");
-                //window.plugins.jPushPlugin.stopLogPageView("mianPage");
                $("#setTagWithAliasButton").click(function(ev) {
-                         
-                        try{
-                            var tag1 = $("#tagText1").attr("value");
-                            var tag2 = $("#tagText2").attr("value");
-                            var tag3 = $("#tagText3").attr("value");
+                    try{
+                        var tag1 = $("#tagText1").attr("value");
+                        var tag2 = $("#tagText2").attr("value");
+                        var tag3 = $("#tagText3").attr("value");
+                        var alias = $("#aliasText").attr("value");
+                        var dd = [];
                             
-                            var alias = $("#aliasText").attr("value");
-
-                            var dd = [];
-                            
-                            if(tag1==""&&tag2==""&&tag3==""){
-                                                 
-                            }
-                            else{
-                                if(tag1 != "")
-                                    dd.push(tag1);
-                                if(tag2 != "")
-                                    dd.push(tag2);
-                                if(tag3 != "")
-                                    dd.push(tag3);
-                                                 
-                            }
-                                                 
-                            console.log("dd:"+dd);
-                            window.plugins.jPushPlugin.setTagsWithAlias(dd,"");
+                        if(tag1==""&&tag2==""&&tag3==""){                          
                         }
-                        catch(exception){
-                            console.log(exception);
-                        }
+                        else{
+                            if(tag1 != ""){
+                                dd.push(tag1);
+                            }
+                            if(tag2 != ""){
+                                dd.push(tag2);
+                            }
+                            if(tag3 != ""){
+                                dd.push(tag3);
+                            }
+                        }                     
+                        window.plugins.jPushPlugin.setTagsWithAlias(dd,"");
+                    }
+                    catch(exception){
+                        console.log(exception);
+                    }
                 })
             }
-            
-            document.addEventListener("networkDidSetup", onDidSetup, false)
-            document.addEventListener("networkDidClose", onDidClose, false)
-            document.addEventListener("networkDidRegister", onDidRegister, false)
-            document.addEventListener("networkDidLogin", onDidLogin, false)
-
-            document.addEventListener("setTagsWithAlias", onTagsWithAlias, false)
-            document.addEventListener("registrationID", onGetRegistradionID, false)
-            document.addEventListener("deviceready", onDeviceReady, false)
-            
+            document.addEventListener("jpush.setTagsWithAlias", onTagsWithAlias, false);
+            document.addEventListener("deviceready", onDeviceReady, false);            
         </script>
     </head>
     <body>
@@ -144,10 +85,6 @@
                             <span name="alias" id="alias"></span><hr />
                             <label>RegistrationID: </label>
                             <label id="registrationid">null</label>
-                        </div>
-                        <div>
-                            <label>connected state: </label>
-                            <label id="connectState">未连接</label>
                         </div>
                         <div data-role="fieldcontain">
                             <label>Tags: </label>
@@ -183,7 +120,6 @@
                         <div data-role="fieldcontain">
                             <label id="tagAliasResult" >null</label>
                         </div>
-
                     </div>
                 </form>
             </div>

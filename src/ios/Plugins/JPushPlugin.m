@@ -11,7 +11,6 @@
 
 @implementation JPushPlugin
 
-
 -(void)setTagsWithAlias:(CDVInvokedUrlCommand*)command{
     
     NSArray *arguments=command.arguments;
@@ -21,18 +20,15 @@
     }
     NSString *alias=[arguments objectAtIndex:0];
     NSArray  *arrayTags=[arguments objectAtIndex:1];
-   // NSArray  *tags=[arguments subarrayWithRange:range];
     NSSet* set=[NSSet setWithArray:arrayTags];
    [APService setTags:set
                  alias:alias
       callbackSelector:@selector(tagsWithAliasCallback:tags:alias:)
                 object:self];
-   //[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
     
 -(void)setTags:(CDVInvokedUrlCommand *)command{
     
-    //CDVPluginResult *pluginResult=nil;
 
     NSArray *arguments=[command arguments];
     NSString *tags=[arguments objectAtIndex:0];
@@ -41,89 +37,52 @@
    [APService setTags:[NSSet setWithArray:array]
       callbackSelector:@selector(tagsWithAliasCallback:tags:alias:)
                 object:self];
-   //[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     
 }
     
 -(void)setAlias:(CDVInvokedUrlCommand *)command{
     
-    CDVPluginResult *pluginResult=nil;
-    
     NSArray *arguments=[command arguments];
    [APService setAlias:[arguments objectAtIndex:0]
       callbackSelector:@selector(tagsWithAliasCallback:tags:alias:)
                 object:self];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     
 }
 
 -(void)getRegistrationID:(CDVInvokedUrlCommand*)command{
+    
     NSString* registratonID = [APService registrionID];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        //
-        NSString *script=[NSString stringWithFormat:@"cordova.fireDocumentEvent('registrationID','[%@]')",registratonID];
-        [self.commandDelegate evalJs:script];
-        [self writeJavascript:[NSString stringWithFormat:@"window.plugins.jPushPlugin.registrationCallback('%@')",registratonID]];
-    });
-
+    CDVPluginResult *result=[self pluginResultForValue:registratonID];
+    if (result) {
+        [self succeedWithPluginResult:result withCallbackID:command.callbackId];
+    } else {
+        [self failWithCallbackID:command.callbackId];
+    }
 }
 
     
 -(void)tagsWithAliasCallback:(int)resultCode tags:(NSSet *)tags alias:(NSString *)alias{
     
-    
-    NSLog(@"recode is %d  tags is %@ alias %@",resultCode,tags,alias);
     NSDictionary *dict=[NSDictionary dictionaryWithObjectsAndKeys:
                               [NSNumber numberWithInt:resultCode],@"resultCode",
-                        tags==nil?[NSNull null]:[tags allObjects],@"resultTags",
-                                   alias==nil?[NSNull null]:alias,@"resultAlias",nil];
+                        tags==nil?[NSNull null]:[tags allObjects],@"tags",
+                                   alias==nil?[NSNull null]:alias,@"alias",nil];
+    NSMutableDictionary *data = [NSMutableDictionary dictionary];
+    [data setObject:[NSNumber numberWithInt:resultCode] forKey:@"resultCode"];
+    [data setObject:tags==nil?[NSNull null]:[tags allObjects] forKey:@"tags"];
+    [data setObject:alias==nil?[NSNull null]:alias forKey:@"alias"];
     NSError  *error;
+
     NSData   *jsonData   = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
     NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+
     dispatch_async(dispatch_get_main_queue(), ^{
-      [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('setTagsWithAlias','[%@]')",jsonString]];
-
-       [self writeJavascript:[NSString stringWithFormat:@"window.plugins.jPushPlugin.pushCallback('%@')",jsonString]];
+      [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.setTagsWithAlias',%@)",jsonString]];
+      [self writeJavascript:[NSString stringWithFormat:@"window.plugins.jPushPlugin.pushCallback('%@')",jsonString]];
     });
-}
-- (void)networkDidSetup:(NSNotification *)notification {
-    [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('networkDidSetup')"]];
-}
-
-- (void)networkDidClose:(NSNotification *)notification {
-    [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('networkDidClose')"]];
-}
-
-- (void)networkDidRegister:(NSNotification *)notification {
-    [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('networkDidRegister')"]];
-}
-
-- (void)networkDidLogin:(NSNotification *)notification {
-    [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('networkDidLogin')"]];
-}
-
--(void)initNotifacationCenter:(CDVInvokedUrlCommand*)command{
-    
-    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-    
-    [defaultCenter addObserver:self
-                      selector:@selector(networkDidSetup:)
-                          name:kAPNetworkDidSetupNotification
-                        object:nil];
-    [defaultCenter addObserver:self
-                      selector:@selector(networkDidClose:)
-                          name:kAPNetworkDidCloseNotification
-                        object:nil];
-    [defaultCenter addObserver:self
-                      selector:@selector(networkDidRegister:)
-                          name:kAPNetworkDidRegisterNotification
-                        object:nil];
-    [defaultCenter addObserver:self
-                      selector:@selector(networkDidLogin:)
-                          name:kAPNetworkDidLoginNotification
-                        object:nil];
     
 }
+
 -(void)startLogPageView:(CDVInvokedUrlCommand*)command{
     NSArray *arguments=command.arguments;
     if (!arguments||[arguments count]<1) {
@@ -146,6 +105,40 @@
         [APService stopLogPageView:pageName];
     }
 
+}
+
+- (void)failWithCallbackID:(NSString *)callbackID {
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+    [self.commandDelegate sendPluginResult:result callbackId:callbackID];
+}
+- (void)succeedWithPluginResult:(CDVPluginResult *)result withCallbackID:(NSString *)callbackID {
+    [self.commandDelegate sendPluginResult:result callbackId:callbackID];
+}
+- (CDVPluginResult *)pluginResultForValue:(id)value {
+    
+    CDVPluginResult *result;
+    if ([value isKindOfClass:[NSString class]]) {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                   messageAsString:[value stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    } else if ([value isKindOfClass:[NSNumber class]]) {
+        CFNumberType numberType = CFNumberGetType((CFNumberRef)value);
+        //note: underlyingly, BOOL values are typedefed as char
+        if (numberType == kCFNumberIntType || numberType == kCFNumberCharType) {
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:[value intValue]];
+        } else  {
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:[value doubleValue]];
+        }
+    } else if ([value isKindOfClass:[NSArray class]]) {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:value];
+    } else if ([value isKindOfClass:[NSDictionary class]]) {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:value];
+    } else if ([value isKindOfClass:[NSNull class]]) {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    } else {
+        NSLog(@"Cordova callback block returned unrecognized type: %@", NSStringFromClass([value class]));
+        return nil;
+    }
+    return result;
 }
 
 
