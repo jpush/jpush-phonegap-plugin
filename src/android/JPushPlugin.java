@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
@@ -16,9 +17,13 @@ import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.thi.pushtest.R;
+
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.CustomPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 public class JPushPlugin extends CordovaPlugin {
 	private final static List<String> methodList = 
@@ -194,7 +199,7 @@ public class JPushPlugin extends CordovaPlugin {
 			}
 			Set<String> validTags = JPushInterface.filterValidTags(tags);
 			JPushInterface.setTags(this.cordova.getActivity()
-					.getApplicationContext(), validTags, null);
+					.getApplicationContext(), validTags,mTagWithAliasCallback);
 			callbackContext.success();
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -206,7 +211,7 @@ public class JPushPlugin extends CordovaPlugin {
 		try {
 			String alias = data.getString(0);
 			JPushInterface.setAlias(this.cordova.getActivity()
-					.getApplicationContext(), alias, null);
+					.getApplicationContext(), alias,mTagWithAliasCallback);
 			callbackContext.success();
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -302,4 +307,38 @@ public class JPushPlugin extends CordovaPlugin {
 			callbackContext.error("error id");
 		}
 	}
+	private final TagAliasCallback mTagWithAliasCallback = new TagAliasCallback() {
+
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+    		if (instance == null) {
+    			return;
+    		}
+
+    		JSONObject data = new JSONObject();
+    		try {
+    			data.put("resultCode", code);
+    			data.put("tags", tags);
+    			data.put("alias", alias);
+    			
+    			String jsEvent=String
+    					.format("cordova.fireDocumentEvent('jpush.setTagsWithAlias',%s)",
+    							data.toString());
+    			instance.webView.sendJavascript(jsEvent);
+    			String js = String
+    					.format("window.plugins.jPushPlugin.pushCallback('%s');",
+    							data.toString());
+    			instance.webView.sendJavascript(js);
+
+
+    		} catch (JSONException e) {
+
+    		}
+    		
+        }
+	    
+	};
+	
+        
+    
 }
