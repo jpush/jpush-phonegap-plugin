@@ -12,14 +12,14 @@
             <script type="text/javascript"> 
             var onDeviceReady   = function(){
                 console.log("Device ready!")
-                console.log("iOS is "+window.plugins.jPushPlugin.isPlatformIOS());
-                initiateUI();    
+                initiateUI();
             }
             var onTagsWithAlias = function(event){
                 try{
+                    console.log("onTagsWithAlias");    
                     var result="result code:"+event.resultCode+" ";
-                    result+="tags:"+event.tags;
-                    result+="alias"+event.alias;
+                    result+="tags:"+event.tags+" ";
+                    result+="alias:"+event.alias+" ";
                     $("#tagAliasResult").html(result);
                 }
                 catch(exception){
@@ -28,6 +28,8 @@
             }
             var onGetRegistradionID = function(data) {
                 try{
+                    console.log("index.registrationID:"+data)
+                    
                     $("#registrationid").html(data);
                 }
                 catch(exception){
@@ -36,7 +38,8 @@
             }
             var initiateUI = function(){
                 window.plugins.jPushPlugin.getRegistrationID(onGetRegistradionID);
-                window.plugins.jPushPlugin.startLogPageView("mianPage");
+
+                //window.plugins.jPushPlugin.startLogPageView("mianPage");
                $("#setTagWithAliasButton").click(function(ev) {
                     try{
                         var tag1 = $("#tagText1").attr("value");
@@ -57,8 +60,9 @@
                             if(tag3 != ""){
                                 dd.push(tag3);
                             }
-                        }                     
-                        window.plugins.jPushPlugin.setTagsWithAlias(dd,"");
+                        }
+                        //window.plugins.jPushPlugin.setTagsWithAlias(dd,alias);
+                        window.plugins.jPushPlugin.setTags(dd);
                     }
                     catch(exception){
                         console.log(exception);

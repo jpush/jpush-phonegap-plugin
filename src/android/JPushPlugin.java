@@ -28,8 +28,9 @@ import cn.jpush.android.api.TagAliasCallback;
 public class JPushPlugin extends CordovaPlugin {
 	private final static List<String> methodList = 
 			Arrays.asList(
+					"getRegistrationID",
 					"setTags",
-					"setTagAlias", 
+					"setTagsWithAlias",
 					"setAlias", 
 					"getNotification",
 					"setBasicPushNotificationBuilder",
@@ -42,6 +43,7 @@ public class JPushPlugin extends CordovaPlugin {
 					"isPushStopped",
 					"setLatestNotificationNum",
 					"setPushTime");
+	
 	private ExecutorService threadPool = Executors.newFixedThreadPool(1);
 	private static JPushPlugin instance;
 
@@ -102,14 +104,14 @@ public class JPushPlugin extends CordovaPlugin {
 							JSONArray.class, CallbackContext.class);
 					method.invoke(JPushPlugin.this, data, callbackContext);
 				} catch (Exception e) {
+					System.out.println(e.toString());
 				}
 			}
 		});
 		return true;
 	}
 	
-	void init(JSONArray data,
-			CallbackContext callbackContext){
+	void init(JSONArray data,CallbackContext callbackContext){
 		JPushInterface.init(this.cordova.getActivity().getApplicationContext());
 		callbackContext.success();
 	}
@@ -189,17 +191,30 @@ public class JPushPlugin extends CordovaPlugin {
 		callbackContext.success();
 	}
 	
+	void getRegistrationID(JSONArray data, CallbackContext callbackContext) {
+		String regID= JPushInterface.getRegistrationID(this.cordova.getActivity().getApplicationContext());
+		callbackContext.success(regID);
+
+	}
 	void setTags(JSONArray data, CallbackContext callbackContext) {
-		HashSet<String> tags = new HashSet<String>();
+
+		HashSet<String> tags=null;
 		try {
-			String tagStr = data.getString(0);
-			String[] tagArr = tagStr.split(",");
-			for (String tag : tagArr) {
-				tags.add(tag);
+			String tagStr;
+			if(data==null){
+				//tags=null;
+			}else if(data.length()==0) {
+				tags= new HashSet<String>();
+			}else{
+				tagStr = data.getString(0);
+				String[] tagArr = tagStr.split(",");
+				for (String tag : tagArr) {
+					tags.add(tag);
+				}
 			}
-			Set<String> validTags = JPushInterface.filterValidTags(tags);
+			//Set<String> validTags = JPushInterface.filterValidTags(tags);
 			JPushInterface.setTags(this.cordova.getActivity()
-					.getApplicationContext(), validTags,mTagWithAliasCallback);
+					.getApplicationContext(), tags,mTagWithAliasCallback);
 			callbackContext.success();
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -219,7 +234,7 @@ public class JPushPlugin extends CordovaPlugin {
 		}
 	}
 
-	void setTagAlias(JSONArray data, CallbackContext callbackContext) {
+	void setTagsWithAlias(JSONArray data, CallbackContext callbackContext) {
 		HashSet<String> tags = new HashSet<String>();
 		String alias;
 		try {
@@ -230,7 +245,7 @@ public class JPushPlugin extends CordovaPlugin {
 			}
 
 			JPushInterface.setAliasAndTags(this.cordova.getActivity()
-					.getApplicationContext(), alias, tags);
+					.getApplicationContext(), alias, tags,mTagWithAliasCallback);
 			callbackContext.success();
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -287,11 +302,13 @@ public class JPushPlugin extends CordovaPlugin {
 		}
 		callbackContext.success(obj);
 	}
+	
 	void clearAllNotification(JSONArray data,
 			CallbackContext callbackContext){
 		JPushInterface.clearAllNotifications(this.cordova.getActivity());
 		callbackContext.success();
 	}
+	
 	void clearNotificationById(JSONArray data,
 			CallbackContext callbackContext){
 		int notificationId=-1;
@@ -307,6 +324,7 @@ public class JPushPlugin extends CordovaPlugin {
 			callbackContext.error("error id");
 		}
 	}
+	
 	private final TagAliasCallback mTagWithAliasCallback = new TagAliasCallback() {
 
         @Override
