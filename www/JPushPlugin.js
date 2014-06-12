@@ -91,9 +91,6 @@ JPushPlugin.prototype.pushCallback = function(data){
 //android
 //ios 
 
-JPushPlugin.prototype.initNotificationCenter = function(){
-	this.call_native( "initNotifacationCenter", null,null);              
-}
 
 if(!window.plugins){
 	window.plugins = {};
