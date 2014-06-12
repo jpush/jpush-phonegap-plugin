@@ -1,4 +1,3 @@
-cordova.define("cn.jpush.phonegap.JPushPlugin.JPushPlugin", function(require, exports, module) { 
 var JPushPlugin = function(){
 };
 
@@ -11,10 +10,8 @@ JPushPlugin.prototype.error_callback = function(msg){
 }
 
 JPushPlugin.prototype.call_native = function(name, args, callback){ 
-	console.log("start JPushPlugin.prototype.call_native");
-	ret = cordova.exec(callback,this.error_callback,'JPushPlugin',name,args);
-	console.log("end JPushPlugin.prototype.call_native");
 
+	ret = cordova.exec(callback,this.error_callback,'JPushPlugin',name,args);
 	return ret;
 }
 
@@ -175,4 +172,3 @@ if(!window.plugins.jPushPlugin){
 
 module.exports = new JPushPlugin(); 
 
-});
