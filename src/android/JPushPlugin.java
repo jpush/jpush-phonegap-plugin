@@ -42,13 +42,14 @@ public class JPushPlugin extends CordovaPlugin {
 					"resumePush",
 					"isPushStopped",
 					"setLatestNotificationNum",
-					"setPushTime");
+					"setPushTime",
+					"clearAllNotification");
 	
 	private ExecutorService threadPool = Executors.newFixedThreadPool(1);
 	private static JPushPlugin instance;
 
 	public static String notificationAlert;
-	public static Map<String, String> notificationExtras;
+	public static Map<String, String> notificationExtras=new HashMap<String, String>();
 
 	public JPushPlugin() {
 		instance = this;
@@ -146,8 +147,12 @@ public class JPushPlugin extends CordovaPlugin {
 	
 	void isPushStopped(JSONArray data,
 			CallbackContext callbackContext){
-		JPushInterface.isPushStopped(this.cordova.getActivity().getApplicationContext());
-		callbackContext.success();
+		boolean isStoped =JPushInterface.isPushStopped(this.cordova.getActivity().getApplicationContext());
+		if(isStoped){
+			callbackContext.success(1);
+		}else{
+			callbackContext.success(0);
+		}
 	}
 	
 	void setLatestNotificationNum(JSONArray data,

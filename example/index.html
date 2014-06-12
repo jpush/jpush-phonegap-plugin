@@ -13,7 +13,7 @@
             var onDeviceReady   = function(){
                 console.log("Device ready!")
                 initiateUI();
-            }
+            }            
             var onTagsWithAlias = function(event){
                 try{
                     console.log("onTagsWithAlias");    
@@ -37,9 +37,20 @@
                 }
             }
             var initiateUI = function(){
+            
                 window.plugins.jPushPlugin.getRegistrationID(onGetRegistradionID);
-
+                //test android interface
+                //window.plugins.jPushPlugin.getNotification(onNotification);
+                //window.plugins.jPushPlugin.stopPush()
+                //window.plugins.jPushPlugin.resumePush();
+                //window.plugins.jPushPlugin.clearAllNoticication();
+                //window.plugins.jPushPlugin.setLatestNotificationNum(5);
+                //window.plugins.jPushPlugin.stopPush();
+                //window.plugins.jPushPlugin.isPushStopped(onIsPushStopped);
+                //window.plugins.jPushPlugin.init();
+                //window.plugins.jPushPlugin.setDebugable(true);
                 //window.plugins.jPushPlugin.startLogPageView("mianPage");
+                
                $("#setTagWithAliasButton").click(function(ev) {
                     try{
                         var tag1 = $("#tagText1").attr("value");
@@ -61,8 +72,8 @@
                                 dd.push(tag3);
                             }
                         }
-                        //window.plugins.jPushPlugin.setTagsWithAlias(dd,alias);
-                        window.plugins.jPushPlugin.setTags(dd);
+                        window.plugins.jPushPlugin.setTagsWithAlias(dd,alias);
+                        
                     }
                     catch(exception){
                         console.log(exception);

@@ -18,12 +18,16 @@ JPushPlugin.prototype.call_native = function(name, args, callback){
 	return ret;
 }
 
-JPushPlugin.prototype.startLogPageView = function(data){        
-	this.call_native( "startLogPageView",[data],null); 
+JPushPlugin.prototype.startLogPageView = function(data){  
+    if(this.isPlatformIOS()){
+		this.call_native( "startLogPageView",[data],null); 
+    }      
 }
 
 JPushPlugin.prototype.stopLogPageView = function(data){
-	this.call_native( "stopLogPageView",[data],null);   
+    if(this.isPlatformIOS()){
+		this.call_native( "stopLogPageView",[data],null);   
+	}
 }
 
 JPushPlugin.prototype.setTagsWithAlias = function(tags,alias){
@@ -88,8 +92,77 @@ JPushPlugin.prototype.pushCallback = function(data){
 		console.log(exception);
 	}
 }
-//android
-//ios 
+//android single
+
+JPushPlugin.prototype.getNotification = function (callback) {
+  if(device.platform == "Android") {
+    data=[];
+  	this.call_native("getNotification",data,callback);
+  }
+}
+
+JPushPlugin.prototype.setBasicPushNotificationBuilder = function(){
+	if(device.platform == "Android") {
+		data=[]
+		this.call_native("setBasicPushNotificationBuilder",data,null);
+	}
+}
+
+JPushPlugin.prototype.setCustomPushNotificationBuilder = function(){
+	if(device.platform == "Android") {
+		data=[];
+		this.call_native("setCustomPushNotificationBuilder",data,null);
+	}
+}
+
+JPushPlugin.prototype.stopPush = function(){
+	if(device.platform == "Android") {
+		data=[];
+		this.call_native("stopPush",data,null);
+	}
+}
+
+JPushPlugin.prototype.resumePush = function(){
+	if(device.platform == "Android") {
+		data=[]
+		this.call_native("resumePush",data,null);
+	}
+}
+
+JPushPlugin.prototype.clearAllNoticication = function(){
+	if(device.platform == "Android") {
+		data=[]
+		this.call_native("clearAllNotification",data,null);
+	}
+}
+
+JPushPlugin.prototype.setLatestNotificationNum = function(num){
+   	if(device.platform == "Android") {
+		this.call_native("setLatestNotificationNum",[num],null);
+	}
+}
+
+JPushPlugin.prototype.isPushStopped = function(callback){
+	if(device.platform == "Android") {
+	    data=[];
+		this.call_native("isPushStopped",data,callback)
+	}
+}
+
+JPushPlugin.prototype.init = function(){
+	if(device.platform == "Android") {
+	    data=[];
+		this.call_native("init",data,null);
+	}
+}
+
+JPushPlugin.prototype.setDebugable = function(mode){
+	if(device.platform == "Android") {
+		this.call_native("setDebugable",[mode],null);
+	}
+}
+
+//ios  single
 
 
 if(!window.plugins){
