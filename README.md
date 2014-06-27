@@ -24,7 +24,7 @@ cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git
 
 1.使用PhoneGap/Cordova CLI命令安装
 ```
-cordova plugin add https://github.com/zhangqinghe/test.phonegap.git
+cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git
 cordova platforms add ios
 cordova build ios
 ```
