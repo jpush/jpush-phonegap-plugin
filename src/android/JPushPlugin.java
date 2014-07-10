@@ -74,6 +74,17 @@ public class JPushPlugin extends CordovaPlugin {
 		return data;
 	}
 
+	private static JSONObject openNotificationObject(String alert,
+			Map<String, String> extras){
+		JSONObject data = new JSONObject();
+		try {
+			data.put("alert", alert);
+			data.put("extras", new JSONObject(extras));
+		} catch (JSONException e) {
+
+		}
+		return data;
+	}
 	static void transmitPush(String message, Map<String, String> extras) {
 		if (instance == null) {
 			return;
@@ -90,7 +101,22 @@ public class JPushPlugin extends CordovaPlugin {
 
 		}
 	}
+	static void transmitOpen(String alert, Map<String, String> extras) {
+		if (instance == null) {
+			return;
+		}
+		JSONObject data = openNotificationObject(alert, extras);
+		String js = String
+				.format("window.plugins.jPushPlugin.openNotificationCallback(%s);",
+						data.toString());
+		try {
+			instance.webView.sendJavascript(js);
+		} catch (NullPointerException e) {
 
+		} catch (Exception e) {
+
+		}
+	}
 	@Override
 	public boolean execute(final String action, final JSONArray data,
 			final CallbackContext callbackContext) throws JSONException {
@@ -348,10 +374,10 @@ public class JPushPlugin extends CordovaPlugin {
     					.format("cordova.fireDocumentEvent('jpush.setTagsWithAlias',%s)",
     							data.toString());
     			instance.webView.sendJavascript(jsEvent);
-    			String js = String
-    					.format("window.plugins.jPushPlugin.pushCallback('%s');",
-    							data.toString());
-    			instance.webView.sendJavascript(js);
+//    			String js = String
+//    					.format("window.plugins.jPushPlugin.pushCallback('%s');",
+//    							data.toString());
+//    			instance.webView.sendJavascript(js);
 
 
     		} catch (JSONException e) {

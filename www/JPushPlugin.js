@@ -80,10 +80,22 @@ JPushPlugin.prototype.pushCallback = function(data){
 	try{
 		console.log(data);
 		var bToObj=JSON.parse(data);
-		var code  = bToObj.resultCode;
-		var tags  = bToObj.resultTags;
-		var alias = bToObj.resultAlias;
-		console.log("JPushPlugin:callBack--code is "+code+" tags is "+tags + " alias is "+alias);
+		var message  = bToObj.message;
+		var extras  = bToObj.extras;
+		console.log("JPushPlugin:pushCallback--message is "+message+" extras is "+extras );
+	}
+	catch(exception){               
+		console.log(exception);
+	}
+}
+//
+JPushPlugin.prototype.openNotificationCallback = function(data){
+	try{
+		console.log(data);
+		var bToObj  = JSON.parse(data);
+		var alert   = bToObj.alert;
+		var extras  = bToObj.extras;
+		console.log("JPushPlugin:openNotificationCallback--alert is "+code+" extras is "+extras);
 	}
 	catch(exception){               
 		console.log(exception);
