@@ -19,8 +19,7 @@
 
 2. 修改AndroidManifest.xml文件中的appkey
 
-	        <meta-data android:name="JPUSH_APPKEY" android:value="your appkey in JPush Portal" />
-
+		<meta-data android:name="JPUSH_APPKEY" android:value="your appkey in JPush Portal" />
 
 
 ###IOS使用PhoneGap/Cordova CLI自动安装
@@ -28,7 +27,6 @@
 1. 使用PhoneGap/Cordova CLI命令安装
 
 		cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git
-		cordova platforms add ios
 		cordova build ios
 
 2. 修改Resources/PushConfig.plist文件
