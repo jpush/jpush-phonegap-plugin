@@ -11,7 +11,7 @@
             <script type="text/javascript" src="cordova.js"></script>
             <script type="text/javascript"> 
             var onDeviceReady   = function(){
-                console.log("Device ready!")
+                console.log("JPushPlugin:Device ready!")
                 initiateUI();
             }            
             var onTagsWithAlias = function(event){
@@ -28,7 +28,7 @@
             }
             var onGetRegistradionID = function(data) {
                 try{
-                    console.log("index.registrationID:"+data)
+                    console.log("JPushPlugin:registrationID is "+data)
                     
                     $("#registrationid").html(data);
                 }
