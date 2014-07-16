@@ -78,14 +78,19 @@ JPushPlugin.prototype.setAlias = function(data){
 
 JPushPlugin.prototype.pushCallback = function(data){
 	try{
-		console.log(data);
+		console.log("JPushPlugin:pushCallback--data:"+data);
 		var bToObj=JSON.parse(data);
 		var message  = bToObj.message;
 		var extras  = bToObj.extras;
-		console.log("JPushPlugin:pushCallback--message is "+message+" extras is "+extras );
+
+		console.log(message);
+		console.log(extras['cn.jpush.android.MSG_ID']);
+		console.log(extras['cn.jpush.android.CONTENT_TYPE']);
+		console.log(extras['cn.jpush.android.EXTRA']);
+
 	}
 	catch(exception){               
-		console.log(exception);
+		console.log("JPushPlugin:pushCallback "+exception);
 	}
 }
 //
@@ -95,7 +100,15 @@ JPushPlugin.prototype.openNotificationCallback = function(data){
 		var bToObj  = JSON.parse(data);
 		var alert   = bToObj.alert;
 		var extras  = bToObj.extras;
-		console.log("JPushPlugin:openNotificationCallback--alert is "+code+" extras is "+extras);
+		console.log(alert);
+
+		console.log(extras['cn.jpush.android.MSG_ID']);
+		console.log(extras['app']);
+		console.log(extras['cn.jpush.android.NOTIFICATION_CONTENT_TITLE']);
+		console.log(extras['cn.jpush.android.EXTRA']);
+		console.log(extras['cn.jpush.android.PUSH_ID']);
+		console.log(extras['cn.jpush.android.NOTIFICATION_ID']);
+		console.log("JPushPlugin:openNotificationCallback is ready");
 	}
 	catch(exception){               
 		console.log(exception);
