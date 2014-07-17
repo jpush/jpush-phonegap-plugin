@@ -91,7 +91,7 @@ public class JPushPlugin extends CordovaPlugin {
 		}
 		JSONObject data = notificationObject(message, extras);
 		String js = String
-				.format("window.plugins.jPushPlugin.pushCallback(%s);",
+				.format("window.plugins.jPushPlugin.recieveMessageInAndroidCallback(%s);",
 						data.toString());
 		try {
 			instance.webView.sendJavascript(js);
@@ -107,7 +107,7 @@ public class JPushPlugin extends CordovaPlugin {
 		}
 		JSONObject data = openNotificationObject(alert, extras);
 		String js = String
-				.format("window.plugins.jPushPlugin.openNotificationCallback(%s);",
+				.format("window.plugins.jPushPlugin.openNotificationInAndroidCallback(%s);",
 						data.toString());
 		try {
 			instance.webView.sendJavascript(js);
