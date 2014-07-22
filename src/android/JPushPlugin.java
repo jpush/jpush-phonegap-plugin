@@ -37,7 +37,7 @@ public class JPushPlugin extends CordovaPlugin {
 					"setCustomPushNotificationBuilder",
 					"setPushTime",
 					"init",
-					"setDebugable",
+					"setDebugMode",
 					"stopPush",
 					"resumePush",
 					"isPushStopped",
@@ -143,7 +143,7 @@ public class JPushPlugin extends CordovaPlugin {
 		callbackContext.success();
 	}
 	
-	void setDebugable(JSONArray data, CallbackContext callbackContext) {
+	void setDebugMode(JSONArray data, CallbackContext callbackContext) {
 		String mode;
 		try {
 			mode = data.getString(0);
@@ -173,8 +173,8 @@ public class JPushPlugin extends CordovaPlugin {
 	
 	void isPushStopped(JSONArray data,
 			CallbackContext callbackContext){
-		boolean isStoped =JPushInterface.isPushStopped(this.cordova.getActivity().getApplicationContext());
-		if(isStoped){
+		boolean isStopped =JPushInterface.isPushStopped(this.cordova.getActivity().getApplicationContext());
+		if(isStopped){
 			callbackContext.success(1);
 		}else{
 			callbackContext.success(0);
@@ -200,13 +200,13 @@ public class JPushPlugin extends CordovaPlugin {
 	void setPushTime(JSONArray data,
 			CallbackContext callbackContext){
 		Set<Integer> days = new HashSet<Integer>();
-		JSONArray dayArr;
+		JSONArray dayArray;
 		int startHour = -1;
 		int endHour = -1;
 		try {
-			dayArr = data.getJSONArray(0);
-			for (int i = 0; i < dayArr.length(); i++) {
-				days.add(dayArr.getInt(i));
+			dayArray = data.getJSONArray(0);
+			for (int i = 0; i < dayArray.length(); i++) {
+				days.add(dayArray.getInt(i));
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -238,8 +238,8 @@ public class JPushPlugin extends CordovaPlugin {
 				tags= new HashSet<String>();
 			}else{
 				tagStr = data.getString(0);
-				String[] tagArr = tagStr.split(",");
-				for (String tag : tagArr) {
+				String[] tagArray = tagArray.split(",");
+				for (String tag : tagArray) {
 					tags.add(tag);
 				}
 			}
@@ -270,8 +270,8 @@ public class JPushPlugin extends CordovaPlugin {
 		String alias;
 		try {
 			alias = data.getString(0);
-			JSONArray tagsArr = data.getJSONArray(1);
-			for (int i = 0; i < tagsArr.length(); i++) {
+			JSONArray tagsArray = data.getJSONArray(1);
+			for (int i = 0; i < tagsArray.length(); i++) {
 				tags.add(tagsArr.getString(i));
 			}
 
@@ -374,10 +374,6 @@ public class JPushPlugin extends CordovaPlugin {
     					.format("cordova.fireDocumentEvent('jpush.setTagsWithAlias',%s)",
     							data.toString());
     			instance.webView.sendJavascript(jsEvent);
-//    			String js = String
-//    					.format("window.plugins.jPushPlugin.pushCallback('%s');",
-//    							data.toString());
-//    			instance.webView.sendJavascript(js);
 
 
     		} catch (JSONException e) {

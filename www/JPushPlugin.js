@@ -74,15 +74,15 @@ JPushPlugin.prototype.setAlias = function(data){
 	}
 }
 
-JPushPlugin.prototype.recieveMessageIniOSCallback = function(data){
+JPushPlugin.prototype.receiveMessageIniOSCallback = function(data){
 	try{
-		console.log("JPushPlugin:recieveMessageIniOSCallback--data:"+data);
+		console.log("JPushPlugin:receiveMessageIniOSCallback--data:"+data);
 		var bToObj = JSON.parse(data);
 		var content = bToObj.content;
         console.log(content);
 	}
 	catch(exception){               
-		console.log("JPushPlugin:recieveMessageIniOSCallback"+exception);
+		console.log("JPushPlugin:receiveMessageIniOSCallback"+exception);
 	}
 }
 //
@@ -184,7 +184,7 @@ JPushPlugin.prototype.resumePush = function(){
 	}
 }
 
-JPushPlugin.prototype.clearAllNoticication = function(){
+JPushPlugin.prototype.clearAllNotification = function(){
 	if(device.platform == "Android") {
 		data=[]
 		this.call_native("clearAllNotification",data,null);
@@ -211,13 +211,13 @@ JPushPlugin.prototype.init = function(){
 	}
 }
 
-JPushPlugin.prototype.setDebugable = function(mode){
+JPushPlugin.prototype.setDebugMode = function(mode){
 	if(device.platform == "Android") {
-		this.call_native("setDebugable",[mode],null);
+		this.call_native("setDebugMode",[mode],null);
 	}
 }
 
-//ios  single
+//iOS  single
 
 
 if(!window.plugins){
