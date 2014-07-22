@@ -1,5 +1,3 @@
-var JPushPlugin = function(){
-};
 
 JPushPlugin.prototype.isPlatformIOS = function(){
 	return device.platform == "iPhone" || device.platform == "iPad" || device.platform == "iPod touch" || device.platform == "iOS"
@@ -76,41 +74,39 @@ JPushPlugin.prototype.setAlias = function(data){
 	}
 }
 
-JPushPlugin.prototype.recieveMessageInAndroidCallback = function(data){
-	try{
-		console.log("JPushPlugin:pushCallback--data:"+data);
-		var bToObj=JSON.parse(data);
-		var message  = bToObj.message;
-		var extras  = bToObj.extras;
-
-		console.log(message);
-		console.log(extras['cn.jpush.android.MSG_ID']);
-		console.log(extras['cn.jpush.android.CONTENT_TYPE']);
-		console.log(extras['cn.jpush.android.EXTRA']);
-
-	}
-	catch(exception){               
-		console.log("JPushPlugin:pushCallback "+exception);
-	}
-}
 JPushPlugin.prototype.recieveMessageIniOSCallback = function(data){
 	try{
-		console.log("JPushPlugin:pushCallback--data:"+data);
-		var bToObj=JSON.parse(data);
-		var message  = bToObj.message;
-		var extras  = bToObj.extras;
-
-		console.log(message);
-		console.log(extras['cn.jpush.android.MSG_ID']);
-		console.log(extras['cn.jpush.android.CONTENT_TYPE']);
-		console.log(extras['cn.jpush.android.EXTRA']);
-
+		console.log("JPushPlugin:recieveMessageIniOSCallback--data:"+data);
+		var bToObj = JSON.parse(data);
+		var content = bToObj.content;
+        console.log(content);
 	}
 	catch(exception){               
-		console.log("JPushPlugin:pushCallback "+exception);
+		console.log("JPushPlugin:recieveMessageIniOSCallback"+exception);
 	}
 }
 //
+JPushPlugin.prototype.openNotificationInAndroidCallback = function(data){
+    try{
+        console.log(data);
+        var bToObj  = JSON.parse(data);
+        var alert   = bToObj.alert;
+        var extras  = bToObj.extras;
+        console.log(alert);
+
+        console.log(extras['cn.jpush.android.MSG_ID']);
+        console.log(extras['app']);
+        console.log(extras['cn.jpush.android.NOTIFICATION_CONTENT_TITLE']);
+        console.log(extras['cn.jpush.android.EXTRA']);
+        console.log(extras['cn.jpush.android.PUSH_ID']);
+        console.log(extras['cn.jpush.android.NOTIFICATION_ID']);
+        console.log("JPushPlugin:openNotificationCallback is ready");
+    }
+    catch(exception){               
+        console.log(exception);
+    }
+}
+
 JPushPlugin.prototype.openNotificationInAndroidCallback = function(data){
 	try{
 		console.log(data);

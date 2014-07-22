@@ -11,11 +11,24 @@
 
 @implementation JPushPlugin
 
+- (CDVPlugin*)initWithWebView:(UIWebView*)theWebView{
+    if (self=[super initWithWebView:theWebView]) {
+        
+        NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+        [defaultCenter addObserver:self
+                          selector:@selector(networkDidReceiveMessage:)
+                              name:kAPNetworkDidReceiveMessageNotification
+                            object:nil];
+
+    }
+    return self;
+}
+
 -(void)setTagsWithAlias:(CDVInvokedUrlCommand*)command{
     
     NSArray *arguments=command.arguments;
     if (!arguments||[arguments count]<2) {
-        [self writeJavascript:[NSString stringWithFormat:@"window.plugins.jPushPlugin.pushCallback('%@')",@""]];
+//        [self writeJavascript:[NSString stringWithFormat:@"window.plugins.jPushPlugin.pushCallback('%@')",@""]];
         return ;
     }
     NSString *alias=[arguments objectAtIndex:0];
@@ -51,8 +64,8 @@
 
 -(void)getRegistrationID:(CDVInvokedUrlCommand*)command{
     
-    NSString* registratonID = [APService registrionID];
-    CDVPluginResult *result=[self pluginResultForValue:registratonID];
+    NSString* registrationID = [APService registrionID];
+    CDVPluginResult *result=[self pluginResultForValue:registrationID];
     if (result) {
         [self succeedWithPluginResult:result withCallbackID:command.callbackId];
     } else {
@@ -78,7 +91,7 @@
 
     dispatch_async(dispatch_get_main_queue(), ^{
       [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.setTagsWithAlias',%@)",jsonString]];
-      [self writeJavascript:[NSString stringWithFormat:@"window.plugins.jPushPlugin.pushCallback('%@')",jsonString]];
+//      [self writeJavascript:[NSString stringWithFormat:@"window.plugins.jPushPlugin.pushCallback('%@')",jsonString]];
     });
     
 }
@@ -141,5 +154,23 @@
     return result;
 }
 
+- (void)networkDidReceiveMessage:(NSNotification *)notification {
+
+    NSDictionary *userInfo = [notification userInfo];
+    NSLog(@"%@",userInfo);
+    
+    NSError  *error;
+    NSData   *jsonData   = [NSJSONSerialization dataWithJSONObject:userInfo options:0 error:&error];
+    NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+ 
+    NSLog(@"%@",jsonString);
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self writeJavascript:[NSString stringWithFormat:@"window.plugins.jPushPlugin.receiveMessageIniOSCallback('%@')",jsonString]];
+        
+    });
+
+}
 
 @end
