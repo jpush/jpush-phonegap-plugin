@@ -1,4 +1,7 @@
 
+var JPushPlugin = function(){
+};
+
 JPushPlugin.prototype.isPlatformIOS = function(){
 	return device.platform == "iPhone" || device.platform == "iPad" || device.platform == "iPod touch" || device.platform == "iOS"
 }
