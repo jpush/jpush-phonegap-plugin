@@ -17,11 +17,14 @@
 		cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git
 
 
-2. 修改[your project]/plugins/cn.jpush.phonegap.JPushPlugin/plugin.xml的appkey
+2. 修改[your project]/plugins/android.json生成脚本的JPUSH_APPKEY字段
 
-		<meta-data android:name="JPUSH_APPKEY" android:value="your appkey in JPush Portal" />
+		"xml": "<meta-data android:name=\"JPUSH_APPKEY\" android:value=\"your appkey in JPush Portal\" />",
 
-3. 执行 cordova build android 命令
+3. 执行 cordova build android 使修改的`JPUSH_APPKEY`写入AndroidManifest.xml文件
+
+> 温馨提示：如果使用eclipse来生成安装包，步骤2与步骤3可省略。直接在AndroidManifest.xml文件中修改JPUSH_APPKEY即可
+
 
 ###IOS使用PhoneGap/Cordova CLI自动安装
 
@@ -31,7 +34,6 @@
 		cordova build ios
 
 2. 修改Resources/PushConfig.plist文件
-
 
 在APP_KEY和CHANNLE字段 分别添加您的appkey和channle
 
