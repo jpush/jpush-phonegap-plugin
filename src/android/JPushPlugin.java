@@ -238,7 +238,7 @@ public class JPushPlugin extends CordovaPlugin {
 				tags= new HashSet<String>();
 			}else{
 				tagStr = data.getString(0);
-				String[] tagArray = tagArray.split(",");
+				String[] tagArray = tagStr.split(",");
 				for (String tag : tagArray) {
 					tags.add(tag);
 				}
@@ -272,7 +272,7 @@ public class JPushPlugin extends CordovaPlugin {
 			alias = data.getString(0);
 			JSONArray tagsArray = data.getJSONArray(1);
 			for (int i = 0; i < tagsArray.length(); i++) {
-				tags.add(tagsArr.getString(i));
+				tags.add(tagsArray.getString(i));
 			}
 
 			JPushInterface.setAliasAndTags(this.cordova.getActivity()
