@@ -128,13 +128,6 @@ JPushPlugin.prototype.openNotificationInAndroidCallback = function(data){
 }
 //android single
 
-JPushPlugin.prototype.getNotification = function (callback) {
-  if(device.platform == "Android") {
-    data=[];
-  	this.call_native("getNotification",data,callback);
-  }
-}
-
 JPushPlugin.prototype.setBasicPushNotificationBuilder = function(){
 	if(device.platform == "Android") {
 		data=[]

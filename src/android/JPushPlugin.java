@@ -140,7 +140,7 @@ public class JPushPlugin extends CordovaPlugin {
 	
 	void init(JSONArray data,CallbackContext callbackContext){
 		JPushInterface.init(this.cordova.getActivity().getApplicationContext());
-		callbackContext.success();
+		//callbackContext.success();
 	}
 	
 	void setDebugMode(JSONArray data, CallbackContext callbackContext) {
@@ -314,7 +314,7 @@ public class JPushPlugin extends CordovaPlugin {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		callbackContext.success(obj);
+		//callbackContext.success(obj);
 	}
 
 	void setCustomPushNotificationBuilder(JSONArray data,
@@ -331,13 +331,13 @@ public class JPushPlugin extends CordovaPlugin {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		callbackContext.success(obj);
+		//callbackContext.success(obj);
 	}
 	
 	void clearAllNotification(JSONArray data,
 			CallbackContext callbackContext){
 		JPushInterface.clearAllNotifications(this.cordova.getActivity());
-		callbackContext.success();
+		//callbackContext.success();
 	}
 	
 	void clearNotificationById(JSONArray data,
