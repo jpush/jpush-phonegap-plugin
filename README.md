@@ -245,4 +245,6 @@
 		src/ios/example/css/* to www/css
 		src/ios/example/js/* to www/js
 
+###关于'phonegap build'云服务
 
+该项目基于cordova实现，目前无法使用'phonegap build'云服务进行打包，建议使用本地环境进行打包
