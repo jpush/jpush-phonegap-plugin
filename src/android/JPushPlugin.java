@@ -49,7 +49,7 @@ public class JPushPlugin extends CordovaPlugin {
 	private static JPushPlugin instance;
 
 	public static String notificationAlert;
-	public static Map<String, String> notificationExtras=new HashMap<String, String>();
+	public static Map<String, Object> notificationExtras=new HashMap<String, Object>();
 
 	public JPushPlugin() {
 		instance = this;
@@ -63,7 +63,7 @@ public class JPushPlugin extends CordovaPlugin {
 	}
 
 	private static JSONObject notificationObject(String message,
-			Map<String, String> extras) {
+			Map<String, Object> extras) {
 		JSONObject data = new JSONObject();
 		try {
 			data.put("message", message);
@@ -75,7 +75,7 @@ public class JPushPlugin extends CordovaPlugin {
 	}
 
 	private static JSONObject openNotificationObject(String alert,
-			Map<String, String> extras){
+			Map<String, Object> extras){
 		JSONObject data = new JSONObject();
 		try {
 			data.put("alert", alert);
@@ -85,13 +85,13 @@ public class JPushPlugin extends CordovaPlugin {
 		}
 		return data;
 	}
-	static void transmitPush(String message, Map<String, String> extras) {
+	static void transmitPush(String message, Map<String, Object> extras) {
 		if (instance == null) {
 			return;
 		}
 		JSONObject data = notificationObject(message, extras);
 		String js = String
-				.format("window.plugins.jPushPlugin.recieveMessageInAndroidCallback(%s);",
+				.format("window.plugins.jPushPlugin.recieveMessageInAndroidCallback('%s');",
 						data.toString());
 		try {
 			instance.webView.sendJavascript(js);
@@ -101,13 +101,13 @@ public class JPushPlugin extends CordovaPlugin {
 
 		}
 	}
-	static void transmitOpen(String alert, Map<String, String> extras) {
+	static void transmitOpen(String alert, Map<String, Object> extras) {
 		if (instance == null) {
 			return;
 		}
 		JSONObject data = openNotificationObject(alert, extras);
 		String js = String
-				.format("window.plugins.jPushPlugin.openNotificationInAndroidCallback(%s);",
+				.format("window.plugins.jPushPlugin.openNotificationInAndroidCallback('%s');",
 						data.toString());
 		try {
 			instance.webView.sendJavascript(js);
@@ -240,6 +240,9 @@ public class JPushPlugin extends CordovaPlugin {
 				tagStr = data.getString(0);
 				String[] tagArray = tagStr.split(",");
 				for (String tag : tagArray) {
+					if(tags==null){
+						tags= new HashSet<String>();
+					}
 					tags.add(tag);
 				}
 			}
@@ -284,23 +287,23 @@ public class JPushPlugin extends CordovaPlugin {
 		}
 	}
 
-	void getNotification(JSONArray data, CallbackContext callBackContext) {
-		String alert = JPushPlugin.notificationAlert;
-		Map<String, String> extras = JPushPlugin.notificationExtras;
-
-		JSONObject jsonData = new JSONObject();
-		try {
-			jsonData.put("message", alert);
-			jsonData.put("extras", new JSONObject(extras));
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		callBackContext.success(jsonData);
-
-		JPushPlugin.notificationAlert = "";
-		JPushPlugin.notificationExtras = new HashMap<String, String>();
-	}
+//	void getNotification(JSONArray data, CallbackContext callBackContext) {
+//		String alert = JPushPlugin.notificationAlert;
+//		Map<String, String> extras = JPushPlugin.notificationExtras;
+//
+//		JSONObject jsonData = new JSONObject();
+//		try {
+//			jsonData.put("message", alert);
+//			jsonData.put("extras", new JSONObject(extras));
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
+//
+//		callBackContext.success(jsonData);
+//
+//		JPushPlugin.notificationAlert = "";
+//		JPushPlugin.notificationExtras = new HashMap<String, Obl>();
+//	}
 
 	void setBasicPushNotificationBuilder(JSONArray data,
 			CallbackContext callbackContext) {

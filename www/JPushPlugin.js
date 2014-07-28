@@ -90,16 +90,16 @@ JPushPlugin.prototype.receiveMessageIniOSCallback = function(data){
 }
 JPushPlugin.prototype.receiveMessageInAndroidCallback = function(data){
 	try{
-		console.log("JPushPlugin:pushCallback--data:"+data);
-		var bToObj=JSON.parse(data);
-		var message  = bToObj.message;
-		var extras  = bToObj.extras;
+		console.log("JPushPlugin:receiveMessageInAndroidCallback");
+		console.log(data);
+		//var bToObj=JSON.parse(data);
+		//var message  = bToObj.message;
+		//var extras  = bToObj.extras;
 
-		console.log(message);
-		console.log(extras['cn.jpush.android.MSG_ID']);
-		console.log(extras['cn.jpush.android.CONTENT_TYPE']);
-		console.log(extras['cn.jpush.android.EXTRA']);
-
+		//console.log(message);
+		//console.log(extras['cn.jpush.android.MSG_ID']);
+		//console.log(extras['cn.jpush.android.CONTENT_TYPE']);
+		//console.log(extras['cn.jpush.android.EXTRA']);
 	}
 	catch(exception){               
 		console.log("JPushPlugin:pushCallback "+exception);
@@ -108,19 +108,20 @@ JPushPlugin.prototype.receiveMessageInAndroidCallback = function(data){
 //
 JPushPlugin.prototype.openNotificationInAndroidCallback = function(data){
 	try{
+		console.log("JPushPlugin:openNotificationInAndroidCallback");		
 		console.log(data);
-		var bToObj  = JSON.parse(data);
-		var alert   = bToObj.alert;
-		var extras  = bToObj.extras;
-		console.log(alert);
+		//var bToObj  = JSON.parse(data);
+		//var alert   = bToObj.alert;
+		//var extras  = bToObj.extras;
+		//console.log(alert);
 
-		console.log(extras['cn.jpush.android.MSG_ID']);
-		console.log(extras['app']);
-		console.log(extras['cn.jpush.android.NOTIFICATION_CONTENT_TITLE']);
-		console.log(extras['cn.jpush.android.EXTRA']);
-		console.log(extras['cn.jpush.android.PUSH_ID']);
-		console.log(extras['cn.jpush.android.NOTIFICATION_ID']);
-		console.log("JPushPlugin:openNotificationCallback is ready");
+		//console.log(extras['cn.jpush.android.MSG_ID']);
+		//console.log(extras['app']);
+		//console.log(extras['cn.jpush.android.NOTIFICATION_CONTENT_TITLE']);
+		//console.log(extras['cn.jpush.android.EXTRA']);
+		//console.log(extras['cn.jpush.android.PUSH_ID']);
+		//console.log(extras['cn.jpush.android.NOTIFICATION_ID']);
+		//console.log("JPushPlugin:openNotificationCallback is ready");
 	}
 	catch(exception){               
 		console.log(exception);

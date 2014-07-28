@@ -35,13 +35,13 @@ public class MyReceiver extends BroadcastReceiver {
 	}
 	private void handlingReceivedMessage(Intent intent) {
 		String msg = intent.getStringExtra(JPushInterface.EXTRA_MESSAGE);
-		Map<String,String> extras = getNotificationExtras(intent);
+		Map<String,Object> extras = getNotificationExtras(intent);
 		
 		JPushPlugin.transmitPush(msg, extras);
 	}
 	 private void handlingNotificationOpen(Context context,Intent intent){
 		 String alert = intent.getStringExtra(JPushInterface.EXTRA_ALERT);
-		 Map<String,String> extras = getNotificationExtras(intent);
+		 Map<String,Object> extras = getNotificationExtras(intent);
 		 
 		 Intent launch = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
 		 launch.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -54,17 +54,21 @@ public class MyReceiver extends BroadcastReceiver {
 
 		 context.startActivity(launch);
 	 }
-	 private Map<String, String> getNotificationExtras(Intent intent) {
-		 Map<String, String> extrasMap = new HashMap<String, String>();
+	 private Map<String, Object> getNotificationExtras(Intent intent) {
+		 Map<String, Object> extrasMap = new HashMap<String, Object>();
 		 
 		 for (String key : intent.getExtras().keySet()) {
 			 if (!IGNORED_EXTRAS_KEYS.contains(key)) {
-				 Log.e("key","key:"+key);
-				 extrasMap.put(key, intent.getStringExtra(key));
+			    Log.e("key","key:"+key);
+		     	if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)){
+		     		extrasMap.put(key, intent.getIntExtra(key,0));
+		     	}else{
+		     		extrasMap.put(key, intent.getStringExtra(key));
+		        }
 			 }
 		 }
 		 return extrasMap;
 	 }
 	 private static final List<String> IGNORED_EXTRAS_KEYS = 
-			 Arrays.asList("cn.jpush.android.TITLE","cn.jpush.android.MESSAGE","cn.jpush.android.APPKEY");
+			 Arrays.asList("cn.jpush.android.TITLE","cn.jpush.android.MESSAGE","cn.jpush.android.APPKEY","cn.jpush.android.NOTIFICATION_CONTENT_TITLE");
 }
