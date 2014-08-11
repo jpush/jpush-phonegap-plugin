@@ -91,7 +91,7 @@ public class JPushPlugin extends CordovaPlugin {
 		}
 		JSONObject data = notificationObject(message, extras);
 		String js = String
-				.format("window.plugins.jPushPlugin.recieveMessageInAndroidCallback('%s');",
+				.format("window.plugins.jPushPlugin.receiveMessageInAndroidCallback('%s');",
 						data.toString());
 		try {
 			instance.webView.sendJavascript(js);
