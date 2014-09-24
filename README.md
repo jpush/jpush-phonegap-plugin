@@ -15,15 +15,22 @@
 1. 使用 phonegap 或者 cordova cli 添加插件(建议在git客户端下使用，在windows 的cmd界面下 该命令提示git command line tool 不可用): 
 
 		cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git
+		
+2. 添加device插件，部分API需要根据平台进行调用，需添加org.apache.cordova.device插件
+
+		cordova plugin add org.apache.cordova.device
 
 
-2. 修改[your project]/plugins/android.json生成脚本的JPUSH_APPKEY字段
+3. 修改[your project]/plugins/android.json生成脚本的JPUSH_APPKEY字段
 
 		"xml": "<meta-data android:name=\"JPUSH_APPKEY\" android:value=\"your appkey in JPush Portal\" />",
 
-3. 执行 cordova build android 使修改的`JPUSH_APPKEY`写入AndroidManifest.xml文件
+4. 执行 cordova build android 使修改的`JPUSH_APPKEY`写入AndroidManifest.xml文件
 
 > 温馨提示：如果使用eclipse来生成安装包，步骤2与步骤3可省略。直接在AndroidManifest.xml文件中修改JPUSH_APPKEY即可
+
+
+
 
 
 ###IOS使用PhoneGap/Cordova CLI自动安装
@@ -247,3 +254,9 @@
 
 ###关于'phonegap build'云服务
 该项目基于cordova实现，目前无法使用'phonegap build'云服务进行打包，建议使用本地环境进行打包
+###常见错误
+1. androd
+
+		eclipse中phonegap工程import之后出现:`Type CallbackContext cannot be resolved to a type`
+		解决方案：eclipse中右键单击工程名，Build Path->Config Build Path->Projects->选中 工程名称－CordovaLib->点击 add
+
