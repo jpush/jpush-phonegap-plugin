@@ -17,7 +17,7 @@
         NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
         [defaultCenter addObserver:self
                           selector:@selector(networkDidReceiveMessage:)
-                              name:kAPNetworkDidReceiveMessageNotification
+                              name:kJPFNetworkDidReceiveMessageNotification
                             object:nil];
 
     }
@@ -64,7 +64,7 @@
 
 -(void)getRegistrationID:(CDVInvokedUrlCommand*)command{
     
-    NSString* registrationID = [APService registrionID];
+    NSString* registrationID = [APService registrationID];
     CDVPluginResult *result=[self pluginResultForValue:registrationID];
     if (result) {
         [self succeedWithPluginResult:result withCallbackID:command.callbackId];
@@ -119,6 +119,27 @@
     }
 
 }
+-(void)setBadge:(CDVInvokedUrlCommand*)command{
+    NSArray *argument=command.arguments;
+    if ([argument count]<1) {
+        NSLog(@"setBadge argument error!");
+        return;
+    }
+    NSNumber *badge=[argument objectAtIndex:0];
+    [APService setBadge:[badge intValue]];
+}
+-(void)resetBadge:(CDVInvokedUrlCommand*)command{
+    [APService resetBadge];
+}
+-(void)setDebugModeFromIos:(CDVInvokedUrlCommand*)command{
+    
+    [APService setDebugMode];
+}
+-(void)setLogOFF:(CDVInvokedUrlCommand*)command{
+    
+    [APService setLogOFF];
+}
+
 
 - (void)failWithCallbackID:(NSString *)callbackID {
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
