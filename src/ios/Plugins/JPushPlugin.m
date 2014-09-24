@@ -144,7 +144,6 @@
     [[UIApplication sharedApplication]unregisterForRemoteNotifications];
 
 }
-
 - (void)failWithCallbackID:(NSString *)callbackID {
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
     [self.commandDelegate sendPluginResult:result callbackId:callbackID];
