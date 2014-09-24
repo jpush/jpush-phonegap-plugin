@@ -34,6 +34,9 @@
 
 
 
+
+
+
 ###IOS使用PhoneGap/Cordova CLI自动安装
 
 1. 使用PhoneGap/Cordova CLI命令安装
@@ -277,5 +280,4 @@
 
 		eclipse中phonegap工程import之后出现:`Type CallbackContext cannot be resolved to a type`
 		解决方案：eclipse中右键单击工程名，Build Path->Config Build Path->Projects->选中 工程名称－CordovaLib->点击 add
-
 
