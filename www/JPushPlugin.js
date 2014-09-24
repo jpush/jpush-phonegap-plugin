@@ -76,7 +76,43 @@ JPushPlugin.prototype.setAlias = function(data){
 		console.log(exception);
 	}
 }
+JPushPlugin.prototype.setBadge = function(data){
+               
+   if(this.isPlatformIOS()){     
+       try{
+       this.call_native("setBadge",[data],null);
+       }
+       catch(exception){
+       console.log(exception);
+       }
 
+   }
+}
+JPushPlugin.prototype.resetBadge = function(){
+               
+    if(this.isPlatformIOS()){
+       try{
+           var data=[];
+           this.call_native("resetBadge",[data],null);
+       }
+       catch(exception){
+           console.log(exception);
+       }
+    }
+}
+JPushPlugin.prototype.setDebugModeFromIos = function(){
+	if(this.isPlatformIOS()){
+		   var data=[];
+           this.call_native("setDebugModeFromIos",[data],null);
+	}
+
+}
+JPushPlugin.prototype.setLogOFF = function(){
+	if(this.isPlatformIOS()){
+        	var data=[];
+            this.call_native("setLogOFF",[data],null);
+	}
+}
 JPushPlugin.prototype.receiveMessageIniOSCallback = function(data){
 	try{
 		console.log("JPushPlugin:receiveMessageIniOSCallback--data:"+data);
@@ -91,8 +127,8 @@ JPushPlugin.prototype.receiveMessageIniOSCallback = function(data){
 JPushPlugin.prototype.receiveMessageInAndroidCallback = function(data){
 	try{
 		console.log("JPushPlugin:receiveMessageInAndroidCallback");
-		console.log(data);
-		//var bToObj=JSON.parse(data);
+		//console.log(data);
+		//ecvar bToObj=JSON.parse(data);
 		//var message  = bToObj.message;
 		//var extras  = bToObj.extras;
 
