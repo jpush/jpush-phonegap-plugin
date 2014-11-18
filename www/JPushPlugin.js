@@ -180,10 +180,8 @@ JPushPlugin.prototype.setCustomPushNotificationBuilder = function(){
 }
 
 JPushPlugin.prototype.stopPush = function(){
-	if(device.platform == "Android") {
-		data=[];
-		this.call_native("stopPush",data,null);
-	}
+	data=[];
+	this.call_native("stopPush",data,null);
 }
 
 JPushPlugin.prototype.resumePush = function(){

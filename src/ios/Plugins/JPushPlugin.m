@@ -139,7 +139,11 @@
     
     [APService setLogOFF];
 }
+-(void)stopPush:(CDVInvokedUrlCommand*)command{
+    
+    [[UIApplication sharedApplication]unregisterForRemoteNotifications];
 
+}
 
 - (void)failWithCallbackID:(NSString *)callbackID {
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
