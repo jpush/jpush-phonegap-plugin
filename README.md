@@ -29,6 +29,7 @@
 
 > 温馨提示：如果使用eclipse来生成安装包，步骤2与步骤3可省略。直接在AndroidManifest.xml文件中修改JPUSH_APPKEY即可
 
+5. 在cn.jpush.phonegap的JPushPlugin.java文件开始处,`import your.package.name.R;`
 
 
 
@@ -276,4 +277,5 @@
 
 		eclipse中phonegap工程import之后出现:`Type CallbackContext cannot be resolved to a type`
 		解决方案：eclipse中右键单击工程名，Build Path->Config Build Path->Projects->选中 工程名称－CordovaLib->点击 add
+
 
