@@ -67,7 +67,14 @@ public class JPushPlugin extends CordovaPlugin {
 		JSONObject data = new JSONObject();
 		try {
 			data.put("message", message);
-			data.put("extras", new JSONObject(extras));
+			JSONObject jExtras = new JSONObject();
+			for(Entry<String,Object> entry:extras.entrySet()){
+				jExtras.put(entry.getKey(),entry.getValue());
+			}
+			if(jExtras.length()>0)
+			{
+				data.put("extras", jExtras);
+			}		
 		} catch (JSONException e) {
 
 		}
@@ -77,9 +84,16 @@ public class JPushPlugin extends CordovaPlugin {
 	private static JSONObject openNotificationObject(String alert,
 			Map<String, Object> extras){
 		JSONObject data = new JSONObject();
-		try {
+		try{
 			data.put("alert", alert);
-			data.put("extras", new JSONObject(extras));
+			JSONObject jExtras = new JSONObject();
+			for(Entry<String,Object> entry:extras.entrySet()){
+				jExtras.put(entry.getKey(),entry.getValue());
+			}
+			if(jExtras.length()>0)
+			{
+				data.put("extras", jExtras);
+			}
 		} catch (JSONException e) {
 
 		}
