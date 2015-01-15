@@ -44,7 +44,10 @@ public class JPushPlugin extends CordovaPlugin {
 					"isPushStopped",
 					"setLatestNotificationNum",
 					"setPushTime",
-					"clearAllNotification");
+					"clearAllNotification",
+					"addLocalNotification",
+					"removeLocalNotification",
+					"clearLocalNotifications");
 	
 	private ExecutorService threadPool = Executors.newFixedThreadPool(1);
 	private static JPushPlugin instance;
@@ -372,6 +375,41 @@ public class JPushPlugin extends CordovaPlugin {
 		}else{
 			callbackContext.error("error id");
 		}
+	}
+	void addLocalNotification(JSONArray data,
+			CallbackContext callbackContext) throws JSONException{
+		//builderId,content,title,notificaitonID,broadcastTime,extras
+		
+		int builderId=data.getInt(0);
+		String content =data.getString(1);
+		String title  = data.getString(2);
+		int notificationID= data.getInt(3);
+		int broadcastTime=data.getInt(4);
+		JSONObject extras=data.getJSONObject(5);
+		
+		JPushLocalNotification ln = new JPushLocalNotification();
+		ln.setBuilderId(builderId);
+		ln.setContent(content);
+		ln.setTitle(title);
+		ln.setNotificationId(notificationID) ;
+		ln.setBroadcastTime(System.currentTimeMillis() + broadcastTime);
+
+ 		ln.setExtras(extras.toString()) ;
+		JPushInterface.addLocalNotification(this.cordova.getActivity(), ln);
+		
+	}
+	void removeLocalNotification(JSONArray data,
+			CallbackContext callbackContext) throws JSONException{
+		
+		int notificationID=data.getInt(0);
+		JPushInterface.removeLocalNotification(this.cordova.getActivity(),notificationID);
+
+	}
+	void clearLocalNotifications(JSONArray data,
+			CallbackContext callbackContext){
+		
+		JPushInterface.clearLocalNotifications(this.cordova.getActivity());
+
 	}
 	
 	private final TagAliasCallback mTagWithAliasCallback = new TagAliasCallback() {

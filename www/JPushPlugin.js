@@ -223,6 +223,23 @@ JPushPlugin.prototype.setDebugMode = function(mode){
 		this.call_native("setDebugMode",[mode],null);
 	}
 }
+JPushPlugin.prototype.addLocalNotification = function(builderId,content,title,notificaitonID,broadcastTime,extras){
+	if(device.platform == "Android") {
+		data=[builderId,content,title,notificaitonID,broadcastTime,extras];
+		this.call_native("addLocalNotification",data,null);
+	}
+}
+JPushPlugin.prototype.removeLocalNotification = function(notificationID){
+	if(device.platform == "Android") {
+		this.call_native("removeLocalNotification",[notificationID],null);
+	}
+}
+JPushPlugin.prototype.clearLocalNotifications = function(){
+	if(device.platform == "Android") {
+		data=[]
+		this.call_native("clearLocalNotifications",data,null);
+	}
+}
 
 //iOS  single
 
