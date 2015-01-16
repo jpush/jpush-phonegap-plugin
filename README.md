@@ -300,16 +300,21 @@
 ##### 接口定义
 JPushPlugin.prototype.startLogPageView = function(data)
 JPushPlugin.prototype.stopLogPageView = function(data)
-
+JPushPlugin.prototype.beginLogPageView = function(pageName,duration)
 
 
 #####使用平台
 iOS
 
 #####参数说明
-无参数
+pageName 需要统计页面自定义名称
+duration 自定义的页面时间
 
 #####调用说明
+应在所有的需要统计得页面得 viewWillAppear 和 viewWillDisappear 加入 startLogPageView 和 stopLogPageView 来统计当前页面的停留时间。
+
+ 或者直接使用 beginLogPageView 来自定义加入页面和时间信息。
+
 
 #####返回值说明
 无

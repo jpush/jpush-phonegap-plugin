@@ -18,15 +18,15 @@ JPushPlugin.prototype.call_native = function(name, args, callback){
 }
 //public plugin function
 
-JPushPlugin.prototype.startLogPageView = function(data){  
+JPushPlugin.prototype.startLogPageView = function(pageName){  
     if(this.isPlatformIOS()){
-		this.call_native( "startLogPageView",[data],null); 
+		this.call_native( "startLogPageView",[pageName],null); 
     }      
 }
 
-JPushPlugin.prototype.stopLogPageView = function(data){
+JPushPlugin.prototype.stopLogPageView = function(pageName){
     if(this.isPlatformIOS()){
-		this.call_native( "stopLogPageView",[data],null);   
+		this.call_native( "stopLogPageView",[pageName],null);   
 	}
 }
 
