@@ -1,6 +1,7 @@
 
 var JPushPlugin = function(){
 };
+//private plugin function
 
 JPushPlugin.prototype.isPlatformIOS = function(){
 	return device.platform == "iPhone" || device.platform == "iPad" || device.platform == "iPod touch" || device.platform == "iOS"
@@ -15,6 +16,7 @@ JPushPlugin.prototype.call_native = function(name, args, callback){
 	ret = cordova.exec(callback,this.error_callback,'JPushPlugin',name,args);
 	return ret;
 }
+//public plugin function
 
 JPushPlugin.prototype.startLogPageView = function(data){  
     if(this.isPlatformIOS()){
@@ -25,6 +27,12 @@ JPushPlugin.prototype.startLogPageView = function(data){
 JPushPlugin.prototype.stopLogPageView = function(data){
     if(this.isPlatformIOS()){
 		this.call_native( "stopLogPageView",[data],null);   
+	}
+}
+
+JPushPlugin.prototype.beginLogPageView = function(pageName,duration){
+    if(this.isPlatformIOS()){
+		this.call_native( "beginLogPageView",[pageName,duration],null);   
 	}
 }
 

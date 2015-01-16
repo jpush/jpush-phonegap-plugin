@@ -119,6 +119,19 @@
     }
 
 }
+-(void)beginLogPageView:(CDVInvokedUrlCommand*)command{
+    NSArray *arguments=command.arguments;
+    if (!arguments||[arguments count]<2) {
+        NSLog(@"beginLogPageView argument  error");
+        return ;
+    }
+    NSString * pageName=[arguments objectAtIndex:0];
+    int duration=[[arguments objectAtIndex:0]intValue];
+    if (pageName) {
+        [APService beginLogPageView:pageName duration:duration];
+    }
+
+}
 -(void)setBadge:(CDVInvokedUrlCommand*)command{
     NSArray *argument=command.arguments;
     if ([argument count]<1) {

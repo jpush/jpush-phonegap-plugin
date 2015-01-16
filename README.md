@@ -21,19 +21,21 @@
 		cordova plugin add org.apache.cordova.device
 
 
-3. 修改[your project]/plugins/android.json生成脚本的JPUSH_APPKEY字段
+3. 在cn.jpush.phonegap的JPushPlugin.java文件开始处
+
+		import your.package.name.R;
+		import cn.jpush.android.api.JPushInterface;
+
+
+	>温馨提示：如果使用eclipse来生成安装包，步骤4和5可省略。
+	>直接在AndroidManifest.xml文件中修改JPUSH_APPKEY即可
+
+4. 修改[your project]/plugins/android.json生成脚本的JPUSH_APPKEY字段
 
 		"xml": "<meta-data android:name=\"JPUSH_APPKEY\" android:value=\"your appkey in JPush Portal\" />",
 
-4. 执行 cordova build android 使修改的`JPUSH_APPKEY`写入AndroidManifest.xml文件
-
-> 温馨提示：如果使用eclipse来生成安装包，步骤2与步骤3可省略。直接在AndroidManifest.xml文件中修改JPUSH_APPKEY即可
-
-5. 在cn.jpush.phonegap的JPushPlugin.java文件开始处,`import your.package.name.R;`
-
-
-
-
+5. 执行 cordova build android 使修改的`JPUSH_APPKEY`写入AndroidManifest.xml文件
+6. 在js中调用函数 `window.plugins.jPushPlugin.init();` 初始化jpush sdk
 
 
 
@@ -69,6 +71,7 @@
 		                                                   UIRemoteNotificationTypeSound |
 		                                                   UIRemoteNotificationTypeAlert)
 		                                       categories:nil];
+		  }
 		#else
 		    //categories 必须为nil
 		  [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
@@ -280,4 +283,39 @@
 
 		eclipse中phonegap工程import之后出现:`Type CallbackContext cannot be resolved to a type`
 		解决方案：eclipse中右键单击工程名，Build Path->Config Build Path->Projects->选中 工程名称－CordovaLib->点击 add
+
+### API说明
+
+插件的API集中在JPushPlugin.js文件中,这个文件的位置如下
+
+*  android:[YOUR__ANDROID_PROJECT]/assets/www/plugins/cn.jpush.phonegap.JPushPlugin/www
+*  iOS:[YOUR_iOS_PROJEcT]/www/plugins/cn.jpush.phonegap.JPushPlugin/www
+
+这里只说明public的函数
+
+#### API - startLogPageView,stopLogPageView,beginLogPageView
+
+本 API 用于“用户指定页面使用时长”的统计，并上报到服务器，在 Portal 上展示给开发者。页面统计集成正确，才能够获取正确的页面访问路径、访问深度（PV）的数据。
+
+##### 接口定义
+JPushPlugin.prototype.startLogPageView = function(data)
+JPushPlugin.prototype.stopLogPageView = function(data)
+
+
+
+#####使用平台
+iOS
+
+#####参数说明
+无参数
+
+#####调用说明
+
+#####返回值说明
+无
+
+#####代码示例
+if(window.plugins.jPushPlugin.isPlatformIOS()){
+
+}
 
