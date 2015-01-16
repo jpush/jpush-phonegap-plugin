@@ -55,7 +55,24 @@ JPushPlugin.prototype.setTagsWithAlias = function(tags,alias){
 	}
 
 }
+JPushPlugin.prototype.setTags = function(tags){
+        
+	try{
+		this.call_native("setTags",tags,null);
+	}
+	catch(exception){
+		console.log(exception);
+	}
+}
 
+JPushPlugin.prototype.setAlias = function(alias){
+	try{             
+		this.call_native("setAlias",[alias],null);
+	}
+	catch(exception){             
+		console.log(exception);
+	}
+}
 JPushPlugin.prototype.getRegistrationID = function(callback){
         
 	try{
@@ -66,29 +83,12 @@ JPushPlugin.prototype.getRegistrationID = function(callback){
 		console.log(exception);
 	}
 }
-JPushPlugin.prototype.setTags = function(data){
-        
-	try{
-		this.call_native("setTags",data,null);
-	}
-	catch(exception){
-		console.log(exception);
-	}
-}
 
-JPushPlugin.prototype.setAlias = function(data){
-	try{             
-		this.call_native("setAlias",[data],null);
-	}
-	catch(exception){             
-		console.log(exception);
-	}
-}
-JPushPlugin.prototype.setBadge = function(data){
+JPushPlugin.prototype.setBadge = function(value){
                
    if(this.isPlatformIOS()){     
        try{
-       this.call_native("setBadge",[data],null);
+       this.call_native("setBadge",[value],null);
        }
        catch(exception){
        console.log(exception);
