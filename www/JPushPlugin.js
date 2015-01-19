@@ -198,7 +198,12 @@ JPushPlugin.prototype.resumePush = function(){
 		this.call_native("resumePush",data,null);
 	}
 }
-
+JPushPlugin.prototype.setDebugMode = function(mode){
+	if(device.platform == "Android") {
+		this.call_native("setDebugMode",[mode],null);
+	}
+}
+//setDebugMode
 JPushPlugin.prototype.clearAllNotification = function(){
 	if(device.platform == "Android") {
 		data=[]

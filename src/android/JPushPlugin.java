@@ -19,11 +19,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.Map.Entry;
 
-//import com.your.package.name.R;
+import your.package.name.R;
 
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.CustomPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.data.JPushLocalNotification;
 import cn.jpush.android.api.TagAliasCallback;
 
 public class JPushPlugin extends CordovaPlugin {
@@ -62,9 +63,10 @@ public class JPushPlugin extends CordovaPlugin {
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
-		JPushInterface.setDebugMode(true);
-		JPushInterface.init(cordova.getActivity().getApplicationContext());
+		//JPushInterface.setDebugMode(true);
+		//JPushInterface.init(cordova.getActivity().getApplicationContext());
 	}
+
 
 	private static JSONObject notificationObject(String message,
 			Map<String, Object> extras) {
@@ -162,16 +164,17 @@ public class JPushPlugin extends CordovaPlugin {
 	}
 	
 	void setDebugMode(JSONArray data, CallbackContext callbackContext) {
-		String mode;
+		boolean mode;
 		try {
-			mode = data.getString(0);
-			if (mode.equals("true")) {
-				JPushInterface.setDebugMode(true);
-			} else if (mode.equals("false")) {
-				JPushInterface.setDebugMode(false);
-			} else {
-				callbackContext.error("error mode");
-			}
+			mode = data.getBoolean(0);
+			// if (mode.equals("true")) {
+			// 	JPushInterface.setDebugMode(true);
+			// } else if (mode.equals("false")) {
+			// 	JPushInterface.setDebugMode(false);
+			// } else {
+			// 	callbackContext.error("error mode");
+			// }
+			JPushInterface.setDebugMode(mode);
 			callbackContext.success();
 		} catch (JSONException e) {
 		}
@@ -209,7 +212,7 @@ public class JPushPlugin extends CordovaPlugin {
 			callbackContext.error("error reading num json");
 		}
 		if(num != -1){
-			JPushInterface.setLatestNotifactionNumber(this.cordova.getActivity().getApplicationContext(), num);
+			JPushInterface.setLatestNotificationNumber(this.cordova.getActivity().getApplicationContext(), num);
 		}else{
 			callbackContext.error("error num");
 		}

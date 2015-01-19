@@ -6,37 +6,33 @@
 		
 2. 添加平台
 
-		cd Myproj :不进行这一步可能会出现[RangeError:Maximum call stack size exceeded]
+		cd Myproj :不进入项目会出现[RangeError:Maximum call stack size exceeded]
 		cordova platform add android  
-
+		cordova platform add ios
 
 ### Android使用PhoneGap/Cordova CLI自动安装
 
-1. 使用 phonegap 或者 cordova cli 添加插件(建议在git客户端下使用，在windows 的cmd界面下 该命令提示git command line tool 不可用): 
-
-		cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git
+1. 使用git命令将jpush phonegap插件下载的本地,将这个目录标记为`$JPUSH_PLUGIN_DIR`
 		
-2. 添加device插件，部分API需要根据平台进行调用，需添加org.apache.cordova.device插件
+		git clone https://github.com/jpush/jpush-phonegap-plugin.git
+		
+2. 将`$JPUSH_PLUGIN_DIR/plugin.xml`文件中的AppKey替换为在Portal上注册该应用的的Key,例如（9fed5bcb7b9b87413678c407）
+		
+		<meta-data android:name="JPUSH_APPKEY" android:value="your appkey"/>
 
+3. 在`$JPUSH_PLUGIN_DIR/src/android/JPushPlugin.java` 文件`import your.package.name.R`替换为在Portal上注册该应用的包名，例如(com.thi.pushtest)
+
+
+4. cordova cli 添加jpush phonegap插件和依赖的device插件: 
+
+		cordova plugin add $JPUSH_PLUGIN_DIR
 		cordova plugin add org.apache.cordova.device
 
 
-3. 在cn.jpush.phonegap的JPushPlugin.java文件开始处
+5. 在js中调用函数,初始化jpush sdk
 
-		import your.package.name.R;
-		import cn.jpush.android.api.JPushInterface;
-
-
-	>温馨提示：如果使用eclipse来生成安装包，步骤4和5可省略。
-	>直接在AndroidManifest.xml文件中修改JPUSH_APPKEY即可
-
-4. 修改[your project]/plugins/android.json生成脚本的JPUSH_APPKEY字段
-
-		"xml": "<meta-data android:name=\"JPUSH_APPKEY\" android:value=\"your appkey in JPush Portal\" />",
-
-5. 执行 cordova build android 使修改的`JPUSH_APPKEY`写入AndroidManifest.xml文件
-6. 在js中调用函数 `window.plugins.jPushPlugin.init();` 初始化jpush sdk
-
+		 window.plugins.jPushPlugin.init();
+		 window.plugins.jPushPlugin.setDebugMode(true);
 
 
 ###IOS使用PhoneGap/Cordova CLI自动安装
