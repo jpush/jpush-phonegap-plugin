@@ -94,7 +94,12 @@ public class JPushPlugin extends CordovaPlugin {
 			data.put("alert", alert);
 			JSONObject jExtras = new JSONObject();
 			for(Entry<String,Object> entry:extras.entrySet()){
-				jExtras.put(entry.getKey(),entry.getValue());
+				if(entry.getKey().equals("cn.jpush.android.EXTRA")){
+					JSONObject jo = new JSONObject((String)entry.getValue());
+					jExtras.put("cn.jpush.android.EXTRA", jo);
+				}else{
+					jExtras.put(entry.getKey(),entry.getValue());
+				}
 			}
 			if(jExtras.length()>0)
 			{
