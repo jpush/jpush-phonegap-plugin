@@ -39,6 +39,8 @@
             var initiateUI = function(){
             
             	try{
+                    window.plugins.jPushPlugin.init();
+                    window.plugins.jPushPlugin.setDebugMode(true);
             		window.plugins.jPushPlugin.getRegistrationID(onGetRegistradionID);
 //                	var extras={"name":"json"};
 // 					window.plugins.jPushPlugin.addLocalNotification(1,"hh","ln",1111,1000*60,extras);
