@@ -487,15 +487,22 @@ iOS
 
 用于iOS收到应用内消息的回调函数(请注意和通知的区别)，该函数不需要主动调用
 
-##### 使用平台
+##### 接口定义
+
+	JPushPlugin.prototype.receiveMessageIniOSCallback = function(data)
+
+
+#####平台
 iOS
 
-##### 参数说明
+#####参数说明
 
 - data 	是一个js字符串使用如下代码解析，js具体key根据应用内消息来确定
 	
 		var bToObj = JSON.parse(data);
-
+		
+#####返回值
+无
 
 
 
@@ -719,26 +726,7 @@ android
 
 #### API - receiveMessageInAndroidCallback
 
-用于iOS收到应用内消息的回调函数(请注意和通知的区别)，该函数不需要主动调用
-
-##### 接口定义
-
-	JPushPlugin.prototype.receiveMessageInAndroidCallback = function(data)
-
-
-#####平台
-android
-
-##### 参数说明
-
-- data 接收到的js字符串
-
-##### 返回值
-无
-
-#### API - receiveMessageInAndroidCallback
-
-用于iOS收到应用内消息的回调函数(请注意和通知的区别)，该函数不需要主动调用
+用于android收到应用内消息的回调函数(请注意和通知的区别)，该函数不需要主动调用
 
 ##### 接口定义
 
