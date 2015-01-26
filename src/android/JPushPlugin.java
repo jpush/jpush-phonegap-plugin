@@ -48,7 +48,10 @@ public class JPushPlugin extends CordovaPlugin {
 					"clearAllNotification",
 					"addLocalNotification",
 					"removeLocalNotification",
-					"clearLocalNotifications");
+					"clearLocalNotifications",
+					"onResume",
+					"onPause",
+					"reportNotificationOpened");
 	
 	private ExecutorService threadPool = Executors.newFixedThreadPool(1);
 	private static JPushPlugin instance;
@@ -251,6 +254,23 @@ public class JPushPlugin extends CordovaPlugin {
 	void getRegistrationID(JSONArray data, CallbackContext callbackContext) {
 		String regID= JPushInterface.getRegistrationID(this.cordova.getActivity().getApplicationContext());
 		callbackContext.success(regID);
+
+	}
+	void onResume(JSONArray data, CallbackContext callbackContext) {
+		JPushInterface.onResume(this.cordova.getActivity());
+	}
+	void onPause(JSONArray data, CallbackContext callbackContext) {
+		JPushInterface.onPause(this.cordova.getActivity());
+	}
+	void reportNotificationOpened(JSONArray data, CallbackContext callbackContext) {
+		try {
+			String msgID;
+			msgID = data.getString(0);
+			JPushInterface.reportNotificationOpened(this.cordova.getActivity(),msgID);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 	void setTags(JSONArray data, CallbackContext callbackContext) {

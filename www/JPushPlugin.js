@@ -149,6 +149,7 @@ JPushPlugin.prototype.receiveMessageInAndroidCallback = function(data){
 		console.log("JPushPlugin:pushCallback "+exception);
 	}
 }
+
 //
 JPushPlugin.prototype.openNotificationInAndroidCallback = function(data){
 	try{
@@ -251,6 +252,25 @@ JPushPlugin.prototype.clearLocalNotifications = function(){
 	if(device.platform == "Android") {
 		data=[]
 		this.call_native("clearLocalNotifications",data,null);
+	}
+}
+JPushPlugin.prototype.onResume = function(){
+	if(device.platform == "Android") {
+		data=[]
+		this.call_native("onResume",data,null);
+	}
+}
+JPushPlugin.prototype.onPause = function(){
+	if(device.platform == "Android") {
+		data=[]
+		this.call_native("onPause",data,null);
+	}
+}
+
+JPushPlugin.prototype.reportNotificationOpened = function(msgID){
+	if(device.platform == "Android") {
+	
+		this.call_native("reportNotificationOpened",[msgID],null);
 	}
 }
 
