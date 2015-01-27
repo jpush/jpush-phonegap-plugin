@@ -778,6 +778,23 @@ android
 ##### 返回值
 无
 
+#### API - openNotificationInAndroidCallback
+
+当点击android手机的通知栏进入应用程序时,会调用这个函数，这个函数不需要主动调用，是作为回调函数来用的
+
+
+##### 接口定义
+
+	JPushPlugin.prototype.openNotificationInAndroidCallback = function(data)
+	
+#####平台
+android
+
+##### 参数说明
+- data js字符串
+
+##### 返回值
+无
 
 
 
