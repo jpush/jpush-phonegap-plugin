@@ -26,6 +26,17 @@
                     console.log(exception)
                 }
             }
+            var onOpenNotification = function(event){
+             	try{
+             		var alert   = event.alert;
+					var extras  = event.extras;
+		            console.log(alert);
+		            console.log(extras);
+             	}
+             	catch(exeption){
+             		console.log(exception)
+             	}
+            }
             var onGetRegistradionID = function(data) {
                 try{
                     console.log("JPushPlugin:registrationID is "+data)
@@ -92,7 +103,9 @@
                 })
             }
             document.addEventListener("jpush.setTagsWithAlias", onTagsWithAlias, false);
-            document.addEventListener("deviceready", onDeviceReady, false);            
+            document.addEventListener("deviceready", onDeviceReady, false); 
+            document.addEventListener("jpush.openNotification", onOpenNotification, false);            
+           
         </script>
     </head>
     <body>
