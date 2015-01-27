@@ -139,6 +139,11 @@ public class JPushPlugin extends CordovaPlugin {
 						data.toString());
 		try {
 			instance.webView.sendJavascript(js);
+			
+			String jsEvent=String
+    					.format("cordova.fireDocumentEvent('jpush.openNotification',%s)",
+    							data.toString());
+    		instance.webView.sendJavascript(jsEvent);
 		} catch (NullPointerException e) {
 
 		} catch (Exception e) {
