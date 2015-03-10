@@ -19,6 +19,11 @@
                           selector:@selector(networkDidReceiveMessage:)
                               name:kJPFNetworkDidReceiveMessageNotification
                             object:nil];
+        
+        [defaultCenter addObserver:self
+                          selector:@selector(networkDidReceiveNotification:)
+                              name:kJPushPluginReceiveNotification
+                            object:nil];
 
 
     }
@@ -195,13 +200,13 @@
 - (void)networkDidReceiveMessage:(NSNotification *)notification {
 
     NSDictionary *userInfo = [notification userInfo];
-    NSLog(@"%@",userInfo);
+    //NSLog(@"%@",userInfo);
     
     NSError  *error;
     NSData   *jsonData   = [NSJSONSerialization dataWithJSONObject:userInfo options:0 error:&error];
     NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
  
-    NSLog(@"%@",jsonString);
+    //NSLog(@"%@",jsonString);
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -210,5 +215,20 @@
     });
 
 }
+
+-(void)networkDidReceiveNotification:(id)notification{
+    
+    NSError  *error;
+    NSDictionary *userInfo = [notification object];
+
+    NSData   *jsonData   = [NSJSONSerialization dataWithJSONObject:userInfo options:0 error:&error];
+    NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.receiveNotification',%@)",jsonString]];
+    });
+
+}
+
 
 @end
