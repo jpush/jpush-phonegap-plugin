@@ -507,8 +507,39 @@ iOS
 #####返回值
 无
 
+#### event - jpush.receiveNotification
 
+当iOS收到的通知时会触发这个事件
 
+##### 事件定义
+
+	cordova.fireDocumentEvent('jpush.receiveNotification',json)
+
+#####平台
+iOS
+
+#####使用说明
+
+- 在你需要接收通知的的js文件中加入:
+	           
+		document.addEventListener("jpush.openNotification", onOpenNotification, false);
+
+- onOpenNotification需要这样写：
+		
+	    var onOpenNotification = function(event){
+          	try{
+          		var alert   = event.alert;
+			var extras  = event.extras;
+	           console.log(alert);
+	           //console.log(extras);
+          	}
+          	catch(exeption){
+          		console.log(exception)
+          	}
+	   }
+		
+#####返回值
+无
 
 
 #### API - init
