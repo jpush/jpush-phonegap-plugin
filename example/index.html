@@ -37,6 +37,16 @@
              		console.log(exception)
              	}
             }
+            var onReceiveNotification = function(event){
+                try{
+                    var alert   = event.aps.alert;
+                    console.log("JPushPlugin:onReceiveNotification key aps.alert:"+aps);
+                }
+                catch(exeption){
+                    console.log(exception)
+                }
+            }
+
             var onGetRegistradionID = function(data) {
                 try{
                     console.log("JPushPlugin:registrationID is "+data)
@@ -102,10 +112,11 @@
                     }
                 })
             }
+            document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
             document.addEventListener("jpush.setTagsWithAlias", onTagsWithAlias, false);
             document.addEventListener("deviceready", onDeviceReady, false); 
-            document.addEventListener("jpush.openNotification", onOpenNotification, false);            
-           
+            document.addEventListener("jpush.openNotification", onOpenNotification, false);
+
         </script>
     </head>
     <body>

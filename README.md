@@ -86,6 +86,9 @@
 		- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
 		    // Required
 		    [APService handleRemoteNotification:userInfo];
+    		[[NSNotificationCenter defaultCenter] postNotificationName:kJPushPluginReceiveNotification
+                                                                object:userInfo];
+
 		}
 
 ###Android 手工安装###

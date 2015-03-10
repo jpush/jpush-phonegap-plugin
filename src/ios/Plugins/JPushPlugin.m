@@ -20,6 +20,7 @@
                               name:kJPFNetworkDidReceiveMessageNotification
                             object:nil];
 
+
     }
     return self;
 }
