@@ -29,7 +29,7 @@
             <source-file src="src/ios/Plugins/JPushPlugin.m"/>
            
             <header-file src="src/ios/lib/APService.h" />
-            <source-file src="src/ios/lib/libPushSDK.a" framework="true" />
+            <source-file src="src/ios/lib/libPushSDK-1.8.2.a" framework="true" />
             
             <resource-file src="src/ios/PushConfig.plist" />
                 

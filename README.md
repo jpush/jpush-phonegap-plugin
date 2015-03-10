@@ -46,7 +46,13 @@
 
 在APP_KEY和CHANNLE字段 分别添加您的appkey和channle
 
-3. 添加监听系统事件，相应地调用 JPush SDK 提供的 API 来实现功能
+3. 在AppDelegate.m中包含头文件
+
+		#import "APService.h"
+	    #import "JPushPlugin.h"
+
+
+4. 在AppDelegate.m文件中，调用 JPush SDK 提供的 API 来实现功能
 
 
 		- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
