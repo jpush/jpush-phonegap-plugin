@@ -781,24 +781,6 @@ android
 ##### 返回值
 无
 
-#### API - onResume,onPause
-
-本 API 用于“用户使用时长”，“活跃用户”，“用户打开次数”的统计，并上报到服务器，在 Portal 上展示给开发者。
-
-
-##### 接口定义
-
-	JPushPlugin.prototype.onResume = function()
-	JPushPlugin.prototype.onPause = function()
-
-#####平台
-android
-
-##### 参数说明
-- 无
-
-##### 返回值
-无
 
 #### API - reportNotificationOpened
 
