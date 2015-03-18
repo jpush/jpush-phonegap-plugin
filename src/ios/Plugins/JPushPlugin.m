@@ -210,7 +210,7 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        [self writeJavascript:[NSString stringWithFormat:@"window.plugins.jPushPlugin.receiveMessageIniOSCallback('%@')",jsonString]];
+        [self.commandDelegate evalJs:[NSString stringWithFormat:@"window.plugins.jPushPlugin.receiveMessageIniOSCallback('%@')",jsonString]];
         
     });
 
