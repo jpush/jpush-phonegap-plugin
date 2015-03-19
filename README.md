@@ -56,7 +56,11 @@
 
 
 		- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-		    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+		    #if __has_feature(objc_arc)
+		      self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+		    #else
+		      self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+		    #endif
 		    self.window.backgroundColor = [UIColor whiteColor];
 		    [self.window makeKeyAndVisible];
 		    // Required
@@ -232,7 +236,11 @@
 
 		- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 		{
-		    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+		    #if __has_feature(objc_arc)
+		      self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+		    #else
+		      self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+		    #endif
 		    self.window.backgroundColor = [UIColor whiteColor];
 		    [self.window makeKeyAndVisible];
 		 
