@@ -528,11 +528,11 @@ iOS
 
 - 在你需要接收通知的的js文件中加入:
 	           
-		document.addEventListener("jpush.openNotification", onOpenNotification, false);
+		document.addEventListener("jpush.receiveNotification", onNotification, false);
 
 - onOpenNotification需要这样写：
 		
-	    var onOpenNotification = function(event){
+	    var onNotification = function(event){
           	try{
           		var alert   = event.alert;
 			var extras  = event.extras;
