@@ -170,6 +170,19 @@
 - (void)succeedWithPluginResult:(CDVPluginResult *)result withCallbackID:(NSString *)callbackID {
     [self.commandDelegate sendPluginResult:result callbackId:callbackID];
 }
+-(void)setApplicationIconBadgeNumber:(CDVInvokedUrlCommand*)command{
+    //
+    NSArray *argument=command.arguments;
+    if ([argument count]<1) {
+        NSLog(@"setBadge argument error!");
+        return;
+    }
+    NSNumber *badge=[argument objectAtIndex:0];
+    [UIApplication sharedApplication].applicationIconBadgeNumber=[badge intValue];
+}
+
+
+
 - (CDVPluginResult *)pluginResultForValue:(id)value {
     
     CDVPluginResult *result;

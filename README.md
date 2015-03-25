@@ -554,6 +554,25 @@ iOS
 		
 #####返回值
 无
+#### API - setApplicationIconBadgeNumber
+
+设置iOS的角标，当设置badge＝0时为清除角标
+
+
+##### 接口定义
+
+	JPushPlugin.prototype.setApplicationIconBadgeNumber = function(badge)
+	
+#####平台
+iOS
+
+##### 参数说明
+- data js字符串
+
+##### 返回值
+无
+
+
 
 
 #### API - init
@@ -825,6 +844,7 @@ android
 
 ##### 返回值
 无
+
 
 
 

@@ -35,6 +35,11 @@ JPushPlugin.prototype.beginLogPageView = function(pageName,duration){
 		this.call_native( "beginLogPageView",[pageName,duration],null);   
 	}
 }
+JPushPlugin.prototype.setApplicationIconBadgeNumber = function(badge){
+    if(this.isPlatformIOS()){
+		this.call_native( "setApplicationIconBadgeNumber",[badge],null);   
+	}
+}
 
 JPushPlugin.prototype.setTagsWithAlias = function(tags,alias){
 	try{
