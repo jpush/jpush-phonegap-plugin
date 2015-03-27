@@ -51,11 +51,13 @@ public class JPushPlugin extends CordovaPlugin {
 					"clearLocalNotifications",
 					"onResume",
 					"onPause",
-					"reportNotificationOpened");
+					"reportNotificationOpened",
+					"getNoticeData");
 	
 	private ExecutorService threadPool = Executors.newFixedThreadPool(1);
 	private static JPushPlugin instance;
-
+	
+	public static Boolean isFromAlert;
 	public static String notificationAlert;
 	public static Map<String, Object> notificationExtras=new HashMap<String, Object>();
 
@@ -343,23 +345,29 @@ public class JPushPlugin extends CordovaPlugin {
 		}
 	}
 
-//	void getNotification(JSONArray data, CallbackContext callBackContext) {
-//		String alert = JPushPlugin.notificationAlert;
-//		Map<String, String> extras = JPushPlugin.notificationExtras;
-//
-//		JSONObject jsonData = new JSONObject();
-//		try {
-//			jsonData.put("message", alert);
-//			jsonData.put("extras", new JSONObject(extras));
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
-//
-//		callBackContext.success(jsonData);
-//
-//		JPushPlugin.notificationAlert = "";
-//		JPushPlugin.notificationExtras = new HashMap<String, Obl>();
-//	}
+	void getNoticeData(JSONArray data, CallbackContext callBackContext) {
+		String alert = JPushPlugin.notificationAlert;
+		Map<String, Object> extras = JPushPlugin.notificationExtras;
+		
+		Boolean isFromAlert = JPushPlugin.isFromAlert;
+		
+		JSONObject jsonData = new JSONObject();
+		try {
+			jsonData.put("isFromAlert", isFromAlert.toString());
+			jsonData.put("message", alert);
+			jsonData.put("extras", new JSONObject(extras));
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+			
+		}
+
+		callBackContext.success(jsonData);
+
+		JPushPlugin.notificationAlert = "";
+		JPushPlugin.isFromAlert = false;
+		JPushPlugin.notificationExtras = new HashMap<String, Object>();
+	}
 
 	void setBasicPushNotificationBuilder(JSONArray data,
 			CallbackContext callbackContext) {
