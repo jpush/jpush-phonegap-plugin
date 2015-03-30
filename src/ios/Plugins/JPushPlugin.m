@@ -45,7 +45,46 @@
       callbackSelector:@selector(tagsWithAliasCallback:tags:alias:)
                 object:self];
 }
-    
+
+-(void)resumePush:(CDVInvokedUrlCommand*)command{
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
+   if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+    //可以添加自定义categories
+    [APService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+                                                   UIUserNotificationTypeSound |
+                                                   UIUserNotificationTypeAlert)
+                                       categories:nil];
+	} else {
+	//categories 必须为nil
+	[APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+												   UIRemoteNotificationTypeSound |
+												   UIRemoteNotificationTypeAlert)
+									   categories:nil];
+	}
+#else
+    //categories 必须为nil
+	[APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+												 UIRemoteNotificationTypeSound |
+												 UIRemoteNotificationTypeAlert)
+									 categories:nil];
+#endif
+
+}
+-(void)isPushStopped:(CDVInvokedUrlCommand*)command{
+
+    NSNumber *result;
+    if ([[UIApplication sharedApplication] isRegisteredForRemoteNotifications ]) {
+        result=@(1);
+    }else{
+        result=@(0);
+    }
+    CDVPluginResult * pushResult=[self pluginResultForValue:result];
+    if (pushResult) {
+        [self succeedWithPluginResult:pushResult withCallbackID:command.callbackId];
+    } else {
+        [self failWithCallbackID:command.callbackId];
+}}
 -(void)setTags:(CDVInvokedUrlCommand *)command{
     
 

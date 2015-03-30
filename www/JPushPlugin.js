@@ -199,10 +199,9 @@ JPushPlugin.prototype.stopPush = function(){
 }
 
 JPushPlugin.prototype.resumePush = function(){
-	if(device.platform == "Android") {
 		data=[]
 		this.call_native("resumePush",data,null);
-	}
+	
 }
 JPushPlugin.prototype.setDebugMode = function(mode){
 	if(device.platform == "Android") {
@@ -224,10 +223,10 @@ JPushPlugin.prototype.setLatestNotificationNum = function(num){
 }
 
 JPushPlugin.prototype.isPushStopped = function(callback){
-	if(device.platform == "Android") {
+
 	    data=[];
 		this.call_native("isPushStopped",data,callback)
-	}
+	
 }
 
 JPushPlugin.prototype.init = function(){

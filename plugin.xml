@@ -35,12 +35,11 @@
                 
             <framework src="CFNetwork.framework" weak="true" />
             <framework src="CoreFoundation.framework" weak="true" />
+            <framework src="CoreTelephony.framework" weak="true" />
             <framework src="SystemConfiguration.framework" weak="true" />
             <framework src="CoreGraphics.framework" weak="true" />
             <framework src="Foundation.framework" weak="true" />
-            <framework src="CoreFoundation.framework" weak="true" />
             <framework src="UIKit.framework" weak="true" />
-            <framework src="CoreTelephony.framework" weak="true" />
             <framework src="Security.framework" weak="true" />
             <framework src="libz.dylib" weak="true" />
             
