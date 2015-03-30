@@ -613,6 +613,7 @@ JPush SDK 提供的推送服务是默认开启的。
 
 开发者App可以通过调用停止推送服务API来停止极光推送服务。当又需要使用极光推送服务时，则必须要调用恢复推送服务 API。
 
+在android平台
 调用了本 API 后，JPush 推送服务完全被停止。具体表现为：
 
 － JPush Service 不在后台运行
@@ -620,14 +621,14 @@ JPush SDK 提供的推送服务是默认开启的。
 － 不能通过 JPushInterface.init 恢复，需要调用resumePush恢复
 － 极光推送所有的其他 API 调用都无效
 
-
+在iOS推荐调用这个API，因为这个API只是让你的DeviceToken失效，在设置－通知 中您的应用程序没有任何变化
 
 ##### 接口定义 
 
 	JPushPlugin.prototype.stopPush = function()
 	
 #####平台
-android
+android，iOS
 
 	
 ##### 参数说明
@@ -638,11 +639,15 @@ android
 #### API - resumePush
 
 恢复推送服务。
-调用了此 API 后，极光推送完全恢复正常工作。
+调用了此 API 后，在android平台上极光推送完全恢复正常工作，在iOS平台上重新去APNS注册
+
+#####平台
+android iOS
 
 ##### 接口定义
 
 	JPushPlugin.prototype.resumePush = function()
+
 
 ##### 参数说明
 无
@@ -651,7 +656,8 @@ android
 
 #### API - isPushStopped
 
-用来检查 Push Service 是否已经被停止
+在android 用来检查 Push Service 是否已经被停止
+在iOS 平台检查推送服务是否注册
 
 ##### 接口定义
 
@@ -659,7 +665,7 @@ android
 
 
 #####平台
-android
+android iOS
 
 ##### 参数说明
 
