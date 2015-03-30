@@ -307,6 +307,39 @@
 这里只说明public的函数
 
 
+
+#### API - getRegistrationID
+
+RegistrationID 定义
+
+集成了 JPush SDK 的应用程序在第一次成功注册到 JPush 服务器时，JPush 服务器会给客户端返回一个唯一的该设备的标识 - RegistrationID。JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
+
+应用程序可以把此 RegistrationID 保存以自己的应用服务器上，然后就可以根据 RegistrationID 来向设备推送消息或者通知。
+
+
+
+##### 接口定义
+
+	JPushPlugin.prototype.getRegistrationID = function(callback)
+
+##### 参数说明
+无
+##### 返回值
+
+调用此 API 来取得应用程序对应的 RegistrationID。 只有当应用程序成功注册到 JPush 的服务器时才返回对应的值，否则返回空字符串。
+
+##### 调用示例
+
+ 	window.plugins.jPushPlugin.getRegistrationID(onGetRegistradionID);
+	var onGetRegistradionID = function(data) {
+		try{
+			console.log("JPushPlugin:registrationID is "+data)		}
+		catch(exception){
+			console.log(exception);
+		}
+	}
+
+
 #### API - setTagsWithAlias,setTags,setAlias
 
 提供几个相关 API 用来设置别名（alias）与标签（tags）。
