@@ -46,15 +46,12 @@
         <framework src="libz.dylib" weak="true" />
 
         <source-file src="src/ios/PushConfig.plist" target-dir="res/ios" />
-        <config-file target="src/ios/PushConfig.plist" parent="/*">
-            <dict>
-                <key>APP_KEY</key>
-                <string>$JPUSH_APPKEY</string>
-                <key>JPUSH_CHANNEL</key>
-                <string>$JPUSH_CHANNEL</string>
-            </dict>
+        <config-file target="*res/ios/PushConfig.plist" parent="APP_KEY">
+            <string>$JPUSH_APPKEY</string>
         </config-file>
-
+        <config-file target="*res/ios/PushConfig.plist" parent="CHANNEL">
+            <string>$JPUSH_CHANNEL</string>
+        </config-file>
     </platform>
         
     <!-- android -->
