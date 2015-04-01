@@ -28,9 +28,13 @@
             </feature>
         </config-file>
 
-        <header-file src="src/ios/Plugins/JPushPlugin.h"/>
-        <source-file src="src/ios/Plugins/JPushPlugin.m"/>
-       
+
+        <source-file src="src/ios/AppDelegate+notification.m" />
+        <source-file src="src/ios/JPushPlugin.m" />
+
+        <header-file src="src/ios/AppDelegate+notification.h" />
+        <header-file src="src/ios/JPushPlugin.h" />
+        
         <header-file src="src/ios/lib/APService.h" />
         <source-file src="src/ios/lib/libPushSDK-1.8.2.a" framework="true" />
         
