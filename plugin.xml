@@ -11,7 +11,7 @@
     <license>Apache 2.0 License</license>
 
     <preference name="JPUSH_APPKEY" />
-    <preference name="JPUSH_CHANNEL" />
+    <preference name="JPUSH_CHANNEL" value="developer-default"/>
     
     <engines>
         <engine name="cordova" version=">=3.0"/>
@@ -164,8 +164,8 @@
             <!-- Required SDK核心功能-->
             <receiver android:name="cn.jpush.android.service.AlarmReceiver"/>
             <!-- Required  . Enable it you can get statistics data with channel -->
-            <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
             <meta-data android:name="JPUSH_APPKEY" android:value="$JPUSH_APPKEY"/>
+            <meta-data android:name="JPUSH_CHANNEL" android:value="$JPUSH_CHANNEL"/>
         </config-file>
 
         <source-file src="src/android/jpush-sdk-release1.7.3.jar" target-dir="libs"/>
