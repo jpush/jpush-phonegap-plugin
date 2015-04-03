@@ -20,7 +20,6 @@ import org.json.JSONObject;
 import java.util.Map.Entry;
 
 import android.content.Context;
-import com.myproj.jpush.R;
 
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.CustomPushNotificationBuilder;
