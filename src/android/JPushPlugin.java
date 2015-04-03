@@ -19,6 +19,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.Map.Entry;
 
+import android.content.Context;
+import com.myproj.jpush.R;
+
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.CustomPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
@@ -376,15 +379,15 @@ public class JPushPlugin extends CordovaPlugin {
 
 	void setCustomPushNotificationBuilder(JSONArray data,
 			CallbackContext callbackContext) {
-
+		String packageName = this.cordova.getActivity().getPackageName();
 		CustomPushNotificationBuilder builder = new CustomPushNotificationBuilder(
-				this.cordova.getActivity(), getResourceIdByName(getContext().getPackageName(), "layout", "test_notification_layout"),
-				getResourceIdByName(getContext().getPackageName(), "id", "icon"),
-				getResourceIdByName(getContext().getPackageName(), "id", "title"),
-				getResourceIdByName(getContext().getPackageName(), "id", "text"));
+				this.cordova.getActivity(), getResourceIdByName(packageName, "layout", "test_notification_layout"),
+				getResourceIdByName(packageName, "id", "icon"),
+				getResourceIdByName(packageName, "id", "title"),
+				getResourceIdByName(packageName, "id", "text"));
+		
 		builder.developerArg0 = "Custom Builder 1";
-		builder.layoutIconDrawable = getResourceIdByName(getContext().getPackageName(), "drawable", "jpush_notification_icon");
-
+		builder.layoutIconDrawable = getResourceIdByName(packageName, "drawable", "jpush_notification_icon");
 		JPushInterface.setPushNotificationBuilder(2, builder);
 		JSONObject obj = new JSONObject();
 		try {
@@ -480,7 +483,8 @@ public class JPushPlugin extends CordovaPlugin {
 	    
 	};
 	
-	public static int getResourceIdByName(String packageName, String className, String name) {
+       
+	private static int getResourceIdByName(String packageName, String className, String name) {
 	    Class<?> r = null;
 	    int id = 0;
 	    try {
@@ -509,5 +513,6 @@ public class JPushPlugin extends CordovaPlugin {
 	    }
 	    return id;
 	}
+     
     
 }
