@@ -27,15 +27,14 @@
                 }
             }
             var onOpenNotification = function(event){
-             	try{
-             		var alert   = event.alert;
-					var extras  = event.extras;
-		            console.log(alert);
-		            //console.log(extras);
-             	}
-             	catch(exeption){
-             		console.log(exception)
-             	}
+                try{
+                    
+                    var alert   = event.aps.alert;
+                    console.log("JPushPlugin:onPpenNotification key aps.alert:"+alert);
+                }
+                catch(exception){
+                    console.log("JPushPlugin:onPpenNotification"+exception);
+                }
             }
             var onReceiveNotification = function(event){
                 try{

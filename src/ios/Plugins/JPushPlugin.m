@@ -8,6 +8,7 @@
 
 #import "JPushPlugin.h"
 #import "APService.h"
+#import <UIKit/UIKit.h>
 
 @implementation JPushPlugin
 
@@ -275,10 +276,29 @@
 
     NSData   *jsonData   = [NSJSONSerialization dataWithJSONObject:userInfo options:0 error:&error];
     NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    switch ([UIApplication sharedApplication].applicationState) {
+        case UIApplicationStateActive:
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.receiveNotification',%@)",jsonString]];
+                });
+
+            }
+            break;
+        case UIApplicationStateInactive:
+        case UIApplicationStateBackground:
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.openNotification',%@)",jsonString]];
+                });
+                
+            }
+            break;
+        default:
+            //do nothing
+            break;
+    }
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.receiveNotification',%@)",jsonString]];
-    });
 
 }
 
