@@ -87,6 +87,8 @@
 		#endif
 		    // Required
 		    [APService setupWithOption:launchOptions];
+		    [JPushPlugin setLaunchOptions:launchOptions];
+
 		    return YES;
 		}
 		- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
