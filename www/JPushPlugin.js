@@ -1,7 +1,15 @@
 
 var JPushPlugin = function(){
+
+    this.noticeData = null;
+    this.noticeCallBack = function (data) {
+    
+    	//关闭APP状态下响应打开notice获取参数
+        console.log("关闭APP状态下响应打开notice ====" + JSON.stringify(data));
+        
+    };
+
 };
-//private plugin function
 
 JPushPlugin.prototype.isPlatformIOS = function(){
 	return device.platform == "iPhone" || device.platform == "iPad" || device.platform == "iPod touch" || device.platform == "iOS"
@@ -140,7 +148,7 @@ JPushPlugin.prototype.receiveMessageIniOSCallback = function(data){
 JPushPlugin.prototype.receiveMessageInAndroidCallback = function(data){
 	try{
 		console.log("JPushPlugin:receiveMessageInAndroidCallback");
-		//console.log(data);
+		console.log();
 		//ecvar bToObj=JSON.parse(data);
 		//var message  = bToObj.message;
 		//var extras  = bToObj.extras;
@@ -158,8 +166,11 @@ JPushPlugin.prototype.receiveMessageInAndroidCallback = function(data){
 //
 JPushPlugin.prototype.openNotificationInAndroidCallback = function(data){
 	try{
-		console.log("JPushPlugin:openNotificationInAndroidCallback");		
-		console.log(data);
+		console.log("JPushPlugin:openNotificationInAndroidCallback");	
+		
+		//开启APP状态下响应打开notice获取参数
+        	console.log("开启APP状态下响应打开notice ====" + JSON.stringify(data));
+		//console.log(data);
 		//var bToObj  = JSON.parse(data);
 		//var alert   = bToObj.alert;
 		//var extras  = bToObj.extras;
@@ -230,10 +241,15 @@ JPushPlugin.prototype.isPushStopped = function(callback){
 }
 
 JPushPlugin.prototype.init = function(){
-	if(device.platform == "Android") {
-	    data=[];
-		this.call_native("init",data,null);
-	}
+    if(device.platform == "Android") {
+        var self = this;
+        data=[];
+        this.call_native("init",data,null);
+
+        // 从应用关闭时候打开需要触发
+        this.getNoticeData(this.noticeCallBack);
+        return this;
+    }
 }
 
 JPushPlugin.prototype.setDebugMode = function(mode){
@@ -277,6 +293,27 @@ JPushPlugin.prototype.reportNotificationOpened = function(msgID){
 		this.call_native("reportNotificationOpened",[msgID],null);
 	}
 }
+
+/**
+ * 主动获取通知
+ * @returns {*}
+ */
+JPushPlugin.prototype.getNoticeData = function (callback) {
+    if(device.platform == "Android") {
+        this.call_native("getNoticeData", [], callback);
+        return this;
+    }
+};
+
+/**
+ * 给 js 调用指向对应的回调方法
+ * @param noticeCallBack
+ * @returns {*}
+ */
+JPushPlugin.prototype.setNoticeCallBack = function (noticeCallBack) {
+    this.noticeCallBack = noticeCallBack;
+    return this;
+};
 
 //iOS  single
 
