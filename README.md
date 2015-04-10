@@ -569,24 +569,58 @@ iOS
 
 - 在你需要接收通知的的js文件中加入:
 	           
-		document.addEventListener("jpush.receiveNotification", onNotification, false);
+		document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
 
 - onOpenNotification需要这样写：
 		
-	    var onNotification = function(event){
-          	try{
-          		var alert   = event.alert;
-			var extras  = event.extras;
-	           console.log(alert);
-	           //console.log(extras);
-          	}
-          	catch(exeption){
-          		console.log(exception)
-          	}
-	   }
+            var onReceiveNotification = function(event){
+                try{
+                    var alert   = event.aps.alert;
+                    console.log("JPushPlugin:onReceiveNotification key aps.alert:"+alert);
+                }
+                catch(exeption){
+                    console.log(exception)
+                }
+            }
+	
+	
+		
 		
 #####返回值
 无
+
+
+#### event - jpush.openNotification
+
+当iOS收到的通知时会触发这个事件
+
+##### 事件定义
+
+	cordova.fireDocumentEvent('jpush.openNotification',json)
+
+#####平台
+iOS
+
+#####使用说明
+
+- 在你需要接收通知的的js文件中加入:
+	           
+		document.addEventListener("jpush.openNotification", onOpenNotification, false);
+
+- onOpenNotification需要这样写：
+		
+            var onOpenNotification = function(event){
+                try{
+                    
+                    var alert   = event.aps.alert;
+                    console.log("JPushPlugin:onPpenNotification key aps.alert:"+alert);
+                }
+                catch(exception){
+                    console.log("JPushPlugin:onPpenNotification"+exception);
+                }
+            }
+
+
 #### API - setApplicationIconBadgeNumber
 
 设置iOS的角标，当设置badge＝0时为清除角标
