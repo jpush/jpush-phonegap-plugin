@@ -10,7 +10,15 @@
 #import "APService.h"
 #import <UIKit/UIKit.h>
 
+static NSDictionary *_luanchOptions=nil;
+
 @implementation JPushPlugin
+
+
++(void)setLaunchOptions:(NSDictionary *)theLaunchOptions{
+    _luanchOptions=theLaunchOptions;
+    
+}
 
 - (CDVPlugin*)initWithWebView:(UIWebView*)theWebView{
     if (self=[super initWithWebView:theWebView]) {
@@ -26,7 +34,21 @@
                               name:kJPushPluginReceiveNotification
                             object:nil];
 
+        NSDictionary *userInfo = [_luanchOptions
+                                    valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
 
+        if (_luanchOptions && [userInfo count] >0) {
+            NSError  *error;
+            NSData   *jsonData   = [NSJSONSerialization dataWithJSONObject:userInfo options:0 error:&error];
+            NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+            if (!error) {
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.openNotification',%@)",jsonString]];
+                });
+
+            }
+        }
     }
     return self;
 }
