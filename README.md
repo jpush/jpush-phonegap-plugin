@@ -121,6 +121,12 @@
 		window.plugins.jPushPlugin.setTagsWithAlias(tags,alias)
 		window.plugins.jPushPlugin.setTags(tags)
 		window.plugins.jPushPlugin.setAlias(alias)
++ 停止与恢复推送服务 API
+		
+		window.plugins.jPushPlugin.init()
+		window.plugins.jPushPlugin.stopPush()
+		window.plugins.jPushPlugin.resumePush()
+		window.plugins.jPushPlugin.isPushStopped(callback)
 
 
 [通用API详细说明](document/Common_detail_api.md)
@@ -144,7 +150,8 @@
 		window.plugins.jPushPlugin.resetBadge()
 		window.plugins.jPushPlugin.setApplicationIconBadgeNumber(badge)
 + 本地通知
-        后续版本加入
+
+	+ 后续版本加入
 		
 + 日志等级设置
 	
@@ -156,15 +163,8 @@
 
 
 #### adnroid API简介
-+ 停止与恢复推送服务 API
-		
-		window.plugins.jPushPlugin.init()
-		window.plugins.jPushPlugin.stopPush()
-		window.plugins.jPushPlugin.resumePush()
-		window.plugins.jPushPlugin.isPushStopped(callback)
 		
 + 获取集成日志
-	
 		window.plugins.jPushPlugin.setDebugMode(mode)
 
 + 接收推送消息Receiver
@@ -201,3 +201,6 @@
 		window.plugins.jPushPlugin.clearLocalNotifications()
 
 [Android API详细说明](document/Android_detail_api.md)
+
+###更多
+ [JPush官网文档](http://docs.jpush.io/)
