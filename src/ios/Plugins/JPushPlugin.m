@@ -42,7 +42,7 @@ static NSDictionary *_luanchOptions=nil;
                               name:kJPushPluginReceiveNotification
                             object:nil];
 
-        if (!_luanchOptions) {
+        if (_luanchOptions) {
             NSDictionary *userInfo = [_luanchOptions
                                       valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
             if ([userInfo count] >0) {
