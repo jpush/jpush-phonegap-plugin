@@ -1,5 +1,8 @@
 ## JPush PhoneGap Plugin ##
-###创建项目###
+
+
+###准备工作
+
 1. cordova create 文件夹名字 包名 应用名字
 
 		cordova create Myproj com.myproj.jpush MyTestProj
@@ -13,67 +16,62 @@
 		ps:这里请注意iOS平台，必须先执行 `cordova platform add ios`,
 		然后再执行`cordova plugin add xxxxx`命令，不然有一些必须要的链接库需要手动添加
 		
-### Android使用PhoneGap/Cordova CLI自动安装
 
-1. 使用git命令将jpush phonegap插件下载的本地,将这个目录标记为`$JPUSH_PLUGIN_DIR`
+###Cordova CLI/Phonegap 安装 Android & iOS
+
+3. 使用git命令将jpush phonegap插件下载的本地,将这个目录标记为`$JPUSH_PLUGIN_DIR`
 		
 		git clone https://github.com/jpush/jpush-phonegap-plugin.git
-		
-2. 将`$JPUSH_PLUGIN_DIR/plugin.xml`文件中的AppKey替换为在Portal上注册该应用的的Key,例如（9fed5bcb7b9b87413678c407）
+
+
+4. 将`$JPUSH_PLUGIN_DIR/plugin.xml`文件中的AppKey替换为在Portal上注册该应用的的Key,例如（9fed5bcb7b9b87413678c407）
 		
 		<meta-data android:name="JPUSH_APPKEY" android:value="your appkey"/>
 
-3. 在`$JPUSH_PLUGIN_DIR/src/android/JPushPlugin.java` 文件`import your.package.name.R`替换为在Portal上注册该应用的包名，例如(com.thi.pushtest)
+5. 在`$JPUSH_PLUGIN_DIR/src/android/JPushPlugin.java` 文件`import your.package.name.R`替换为在Portal上注册该应用的包名，例如(com.thi.pushtest)
 
 
-4. cordova cli 添加jpush phonegap插件和依赖的device插件: 
+6. cordova cli 添加jpush phonegap插件和依赖的device插件: 
 
 		cordova plugin add $JPUSH_PLUGIN_DIR
 		cordova plugin add org.apache.cordova.device
 
+7. iOS添加初始化JPush sdk代码 如果你要先部署android平台，可以先忽略这一步，当需要iOS 平台时，只加上这个步骤即可
+	
+	+ 用xcode 打开 Myproj下的iOS工程 
+	+ 打开xcode右边工程目录下`Resources/PushConfig.plist`
+		
+			在APP_KEY和CHANNLE字段 分别添加您的appkey和channle
+		
+	+ 打开xcode右边工程目录下`AppDelegate.m`,包含以下头文件
 
-5. 在js中调用函数,初始化jpush sdk
+			#import "APService.h"
+		    #import "JPushPlugin.h"
 
-		 window.plugins.jPushPlugin.init();
-		 window.plugins.jPushPlugin.setDebugMode(true);
+	+ 在AppDelegate.m文件中，添加JPush SDK 提供的 API 来实现功能
 
+			- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
+			   //原内容保持不变
+			   //Required add 
+			   [JPushPlugin setLaunchOptions:launchOptions];
+			    return YES;
+			}
+			- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken   {
+			    //原内容保持不变
+			    // Required add
+			    [APService registerDeviceToken:deviceToken];
+			}
+			- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+			    //原内容保持不变
+			    // Required
+			    [APService handleRemoteNotification:userInfo];
+	    		[[NSNotificationCenter defaultCenter] postNotificationName:kJPushPluginReceiveNotification
+	                                                               object:userInfo];
+			}
+	
+7. 在js中调用函数,初始化jpush sdk
 
-###IOS使用PhoneGap/Cordova CLI自动安装
-
-1. 使用PhoneGap/Cordova CLI添加jpush phonegap插件和依赖的device插件
-
-		cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git
-		cordova plugin add org.apache.cordova.device		
-
-3. 修改Resources/PushConfig.plist文件
-
-	+ 在APP_KEY和CHANNLE字段 分别添加您的appkey和channle
-
-4. 在AppDelegate.m中包含头文件
-
-		#import "APService.h"
-	    #import "JPushPlugin.h"
-
-5. 在AppDelegate.m文件中，添加JPush SDK 提供的 API 来实现功能
-
-		- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-		   //原内容保持不变
-		   //Required add 
-		   [JPushPlugin setLaunchOptions:launchOptions];
-		    return YES;
-		}
-		- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken   {
-		    //原内容保持不变
-		    // Required add
-		    [APService registerDeviceToken:deviceToken];
-		}
-		- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-		    //原内容保持不变
-		    // Required
-		    [APService handleRemoteNotification:userInfo];
-    		[[NSNotificationCenter defaultCenter] postNotificationName:kJPushPluginReceiveNotification
-                                                               object:userInfo];
-		}
+		 window.plugins.jPushPlugin.init();		 
 
 ### Android 手工安装
 
@@ -94,6 +92,7 @@
 		src/ios/example/js/* to www/js
 
 ###关于'phonegap build'云服务
+
 该项目基于cordova实现，目前无法使用'phonegap build'云服务进行打包，建议使用本地环境进行打包
 
 ###常见错误
@@ -133,7 +132,6 @@
 		event - jpush.openNotification
 
 + 获取自定义消息推送内容
-
 		window.plugins.jPushPlugin.receiveMessageIniOSCallback(data)
 + 页面的统计
 	
@@ -177,7 +175,6 @@
 + 统计分析 API
 
 		onResume / onPause(java api)
-		
 			
 + 清除通知 API
 
