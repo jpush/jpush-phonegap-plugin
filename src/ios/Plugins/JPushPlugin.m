@@ -296,7 +296,10 @@ static NSDictionary *_luanchOptions=nil;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
+        [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.receiveMessage',%@)",jsonString]];
+
         [self.commandDelegate evalJs:[NSString stringWithFormat:@"window.plugins.jPushPlugin.receiveMessageIniOSCallback('%@')",jsonString]];
+        
         
     });
 
