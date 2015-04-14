@@ -37,25 +37,64 @@
 
 - onOpenNotification需要这样写：
 		
-            var onOpenNotification = function(event){
-                try{
-                    
-                    var alert   = event.aps.alert;
-                    console.log("JPushPlugin:onPpenNotification key aps.alert:"+alert);
-                }
-                catch(exception){
-                    console.log("JPushPlugin:onPpenNotification"+exception);
-                }
-            }
+		
+      var onOpenNotification = function(event){
+          try{
+              
+              var alert   = event.aps.alert;
+              console.log("JPushPlugin:onPpenNotification key aps.alert:"+alert);
+          }
+          catch(exception){
+              console.log("JPushPlugin:onPpenNotification"+exception);
+          }
+      }
 
 
 
 
 ### 获取自定义消息推送内容
 
+####event - jpush.receiveMessage
+
+收到应用内消息时触发这个事件
+
+`推荐使用事件的方式传递，但同时保留了receiveMessageIniOSCallback的回调函数，兼容以前的代码`
+
+
+#####代码示例
+
+- 在你需要接收通知的的js文件中加入:
+	           
+		document.addEventListener("jpush.receiveMessage", onReceiveMessage, false);
+
+- onReceiveMessage需要这样写：
+		
+		
+		var onReceiveMessage = function(event){
+			try{
+				var eventMessage="{";
+				for(var key in event){
+					if(key=="type"){
+					    break
+					}
+					eventMessage+=key+":"+JSON.stringify(event[key])+"\n"
+					console.log(key+":"+JSON.stringify(event[key]));
+				
+				}
+				eventMessage+="}";
+				$("#messageResult").html(eventMessage);
+			}
+			catch(exception){
+				console.log("JPushPlugin:onReceiveMessage"+exception);
+			}
+		}
+
+
+
 #### API - receiveMessageIniOSCallback
 
 用于iOS收到应用内消息的回调函数(请注意和通知的区别)，该函数不需要主动调用
+不推荐使用回调函数
 
 ##### 接口定义
 
@@ -79,9 +118,9 @@
 本 API 用于“用户指定页面使用时长”的统计，并上报到服务器，在 Portal 上展示给开发者。页面统计集成正确，才能够获取正确的页面访问路径、访问深度（PV）的数据。
 
 ##### 接口定义
-	JPushPlugin.prototype.startLogPageView = function(pageName)
-	JPushPlugin.prototype.stopLogPageView = function(pageName)
-	JPushPlugin.prototype.beginLogPageView = function(pageName,duration)
+	window.plugins.jPushPlugin.startLogPageView = function(pageName)
+	window.plugins.jPushPlugin.stopLogPageView = function(pageName)
+	window.plugins.jPushPlugin.beginLogPageView = function(pageName,duration)
 #####参数说明
 pageName 需要统计页面自定义名称
 duration 自定义的页面时间
@@ -106,8 +145,8 @@ badge是iOS用来标记应用程序状态的一个数字，出现在程序图标
 实际应用中，开发者可以直接对badge值做增减操作，无需自己维护用户与badge值之间的对应关系。
 ##### 接口定义
 
-	JPushPlugin.prototype.setBadge = function(value)
-	JPushPlugin.prototype.resetBadge = function()
+	window.plugins.jPushPlugin.setBadge(value)
+	window.plugins.jPushPlugin.reSetBadge()
 
 `resetBadge相当于setBadge(0)`
 ##### 参数说明
@@ -127,7 +166,7 @@ value 取值范围：[0,99999]
 
 ##### 接口定义
 
-	JPushPlugin.prototype.setApplicationIconBadgeNumber = function(badge)
+	window.plugins.jPushPlugin.reSetBadge.setApplicationIconBadgeNumber(badge)
 	
 ##### 参数说明
 
@@ -137,7 +176,7 @@ value 取值范围：[0,99999]
 #####代码示例
 
 	if(window.plugins.jPushPlugin.isPlatformIOS()){
-		JPushPlugin.prototype.setApplicationIconBadgeNumber(0);
+		window.plugins.jPushPlugin.reSetBadge.setApplicationIconBadgeNumber(0);
 	}
 
 
@@ -150,7 +189,7 @@ API 用于开启Debug模式，显示更多的日志信息
 建议调试时开启这个选项，不调试的时候注释这句代码，这个函数setLogOFF是相反的一对
 ##### 接口定义
 
-	JPushPlugin.prototype.setDebugModeFromIos = function()
+	window.plugins.jPushPlugin.reSetBadge.setDebugModeFromIos()
 	
 #####代码示例
 
@@ -166,7 +205,7 @@ API用来关闭日志信息（除了必要的错误信息）
 
 ##### 接口定义 
 
-	JPushPlugin.prototype.setLogOFF = function()
+	window.plugins.jPushPlugin.reSetBadge.setLogOFF ()
 
 #####代码示例
 

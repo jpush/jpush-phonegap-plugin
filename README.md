@@ -141,7 +141,10 @@
 
 + 获取自定义消息推送内容
 
+		event - jpush.receiveMessage
+		//推荐使用事件的方式传递，但同时保留了receiveMessageIniOSCallback的回调函数，兼容以前的代码
 		window.plugins.jPushPlugin.receiveMessageIniOSCallback(data)
+		
 + 页面的统计
 	
 		window.plugins.jPushPlugin.startLogPageView (pageName)
