@@ -1,0 +1,121 @@
+#通用API说明
+
+##获取 RegistrationID API
+### API - getRegistrationID
+
+RegistrationID 定义
+
+集成了 JPush SDK 的应用程序在第一次成功注册到 JPush 服务器时，JPush 服务器会给客户端返回一个唯一的该设备的标识 - RegistrationID。JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
+
+应用程序可以把此 RegistrationID 保存以自己的应用服务器上，然后就可以根据 RegistrationID 来向设备推送消息或者通知。
+
+#### 接口定义
+
+	JPushPlugin.prototype.getRegistrationID = function(callback)
+
+##### 参数说明
+无
+#### 返回值
+
+调用此 API 来取得应用程序对应的 RegistrationID。 只有当应用程序成功注册到 JPush 的服务器时才返回对应的值，否则返回空字符串。
+
+#### 调用示例
+
+ 	window.plugins.jPushPlugin.getRegistrationID(onGetRegistradionID);
+	var onGetRegistradionID = function(data) {
+		try{
+			console.log("JPushPlugin:registrationID is "+data)		}
+		catch(exception){
+			console.log(exception);
+		}
+	}
+
+##别名与标签 API
+
+### API - setTagsWithAlias,setTags,setAlias
+
+提供几个相关 API 用来设置别名（alias）与标签（tags）。
+
+这几个 API 可以在 App 里任何地方调用。
+
+别名 alias
+
+为安装了应用程序的用户，取个别名来标识。以后给该用户 Push 消息时，就可以用此别名来指定。
+
+每个用户只能指定一个别名。
+
+同一个应用程序内，对不同的用户，建议取不同的别名。这样，尽可能根据别名来唯一确定用户。
+
+系统不限定一个别名只能指定一个用户。如果一个别名被指定到了多个用户，当给指定这个别名发消息时，服务器端API会同时给这多个用户发送消息。
+
+举例：在一个用户要登录的游戏中，可能设置别名为 userid。游戏运营时，发现该用户 3 天没有玩游戏了，则根据 userid 调用服务器端API发通知到客户端提醒用户。
+
+标签 tag
+
+为安装了应用程序的用户，打上标签。其目的主要是方便开发者根据标签，来批量下发 Push 消息。
+
+可为每个用户打多个标签。
+
+不同应用程序、不同的用户，可以打同样的标签。
+
+举例： game, old_page, women
+
+#### 接口定义
+
+	JPushPlugin.prototype.setTagsWithAlias = function(tags,alias)
+	JPushPlugin.prototype.setTags = function(tags)
+	JPushPlugin.prototype.setAlias = function(alias)
+
+####使用平台
+android iOS
+
+
+#### 参数说明
+* tags
+	* 参数类型为数组	
+	* nil 此次调用不设置此值
+	* 空集合表示取消之前的设置 
+	* 每次调用至少设置一个 tag，覆盖之前的设置，不是新增
+	* 有效的标签组成：字母（区分大小写）、数字、下划线、汉字
+	* 限制：每个 tag 命名长度限制为 40 字节，最多支持设置 100 个 tag，但总长度不得超过1K字节。（判断长度需采用UTF-8编码）
+	* 单个设备最多支持设置 100 个 tag。App 全局 tag 数量无限制。
+* alias 
+	* 参数类型为字符串
+	* nil 此次调用不设置此值
+	* 空字符串 （""）表示取消之前的设置
+	* 有效的别名组成：字母（区分大小写）、数字、下划线、汉字。
+	* 限制：alias 命名长度限制为 40 字节。（判断长度需采用UTF-8编码）
+	
+#### 返回值说明
+
+函数本身无返回值，但需要注册`jpush.setTagsWithAlias	`事件来监听设置结果
+	
+	document.addEventListener("jpush.setTagsWithAlias", onTagsWithAlias, false);
+    var onTagsWithAlias = function(event){
+       try{
+           console.log("onTagsWithAlias");    
+           var result="result code:"+event.resultCode+" ";
+           result+="tags:"+event.tags+" ";
+           result+="alias:"+event.alias+" ";
+           $("#tagAliasResult").html(result);
+       }
+       catch(exception){
+           console.log(exception)
+       }
+   }
+
+####错误码定义
+
+
+|Code|描述|详细解释|
+|-|-|-|
+|6001|	无效的设置，tag/alias 不应参数都为 null||	
+|6002|	设置超时|	建议重试|
+|6003|	alias| 字符串不合法	有效的别名、标签组成：字母（区分大小写）、数字、下划线、汉字。|
+|6004|	alias超长。最多 40个字节	中文 UTF-8 是 3 个字节|
+|6005|	某一个 tag 字符串不合法|	有效的别名、标签组成：字母（区分大小写）、数字、下划线、汉字。|
+|6006|	某一个 tag 超长。|一个 tag 最多 40个字节	中文 UTF-8 是 3 个字节|
+|6007|	tags 数量超出限制。最多 100个|	这是一台设备的限制。一个应用全局的标签数量无限制。|
+|6008|	tag/alias 超出总长度限制。|总长度最多 1K 字节|
+|6011|	10s内设置tag或alias大于3次|	短时间内操作过于频繁|
+

@@ -1,4 +1,5 @@
-###Android 手工安装###
+#Android 手工安装
+
 1. 复制src/android/*.java 到cn/jpush/phonega/目录下(即：cn.jpush.phonegap的包下)
 2. 复制src/android/armeabi/libjpush.so 到lib/armeabi/
 3. 复制src/android/jpush-sdk-release1.5.0.jar 到lib/

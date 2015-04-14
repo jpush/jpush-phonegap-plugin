@@ -34,9 +34,11 @@ static NSDictionary *_luanchOptions=nil;
                               name:kJPushPluginReceiveNotification
                             object:nil];
 
+        if (!_luanchOptions) {
+            return;
+        }
         NSDictionary *userInfo = [_luanchOptions
-                                    valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-
+                                  valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         if (_luanchOptions && [userInfo count] >0) {
             NSError  *error;
             NSData   *jsonData   = [NSJSONSerialization dataWithJSONObject:userInfo options:0 error:&error];
@@ -49,8 +51,22 @@ static NSDictionary *_luanchOptions=nil;
 
             }
         }
+        
     }
     return self;
+}
+
+-(void)init:(CDVInvokedUrlCommand*)command{
+    if (!_luanchOptions) {
+        NSLog("must set [JPushPlugin setLaunchOptions:launchOptions] in AppDelegate.m"):
+        return;
+    }
+    [APService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+                                                   UIUserNotificationTypeSound |
+                                                   UIUserNotificationTypeAlert)
+                                       categories:nil];
+    [APService setupWithOption:_luanchOptions];
+    
 }
 
 -(void)setTagsWithAlias:(CDVInvokedUrlCommand*)command{
