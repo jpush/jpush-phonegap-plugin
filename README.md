@@ -71,7 +71,8 @@
 	
 7. 在js中调用函数,初始化jpush sdk
 
-		 window.plugins.jPushPlugin.init();		 
+		 window.plugins.jPushPlugin.init();	
+		 //由于phonegap插件采用了Lazy load的特性，	所以这里建议在js文件能执行的最开始就加
 
 ### Android 手工安装
 
