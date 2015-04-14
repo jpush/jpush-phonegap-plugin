@@ -112,6 +112,14 @@
 
 #### iOS和adnroid通用API简介
 
++ 停止与恢复推送服务 API
+		
+		window.plugins.jPushPlugin.init()
+		window.plugins.jPushPlugin.stopPush()
+		window.plugins.jPushPlugin.resumePush()
+		window.plugins.jPushPlugin.isPushStopped(callback)
+
+
 + 获取 RegistrationID API
 
 		window.plugins.jPushPlugin.getRegistrationID(callback)
@@ -121,13 +129,6 @@
 		window.plugins.jPushPlugin.setTagsWithAlias(tags,alias)
 		window.plugins.jPushPlugin.setTags(tags)
 		window.plugins.jPushPlugin.setAlias(alias)
-+ 停止与恢复推送服务 API
-		
-		window.plugins.jPushPlugin.init()
-		window.plugins.jPushPlugin.stopPush()
-		window.plugins.jPushPlugin.resumePush()
-		window.plugins.jPushPlugin.isPushStopped(callback)
-
 
 [通用API详细说明](document/Common_detail_api.md)
 
@@ -138,6 +139,7 @@
 		event - jpush.openNotification
 
 + 获取自定义消息推送内容
+
 		window.plugins.jPushPlugin.receiveMessageIniOSCallback(data)
 + 页面的统计
 	
