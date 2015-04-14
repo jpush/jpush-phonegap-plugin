@@ -17,9 +17,17 @@ static NSDictionary *_luanchOptions=nil;
 
 +(void)setLaunchOptions:(NSDictionary *)theLaunchOptions{
     _luanchOptions=theLaunchOptions;
-    
+    [APService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+                                                   UIUserNotificationTypeSound |
+                                                   UIUserNotificationTypeAlert)
+                                       categories:nil];
+    [APService setupWithOption:_luanchOptions];
 }
 
+-(void)initial:(CDVInvokedUrlCommand*)command{
+    //do nithng,because Cordova plugin use lazy load mode.
+    
+}
 - (CDVPlugin*)initWithWebView:(UIWebView*)theWebView{
     if (self=[super initWithWebView:theWebView]) {
         
@@ -35,38 +43,25 @@ static NSDictionary *_luanchOptions=nil;
                             object:nil];
 
         if (!_luanchOptions) {
-            return;
-        }
-        NSDictionary *userInfo = [_luanchOptions
-                                  valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-        if (_luanchOptions && [userInfo count] >0) {
-            NSError  *error;
-            NSData   *jsonData   = [NSJSONSerialization dataWithJSONObject:userInfo options:0 error:&error];
-            NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-            if (!error) {
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.openNotification',%@)",jsonString]];
-                });
-
+            NSDictionary *userInfo = [_luanchOptions
+                                      valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+            if ([userInfo count] >0) {
+                NSError  *error;
+                NSData   *jsonData   = [NSJSONSerialization dataWithJSONObject:userInfo options:0 error:&error];
+                NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+                if (!error) {
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.openNotification',%@)",jsonString]];
+                    });
+                    
+                }
             }
+
         }
         
     }
     return self;
-}
-
--(void)init:(CDVInvokedUrlCommand*)command{
-    if (!_luanchOptions) {
-        NSLog("must set [JPushPlugin setLaunchOptions:launchOptions] in AppDelegate.m"):
-        return;
-    }
-    [APService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
-                                                   UIUserNotificationTypeSound |
-                                                   UIUserNotificationTypeAlert)
-                                       categories:nil];
-    [APService setupWithOption:_luanchOptions];
-    
 }
 
 -(void)setTagsWithAlias:(CDVInvokedUrlCommand*)command{
