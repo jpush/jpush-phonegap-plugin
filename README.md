@@ -130,6 +130,14 @@
 		window.plugins.jPushPlugin.setTagsWithAlias(tags,alias)
 		window.plugins.jPushPlugin.setTags(tags)
 		window.plugins.jPushPlugin.setAlias(alias)
++ 获取通知内容
+		
+		event - jpush.openNotification
+
++ 获取自定义消息推送内容
+
+		event - jpush.receiveMessage
+
 
 [通用API详细说明](document/Common_detail_api.md)
 
@@ -137,7 +145,6 @@
 + 获取 APNs（通知） 推送内容
 
 		event - jpush.receiveNotification
-		event - jpush.openNotification
 
 + 获取自定义消息推送内容
 
@@ -175,6 +182,8 @@
 
 + 接收推送消息Receiver
 		
+		//推荐使用event jpush.Message和jpush.openNotification，
+		//下面这两个api 是兼容旧有的代码
 		window.plugins.jPushPlugin.receiveMessageInAndroidCallback(data)
 		window.plugins.jPushPlugin.openNotificationInAndroidCallback(data)
 

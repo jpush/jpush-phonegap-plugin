@@ -39,12 +39,17 @@
             }
             var onOpenNotification = function(event){
                 try{
-                    
-                    var alertContent   = event.aps.alert;
+                    var alertContent
+                    if(device.platform == "Android"){
+                        alertContent=window.plugins.jPushPlugin.openNotification.alert;
+                    }else{
+                        alertContent   = event.aps.alert;
+                    }
                     alert("open Notificaiton:"+alertContent);
+                    
                 }
                 catch(exception){
-                    console.log("JPushPlugin:onPpenNotification"+exception);
+                    console.log("JPushPlugin:onOpenNotification"+exception);
                 }
             }
             var onReceiveNotification = function(event){
@@ -67,22 +72,14 @@
             }
             var onReceiveMessage = function(event){
                 try{
-                    
-                    var eventMessage="{";
-                    for(var key in event){
-                        if(key=="type"){
-                            break
-                        }
-                        eventMessage+=key+":"+JSON.stringify(event[key])+"\n"
-                        console.log(key+":"+JSON.stringify(event[key]));
-
-                    }
-                    eventMessage+="}";
-                    $("#messageResult").html(eventMessage);
-
+                     var message = window.plugins.jPushPlugin.receiveMessage.message;
+                     //var extras = window.plugins.jPushPlugin.extras
+        
+                     $("#messageResult").html(message);
+                     
                 }
                 catch(exception){
-                    console.log("JPushPlugin:onReceiveMessage"+exception);
+                    console.log("JPushPlugin:onReceiveMessage-->"+exception);
                 }
             }
 
@@ -92,7 +89,7 @@
                     window.plugins.jPushPlugin.init();
                     window.plugins.jPushPlugin.getRegistrationID(onGetRegistradionID);
                     
-                    if(JPushPlugin.prototype.isPlatformIOS()){
+                    if(device.platform == "Android"){
                         window.plugins.jPushPlugin.setDebugModeFromIos();
                         window.plugins.jPushPlugin.setApplicationIconBadgeNumber(0);
                     }else{

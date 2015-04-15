@@ -205,6 +205,8 @@ android iOS
 ####错误码定义
 
 
+
+
 |Code|描述|详细解释|
 |-|-|-|
 |6001|	无效的设置，tag/alias 不应参数都为 null||	
@@ -216,4 +218,108 @@ android iOS
 |6007|	tags 数量超出限制。最多 100个|	这是一台设备的限制。一个应用全局的标签数量无限制。|
 |6008|	tag/alias 超出总长度限制。|总长度最多 1K 字节|
 |6011|	10s内设置tag或alias大于3次|	短时间内操作过于频繁|
+
+### 获取通知内容
+
+#### event - jpush.openNotification
+
+点击通知进入应用程序时会出发改事件
+
+#####代码示例
+
+- 在你需要接收通知的的js文件中加入:
+	           
+		document.addEventListener("jpush.openNotification", onOpenNotification, false);
+
+- onOpenNotification需要这样写：
+		
+		
+                    var alertContent
+                    if(device.platform == "Android"){
+                        alertContent=window.plugins.jPushPlugin.openNotification.alert;
+                    }else{
+                        alertContent   = event.aps.alert;
+                    }
+                    alert("open Notificaiton:"+alertContent);
+
+ps：点击通知后传递的json object 保存在window.plugins.jPushPlugin.receiveNotification，直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意
+	
++ android
+
+		{"alert":"ding",
+		"extras":{
+			     "cn.jpush.android.MSG_ID":"1691785879",
+			     "app":"com.thi.pushtest",
+			     "cn.jpush.android.ALERT":"ding",
+			     "cn.jpush.android.EXTRA":{},
+			     "cn.jpush.android.PUSH_ID":"1691785879",
+			     "cn.jpush.android.NOTIFICATION_ID":1691785879,
+			     "cn.jpush.android.NOTIFICATION_TYPE":"0"}}
+		
++ iOS 
+
+		{
+		"aps":{
+			  "badge":1,
+			  "sound":"default",
+			  "alert":"今天去哪儿"
+			  },
+		"_j_msgid":154604475
+		}
+
+
+### 获取自定义消息推送内容
+
+### 获取自定义消息推送内容
+
+####event - jpush.receiveMessage
+
+收到应用内消息时触发这个事件
+
+`推荐使用事件的方式传递，但同时保留了receiveMessageIniOSCallback的回调函数，兼容以前的代码`
+
+
+#####代码示例
+
+- 在你需要接收通知的的js文件中加入:
+	           
+		document.addEventListener("jpush.receiveMessage", onReceiveMessage, false);
+
+- onReceiveMessage需要这样写：
+		
+		
+            var onReceiveMessage = function(event){
+                try{
+                     var message = window.plugins.jPushPlugin.receiveMessage.message;
+                     //var extras = window.plugins.jPushPlugin.extras
+        
+                     $("#messageResult").html(message);
+                     
+                }
+                catch(exception){
+                    console.log("JPushPlugin:onReceiveMessage-->"+exception);
+                }
+            }
+
+ps：点击通知后传递的json object 保存在window.plugins.jPushPlugin.receiveNotification，直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意
+
++ android
+
+		{"message":"今天去哪儿",
+		"extras"{
+				"cn.jpush.android.MSG_ID":"154378013",
+				"cn.jpush.android.CONTENT_TYPE":"",
+				"cn.jpush.android.EXTRA":{"key":"不添没有"}
+				}
+		}
++ iOS
+
+		 {
+		 "content":"今天去哪儿",
+		 "extras":
+		          {
+		 		  "key":"不填写没有"
+		 		  }
+		 }
+	
 

@@ -24,70 +24,7 @@
                     console.log(exception)
                 }
             }
-  
-#### event - jpush.openNotification
-
-点击通知进入应用程序时会出发改事件
-
-#####代码示例
-
-- 在你需要接收通知的的js文件中加入:
-	           
-		document.addEventListener("jpush.openNotification", onOpenNotification, false);
-
-- onOpenNotification需要这样写：
-		
-		
-      var onOpenNotification = function(event){
-          try{
-              
-              var alert   = event.aps.alert;
-              console.log("JPushPlugin:onPpenNotification key aps.alert:"+alert);
-          }
-          catch(exception){
-              console.log("JPushPlugin:onPpenNotification"+exception);
-          }
-      }
-
-
-
-
-### 获取自定义消息推送内容
-
-####event - jpush.receiveMessage
-
-收到应用内消息时触发这个事件
-
-`推荐使用事件的方式传递，但同时保留了receiveMessageIniOSCallback的回调函数，兼容以前的代码`
-
-
-#####代码示例
-
-- 在你需要接收通知的的js文件中加入:
-	           
-		document.addEventListener("jpush.receiveMessage", onReceiveMessage, false);
-
-- onReceiveMessage需要这样写：
-		
-		
-		var onReceiveMessage = function(event){
-			try{
-				var eventMessage="{";
-				for(var key in event){
-					if(key=="type"){
-					    break
-					}
-					eventMessage+=key+":"+JSON.stringify(event[key])+"\n"
-					console.log(key+":"+JSON.stringify(event[key]));
-				
-				}
-				eventMessage+="}";
-				$("#messageResult").html(eventMessage);
-			}
-			catch(exception){
-				console.log("JPushPlugin:onReceiveMessage"+exception);
-			}
-		}
+ 
 
 
 

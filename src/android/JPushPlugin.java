@@ -126,8 +126,15 @@ public class JPushPlugin extends CordovaPlugin {
 		String js = String
 				.format("window.plugins.jPushPlugin.receiveMessageInAndroidCallback('%s');",
 						data.toString());
+		
+		
 		try {
 			instance.webView.sendJavascript(js);
+			
+//			String jsEvent=String
+//					.format("cordova.fireDocumentEvent('jpush.receiveMessage',%s)",
+//							data.toString());
+//			instance.webView.sendJavascript(jsEvent);
 		} catch (NullPointerException e) {
 
 		} catch (Exception e) {
@@ -142,13 +149,22 @@ public class JPushPlugin extends CordovaPlugin {
 		String js = String
 				.format("window.plugins.jPushPlugin.openNotificationInAndroidCallback('%s');",
 						data.toString());
+//		{"alert":"ding",
+//		"extras":{
+//			     "cn.jpush.android.MSG_ID":"1691785879",
+//			     "app":"com.thi.pushtest",
+//			     "cn.jpush.android.ALERT":"ding",
+//			     "cn.jpush.android.EXTRA":{},
+//			     "cn.jpush.android.PUSH_ID":"1691785879",
+//			     "cn.jpush.android.NOTIFICATION_ID":1691785879,
+//			     "cn.jpush.android.NOTIFICATION_TYPE":"0"}}
 		try {
 			instance.webView.sendJavascript(js);
 			
-			String jsEvent=String
-    					.format("cordova.fireDocumentEvent('jpush.openNotification',%s)",
-    							data.toString());
-    		instance.webView.sendJavascript(jsEvent);
+//			String jsEvent=String
+//    					.format("cordova.fireDocumentEvent('jpush.openNotification',%s)",
+//    							data.toString());
+//    		instance.webView.sendJavascript(jsEvent);
 		} catch (NullPointerException e) {
 
 		} catch (Exception e) {
