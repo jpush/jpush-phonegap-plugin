@@ -1,4 +1,4 @@
-## JPush PhoneGap Plugin ##
+l## JPush PhoneGap Plugin ##
 
 
 ###准备工作
@@ -86,11 +86,11 @@
 
 ###示例
 
-1. "$JPUSH_PLUGIN_DIR/src/ios/example"文件夹内找到并拷贝以下文件
+1. "$JPUSH_PLUGIN_DIR/example"文件夹内找到并拷贝以下文件
 
-		src/ios/example/index.html to www/index.html
-		src/ios/example/css/* to www/css
-		src/ios/example/js/* to www/js
+		src/example/index.html to www/index.html
+		src/example/css/* to www/css
+		src/example/js/* to www/js
 
 ###关于'phonegap build'云服务
 
