@@ -86,7 +86,7 @@
 
 ###示例
 
-1. 完整的示例可以点击网页右侧的"Download Zip"下载，下载完成后在文件的"src/ios/example"文件夹内找到并拷贝以下文件
+1. "$JPUSH_PLUGIN_DIR/src/ios/example"文件夹内找到并拷贝以下文件
 
 		src/ios/example/index.html to www/index.html
 		src/ios/example/css/* to www/css
