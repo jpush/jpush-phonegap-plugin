@@ -1,8 +1,18 @@
+//
+//  AppDelegate+notification.h
+//  pushtest
+//
+//  Created by Robert Easterday on 10/26/12.
+//
+//
+
 #import "AppDelegate.h"
 
-@interface AppDelegate (Notification)
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
+@interface AppDelegate (notification)
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo;
+- (void)applicationDidBecomeActive:(UIApplication *)application;
+- (id) getCommandInstance:(NSString*)className;
+
+@property (nonatomic, retain) NSDictionary	*launchNotification;
 
 @end
