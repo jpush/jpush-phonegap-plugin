@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate+notification.h"
+#import "APService.h"
 #import "JPushPlugin.h"
 #import <objc/runtime.h>
 
@@ -70,6 +71,10 @@ static char launchNotificationKey;
         //save it for later
         self.launchNotification = userInfo;
     }
+
+    [APService handleRemoteNotification:userInfo];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kJPushPluginReceiveNotification
+                                                        object:userInfo];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -103,6 +108,12 @@ static char launchNotificationKey;
 - (void)dealloc
 {
     self.launchNotification = nil; // clear the association and release the object
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken   {
+    //原内容保持不变
+    // Required add
+    [APService registerDeviceToken:deviceToken];
 }
 
 @end

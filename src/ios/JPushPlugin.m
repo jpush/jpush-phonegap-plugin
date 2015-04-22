@@ -22,6 +22,25 @@ static NSDictionary *_luanchOptions=nil;
 @synthesize callback;
 
 
+static NSDictionary* launchOptions;
+
+
++(void)load {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didFinishLaunching:)
+                                                 name:UIApplicationDidFinishLaunchingNotification
+                                               object:nil];
+}
+
++(void)didFinishLaunching:(NSNotification*)notification {
+    launchOptions = notification.userInfo;
+    if (launchOptions == nil) {
+        //launchOptions is nil when not start because of notification or url open
+        launchOptions = [NSDictionary dictionary];
+    }
+}
+
+
 +(void)setLaunchOptions:(NSDictionary *)theLaunchOptions{
     _luanchOptions=theLaunchOptions;
     [APService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
@@ -34,6 +53,8 @@ static NSDictionary *_luanchOptions=nil;
 -(void)initial:(CDVInvokedUrlCommand*)command{
     //do nithng,because Cordova plugin use lazy load mode.
     
+    [JPushPlugin setLaunchOptions:launchOptions];
+
     self.callbackId = command.callbackId;
     //self.callback = @"angular.element(document.querySelector('[ng-app]')).injector().get('$jPush').onNotification";
     self.callback = @"window.plugins.jPushPlugin.receiveMessageIniOSCallback";
@@ -105,19 +126,19 @@ static NSDictionary *_luanchOptions=nil;
                                                    UIUserNotificationTypeSound |
                                                    UIUserNotificationTypeAlert)
                                        categories:nil];
-	} else {
-	//categories 必须为nil
-	[APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-												   UIRemoteNotificationTypeSound |
-												   UIRemoteNotificationTypeAlert)
-									   categories:nil];
-	}
+    } else {
+    //categories 必须为nil
+    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                   UIRemoteNotificationTypeSound |
+                                                   UIRemoteNotificationTypeAlert)
+                                       categories:nil];
+    }
 #else
     //categories 必须为nil
-	[APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-												 UIRemoteNotificationTypeSound |
-												 UIRemoteNotificationTypeAlert)
-									 categories:nil];
+    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                 UIRemoteNotificationTypeSound |
+                                                 UIRemoteNotificationTypeAlert)
+                                     categories:nil];
 #endif
 
 }
