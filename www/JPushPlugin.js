@@ -1,7 +1,12 @@
 
 var JPushPlugin = function(){
 };
+
 //private plugin function
+
+JPushPlugin.prototype.receiveMessage={}
+JPushPlugin.prototype.openNotification={}
+
 
 JPushPlugin.prototype.isPlatformIOS = function(){
 	return device.platform == "iPhone" || device.platform == "iPad" || device.platform == "iPod touch" || device.platform == "iOS"
@@ -140,8 +145,10 @@ JPushPlugin.prototype.receiveMessageIniOSCallback = function(data){
 JPushPlugin.prototype.receiveMessageInAndroidCallback = function(data){
 	try{
 		console.log("JPushPlugin:receiveMessageInAndroidCallback");
+		var bToObj  = JSON.parse(data);
+		this.openNotification=bToObj
+		cordova.fireDocumentEvent('jpush.receiveMessage',null);
 		//console.log(data);
-		//ecvar bToObj=JSON.parse(data);
 		//var message  = bToObj.message;
 		//var extras  = bToObj.extras;
 
@@ -158,8 +165,12 @@ JPushPlugin.prototype.receiveMessageInAndroidCallback = function(data){
 //
 JPushPlugin.prototype.openNotificationInAndroidCallback = function(data){
 	try{
-		console.log("JPushPlugin:openNotificationInAndroidCallback");		
-		console.log(data);
+		console.log("JPushPlugin:openNotificationInAndroidCallback");
+		var bToObj  = JSON.parse(data);
+		this.receiveNotification=bToObj;	
+		cordova.fireDocumentEvent('jpush.openNotification',null);
+	
+		//console.log(data);
 		//var bToObj  = JSON.parse(data);
 		//var alert   = bToObj.alert;
 		//var extras  = bToObj.extras;
@@ -230,10 +241,15 @@ JPushPlugin.prototype.isPushStopped = function(callback){
 }
 
 JPushPlugin.prototype.init = function(){
-	if(device.platform == "Android") {
-	    data=[];
-		this.call_native("init",data,null);
-	}
+    if(this.isPlatformIOS()){
+       var data=[];
+       this.call_native("initial",data,null);
+    }else{
+       data=[];
+       this.call_native("init",data,null);
+
+    }
+	
 }
 
 JPushPlugin.prototype.setDebugMode = function(mode){
@@ -256,18 +272,6 @@ JPushPlugin.prototype.clearLocalNotifications = function(){
 	if(device.platform == "Android") {
 		data=[]
 		this.call_native("clearLocalNotifications",data,null);
-	}
-}
-JPushPlugin.prototype.onResume = function(){
-	if(device.platform == "Android") {
-		data=[]
-		this.call_native("onResume",data,null);
-	}
-}
-JPushPlugin.prototype.onPause = function(){
-	if(device.platform == "Android") {
-		data=[]
-		this.call_native("onPause",data,null);
 	}
 }
 

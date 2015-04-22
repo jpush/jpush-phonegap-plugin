@@ -13,7 +13,18 @@
             var onDeviceReady   = function(){
                 console.log("JPushPlugin:Device ready!")
                 initiateUI();
-            }            
+            }
+            var onGetRegistradionID = function(data) {
+                try{
+                    console.log("JPushPlugin:registrationID is "+data)
+                    
+                    $("#registrationid").html(data);
+                }
+                catch(exception){
+                    console.log(exception);
+                }
+            }
+
             var onTagsWithAlias = function(event){
                 try{
                     console.log("onTagsWithAlias");    
@@ -27,63 +38,67 @@
                 }
             }
             var onOpenNotification = function(event){
-             	try{
-             		var alert   = event.alert;
-					var extras  = event.extras;
-		            console.log(alert);
-		            //console.log(extras);
-             	}
-             	catch(exeption){
-             		console.log(exception)
-             	}
+                try{
+                    var alertContent
+                    if(device.platform == "Android"){
+                        alertContent=window.plugins.jPushPlugin.openNotification.alert;
+                    }else{
+                        alertContent   = event.aps.alert;
+                    }
+                    alert("open Notificaiton:"+alertContent);
+                    
+                }
+                catch(exception){
+                    console.log("JPushPlugin:onOpenNotification"+exception);
+                }
             }
             var onReceiveNotification = function(event){
                 try{
-                    var alert   = event.aps.alert;
-                    console.log("JPushPlugin:onReceiveNotification key aps.alert:"+alert);
+                    
+                    var eventContent="{";
+                    for(var key in event){
+                        if(key=="type"){
+                            break
+                        }
+                       eventContent+=key+":"+JSON.stringify(event[key])+"\n"
+                    }
+                    eventContent+="}";
+                    $("#notificationResult").html(eventContent);
+                    
                 }
                 catch(exeption){
                     console.log(exception)
                 }
             }
-
-            var onGetRegistradionID = function(data) {
+            var onReceiveMessage = function(event){
                 try{
-                    console.log("JPushPlugin:registrationID is "+data)
-                    
-                    $("#registrationid").html(data);
+                     var message = window.plugins.jPushPlugin.receiveMessage.message;
+                     //var extras = window.plugins.jPushPlugin.extras
+        
+                     $("#messageResult").html(message);
+                     
                 }
                 catch(exception){
-                    console.log(exception);
+                    console.log("JPushPlugin:onReceiveMessage-->"+exception);
                 }
             }
+
             var initiateUI = function(){
             
             	try{
                     window.plugins.jPushPlugin.init();
-                    window.plugins.jPushPlugin.setDebugMode(true);
-            		window.plugins.jPushPlugin.getRegistrationID(onGetRegistradionID);
-            		window.plugins.jPushPlugin.setApplicationIconBadgeNumber(5);
-//                	var extras={"name":"json"};
-// 					window.plugins.jPushPlugin.addLocalNotification(1,"hh","ln",1111,1000*60,extras);
-// 					window.plugins.jPushPlugin.removeLocalNotification(1111);
-// 					window.plugins.jPushPlugin.clearLocalNotifications();
+                    window.plugins.jPushPlugin.getRegistrationID(onGetRegistradionID);
+                    
+                    if(device.platform == "Android"){
+                        window.plugins.jPushPlugin.setDebugModeFromIos();
+                        window.plugins.jPushPlugin.setApplicationIconBadgeNumber(0);
+                    }else{
+                        window.plugins.jPushPlugin.setDebugMode(true);
+                    }
             	}
             	catch(exception){
             		console.log(exception);
             	}
-
-                //test android interface
-                //window.plugins.jPushPlugin.stopPush()
-                //window.plugins.jPushPlugin.resumePush();
-                //window.plugins.jPushPlugin.clearAllNoticication();
-                //window.plugins.jPushPlugin.setLatestNotificationNum(5);
-                //window.plugins.jPushPlugin.stopPush();
-                //window.plugins.jPushPlugin.isPushStopped(onIsPushStopped);
-                //window.plugins.jPushPlugin.init();
-                //window.plugins.jPushPlugin.setDebugMode(true);
-                //window.plugins.jPushPlugin.startLogPageView("mianPage");
-                
                $("#setTagWithAliasButton").click(function(ev) {
                     try{
                         var tag1 = $("#tagText1").attr("value");
@@ -113,11 +128,14 @@
                     }
                 })
             }
-            document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
             document.addEventListener("jpush.setTagsWithAlias", onTagsWithAlias, false);
             document.addEventListener("deviceready", onDeviceReady, false); 
             document.addEventListener("jpush.openNotification", onOpenNotification, false);
+            document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
+            document.addEventListener("jpush.receiveMessage", onReceiveMessage, false);
 
+
+            //jpush.receiveMessage
         </script>
     </head>
     <body>
@@ -165,8 +183,19 @@
                             <input type="button" id="setTagWithAliasButton" value="Add tag and alias" />
                         </div>
                         <div data-role="fieldcontain">
+                            <label id="tagAliasPrompt" >设置tag/alias结果：  </label>
                             <label id="tagAliasResult" >null</label>
                         </div>
+                        <div data-role="fieldcontain">
+                            <label id="notificationPrompt" >接受的通知内容:</label>
+                            <label id="notificationResult" >null</label>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <label id="messagePrompt" >接受的自定义消息:</label>
+                            <label id="messageResult" >null</label>
+                        </div>
+
+
                     </div>
                 </form>
             </div>

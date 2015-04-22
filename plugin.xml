@@ -12,6 +12,7 @@
 
     <preference name="JPUSH_APPKEY" />
     <preference name="JPUSH_CHANNEL" value="developer-default"/>
+    <preference name="APS_FOR_PRODUCTION" value="0"/>
     
     <engines>
         <engine name="cordova" version=">=3.0"/>
@@ -50,6 +51,9 @@
         <framework src="libz.dylib" weak="true" />
 
         <source-file src="src/ios/PushConfig.plist" target-dir="res/ios" />
+        <config-file target="*res/ios/PushConfig.plist" parent="APS_FOR_PRODUCTION">
+            <string>$APS_FOR_PRODUCTION</string>
+        </config-file>
         <config-file target="*res/ios/PushConfig.plist" parent="APP_KEY">
             <string>$JPUSH_APPKEY</string>
         </config-file>
