@@ -68,6 +68,16 @@ l## JPush PhoneGap Plugin ##
 	    		[[NSNotificationCenter defaultCenter] postNotificationName:kJPushPluginReceiveNotification
 	                                                               object:userInfo];
 			}
+			- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+
+			  // IOS 7 Support Required
+			  [APService handleRemoteNotification:userInfo];
+			  [[NSNotificationCenter defaultCenter] postNotificationName:kJPushPluginReceiveNotification
+	                                                              object:userInfo];
+
+			  completionHandler(UIBackgroundFetchResultNewData);
+			}
+
 	
 7. 在js中调用函数,初始化jpush sdk
 
