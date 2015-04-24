@@ -14,14 +14,6 @@ static NSDictionary *_luanchOptions=nil;
 
 @implementation JPushPlugin
 
-@synthesize notificationMessage;
-@synthesize isInline;
-
-@synthesize callbackId;
-@synthesize notificationCallbackId;
-@synthesize callback;
-
-
 static NSDictionary* launchOptions;
 
 
@@ -38,6 +30,8 @@ static NSDictionary* launchOptions;
         //launchOptions is nil when not start because of notification or url open
         launchOptions = [NSDictionary dictionary];
     }
+    
+    [JPushPlugin setLaunchOptions:launchOptions];
 }
 
 
@@ -52,17 +46,7 @@ static NSDictionary* launchOptions;
 
 -(void)initial:(CDVInvokedUrlCommand*)command{
     //do nithng,because Cordova plugin use lazy load mode.
-    
-    [JPushPlugin setLaunchOptions:launchOptions];
 
-    self.callbackId = command.callbackId;
-    //self.callback = @"angular.element(document.querySelector('[ng-app]')).injector().get('$jPush').onNotification";
-    self.callback = @"window.plugins.jPushPlugin.receiveMessageIniOSCallback";
-    
-    isInline = NO;
-
-    if (notificationMessage)            // if there is a pending startup notification
-        [self notificationReceived];    // go ahead and process it
 }
 
 - (CDVPlugin*)initWithWebView:(UIWebView*)theWebView{
@@ -373,27 +357,6 @@ static NSDictionary* launchOptions;
     }
     
 
-}
-
-- (void)notificationReceived {
-    NSLog(@"Notification received");
-
-    if (notificationMessage && self.callback)
-    {
-        NSError  *error;
-        NSData   *jsonData   = [NSJSONSerialization dataWithJSONObject:notificationMessage options:0 error:&error];
-        NSString *jsonStr = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-
-        if (isInline)
-            isInline = NO;
-
-        NSLog(@"Msg: %@", jsonStr);
-
-        NSString * jsCallBack = [NSString stringWithFormat:@"%@(%@);", self.callback, jsonStr];
-        [self.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
-
-        self.notificationMessage = nil;
-    }
 }
 
 @end
