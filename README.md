@@ -1,4 +1,4 @@
-l## JPush PhoneGap Plugin ##
+## JPush PhoneGap Plugin ##
 
 
 ###准备工作
@@ -13,76 +13,16 @@ l## JPush PhoneGap Plugin ##
 		cordova platform add android  
 		cordova platform add ios
 
-		ps:这里请注意iOS平台，必须先执行 `cordova platform add ios`,
-		然后再执行`cordova plugin add xxxxx`命令，不然有一些必须要的链接库需要手动添加
-		
+3. 添加插件
 
-###Cordova CLI/Phonegap 安装 Android & iOS
-
-3. 使用git命令将jpush phonegap插件下载的本地,将这个目录标记为`$JPUSH_PLUGIN_DIR`
-		
-		git clone https://github.com/jpush/jpush-phonegap-plugin.git
-
-
-4. 将`$JPUSH_PLUGIN_DIR/plugin.xml`文件中的AppKey替换为在Portal上注册该应用的的Key,例如（9fed5bcb7b9b87413678c407）
-		
-		<meta-data android:name="JPUSH_APPKEY" android:value="your appkey"/>
-
-5. 在`$JPUSH_PLUGIN_DIR/src/android/JPushPlugin.java` 文件`import your.package.name.R`替换为在Portal上注册该应用的包名，例如(com.thi.pushtest)
-
-
-6. cordova cli 添加jpush phonegap插件和依赖的device插件: 
-
-		cordova plugin add $JPUSH_PLUGIN_DIR
+		cordova -d plugin add https://github.com/qdsang/jpush-phonegap-plugin.git --variable JPUSH_APPKEY=appkey --variable JPUSH_CHANNEL=channel --variable APS_FOR_PRODUCTION=0
 		cordova plugin add org.apache.cordova.device
 
-7. iOS添加初始化JPush sdk代码 如果你要先部署android平台，可以先忽略这一步，当需要iOS 平台时，只加上这个步骤即可
-	
-	+ 用xcode 打开 Myproj下的iOS工程 
-	+ 打开xcode右边工程目录下`Resources/PushConfig.plist`
-		
-			在APP_KEY和CHANNLE字段 分别添加您的appkey和channle
-		
-	+ 打开xcode右边工程目录下`AppDelegate.m`,包含以下头文件
+4. 在js中调用函数,初始化jpush sdk
 
-			#import "APService.h"
-		    #import "JPushPlugin.h"
+		 window.plugins.jPushPlugin.init();
+		 window.plugins.jPushPlugin.setDebugMode(true);
 
-	+ 在AppDelegate.m文件中，添加JPush SDK 提供的 API 来实现功能
-
-			- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-			   //原内容保持不变
-			   //Required add 
-			   [JPushPlugin setLaunchOptions:launchOptions];
-			    return YES;
-			}
-			- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken   {
-			    //原内容保持不变
-			    // Required add
-			    [APService registerDeviceToken:deviceToken];
-			}
-			- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-			    //原内容保持不变
-			    // Required
-			    [APService handleRemoteNotification:userInfo];
-	    		[[NSNotificationCenter defaultCenter] postNotificationName:kJPushPluginReceiveNotification
-	                                                               object:userInfo];
-			}
-			- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-
-			  // IOS 7 Support Required
-			  [APService handleRemoteNotification:userInfo];
-			  [[NSNotificationCenter defaultCenter] postNotificationName:kJPushPluginReceiveNotification
-	                                                              object:userInfo];
-
-			  completionHandler(UIBackgroundFetchResultNewData);
-			}
-
-	
-7. 在js中调用函数,初始化jpush sdk
-
-		 window.plugins.jPushPlugin.init();	
-		 //由于phonegap插件采用了Lazy load的特性，	所以这里建议在js文件能执行的最开始就加
 
 ### Android 手工安装
 
@@ -92,6 +32,7 @@ l## JPush PhoneGap Plugin ##
 ### IOS手工安装
 
 [IOS手工安装文档地址](document/iOS_handle_install.md)
+>>>>>>> bob/master
 
 
 ###示例
