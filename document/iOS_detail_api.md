@@ -103,7 +103,7 @@ value 取值范围：[0,99999]
 
 ##### 接口定义
 
-	window.plugins.jPushPlugin.reSetBadge.setApplicationIconBadgeNumber(badge)
+	window.plugins.jPushPlugin.setApplicationIconBadgeNumber(badge)
 	
 ##### 参数说明
 
@@ -113,7 +113,7 @@ value 取值范围：[0,99999]
 #####代码示例
 
 	if(window.plugins.jPushPlugin.isPlatformIOS()){
-		window.plugins.jPushPlugin.reSetBadge.setApplicationIconBadgeNumber(0);
+		window.plugins.jPushPlugin.setApplicationIconBadgeNumber(0);
 	}
 
 
