@@ -2,31 +2,6 @@
 
 ### 获取 APNs（通知） 推送内容
 
-#### event - jpush.receiveNotification
-
-当iOS收到的通知时会触发这个事件
-
-
-#####代码示例
-
-- 在你需要接收通知的的js文件中加入:
-	           
-		document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
-
-- onOpenNotification需要这样写：
-		
-            var onReceiveNotification = function(event){
-                try{
-                    var alert   = event.aps.alert;
-                    console.log("JPushPlugin:onReceiveNotification key aps.alert:"+alert);
-                }
-                catch(exeption){
-                    console.log(exception)
-                }
-            }
- 
-
-
 
 #### API - receiveMessageIniOSCallback
 

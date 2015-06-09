@@ -219,7 +219,7 @@ android iOS
 |6008|	tag/alias 超出总长度限制。|总长度最多 1K 字节|
 |6011|	10s内设置tag或alias大于3次|	短时间内操作过于频繁|
 
-### 获取通知内容
+### 获取点击通知内容
 
 #### event - jpush.openNotification
 
@@ -232,6 +232,54 @@ android iOS
 		document.addEventListener("jpush.openNotification", onOpenNotification, false);
 
 - onOpenNotification需要这样写：
+		
+		
+                    var alertContent
+                    if(device.platform == "Android"){
+                        alertContent=window.plugins.jPushPlugin.openNotification.alert;
+                    }else{
+                        alertContent   = event.aps.alert;
+                    }
+                    alert("open Notificaiton:"+alertContent);
+
+ps：点击通知后传递的json object 保存在window.plugins.jPushPlugin.openNotification，直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意
+	
++ android
+
+		{"alert":"ding",
+		"extras":{
+			     "cn.jpush.android.MSG_ID":"1691785879",
+			     "app":"com.thi.pushtest",
+			     "cn.jpush.android.ALERT":"ding",
+			     "cn.jpush.android.EXTRA":{},
+			     "cn.jpush.android.PUSH_ID":"1691785879",
+			     "cn.jpush.android.NOTIFICATION_ID":1691785879,
+			     "cn.jpush.android.NOTIFICATION_TYPE":"0"}}
+		
++ iOS 
+
+		{
+		"aps":{
+			  "badge":1,
+			  "sound":"default",
+			  "alert":"今天去哪儿"
+			  },
+		"_j_msgid":154604475
+		}
+
+### 获取通知内容
+
+#### event - jpush.receiveNotification
+
+点击通知进入应用程序时会出发改事件
+
+#####代码示例
+
+- 在你需要接收通知的的js文件中加入:
+	           
+		document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
+
+- onReceiveNotification需要这样写：
 		
 		
                     var alertContent
@@ -270,7 +318,6 @@ ps：点击通知后传递的json object 保存在window.plugins.jPushPlugin.rec
 
 ### 获取自定义消息推送内容
 
-### 获取自定义消息推送内容
 
 ####event - jpush.receiveMessage
 
@@ -290,9 +337,12 @@ ps：点击通知后传递的json object 保存在window.plugins.jPushPlugin.rec
 		
             var onReceiveMessage = function(event){
                 try{
-                     var message = window.plugins.jPushPlugin.receiveMessage.message;
-                     //var extras = window.plugins.jPushPlugin.extras
-        
+                    var message
+                    if(device.platform == "Android"){
+                  		 message = window.plugins.jPushPlugin.receiveMessage.message;
+                    }else{
+                         message   = event.content;
+                    }          
                      $("#messageResult").html(message);
                      
                 }
