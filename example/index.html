@@ -54,8 +54,12 @@
             }
             var onReceiveNotification = function(event){
                 try{
-                
-                   var alert = window.plugins.jPushPlugin.receiveNotification.alert;
+                	var alert
+                    if(device.platform == "Android"){
+                  		 alert = window.plugins.jPushPlugin.receiveNotification.alert;
+                    }else{
+                         alert   = event.aps.alert;
+                    }
                     $("#notificationResult").html(alert);
                     
                 }
@@ -65,9 +69,15 @@
             }
             var onReceiveMessage = function(event){
                 try{
-                     var message = window.plugins.jPushPlugin.receiveMessage.message;
+                
+                    var message
+                    if(device.platform == "Android"){
+                  		 message = window.plugins.jPushPlugin.receiveMessage.message;
+                    }else{
+                         message   = event.content;
+                    }                    
                      //var extras = window.plugins.jPushPlugin.extras
-        
+    
                      $("#messageResult").html(message);
                      
                 }
