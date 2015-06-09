@@ -171,6 +171,34 @@ public class JPushPlugin extends CordovaPlugin {
 
 		}
 	}
+	static void transmitReceive(String alert, Map<String, Object> extras) {
+		if (instance == null) {
+			return;
+		}
+		JSONObject data = openNotificationObject(alert, extras);
+		String js = String
+				.format("window.plugins.jPushPlugin.receiveNotificationInAndroidCallback('%s');",
+						data.toString());
+//		{"alert":"ding",
+//		"extras":{
+//			     "cn.jpush.android.MSG_ID":"1691785879",
+//			     "app":"com.thi.pushtest",
+//			     "cn.jpush.android.ALERT":"ding",
+//			     "cn.jpush.android.EXTRA":{},
+//			     "cn.jpush.android.PUSH_ID":"1691785879",
+//			     "cn.jpush.android.NOTIFICATION_ID":1691785879,
+//			     "cn.jpush.android.NOTIFICATION_TYPE":"0"}}
+		try {
+			
+			instance.webView.sendJavascript(js);
+
+		} catch (NullPointerException e) {
+
+		} catch (Exception e) {
+
+		}
+	}
+
 	@Override
 	public boolean execute(final String action, final JSONArray data,
 			final CallbackContext callbackContext) throws JSONException {

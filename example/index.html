@@ -54,16 +54,9 @@
             }
             var onReceiveNotification = function(event){
                 try{
-                    
-                    var eventContent="{";
-                    for(var key in event){
-                        if(key=="type"){
-                            break
-                        }
-                       eventContent+=key+":"+JSON.stringify(event[key])+"\n"
-                    }
-                    eventContent+="}";
-                    $("#notificationResult").html(eventContent);
+                
+                   var alert = window.plugins.jPushPlugin.receiveNotification.alert;
+                    $("#notificationResult").html(alert);
                     
                 }
                 catch(exeption){
