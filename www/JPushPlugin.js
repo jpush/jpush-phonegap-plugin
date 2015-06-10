@@ -147,7 +147,7 @@ JPushPlugin.prototype.receiveMessageInAndroidCallback = function(data){
 	try{
 		console.log("JPushPlugin:receiveMessageInAndroidCallback");
 		var bToObj  = JSON.parse(data);
-		this.openNotification=bToObj
+		this.receiveMessage=bToObj
 		cordova.fireDocumentEvent('jpush.receiveMessage',null);
 		//console.log(data);
 		//var message  = bToObj.message;
@@ -168,7 +168,7 @@ JPushPlugin.prototype.openNotificationInAndroidCallback = function(data){
 	try{
 		console.log("JPushPlugin:openNotificationInAndroidCallback");
 		var bToObj  = JSON.parse(data);
-		this.receiveNotification=bToObj;	
+		this.openNotification=bToObj;	
 		cordova.fireDocumentEvent('jpush.openNotification',null);
 	
 		//console.log(data);
