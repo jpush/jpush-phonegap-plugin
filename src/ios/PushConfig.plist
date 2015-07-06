@@ -6,5 +6,7 @@
 	<string>7d431e42dfa6a6d693ac2d04</string>
 	<key>CHANNEL</key>
 	<string>Subscription</string>
+	<key>APS_FOR_PRODUCTION</key>
+	<string>0</string>
 </dict>
 </plist>

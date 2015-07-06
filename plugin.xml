@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cn.jpush.phonegap.JPushPlugin"
-        version="2.0.0">
+        version="2.1.0">
 
     <name>JPush Plugin</name>
     <description>JPush for cordova plugin</description>
@@ -10,6 +10,10 @@
     <keywords>JPush,push</keywords>
     <license>Apache 2.0 License</license>
 
+    <preference name="JPUSH_APPKEY" />
+    <preference name="JPUSH_CHANNEL" value="developer-default"/>
+    <preference name="APS_FOR_PRODUCTION" value="0"/>
+    
     <engines>
         <engine name="cordova" version=">=3.0"/>
     </engines>
@@ -19,35 +23,47 @@
     </js-module>
 
     <platform name="ios">
-            <config-file target="config.xml" parent="/*">
-                <feature name="JPushPlugin">
-                    <param name="ios-package" value="JPushPlugin"/>
-                </feature>
-            </config-file>
+        <config-file target="config.xml" parent="/*">
+            <feature name="JPushPlugin">
+                <param name="ios-package" value="JPushPlugin"/>
+            </feature>
+        </config-file>
 
-            <header-file src="src/ios/Plugins/JPushPlugin.h"/>
-            <source-file src="src/ios/Plugins/JPushPlugin.m"/>
-           
-            <header-file src="src/ios/lib/APService.h" />
-            <source-file src="src/ios/lib/libPushSDK-1.8.2.a" framework="true" />
-            
-            <resource-file src="src/ios/PushConfig.plist" />
-                
-            <framework src="CFNetwork.framework" weak="true" />
-            <framework src="CoreFoundation.framework" weak="true" />
-            <framework src="CoreTelephony.framework" weak="true" />
-            <framework src="SystemConfiguration.framework" weak="true" />
-            <framework src="CoreGraphics.framework" weak="true" />
-            <framework src="Foundation.framework" weak="true" />
-            <framework src="UIKit.framework" weak="true" />
-            <framework src="Security.framework" weak="true" />
-            <framework src="libz.dylib" weak="true" />
-            
-        </platform>
+
+        <source-file src="src/ios/AppDelegate+notification.m" />
+        <source-file src="src/ios/JPushPlugin.m" />
+
+        <header-file src="src/ios/AppDelegate+notification.h" />
+        <header-file src="src/ios/JPushPlugin.h" />
+        
+        <header-file src="src/ios/lib/APService.h" />
+        <source-file src="src/ios/lib/libPushSDK-1.8.2.a" framework="true" />
+        
+        
+        <framework src="CFNetwork.framework" weak="true" />
+        <framework src="CoreFoundation.framework" weak="true" />
+        <framework src="CoreTelephony.framework" weak="true" />
+        <framework src="SystemConfiguration.framework" weak="true" />
+        <framework src="CoreGraphics.framework" weak="true" />
+        <framework src="Foundation.framework" weak="true" />
+        <framework src="UIKit.framework" weak="true" />
+        <framework src="Security.framework" weak="true" />
+        <framework src="libz.dylib" weak="true" />
+
+        <source-file src="src/ios/PushConfig.plist" target-dir="res/ios" />
+        <config-file target="*res/ios/PushConfig.plist" parent="APS_FOR_PRODUCTION">
+            <string>$APS_FOR_PRODUCTION</string>
+        </config-file>
+        <config-file target="*res/ios/PushConfig.plist" parent="APP_KEY">
+            <string>$JPUSH_APPKEY</string>
+        </config-file>
+        <config-file target="*res/ios/PushConfig.plist" parent="CHANNEL">
+            <string>$JPUSH_CHANNEL</string>
+        </config-file>
+    </platform>
         
     <!-- android -->
     <platform name="android">
-    
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="JPushPlugin">
                 <param name="android-package" value="cn.jpush.phonegap.JPushPlugin"/>
@@ -72,6 +88,7 @@
                     android:name="$PACKAGE_NAME.permission.JPUSH_MESSAGE"
                     android:protectionLevel="signature"/>
         </config-file>
+
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <!-- Required SDK核心功能-->
             <activity
@@ -151,12 +168,14 @@
             <!-- Required SDK核心功能-->
             <receiver android:name="cn.jpush.android.service.AlarmReceiver"/>
             <!-- Required  . Enable it you can get statistics data with channel -->
-            <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
-            <meta-data android:name="JPUSH_APPKEY" android:value="your appkey"/>
+            <meta-data android:name="JPUSH_APPKEY" android:value="$JPUSH_APPKEY"/>
+            <meta-data android:name="JPUSH_CHANNEL" android:value="$JPUSH_CHANNEL"/>
         </config-file>
+
         <source-file src="src/android/jpush-sdk-release1.7.3.jar" target-dir="libs"/>
         <source-file src="src/android/armeabi/libjpush173.so" target-dir="libs/armeabi"/>
         <source-file src="src/android/armeabi-v7a/libjpush173.so" target-dir="libs/armeabi-v7a"/>
+        <source-file src="src/android/x86/libjpush173.so" target-dir="libs/x86"/>
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap"/>
         <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap"/>
     	<source-file src="src/android/test_notification_layout.xml" target-dir="res/layout"/>

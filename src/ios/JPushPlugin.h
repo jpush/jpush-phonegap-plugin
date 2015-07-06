@@ -6,6 +6,7 @@
 //
 //
 
+
 #import <Cordova/CDV.h>
 
 #define kJPushPluginReceiveNotification @"JPushPluginReceiveNofication"

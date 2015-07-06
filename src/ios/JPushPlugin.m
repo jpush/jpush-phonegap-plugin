@@ -14,6 +14,26 @@ static NSDictionary *_luanchOptions=nil;
 
 @implementation JPushPlugin
 
+static NSDictionary* launchOptions;
+
+
++(void)load {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didFinishLaunching:)
+                                                 name:UIApplicationDidFinishLaunchingNotification
+                                               object:nil];
+}
+
++(void)didFinishLaunching:(NSNotification*)notification {
+    launchOptions = notification.userInfo;
+    if (launchOptions == nil) {
+        //launchOptions is nil when not start because of notification or url open
+        launchOptions = [NSDictionary dictionary];
+    }
+    
+    [JPushPlugin setLaunchOptions:launchOptions];
+}
+
 
 +(void)setLaunchOptions:(NSDictionary *)theLaunchOptions{
     _luanchOptions=theLaunchOptions;
@@ -26,8 +46,9 @@ static NSDictionary *_luanchOptions=nil;
 
 -(void)initial:(CDVInvokedUrlCommand*)command{
     //do nithng,because Cordova plugin use lazy load mode.
-    
+
 }
+
 - (CDVPlugin*)initWithWebView:(UIWebView*)theWebView{
     if (self=[super initWithWebView:theWebView]) {
         
@@ -89,19 +110,19 @@ static NSDictionary *_luanchOptions=nil;
                                                    UIUserNotificationTypeSound |
                                                    UIUserNotificationTypeAlert)
                                        categories:nil];
-	} else {
-	//categories 必须为nil
-	[APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-												   UIRemoteNotificationTypeSound |
-												   UIRemoteNotificationTypeAlert)
-									   categories:nil];
-	}
+    } else {
+    //categories 必须为nil
+    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                   UIRemoteNotificationTypeSound |
+                                                   UIRemoteNotificationTypeAlert)
+                                       categories:nil];
+    }
 #else
     //categories 必须为nil
-	[APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-												 UIRemoteNotificationTypeSound |
-												 UIRemoteNotificationTypeAlert)
-									 categories:nil];
+    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                 UIRemoteNotificationTypeSound |
+                                                 UIRemoteNotificationTypeAlert)
+                                     categories:nil];
 #endif
 
 }
@@ -337,6 +358,5 @@ static NSDictionary *_luanchOptions=nil;
     
 
 }
-
 
 @end
