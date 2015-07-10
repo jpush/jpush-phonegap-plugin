@@ -92,7 +92,7 @@
                     window.plugins.jPushPlugin.init();
                     window.plugins.jPushPlugin.getRegistrationID(onGetRegistradionID);
                     
-                    if(device.platform == "Android"){
+                    if(device.platform != "Android"){
                         window.plugins.jPushPlugin.setDebugModeFromIos();
                         window.plugins.jPushPlugin.setApplicationIconBadgeNumber(0);
                     }else{
