@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cn.jpush.phonegap.JPushPlugin"
-        version="2.0.0">
+        version="2.0.2">
 
     <name>JPush Plugin</name>
     <description>JPush for cordova plugin</description>
@@ -154,9 +154,11 @@
             <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
             <meta-data android:name="JPUSH_APPKEY" android:value="your appkey"/>
         </config-file>
-        <source-file src="src/android/jpush-sdk-release1.7.3.jar" target-dir="libs"/>
-        <source-file src="src/android/armeabi/libjpush173.so" target-dir="libs/armeabi"/>
-        <source-file src="src/android/armeabi-v7a/libjpush173.so" target-dir="libs/armeabi-v7a"/>
+        <source-file src="src/android/jpush-sdk-release1.7.5.jar" target-dir="libs"/>
+        <source-file src="src/android/armeabi/libjpush175.so" target-dir="libs/armeabi"/>
+        <source-file src="src/android/armeabi-v7a/libjpush175.so" target-dir="libs/armeabi-v7a"/>
+        <source-file src="src/android/armeabi-v8a/libjpush175.so" target-dir="libs/armeabi-v8a"/>
+        
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap"/>
         <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap"/>
     	<source-file src="src/android/test_notification_layout.xml" target-dir="res/layout"/>
