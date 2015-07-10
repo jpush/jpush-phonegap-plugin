@@ -4,7 +4,7 @@
 //
 //  Created by JPush on 12-8-15.
 //  Copyright (c) 2012年 HXHG. All rights reserved.
-//  Version: 1.8.2
+//  Version: 1.8.3
 
 @class CLRegion;
 @class UILocalNotification;
@@ -154,12 +154,6 @@ extern NSString *const kJPFServiceErrorNotification;  // 错误提示
  */
 
 + (void)resetBadge;
-
-#pragma - mark 获取用户标示符
-/**
- *  get the UDID
- */
-+ (NSString *)openUDID DEPRECATED_ATTRIBUTE;  // UDID
 
 /**
  *  get RegistrationID
