@@ -157,7 +157,7 @@
         <source-file src="src/android/jpush-sdk-release1.7.5.jar" target-dir="libs"/>
         <source-file src="src/android/armeabi/libjpush175.so" target-dir="libs/armeabi"/>
         <source-file src="src/android/armeabi-v7a/libjpush175.so" target-dir="libs/armeabi-v7a"/>
-        <source-file src="src/android/arm64-v8a/libjpush175.so" target-dir="libs/armeabi-v8a"/>
+        <source-file src="src/android/arm64-v8a/libjpush175.so" target-dir="libs/arm64-v8a"/>
         
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap"/>
         <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap"/>
