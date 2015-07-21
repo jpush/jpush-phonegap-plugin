@@ -284,7 +284,7 @@ ps：点击通知后传递的json object 保存在window.plugins.jPushPlugin.ope
 		
                     var alertContent
                     if(device.platform == "Android"){
-                        alertContent=window.plugins.jPushPlugin.openNotification.alert;
+                        alertContent=window.plugins.jPushPlugin.receiveNotification.alert;
                     }else{
                         alertContent   = event.aps.alert;
                     }
@@ -351,7 +351,7 @@ ps：点击通知后传递的json object 保存在window.plugins.jPushPlugin.rec
                 }
             }
 
-ps：点击通知后传递的json object 保存在window.plugins.jPushPlugin.receiveNotification，直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意
+ps：点击通知后传递的json object 保存在window.plugins.jPushPlugin.receiveMessage，直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意
 
 + android
 
