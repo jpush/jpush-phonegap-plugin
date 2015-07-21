@@ -49,8 +49,8 @@ public class MyReceiver extends BroadcastReceiver {
 		 launch.addCategory(Intent.CATEGORY_LAUNCHER);
 		 launch.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		 
-		 JPushPlugin.notificationAlert = alert;
-		 JPushPlugin.notificationExtras = extras;
+		 JPushPlugin.openNotificationAlert = alert;
+		 JPushPlugin.openNotificationExtras = extras;
 		 
 		 JPushPlugin.transmitOpen(alert, extras);
 

@@ -58,6 +58,8 @@ public class JPushPlugin extends CordovaPlugin {
 
 	public static String notificationAlert;
 	public static Map<String, Object> notificationExtras=new HashMap<String, Object>();
+	public static String openNotificationAlert;
+	public static Map<String, Object> openNotificationExtras=new HashMap<String, Object>();
 
 	public JPushPlugin() {
 		instance = this;
@@ -67,6 +69,16 @@ public class JPushPlugin extends CordovaPlugin {
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
 		//JPushInterface.setDebugMode(true);
+		
+		 //JPushPlugin.notificationAlert = alert;
+		 //JPushPlugin.notificationExtras = extras;
+		 if(JPushPlugin.openNotificationAlert != null){
+			 JPushPlugin.transmitOpen(JPushPlugin.openNotificationAlert, JPushPlugin.openNotificationExtras);
+		 }
+		 if(JPushPlugin.notificationAlert!=null){
+			 JPushPlugin.transmitReceive(JPushPlugin.notificationAlert, JPushPlugin.notificationExtras);
+		 }
+
 		//JPushInterface.init(cordova.getActivity().getApplicationContext());
 	}
 
