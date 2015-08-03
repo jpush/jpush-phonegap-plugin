@@ -30,9 +30,9 @@
            
             <header-file src="src/ios/lib/APService.h" />
             <source-file src="src/ios/lib/libPushSDK-1.8.3.a" framework="true" />
-            
+            <header-file src="src/ios/Plugins/AppDelegate+JPush.h"/>
+            <source-file src="src/ios/Plugins/AppDelegate+JPush.m"/>
             <resource-file src="src/ios/PushConfig.plist" />
-                
             <framework src="CFNetwork.framework" weak="true" />
             <framework src="CoreFoundation.framework" weak="true" />
             <framework src="CoreTelephony.framework" weak="true" />
