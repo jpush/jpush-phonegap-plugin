@@ -10,12 +10,14 @@
     <keywords>JPush,push</keywords>
     <license>Apache 2.0 License</license>
 
+    <preference name="API_KEY" />
+
     <engines>
         <engine name="cordova" version=">=3.0"/>
     </engines>
 
     <js-module src="www/JPushPlugin.js" name="JPushPlugin">
-            <clobbers target="window.plugins.jPushPlugin"/>
+            <clobbers target="jPushPlugin"/>
     </js-module>
 
     <platform name="ios">
@@ -42,11 +44,18 @@
             <framework src="UIKit.framework" weak="true" />
             <framework src="Security.framework" weak="true" />
             <framework src="libz.dylib" weak="true" />
-            
+
+            <config-file target="*PushConfig.plist" parent="APP_KEY">
+                <string>$API_KEY</string>
+            </config-file>
         </platform>
         
     <!-- android -->
     <platform name="android">
+        <hook type="after_plugin_add" src="scripts/android-install.js" />
+        <hook type="after_plugin_install" src="scripts/android-install.js" />
+        <hook type="before_plugin_rm" src="scripts/android-install.js" />
+        <hook type="before_plugin_uninstall" src="scripts/android-install.js" />
     
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="JPushPlugin">
@@ -152,14 +161,14 @@
             <receiver android:name="cn.jpush.android.service.AlarmReceiver"/>
             <!-- Required  . Enable it you can get statistics data with channel -->
             <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
-            <meta-data android:name="JPUSH_APPKEY" android:value="your appkey"/>
+            <meta-data android:name="JPUSH_APPKEY" android:value="$API_KEY"/>
         </config-file>
         <source-file src="src/android/jpush-sdk-release1.7.5.jar" target-dir="libs"/>
         <source-file src="src/android/armeabi/libjpush175.so" target-dir="libs/armeabi"/>
         <source-file src="src/android/armeabi-v7a/libjpush175.so" target-dir="libs/armeabi-v7a"/>
         <source-file src="src/android/arm64-v8a/libjpush175.so" target-dir="libs/arm64-v8a"/>
         
-        <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap"/>
+        <!--<source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap"/>-->
         <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap"/>
     	<source-file src="src/android/test_notification_layout.xml" target-dir="res/layout"/>
     	<source-file src="src/android/jpush_notification_icon.png" target-dir="res/drawable"/>
