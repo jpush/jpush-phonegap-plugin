@@ -35,49 +35,6 @@ l## JPush PhoneGap Plugin ##
 
 		cordova plugin add $JPUSH_PLUGIN_DIR
 		cordova plugin add org.apache.cordova.device
-
-7. iOS添加初始化JPush sdk代码 如果你要先部署android平台，可以先忽略这一步，当需要iOS 平台时，只加上这个步骤即可
-	
-	+ 用xcode 打开 Myproj下的iOS工程 
-	+ 打开xcode右边工程目录下`Resources/PushConfig.plist`
-		
-			在APP_KEY和CHANNLE字段 分别添加您的appkey和channle
-		
-	+ 打开xcode右边工程目录下`AppDelegate.m`,包含以下头文件
-
-			#import "APService.h"
-		    #import "JPushPlugin.h"
-
-	+ 在AppDelegate.m文件中，添加JPush SDK 提供的 API 来实现功能
-
-			- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-			   //原内容保持不变
-			   //Required add 
-			   [JPushPlugin setLaunchOptions:launchOptions];
-			    return YES;
-			}
-			- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken   {
-			    //原内容保持不变
-			    // Required add
-			    [APService registerDeviceToken:deviceToken];
-			}
-			- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-			    //原内容保持不变
-			    // Required
-			    [APService handleRemoteNotification:userInfo];
-	    		[[NSNotificationCenter defaultCenter] postNotificationName:kJPushPluginReceiveNotification
-	                                                               object:userInfo];
-			}
-			- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-
-			  // IOS 7 Support Required
-			  [APService handleRemoteNotification:userInfo];
-			  [[NSNotificationCenter defaultCenter] postNotificationName:kJPushPluginReceiveNotification
-	                                                              object:userInfo];
-
-			  completionHandler(UIBackgroundFetchResultNewData);
-			}
-
 	
 7. 在js中调用函数,初始化jpush sdk
 
