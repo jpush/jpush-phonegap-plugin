@@ -46,6 +46,7 @@ public class JPushPlugin extends CordovaPlugin {
 					"setLatestNotificationNum",
 					"setPushTime",
 					"clearAllNotification",
+                    "clearNotificationById",
 					"addLocalNotification",
 					"removeLocalNotification",
 					"clearLocalNotifications",
