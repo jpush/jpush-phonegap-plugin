@@ -20,8 +20,8 @@ static char launchNotificationKey;
     Method origin;
     Method swizzle;
     
-    origin=class_getClassMethod([self class],@selector(init));
-    swizzle=class_getClassMethod([self class], @selector(init_plus));
+    origin=class_getInstanceMethod([self class],@selector(init));
+    swizzle=class_getInstanceMethod([self class], @selector(init_plus));
     method_exchangeImplementations(origin, swizzle);
 }
 
