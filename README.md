@@ -28,6 +28,9 @@ l## JPush PhoneGap Plugin ##
 		
 		<meta-data android:name="JPUSH_APPKEY" android:value="your appkey"/>
 
+4. 打开`$JPUSH_PLUGIN_DIR/src/ios/PushConfig.plist`文件将文件中的`7d431e42dfa6a6d693ac2d04`替换为在Portal上注册该应用的的Key,例如（9fed5bcb7b9b87413678c407）
+		
+
 5. 在`$JPUSH_PLUGIN_DIR/src/android/JPushPlugin.java` 文件`import your.package.name.R`替换为在Portal上注册该应用的包名，例如(com.thi.pushtest)
 
 
