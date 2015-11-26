@@ -109,9 +109,9 @@ static NSDictionary *_luanchOptions=nil;
 
     NSNumber *result;
     if ([[UIApplication sharedApplication] isRegisteredForRemoteNotifications ]) {
-        result=@(1);
-    }else{
         result=@(0);
+    }else{
+        result=@(1);
     }
     CDVPluginResult * pushResult=[self pluginResultForValue:result];
     if (pushResult) {
