@@ -19,30 +19,29 @@ l## JPush PhoneGap Plugin ##
 
 ###Cordova CLI/Phonegap 安装 Android & iOS
 
-3. 使用git命令将jpush phonegap插件下载的本地,将这个目录标记为`$JPUSH_PLUGIN_DIR`
-		
-		git clone https://github.com/jpush/jpush-phonegap-plugin.git
+1.  安装JPush PhoneGap Plugin。 有两种方法。
+
+#####方法一： 在线安装
+    cordova plugin add  https://github.com/jpush/jpush-phonegap-plugin.git --variable API_KEY=your_jpush_appkey  
+
+#####方法二：下载到本地再安装
+使用git命令将jpush phonegap插件下载的本地,将这个目录标记为`$JPUSH_PLUGIN_DIR`
 
 
-4. 将`$JPUSH_PLUGIN_DIR/plugin.xml`文件中的AppKey替换为在Portal上注册该应用的的Key,例如（9fed5bcb7b9b87413678c407）
-		
-		<meta-data android:name="JPUSH_APPKEY" android:value="your appkey"/>
-
-4. 打开`$JPUSH_PLUGIN_DIR/src/ios/PushConfig.plist`文件将文件中的`7d431e42dfa6a6d693ac2d04`替换为在Portal上注册该应用的的Key,例如（9fed5bcb7b9b87413678c407）
-		
-
-5. 在`$JPUSH_PLUGIN_DIR/src/android/JPushPlugin.java` 文件`import your.package.name.R`替换为在Portal上注册该应用的包名，例如(com.thi.pushtest)
+    git clone https://github.com/jpush/jpush-phonegap-plugin.git
+    cordova plugin add $JPUSH_PLUGIN_DIR  --variable API_KEY=your_jpush_appkey
 
 
-6. cordova cli 添加jpush phonegap插件和依赖的device插件: 
 
-		cordova plugin add $JPUSH_PLUGIN_DIR
-		cordova plugin add org.apache.cordova.device
-	
-7. 在js中调用函数,初始化jpush sdk
+2.  安装org.apache.cordova.device
+    cordova plugin add org.apache.cordova.device
 
-		 window.plugins.jPushPlugin.init();	
-		 //由于phonegap插件采用了Lazy load的特性，	所以这里建议在js文件能执行的最开始就加
+
+3. 在js中调用函数,初始化jpush sdk
+
+        window.plugins.jPushPlugin.init();	
+        //由于phonegap插件采用了Lazy load的特性，	所以这里建议在js文件能执行的最开始就加
+
 
 ### Android 手工安装
 
