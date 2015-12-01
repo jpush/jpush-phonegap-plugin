@@ -19,7 +19,7 @@ l## JPush PhoneGap Plugin ##
 
 ###Cordova CLI/Phonegap 安装 Android & iOS
 
-1.  安装JPush PhoneGap Plugin。 有两种方法。
+1).  安装JPush PhoneGap Plugin。 有两种方法。
 
 方法一： 在线安装
 
@@ -35,15 +35,15 @@ l## JPush PhoneGap Plugin ##
 
 
 
-2.  安装org.apache.cordova.device
+2).  安装org.apache.cordova.device
 
-    cordova plugin add org.apache.cordova.device
+     cordova plugin add org.apache.cordova.device
 
 
-3. 在js中调用函数,初始化jpush sdk
+3). 在js中调用函数,初始化jpush sdk
 
-        window.plugins.jPushPlugin.init();	
-        //由于phonegap插件采用了Lazy load的特性，	所以这里建议在js文件能执行的最开始就加
+    window.plugins.jPushPlugin.init();	
+    //由于phonegap插件采用了Lazy load的特性，	所以这里建议在js文件能执行的最开始就加
 
 
 ### Android 手工安装
