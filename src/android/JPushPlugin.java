@@ -19,7 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.Map.Entry;
 
-import your.package.name.R;
+import __PACKAGE_NAME__.R;
 
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.CustomPushNotificationBuilder;
@@ -46,6 +46,7 @@ public class JPushPlugin extends CordovaPlugin {
 					"setLatestNotificationNum",
 					"setPushTime",
 					"clearAllNotification",
+                    "clearNotificationById",
 					"addLocalNotification",
 					"removeLocalNotification",
 					"clearLocalNotifications",

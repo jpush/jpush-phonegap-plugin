@@ -253,6 +253,13 @@ JPushPlugin.prototype.clearAllNotification = function(){
 	}
 }
 
+JPushPlugin.prototype.clearNotificationById = function(notificationId){
+    if(device.platform == "Android") {
+        data=[]
+        this.call_native("clearNotificationById",[notificationId],null);
+    }
+}
+
 JPushPlugin.prototype.setLatestNotificationNum = function(num){
    	if(device.platform == "Android") {
 		this.call_native("setLatestNotificationNum",[num],null);
