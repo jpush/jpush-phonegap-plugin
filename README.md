@@ -3,11 +3,11 @@ l## JPush PhoneGap Plugin ##
 
 ###准备工作
 
-1. cordova create 文件夹名字 包名 应用名字
+1). cordova create 文件夹名字 包名 应用名字
 
 		cordova create Myproj com.myproj.jpush MyTestProj
 		
-2. 添加平台
+2). 添加平台
 
 		cd Myproj 
 		cordova platform add android  
@@ -69,7 +69,7 @@ l## JPush PhoneGap Plugin ##
 
 ###示例
 
-1. "$JPUSH_PLUGIN_DIR/example"文件夹内找到并拷贝以下文件
+1). "$JPUSH_PLUGIN_DIR/example"文件夹内找到并拷贝以下文件
 
 		src/example/index.html to www/index.html
 		src/example/css/* to www/css
@@ -80,7 +80,7 @@ l## JPush PhoneGap Plugin ##
 该项目基于cordova实现，目前无法使用'phonegap build'云服务进行打包，建议使用本地环境进行打包
 
 ###常见错误
-1. androd
+1). androd
 
 		eclipse中phonegap工程import之后出现:`Type CallbackContext cannot be resolved to a type`
 		解决方案：eclipse中右键单击工程名，Build Path->Config Build Path->Projects->选中 工程名称－CordovaLib->点击 add
