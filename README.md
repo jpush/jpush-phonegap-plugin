@@ -19,7 +19,7 @@ l## JPush PhoneGap Plugin ##
 
 ###Cordova CLI/Phonegap 安装 Android & iOS
 
-#方法1：直接安装JPush PhoneGap Plugin
+####方法1：直接安装JPush PhoneGap Plugin
     
 1）.  安装JPush PhoneGap Plugin
 
@@ -34,7 +34,7 @@ l## JPush PhoneGap Plugin ##
 
 
 
-#方法2：下载JPush PhoneGap Plugin到本地的安装方法
+####方法2：下载JPush PhoneGap Plugin到本地的安装方法
 
 1）. 使用git命令将jpush phonegap插件下载的本地,将这个目录标记为`$JPUSH_PLUGIN_DIR`
 
