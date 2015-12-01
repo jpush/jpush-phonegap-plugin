@@ -26,6 +26,8 @@ l## JPush PhoneGap Plugin ##
 
 #####方法二：下载到本地再安装
 使用git命令将jpush phonegap插件下载的本地,将这个目录标记为`$JPUSH_PLUGIN_DIR`
+
+
     git clone https://github.com/jpush/jpush-phonegap-plugin.git
     cordova plugin add $JPUSH_PLUGIN_DIR  --variable API_KEY=your_jpush_appkey
 
