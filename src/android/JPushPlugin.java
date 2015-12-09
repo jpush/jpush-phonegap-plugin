@@ -56,7 +56,9 @@ public class JPushPlugin extends CordovaPlugin {
 	
 	private ExecutorService threadPool = Executors.newFixedThreadPool(1);
 	private static JPushPlugin instance;
+    private static String TAG = "Client JPushPlugin";
 
+    public static boolean bOpenNotificationAlert = true;
 	public static String notificationAlert;
 	public static Map<String, Object> notificationExtras=new HashMap<String, Object>();
 	public static String openNotificationAlert;
@@ -73,12 +75,19 @@ public class JPushPlugin extends CordovaPlugin {
 		
 		 //JPushPlugin.notificationAlert = alert;
 		 //JPushPlugin.notificationExtras = extras;
-		 if(JPushPlugin.openNotificationAlert != null){
-			 JPushPlugin.transmitOpen(JPushPlugin.openNotificationAlert, JPushPlugin.openNotificationExtras);
-		 }
-		 if(JPushPlugin.notificationAlert!=null){
-			 JPushPlugin.transmitReceive(JPushPlugin.notificationAlert, JPushPlugin.notificationExtras);
-		 }
+        
+        if(JPushPlugin.bOpenNotificationAlert){
+            
+            JPushPlugin.bOpenNotificationAlert = false;
+            if(JPushPlugin.openNotificationAlert != null){
+                JPushPlugin.transmitOpen(JPushPlugin.openNotificationAlert, JPushPlugin.openNotificationExtras);
+            }
+            if(JPushPlugin.notificationAlert!=null){
+                JPushPlugin.transmitReceive(JPushPlugin.notificationAlert, JPushPlugin.notificationExtras);
+            }
+
+        }
+        
 
 		//JPushInterface.init(cordova.getActivity().getApplicationContext());
 	}
@@ -226,7 +235,7 @@ public class JPushPlugin extends CordovaPlugin {
 							JSONArray.class, CallbackContext.class);
 					method.invoke(JPushPlugin.this, data, callbackContext);
 				} catch (Exception e) {
-					System.out.println(e.toString());
+                    Log.e(TAG,e.toString());
 				}
 			}
 		});
