@@ -60,7 +60,7 @@ public class JPushPlugin extends CordovaPlugin {
 	private static JPushPlugin instance;
     private static String TAG = "Client JPushPlugin";
 
-    public static boolean bOpenNotificationAlert = true;
+    public static boolean bOpenNotificationAlert = false;
 	public static String notificationAlert;
 	public static Map<String, Object> notificationExtras=new HashMap<String, Object>();
 	public static String openNotificationAlert;
