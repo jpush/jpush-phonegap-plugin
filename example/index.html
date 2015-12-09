@@ -54,13 +54,13 @@
             }
             var onReceiveNotification = function(event){
                 try{
-                	var alert
+                	var alertContent
                     if(device.platform == "Android"){
-                  		 alert = window.plugins.jPushPlugin.receiveNotification.alert;
+                  		 alertContent = window.plugins.jPushPlugin.receiveNotification.alert;
                     }else{
-                         alert   = event.aps.alert;
+                         alertContent   = event.aps.alert;
                     }
-                    $("#notificationResult").html(alert);
+                    $("#notificationResult").html(alertContent);
                     
                 }
                 catch(exeption){

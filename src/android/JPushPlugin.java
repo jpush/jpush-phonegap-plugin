@@ -26,6 +26,8 @@ import cn.jpush.android.api.CustomPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.data.JPushLocalNotification;
 import cn.jpush.android.api.TagAliasCallback;
+import android.util.Log;
+
 
 public class JPushPlugin extends CordovaPlugin {
 	private final static List<String> methodList = 
