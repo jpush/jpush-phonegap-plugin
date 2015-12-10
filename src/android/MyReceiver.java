@@ -12,7 +12,7 @@ import android.content.Intent;
 import android.util.Log;
 
 public class MyReceiver extends BroadcastReceiver {
-	private static String TAG = "Client Receiver";
+	private static String TAG = "JPushPlugin";
 	@Override
 	public void onReceive(Context context, Intent intent) {
 
@@ -42,13 +42,14 @@ public class MyReceiver extends BroadcastReceiver {
 		JPushPlugin.transmitPush(msg, extras);
 	}
 	 private void handlingNotificationOpen(Context context,Intent intent){
+		 Log.i(TAG, "----------------  handlingNotificationOpen");
+
 		 String alert = intent.getStringExtra(JPushInterface.EXTRA_ALERT);
 		 Map<String,Object> extras = getNotificationExtras(intent);
 		 
 		 Intent launch = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
 		 launch.addCategory(Intent.CATEGORY_LAUNCHER);
 		 launch.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-         JPushPlugin.bOpenNotificationAlert = true;
 		 JPushPlugin.openNotificationAlert = alert;
 		 JPushPlugin.openNotificationExtras = extras;
 		 
@@ -57,6 +58,9 @@ public class MyReceiver extends BroadcastReceiver {
 		 context.startActivity(launch);
 	 }
 	 private void handlingNotificationReceive(Context context,Intent intent){
+
+		 Log.i(TAG, "----------------  handlingNotificationReceive");
+
 		 String alert = intent.getStringExtra(JPushInterface.EXTRA_ALERT);
 		 Map<String,Object> extras = getNotificationExtras(intent);
 		 

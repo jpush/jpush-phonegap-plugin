@@ -35,7 +35,7 @@ public class JPushPlugin extends CordovaPlugin {
 					"getRegistrationID",
 					"setTags",
 					"setTagsWithAlias",
-					"setAlias", 
+					"setAlias",
 					"getNotification",
 					"setBasicPushNotificationBuilder",
 					"setCustomPushNotificationBuilder",
@@ -48,7 +48,7 @@ public class JPushPlugin extends CordovaPlugin {
 					"setLatestNotificationNum",
 					"setPushTime",
 					"clearAllNotification",
-                    "clearNotificationById",
+					"clearNotificationById",
 					"addLocalNotification",
 					"removeLocalNotification",
 					"clearLocalNotifications",
@@ -58,13 +58,15 @@ public class JPushPlugin extends CordovaPlugin {
 	
 	private ExecutorService threadPool = Executors.newFixedThreadPool(1);
 	private static JPushPlugin instance;
-    private static String TAG = "Client JPushPlugin";
+    private static String TAG = "JPushPlugin";
 
-    public static boolean bOpenNotificationAlert = true;
+	private  static  boolean shouldCacheMsg = false;
+
 	public static String notificationAlert;
 	public static Map<String, Object> notificationExtras=new HashMap<String, Object>();
 	public static String openNotificationAlert;
 	public static Map<String, Object> openNotificationExtras=new HashMap<String, Object>();
+
 
 	public JPushPlugin() {
 		instance = this;
@@ -73,25 +75,43 @@ public class JPushPlugin extends CordovaPlugin {
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
-		//JPushInterface.setDebugMode(true);
-		
-		 //JPushPlugin.notificationAlert = alert;
-		 //JPushPlugin.notificationExtras = extras;
-        
-        if(JPushPlugin.bOpenNotificationAlert){
-            
-            JPushPlugin.bOpenNotificationAlert = false;
+
+		Log.i(TAG, "---------------- initialize"+"-"+JPushPlugin.openNotificationAlert + "-" + JPushPlugin.notificationAlert);
+
+		shouldCacheMsg = false;
+
+            //如果同时缓存了打开事件openNotificationAlert 和 消息事件notificationAlert，只向UI 发 打开事件。
+            //这样做是为了和iOS 统一
             if(JPushPlugin.openNotificationAlert != null){
+				JPushPlugin.notificationAlert = null;
                 JPushPlugin.transmitOpen(JPushPlugin.openNotificationAlert, JPushPlugin.openNotificationExtras);
             }
             if(JPushPlugin.notificationAlert!=null){
                 JPushPlugin.transmitReceive(JPushPlugin.notificationAlert, JPushPlugin.notificationExtras);
             }
 
-        }
-        
 
 		//JPushInterface.init(cordova.getActivity().getApplicationContext());
+	}
+
+
+
+	public void onPause(boolean multitasking) {
+		Log.i(TAG, "----------------  onPause");
+		shouldCacheMsg = true;
+	}
+
+	public void onResume(boolean multitasking) {
+		shouldCacheMsg = false;
+		Log.i(TAG, "---------------- onResume"+"-"+JPushPlugin.openNotificationAlert + "-" + JPushPlugin.notificationAlert);
+
+		if(JPushPlugin.openNotificationAlert != null){
+			JPushPlugin.notificationAlert = null;
+			JPushPlugin.transmitOpen(JPushPlugin.openNotificationAlert, JPushPlugin.openNotificationExtras);
+		}
+		if(JPushPlugin.notificationAlert!=null){
+			JPushPlugin.transmitReceive(JPushPlugin.notificationAlert, JPushPlugin.notificationExtras);
+		}
 	}
 
 
@@ -169,19 +189,18 @@ public class JPushPlugin extends CordovaPlugin {
 		if (instance == null) {
 			return;
 		}
+
+		if(JPushPlugin.shouldCacheMsg){
+			return;
+		}
+
+		Log.i(TAG, "----------------  transmitOpen");
+
 		JSONObject data = openNotificationObject(alert, extras);
 		String js = String
 				.format("window.plugins.jPushPlugin.openNotificationInAndroidCallback('%s');",
 						data.toString());
-//		{"alert":"ding",
-//		"extras":{
-//			     "cn.jpush.android.MSG_ID":"1691785879",
-//			     "app":"com.thi.pushtest",
-//			     "cn.jpush.android.ALERT":"ding",
-//			     "cn.jpush.android.EXTRA":{},
-//			     "cn.jpush.android.PUSH_ID":"1691785879",
-//			     "cn.jpush.android.NOTIFICATION_ID":1691785879,
-//			     "cn.jpush.android.NOTIFICATION_TYPE":"0"}}
+
 		try {
 			instance.webView.sendJavascript(js);
 			
@@ -194,24 +213,22 @@ public class JPushPlugin extends CordovaPlugin {
 		} catch (Exception e) {
 
 		}
+		JPushPlugin.openNotificationAlert = null;
 	}
 	static void transmitReceive(String alert, Map<String, Object> extras) {
 		if (instance == null) {
 			return;
 		}
+
+		if(JPushPlugin.shouldCacheMsg){
+			return;
+		}
+
 		JSONObject data = openNotificationObject(alert, extras);
 		String js = String
 				.format("window.plugins.jPushPlugin.receiveNotificationInAndroidCallback('%s');",
 						data.toString());
-//		{"alert":"ding",
-//		"extras":{
-//			     "cn.jpush.android.MSG_ID":"1691785879",
-//			     "app":"com.thi.pushtest",
-//			     "cn.jpush.android.ALERT":"ding",
-//			     "cn.jpush.android.EXTRA":{},
-//			     "cn.jpush.android.PUSH_ID":"1691785879",
-//			     "cn.jpush.android.NOTIFICATION_ID":1691785879,
-//			     "cn.jpush.android.NOTIFICATION_TYPE":"0"}}
+
 		try {
 			
 			instance.webView.sendJavascript(js);
@@ -221,6 +238,8 @@ public class JPushPlugin extends CordovaPlugin {
 		} catch (Exception e) {
 
 		}
+		JPushPlugin.notificationAlert = null;
+
 	}
 
 	@Override
@@ -353,27 +372,15 @@ public class JPushPlugin extends CordovaPlugin {
 	}
 	void setTags(JSONArray data, CallbackContext callbackContext) {
 
-		HashSet<String> tags=null;
 		try {
-			String tagStr;
-			if(data==null){
-				//tags=null;
-			}else if(data.length()==0) {
-				tags= new HashSet<String>();
-			}else{
-				tagStr = data.getString(0);
-				String[] tagArray = tagStr.split(",");
-				for (String tag : tagArray) {
-					if(tags==null){
-						tags= new HashSet<String>();
-					}
-					tags.add(tag);
-				}
+			HashSet<String> tags=new HashSet<String>();
+			for(int i=0;i<data.length();i++){
+				tags.add(data.getString(i));
 			}
-			//Set<String> validTags = JPushInterface.filterValidTags(tags);
 			JPushInterface.setTags(this.cordova.getActivity()
 					.getApplicationContext(), tags,mTagWithAliasCallback);
 			callbackContext.success();
+
 		} catch (JSONException e) {
 			e.printStackTrace();
 			callbackContext.error("Error reading tags JSON");
