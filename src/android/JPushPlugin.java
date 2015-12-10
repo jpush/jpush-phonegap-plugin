@@ -80,6 +80,8 @@ public class JPushPlugin extends CordovaPlugin {
 
 		shouldCacheMsg = false;
 
+            //如果同时缓存了打开事件openNotificationAlert 和 消息事件notificationAlert，只向UI 发 打开事件。
+            //这样做是为了和iOS 统一
             if(JPushPlugin.openNotificationAlert != null){
 				JPushPlugin.notificationAlert = null;
                 JPushPlugin.transmitOpen(JPushPlugin.openNotificationAlert, JPushPlugin.openNotificationExtras);
