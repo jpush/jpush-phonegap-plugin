@@ -271,7 +271,7 @@ ps：点击通知后传递的json object 保存在window.plugins.jPushPlugin.ope
 
 #### event - jpush.receiveNotification
 
-点击通知进入应用程序时会出发改事件
+点击通知进入应用程序时会触发该事件
 
 #####代码示例
 
