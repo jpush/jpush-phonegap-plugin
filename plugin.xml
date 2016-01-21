@@ -163,10 +163,10 @@
             <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
             <meta-data android:name="JPUSH_APPKEY" android:value="$API_KEY"/>
         </config-file>
-        <source-file src="src/android/jpush-android-2.0.5.jar" target-dir="libs"/>
-        <source-file src="src/android/armeabi/libjpush205.so" target-dir="libs/armeabi"/>
-        <source-file src="src/android/armeabi-v7a/libjpush205.so" target-dir="libs/armeabi-v7a"/>
-        <source-file src="src/android/arm64-v8a/libjpush205.so" target-dir="libs/arm64-v8a"/>
+        <source-file src="src/android/jpush-android-2.0.6.jar" target-dir="libs"/>
+        <source-file src="src/android/armeabi/libjpush206.so" target-dir="libs/armeabi"/>
+        <source-file src="src/android/armeabi-v7a/libjpush206.so" target-dir="libs/armeabi-v7a"/>
+        <source-file src="src/android/arm64-v8a/libjpush206.so" target-dir="libs/arm64-v8a"/>
         
         <!--<source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap"/>-->
         <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap"/>
