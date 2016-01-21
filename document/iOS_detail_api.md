@@ -52,7 +52,8 @@ duration 自定义的页面时间
 ### 设置Badge
 #### API - setBadge,resetBadge
 
-badge是iOS用来标记应用程序状态的一个数字，出现在程序图标右上角。 JPush封装badge功能，允许应用上传badge值至JPush服务器，由JPush后台帮助管理每个用户所对应的推送badge值，简化了设置推送badge的操作。
+ JPush封装badge功能，允许应用上传badge值至JPush服务器，由JPush后台帮助管理每个用户所对应的推送badge值，简化了设置推送badge的操作。
+（本接口不会直接改变应用本地的角标值. 要修改本地badege值，使用 setApplicationIconBadgeNumber）
 
 实际应用中，开发者可以直接对badge值做增减操作，无需自己维护用户与badge值之间的对应关系。
 ##### 接口定义
@@ -74,6 +75,7 @@ value 取值范围：[0,99999]
 
 #### API - setApplicationIconBadgeNumber
 
+本接口直接改变应用本地的角标值.
 设置iOS的角标，当设置badge＝0时为清除角标
 
 ##### 接口定义
@@ -91,6 +93,27 @@ value 取值范围：[0,99999]
 		window.plugins.jPushPlugin.setApplicationIconBadgeNumber(0);
 	}
 
+
+#### API - getApplicationIconBadgeNumber
+
+获取iOS的角标值
+
+##### 接口定义
+
+	window.plugins.jPushPlugin.getApplicationIconBadgeNumber(callback)
+	
+##### 参数说明
+
+- callback 回调函数
+
+#####代码示例
+```			    	
+
+window.plugins.jPushPlugin.getApplicationIconBadgeNumber(function(data){
+     console.log(data);               
+ });
+ 
+``` 
 
 ### 本地通知
 
