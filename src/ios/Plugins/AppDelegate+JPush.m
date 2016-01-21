@@ -57,6 +57,8 @@
     [JPUSHService handleRemoteNotification:userInfo];
     [[NSNotificationCenter defaultCenter] postNotificationName:kJPushPluginReceiveNotification
                                                         object:userInfo];
+    completionHandler(UIBackgroundFetchResultNewData);
+
 }
 
 - (void)application:(UIApplication *)application
