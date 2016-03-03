@@ -10,6 +10,4 @@
 
 @interface AppDelegate (JPush)
 
-//@property(nonatomic,strong)NSDictionary *luanchOption;
-
 @end
