@@ -18,28 +18,28 @@ JPushPlugin.prototype.error_callback = function(msg){
 	console.log("Javascript Callback Error: " + msg)
 }
 
-JPushPlugin.prototype.call_native = function(name, args, callback){ 
+JPushPlugin.prototype.call_native = function(name, args, callback){
 
 	ret = cordova.exec(callback,this.error_callback,'JPushPlugin',name,args);
 	return ret;
 }
 //public plugin function
 
-JPushPlugin.prototype.startLogPageView = function(pageName){  
+JPushPlugin.prototype.startLogPageView = function(pageName){
     if(this.isPlatformIOS()){
-		this.call_native( "startLogPageView",[pageName],null); 
-    }      
+		this.call_native( "startLogPageView",[pageName],null);
+    }
 }
 
 JPushPlugin.prototype.stopLogPageView = function(pageName){
     if(this.isPlatformIOS()){
-		this.call_native( "stopLogPageView",[pageName],null);   
+		this.call_native( "stopLogPageView",[pageName],null);
 	}
 }
 
 JPushPlugin.prototype.beginLogPageView = function(pageName,duration){
     if(this.isPlatformIOS()){
-		this.call_native( "beginLogPageView",[pageName,duration],null);   
+		this.call_native( "beginLogPageView",[pageName,duration],null);
 	}
 }
 JPushPlugin.prototype.setApplicationIconBadgeNumber = function(badge){
@@ -73,7 +73,7 @@ JPushPlugin.prototype.setTagsWithAlias = function(tags,alias){
 
 }
 JPushPlugin.prototype.setTags = function(tags){
-        
+
 	try{
 		this.call_native("setTags",tags,null);
 	}
@@ -83,15 +83,15 @@ JPushPlugin.prototype.setTags = function(tags){
 }
 
 JPushPlugin.prototype.setAlias = function(alias){
-	try{             
+	try{
 		this.call_native("setAlias",[alias],null);
 	}
-	catch(exception){             
+	catch(exception){
 		console.log(exception);
 	}
 }
 JPushPlugin.prototype.getRegistrationID = function(callback){
-        
+
 	try{
 	    var data=[];
 		this.call_native("getRegistrationID",[data],callback);
@@ -102,8 +102,8 @@ JPushPlugin.prototype.getRegistrationID = function(callback){
 }
 
 JPushPlugin.prototype.setBadge = function(value){
-               
-   if(this.isPlatformIOS()){     
+
+   if(this.isPlatformIOS()){
        try{
        this.call_native("setBadge",[value],null);
        }
@@ -114,7 +114,7 @@ JPushPlugin.prototype.setBadge = function(value){
    }
 }
 JPushPlugin.prototype.resetBadge = function(){
-               
+
     if(this.isPlatformIOS()){
        try{
            var data=[];
@@ -145,7 +145,7 @@ JPushPlugin.prototype.receiveMessageIniOSCallback = function(data){
 		var content = bToObj.content;
         console.log(content);
 	}
-	catch(exception){               
+	catch(exception){
 		console.log("JPushPlugin:receiveMessageIniOSCallback"+exception);
 	}
 }
@@ -164,7 +164,7 @@ JPushPlugin.prototype.receiveMessageInAndroidCallback = function(data){
 		//console.log(extras['cn.jpush.android.CONTENT_TYPE']);
 		//console.log(extras['cn.jpush.android.EXTRA']);
 	}
-	catch(exception){               
+	catch(exception){
 		console.log("JPushPlugin:pushCallback "+exception);
 	}
 }
@@ -174,9 +174,9 @@ JPushPlugin.prototype.openNotificationInAndroidCallback = function(data){
 	try{
 		console.log("JPushPlugin:openNotificationInAndroidCallback");
 		var bToObj  = JSON.parse(data);
-		this.openNotification=bToObj;	
+		this.openNotification=bToObj;
 		cordova.fireDocumentEvent('jpush.openNotification',null);
-	
+
 		//console.log(data);
 		//var bToObj  = JSON.parse(data);
 		//var alert   = bToObj.alert;
@@ -191,7 +191,7 @@ JPushPlugin.prototype.openNotificationInAndroidCallback = function(data){
 		//console.log(extras['cn.jpush.android.NOTIFICATION_ID']);
 		//console.log("JPushPlugin:openNotificationCallback is ready");
 	}
-	catch(exception){               
+	catch(exception){
 		console.log(exception);
 	}
 }
@@ -199,9 +199,9 @@ JPushPlugin.prototype.receiveNotificationInAndroidCallback = function(data){
 	try{
 		console.log("JPushPlugin:receiveNotificationInAndroidCallback");
 		var bToObj  = JSON.parse(data);
-		this.receiveNotification=bToObj;	
+		this.receiveNotification=bToObj;
 		cordova.fireDocumentEvent('jpush.receiveNotification',null);
-	
+
 		//console.log(data);
 		//var bToObj  = JSON.parse(data);
 		//var alert   = bToObj.alert;
@@ -216,7 +216,7 @@ JPushPlugin.prototype.receiveNotificationInAndroidCallback = function(data){
 		//console.log(extras['cn.jpush.android.NOTIFICATION_ID']);
 		//console.log("JPushPlugin:openNotificationCallback is ready");
 	}
-	catch(exception){               
+	catch(exception){
 		console.log(exception);
 	}
 }
@@ -244,7 +244,7 @@ JPushPlugin.prototype.stopPush = function(){
 JPushPlugin.prototype.resumePush = function(){
 		data=[]
 		this.call_native("resumePush",data,null);
-	
+
 }
 JPushPlugin.prototype.setDebugMode = function(mode){
 	if(device.platform == "Android") {
@@ -276,7 +276,7 @@ JPushPlugin.prototype.isPushStopped = function(callback){
 
 	    data=[];
 		this.call_native("isPushStopped",data,callback)
-	
+
 }
 
 JPushPlugin.prototype.init = function(){
@@ -288,7 +288,7 @@ JPushPlugin.prototype.init = function(){
        this.call_native("init",data,null);
 
     }
-	
+
 }
 
 JPushPlugin.prototype.setDebugMode = function(mode){
@@ -316,9 +316,19 @@ JPushPlugin.prototype.clearLocalNotifications = function(){
 
 JPushPlugin.prototype.reportNotificationOpened = function(msgID){
 	if(device.platform == "Android") {
-	
+
 		this.call_native("reportNotificationOpened",[msgID],null);
 	}
+}
+
+/**
+ *是否开启统计分析功能，用于“用户使用时长”，“活跃用户”，“用户打开次数”的统计，并上报到服务器上，
+ *在 Portal 上展示给开发者。
+ **/
+JPushPlugin.prototype.setStatisticsOpen = function(mode) {
+    if(device.platform == "Android") {
+        this.call_native("setStatisticsOpen", [mode], null);
+    }
 }
 
 //iOS  single
@@ -330,9 +340,6 @@ if(!window.plugins){
 
 if(!window.plugins.jPushPlugin){
 	window.plugins.jPushPlugin = new JPushPlugin();
-}  
+}
 
-module.exports = new JPushPlugin(); 
-
-
-
+module.exports = new JPushPlugin();
