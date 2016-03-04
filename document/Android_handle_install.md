@@ -4,9 +4,9 @@
 
 1. 复制：`$JPUSH_PLUGIN_DIR`/src/android/*.java 到cn/jpush/phonega/目录下(即：cn.jpush.phonegap的包下)
 2. 复制：`$JPUSH_PLUGIN_DIR`/src/android/armeabi/libjpush.so 到lib/armeabi/
-3. 复制：`$JPUSH_PLUGIN_DIR`/src/android/jpush-sdk-release1.5.0.jar 到lib/
+3. 复制：`$JPUSH_PLUGIN_DIR`/src/android/jpush-sdk-release2.0.6.jar 到lib/
 4. 复制：`$JPUSH_PLUGIN_DIR`/src/android/test_notification_layout.xml到res/layout/
-5. 复制：`$JPUSH_PLUGIN_DIR`/src/android/jpush_notification_icon.png 到res/drawable/
+5. 复制：`$JPUSH_PLUGIN_DIR`/src/android/jpush_notification_icon.png到res/drawable/
 6. 修改 AndroidManifest.xml 在 manifest 节点下添加以下权限
 
 		<!-- Required  一些系统要求的权限，如访问网络等-->
@@ -53,7 +53,7 @@
 				<action android:name="cn.jpush.android.intent.REPORT"/>
 				<action android:name="cn.jpush.android.intent.PushService"/>
 				<action android:name="cn.jpush.android.intent.PUSH_TIME"/>
-			
+
 			</intent-filter>
 		</service>
 		<!-- Required SDK核心功能-->
@@ -76,7 +76,7 @@
 				<data android:scheme="package"/>
 			</intent-filter>
 		</receiver>
-		
+
 		<!-- User defined.  For test only  用户自定义的广播接收器 -->
 		<receiver
 		android:name="cn.jpush.phonegap.MyReceiver"
