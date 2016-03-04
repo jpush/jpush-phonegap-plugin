@@ -1,4 +1,5 @@
 
+
 var JPushPlugin = function(){
 };
 
@@ -43,9 +44,14 @@ JPushPlugin.prototype.beginLogPageView = function(pageName,duration){
 }
 JPushPlugin.prototype.setApplicationIconBadgeNumber = function(badge){
     if(this.isPlatformIOS()){
-		this.call_native( "setApplicationIconBadgeNumber",[badge],null);   
+		this.call_native( "setApplicationIconBadgeNumber",[badge],null);
 	}
 }
+	JPushPlugin.prototype.getApplicationIconBadgeNumber = function(callback){
+		if(this.isPlatformIOS()){
+			this.call_native( "getApplicationIconBadgeNumber",[],callback);
+		}
+	}
 
 JPushPlugin.prototype.setTagsWithAlias = function(tags,alias){
 	try{
@@ -253,6 +259,13 @@ JPushPlugin.prototype.clearAllNotification = function(){
 	}
 }
 
+JPushPlugin.prototype.clearNotificationById = function(notificationId){
+    if(device.platform == "Android") {
+        data=[]
+        this.call_native("clearNotificationById",[notificationId],null);
+    }
+}
+
 JPushPlugin.prototype.setLatestNotificationNum = function(num){
    	if(device.platform == "Android") {
 		this.call_native("setLatestNotificationNum",[num],null);
@@ -320,4 +333,6 @@ if(!window.plugins.jPushPlugin){
 }  
 
 module.exports = new JPushPlugin(); 
+
+
 

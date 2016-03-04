@@ -1,6 +1,17 @@
-l## JPush PhoneGap Plugin ##
+## JPush PhoneGap Plugin ##
+
+jpush-phonegap-plugin 支持 iOS,Android 的推送插件。
+
+**功能特性：**
+>+ 发送推送通知
++ 发送推送自定义消息
++ 设置推送标签和别名
++ 设置角标（iOS）
+
+*如需要 IM 功能插件，请关注[jmessage-phonegap-plugin](https://github.com/jpush/jmessage-phonegap-plugin)*
 
 
+## 安装 ##
 ###准备工作
 
 1. cordova create 文件夹名字 包名 应用名字
@@ -19,30 +30,32 @@ l## JPush PhoneGap Plugin ##
 
 ###Cordova CLI/Phonegap 安装 Android & iOS
 
-3. 使用git命令将jpush phonegap插件下载的本地,将这个目录标记为`$JPUSH_PLUGIN_DIR`
-		
-		git clone https://github.com/jpush/jpush-phonegap-plugin.git
+1).  安装JPush PhoneGap Plugin。 有两种方法。
+
+方法一： 在线安装
+
+    cordova plugin add  https://github.com/jpush/jpush-phonegap-plugin.git --variable API_KEY=your_jpush_appkey  
+
+方法二：下载到本地再安装
+
+使用git命令将jpush phonegap插件下载的本地,将这个目录标记为`$JPUSH_PLUGIN_DIR`
 
 
-4. 将`$JPUSH_PLUGIN_DIR/plugin.xml`文件中的AppKey替换为在Portal上注册该应用的的Key,例如（9fed5bcb7b9b87413678c407）
-		
-		<meta-data android:name="JPUSH_APPKEY" android:value="your appkey"/>
-
-4. 打开`$JPUSH_PLUGIN_DIR/src/ios/PushConfig.plist`文件将文件中的`7d431e42dfa6a6d693ac2d04`替换为在Portal上注册该应用的的Key,例如（9fed5bcb7b9b87413678c407）
-		
-
-5. 在`$JPUSH_PLUGIN_DIR/src/android/JPushPlugin.java` 文件`import your.package.name.R`替换为在Portal上注册该应用的包名，例如(com.thi.pushtest)
+    git clone https://github.com/jpush/jpush-phonegap-plugin.git
+    cordova plugin add $JPUSH_PLUGIN_DIR  --variable API_KEY=your_jpush_appkey
 
 
-6. cordova cli 添加jpush phonegap插件和依赖的device插件: 
 
-		cordova plugin add $JPUSH_PLUGIN_DIR
-		cordova plugin add org.apache.cordova.device
-	
-7. 在js中调用函数,初始化jpush sdk
+2).  安装org.apache.cordova.device
 
-		 window.plugins.jPushPlugin.init();	
-		 //由于phonegap插件采用了Lazy load的特性，	所以这里建议在js文件能执行的最开始就加
+     cordova plugin add org.apache.cordova.device
+
+
+3). 在js中调用函数,初始化jpush sdk
+
+    window.plugins.jPushPlugin.init();	
+    //由于phonegap插件采用了Lazy load的特性，	所以这里建议在js文件能执行的最开始就加
+
 
 ### Android 手工安装
 
@@ -65,12 +78,6 @@ l## JPush PhoneGap Plugin ##
 ###关于'phonegap build'云服务
 
 该项目基于cordova实现，目前无法使用'phonegap build'云服务进行打包，建议使用本地环境进行打包
-
-###常见错误
-1. androd
-
-		eclipse中phonegap工程import之后出现:`Type CallbackContext cannot be resolved to a type`
-		解决方案：eclipse中右键单击工程名，Build Path->Config Build Path->Projects->选中 工程名称－CordovaLib->点击 add
 
 ### API说明
 
@@ -185,6 +192,21 @@ l## JPush PhoneGap Plugin ##
 		window.plugins.jPushPlugin.clearLocalNotifications()
 
 [Android API详细说明](document/Android_detail_api.md)
+
+###常见问题
+
+####1. androd
+
+	eclipse中phonegap工程import之后出现:`Type CallbackContext cannot be resolved to a type`
+	解决方案：eclipse中右键单击工程名，Build Path->Config Build Path->Projects->选中 工程名称－CordovaLib->点击 add
+
+####2. iOS 设置/修改 APP_KEY
+	
+    在PushConfig.plist 中修改。PushConfig.plist 其他值说明： 
+    CHANNEL 渠道标识
+    IsProduction 是否生产环境（暂未启用）
+	
+
 
 ###更多
  [JPush官网文档](http://docs.jpush.io/)

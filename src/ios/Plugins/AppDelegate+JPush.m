@@ -9,9 +9,9 @@
 #import "AppDelegate+JPush.h"
 #import <objc/runtime.h>
 #import "JPushPlugin.h"
-#import "APService.h"
+#import "JPUSHService.h"
 
-static char launchNotificationKey;
+//static char launchNotificationKey;
 
 @implementation AppDelegate (JPush)
 
@@ -41,24 +41,43 @@ static char launchNotificationKey;
     }
 }
 
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    [APService registerDeviceToken:deviceToken];
+    [JPUSHService registerDeviceToken:deviceToken];
 }
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
     
-    [APService handleRemoteNotification:userInfo];
+    [JPUSHService handleRemoteNotification:userInfo];
     [[NSNotificationCenter defaultCenter] postNotificationName:kJPushPluginReceiveNotification
                                                         object:userInfo];
-
 }
+
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
     
-    [APService handleRemoteNotification:userInfo];
+    [JPUSHService handleRemoteNotification:userInfo];
     [[NSNotificationCenter defaultCenter] postNotificationName:kJPushPluginReceiveNotification
                                                         object:userInfo];
+    completionHandler(UIBackgroundFetchResultNewData);
 
-    
 }
+
+- (void)application:(UIApplication *)application
+  didReceiveLocalNotification:(UILocalNotification *)notification {
+  [JPUSHService showLocalNotificationAtFront:notification identifierKey:nil];
+}
+
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+//  [application setApplicationIconBadgeNumber:0];
+//  [application cancelAllLocalNotifications];
+}
+
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+//  [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+}
+
+
 
 //delegate里不能声明变量，所以采用关联对象这种技术绕过这个限制
 //-(NSDictionary *)luanchOption{
