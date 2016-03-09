@@ -48,6 +48,15 @@
 //开关日志
 -(void)setDebugModeFromIos:(CDVInvokedUrlCommand*)command;
 -(void)setLogOFF:(CDVInvokedUrlCommand*)command;
+-(void)crashLogON:(CDVInvokedUrlCommand*)command;
+
+//本地推送
+-(void)setLocalNotification:(CDVInvokedUrlCommand*)command;
+-(void)deleteLocalNotificationWithIdentifierKey:(CDVInvokedUrlCommand*)command;
+-(void)clearAllLocalNotifications:(CDVInvokedUrlCommand*)command;
+
+//地理位置上报 [latitude,longitude]
+-(void)setLocation:(CDVInvokedUrlCommand*)command;
 
 /*
  *  以下为js中可监听到的事件

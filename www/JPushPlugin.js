@@ -138,6 +138,36 @@ JPushPlugin.prototype.setLogOFF = function(){
             this.call_native("setLogOFF",[data],null);
 	}
 }
+JPushPlugin.prototype.setCrashLogON = function(){
+    if (this.isPlatformIOS()) {
+        var data=[];
+        this.call_native("crashLogON",[data],null);
+    }
+}
+JPushPlugin.prototype.addLocalNotificationForIOS = function(delayTime,content,badge,notificationID,extras){
+    if (this.isPlatformIOS()) {
+        var data = [delayTime,content,badge,notificationID,extras];
+        this.call_native("setLocalNotification",data,null);
+    }
+}
+JPushPlugin.prototype.deleteLocalNotificationWithIdentifierKeyInIOS = function(identifierKey){
+    if (this.isPlatformIOS()) {
+        var data=[identifierKey];
+        this.call_native("deleteLocalNotificationWithIdentifierKey",data,null);
+    }
+}
+JPushPlugin.prototype.clearAllLocalNotifications = function(){
+    if (this.isPlatformIOS()) {
+        var data=[];
+        this.call_native("clearAllLocalNotifications",data,null);
+    }
+}
+JPushPlugin.prototype.setLocation = function(latitude,longitude){
+    if (this.isPlatformIOS()) {
+        var data=[latitude,longitude];
+        this.call_native("setLocation",data,null);
+    }
+}
 JPushPlugin.prototype.receiveMessageIniOSCallback = function(data){
 	try{
 		console.log("JPushPlugin:receiveMessageIniOSCallback--data:"+data);

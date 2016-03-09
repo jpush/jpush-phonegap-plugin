@@ -233,6 +233,32 @@ static NSDictionary *_luanchOptions = nil;
     [JPUSHService setLogOFF];
 }
 
+-(void)crashLogON:(CDVInvokedUrlCommand*)command{
+    [JPUSHService crashLogON];
+}
+
+-(void)setLocalNotification:(CDVInvokedUrlCommand*)command{
+    NSArray  *arguments = command.arguments;
+    NSDate   *date      = [NSDate dateWithTimeIntervalSinceNow:[((NSString*)arguments[0]) intValue]];
+    NSString *alertBody = (NSString*)arguments[1];
+    int       badge     = [(NSString*)arguments[2] intValue];
+    NSString *idKey     = (NSString*)arguments[3];
+    NSDictionary *dict  = (NSDictionary*)arguments[4];
+    [JPUSHService setLocalNotification:date alertBody:alertBody badge:badge alertAction:nil identifierKey:idKey userInfo:dict soundName:nil];
+}
+
+-(void)deleteLocalNotificationWithIdentifierKey:(CDVInvokedUrlCommand*)command{
+    [JPUSHService deleteLocalNotificationWithIdentifierKey:(NSString*)command.arguments[0]];
+}
+
+-(void)clearAllLocalNotifications:(CDVInvokedUrlCommand*)command{
+    [JPUSHService clearAllLocalNotifications];
+}
+
+-(void)setLocation:(CDVInvokedUrlCommand*)command{
+    [JPUSHService setLatitude:[((NSString*)command.arguments[0]) doubleValue] longitude:[((NSString*)command.arguments[1]) doubleValue]];
+}
+
 #pragma mark- 内部方法
 +(void)setLaunchOptions:(NSDictionary *)theLaunchOptions{
     _luanchOptions = theLaunchOptions;
