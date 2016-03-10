@@ -58,6 +58,7 @@ public class JPushPlugin extends CordovaPlugin {
 
     private ExecutorService threadPool = Executors.newFixedThreadPool(1);
     private static JPushPlugin instance;
+    private static Activity cordovaActivity;
     private static String TAG = "JPushPlugin";
 
     private static boolean shouldCacheMsg = false;
@@ -78,7 +79,7 @@ public class JPushPlugin extends CordovaPlugin {
 
         Log.i(TAG, "---------------- initialize" + "-" + JPushPlugin.openNotificationAlert + "-" + JPushPlugin.notificationAlert);
 
-        shouldCacheMsg = false;
+        cordovaActivity = this.cordova.getActivity();
 
         //如果同时缓存了打开事件openNotificationAlert 和 消息事件notificationAlert，只向UI 发 打开事件。
         //这样做是为了和iOS 统一
@@ -170,18 +171,14 @@ public class JPushPlugin extends CordovaPlugin {
             return;
         }
         JSONObject data = notificationObject(message, extras);
-        String js = String.format(
-                "window.plugins.jPushPlugin.receiveMessageInAndroidCallback('%s');",
-                data.toString());
-        try {
-            instance.webView.sendJavascript(js);
-//			String jsEvent=String
-//					.format("cordova.fireDocumentEvent('jpush.receiveMessage',%s)",
-//							data.toString());
-//			instance.webView.sendJavascript(jsEvent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String format = "window.plugins.jPushPlugin.receiveMessageInAndroidCallback('%s');";
+        final String js = String.format(format, data.toString());
+        cordovaActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                instance.webView.loadUrl("javascript:" + js);
+            }
+        });                
     }
 
     static void transmitOpen(String alert, Map<String, Object> extras) {
@@ -194,18 +191,14 @@ public class JPushPlugin extends CordovaPlugin {
         Log.i(TAG, "----------------  transmitOpen");
 
         JSONObject data = openNotificationObject(alert, extras);
-        String js = String.format(
-                "window.plugins.jPushPlugin.openNotificationInAndroidCallback('%s');",
-                data.toString());
-        try {
-            instance.webView.sendJavascript(js);
-//			String jsEvent=String
-//    					.format("cordova.fireDocumentEvent('jpush.openNotification',%s)",
-//    							data.toString());
-//    		instance.webView.sendJavascript(jsEvent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String format = "window.plugins.jPushPlugin.openNotificationInAndroidCallback('%s');";
+        final String js = String.format(format, data.toString());
+        cordovaActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                instance.webView.loadUrl("javascript:" + js);
+            }
+        });
         JPushPlugin.openNotificationAlert = null;
     }
 
@@ -217,15 +210,14 @@ public class JPushPlugin extends CordovaPlugin {
             return;
         }
         JSONObject data = openNotificationObject(alert, extras);
-        String js = String.format(
-                "window.plugins.jPushPlugin.receiveNotificationInAndroidCallback('%s');",
-                data.toString());
-        Log.i(TAG, "--------->" + js);
-        try {
-            instance.webView.sendJavascript(js);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String format = "window.plugins.jPushPlugin.receiveNotificationInAndroidCallback('%s');";
+        final String js = String.format(format, data.toString());
+        cordovaActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                instance.webView.loadUrl("javascript:" + js);
+            }
+        });
         JPushPlugin.notificationAlert = null;
     }
 
