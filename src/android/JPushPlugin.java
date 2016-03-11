@@ -178,7 +178,7 @@ public class JPushPlugin extends CordovaPlugin {
             public void run() {
                 instance.webView.loadUrl("javascript:" + js);
             }
-        });                
+        });
     }
 
     static void transmitOpen(String alert, Map<String, Object> extras) {
@@ -204,9 +204,6 @@ public class JPushPlugin extends CordovaPlugin {
 
     static void transmitReceive(String alert, Map<String, Object> extras) {
         if (instance == null) {
-            return;
-        }
-        if (JPushPlugin.shouldCacheMsg) {
             return;
         }
         JSONObject data = openNotificationObject(alert, extras);
