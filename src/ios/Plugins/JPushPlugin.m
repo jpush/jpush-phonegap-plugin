@@ -238,12 +238,12 @@ static NSDictionary *_luanchOptions = nil;
 }
 
 -(void)setLocalNotification:(CDVInvokedUrlCommand*)command{
-    NSArray  *arguments = command.arguments;
-    NSDate   *date      = [NSDate dateWithTimeIntervalSinceNow:[((NSString*)arguments[0]) intValue]];
-    NSString *alertBody = (NSString*)arguments[1];
-    int       badge     = [(NSString*)arguments[2] intValue];
-    NSString *idKey     = (NSString*)arguments[3];
-    NSDictionary *dict  = (NSDictionary*)arguments[4];
+    NSArray      *arguments = command.arguments;
+    NSDate       *date      = arguments[0] == [NSNull null] ? nil : [NSDate dateWithTimeIntervalSinceNow:[((NSString*)arguments[0]) intValue]];
+    NSString     *alertBody = arguments[1] == [NSNull null] ? nil : (NSString*)arguments[1];
+    int           badge     = arguments[2] == [NSNull null] ? 0   : [(NSString*)arguments[2] intValue];
+    NSString     *idKey     = arguments[3] == [NSNull null] ? nil : (NSString*)arguments[3];
+    NSDictionary *dict      = arguments[4] == [NSNull null] ? nil : (NSDictionary*)arguments[4];
     [JPUSHService setLocalNotification:date alertBody:alertBody badge:badge alertAction:nil identifierKey:idKey userInfo:dict soundName:nil];
 }
 

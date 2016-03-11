@@ -16,7 +16,7 @@
 
 - data 	是一个js字符串使用如下代码解析，js具体key根据应用内消息来确定
 	
-		var bToObj = JSON.parse(data);
+		var bToObj = JSON.parse(data)
 		
 #####返回值
 无
@@ -131,7 +131,7 @@ API用于注册本地通知
 
 #####代码示例
 
-	window.plugins.jPushPlugin.addLocalNotificationForIOS(6*60*60,"本地推送内容",1,"notiId",{"key":"value"})
+	window.plugins.jPushPlugin.addLocalNotificationForIOS(6*60*60,"本地推送内容",1,"notiId",{"key":"value"});
 
 #### API - deleteLocalNotificationWithIdentifierKeyInIOS
 
@@ -147,7 +147,7 @@ API删除本地推送定义
 
 #####代码示例
 
-        window.plugins.jPushPlugin.deleteLocalNotificationWithIdentifierKeyInIOS("identifier")
+        window.plugins.jPushPlugin.deleteLocalNotificationWithIdentifierKeyInIOS("identifier");
         
 #### API - clearAllLocalNotifications
 
@@ -159,7 +159,7 @@ API清除所有本地推送对象
 
 #####代码示例
 
-        window.plugins.jPushPlugin.clearAllLocalNotifications()  
+        window.plugins.jPushPlugin.clearAllLocalNotifications();
         
 ### 日志等级设置
 #### API - setDebugModeFromIos
@@ -182,7 +182,7 @@ API用来关闭日志信息（除了必要的错误信息）
 
 ##### 接口定义 
 
-	window.plugins.jPushPlugin.prototype.setLogOFF ()
+	window.plugins.jPushPlugin.prototype.setLogOFF()
 
 #####代码示例
 
@@ -197,12 +197,29 @@ API用于统计用户应用崩溃日志
 
 ##### 接口定义 
 
-	window.plugins.jPushPlugin.prototype.setCrashLogON ()
+	window.plugins.jPushPlugin.prototype.setCrashLogON()
 
 #####代码示例
 
-	window.plugins.jPushPlugin.setCrashLogON()
+	window.plugins.jPushPlugin.setCrashLogON();
 	
+### 地理位置上报
+#### API - setLocation
+API 用于统计用户地理信息
+
+##### 接口定义
+
+window.plugins.jPushPlugin.prototype.setLocation(latitude,longitude)
+
+##### 参数说明
+
+- latitude 地理位置纬度，数值类型或纯数字的字符型均可
+- longitude 地理位置精度，数值类型或纯数字的字符型均可
+
+#####代码示例
+
+window.plugins.jPushPlugin.setLocation(39.26,115.25);
+
 ### 设备平台判断
 #### API - isPlatformIOS
 API 用于区分iOS、Android平台，以便不同设置
