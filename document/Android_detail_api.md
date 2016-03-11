@@ -28,7 +28,7 @@
 ##### 接口定义
 
 	window.plugins.jPushPlugin.receiveMessageInAndroidCallback = function(data)
-	
+
 ##### 参数说明
 - data 接收到的js字符串，包含的key:value请进入该函数体查看
 
@@ -42,7 +42,7 @@
 ##### 接口定义
 
 	window.plugins.jPushPlugin.openNotificationInAndroidCallback = function(data)
-	
+
 ##### 参数说明
 - data js字符串
 
@@ -80,6 +80,19 @@
 	    JPushInterface.onPause(this);
 	}
 
+#### API - setStatisticsOpen(boolean)
+
+用于在 js 中控制是否打开应用的统计分析功能，但如果已经添加了上面的 onResume/onPause 方法，
+就不能再通过这个方法来控制统计分析功能了。
+
+#### 接口定义
+
+	window.plugins.jPushPlugin.setStatisticsOpen(boolean)
+
+#### 参数说明
+- boolean
+	-true : 打开统计分析功能
+	-false: 关闭统计分析功能
 
 #### API - reportNotificationOpened
 
@@ -89,7 +102,7 @@
 ##### 接口定义
 
 	window.plugins.jPushPlugin.reportNotificationOpened(msgID)
-	
+
 ##### 参数说明
 - msgID
 	-收到的通知或者自定义消息的id 	
@@ -117,14 +130,14 @@
 当用户需要定制默认的通知栏样式时，则可调用此方法。
 极光 Push SDK 提供了 2 个用于定制通知栏样式的构建类：
 
-- setBasicPushNotificationBuilder 
+- setBasicPushNotificationBuilder
 	- Basic 用于定制 Android Notification 里的 defaults / flags / icon 等基础样式（行为）
 - setCustomPushNotificationBuilder
 	- 继承 Basic 进一步让开发者定制 Notification Layout
-	
+
 如果不调用此方法定制，则极光Push SDK 默认的通知栏样式是：Android标准的通知栏提示。
 
-##### 接口定义 
+##### 接口定义
 
 	window.plugins.jPushPlugin.setBasicPushNotificationBuilder = function()
 	window.plugins.jPushPlugin.setCustomPushNotificationBuilder = function()
@@ -143,7 +156,7 @@
 ##### 接口定义
 
 	window.plugins.jPushPlugin.setLatestNotificationNum(num)
-	
+
 ##### 参数说明
 
 - num 保存的条数
@@ -181,5 +194,3 @@
 - notificaitonID 设置本地通知的ID
 - broadcastTime 设置本地通知触发时间，为距离当前时间的数值，单位是毫秒
 - extras 设置额外的数据信息extras为json字符串
-
-
