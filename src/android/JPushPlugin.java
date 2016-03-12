@@ -1,14 +1,12 @@
 package cn.jpush.phonegap;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import android.app.Activity;
+import android.app.Notification;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.util.Log;
+
+import __PACKAGE_NAME__.R;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -17,16 +15,23 @@ import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.Map.Entry;
 
-import __PACKAGE_NAME__.R;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.CustomPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.data.JPushLocalNotification;
 import cn.jpush.android.api.TagAliasCallback;
-import android.util.Log;
+import cn.jpush.android.data.JPushLocalNotification;
 
 public class JPushPlugin extends CordovaPlugin {
     private final static List<String> methodList =
