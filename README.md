@@ -1,5 +1,7 @@
 ## JPush PhoneGap Plugin ##
 
+[![Join the chat at https://gitter.im/jpush/jpush-phonegap-plugin](https://badges.gitter.im/jpush/jpush-phonegap-plugin.svg)](https://gitter.im/jpush/jpush-phonegap-plugin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 jpush-phonegap-plugin 支持 iOS,Android 的推送插件。
 
 **功能特性：**
