@@ -188,17 +188,10 @@ JPushPlugin.prototype.receiveMessageIniOSCallback = function(data) {
 JPushPlugin.prototype.receiveMessageInAndroidCallback = function(data) {
 	try {
 		console.log("JPushPlugin:receiveMessageInAndroidCallback");
+		data = JSON.stringify(data);
 		var bToObj = JSON.parse(data);
 		this.receiveMessage = bToObj
 		cordova.fireDocumentEvent('jpush.receiveMessage', null);
-		//console.log(data);
-		//var message  = bToObj.message;
-		//var extras  = bToObj.extras;
-
-		//console.log(message);
-		//console.log(extras['cn.jpush.android.MSG_ID']);
-		//console.log(extras['cn.jpush.android.CONTENT_TYPE']);
-		//console.log(extras['cn.jpush.android.EXTRA']);
 	} catch(exception) {
 		console.log("JPushPlugin:pushCallback " + exception);
 	}
@@ -207,23 +200,10 @@ JPushPlugin.prototype.receiveMessageInAndroidCallback = function(data) {
 JPushPlugin.prototype.openNotificationInAndroidCallback = function(data) {
 	try {
 		console.log("JPushPlugin:openNotificationInAndroidCallback");
+		data = JSON.stringify(data);
 		var bToObj = JSON.parse(data);
 		this.openNotification = bToObj;
 		cordova.fireDocumentEvent('jpush.openNotification', null);
-
-		//console.log(data);
-		//var bToObj  = JSON.parse(data);
-		//var alert   = bToObj.alert;
-		//var extras  = bToObj.extras;
-		//console.log(alert);
-
-		//console.log(extras['cn.jpush.android.MSG_ID']);
-		//console.log(extras['app']);
-		//console.log(extras['cn.jpush.android.NOTIFICATION_CONTENT_TITLE']);
-		//console.log(extras['cn.jpush.android.EXTRA']);
-		//console.log(extras['cn.jpush.android.PUSH_ID']);
-		//console.log(extras['cn.jpush.android.NOTIFICATION_ID']);
-		//console.log("JPushPlugin:openNotificationCallback is ready");
 	} catch(exception) {
 		console.log(exception);
 	}
@@ -232,23 +212,10 @@ JPushPlugin.prototype.openNotificationInAndroidCallback = function(data) {
 JPushPlugin.prototype.receiveNotificationInAndroidCallback = function(data) {
 	try{
 		console.log("JPushPlugin:receiveNotificationInAndroidCallback");
+		data = JSON.stringify(data);
 		var bToObj = JSON.parse(data);
 		this.receiveNotification = bToObj;
 		cordova.fireDocumentEvent('jpush.receiveNotification', null);
-
-		//console.log(data);
-		//var bToObj  = JSON.parse(data);
-		//var alert   = bToObj.alert;
-		//var extras  = bToObj.extras;
-		//console.log(alert);
-
-		//console.log(extras['cn.jpush.android.MSG_ID']);
-		//console.log(extras['app']);
-		//console.log(extras['cn.jpush.android.NOTIFICATION_CONTENT_TITLE']);
-		//console.log(extras['cn.jpush.android.EXTRA']);
-		//console.log(extras['cn.jpush.android.PUSH_ID']);
-		//console.log(extras['cn.jpush.android.NOTIFICATION_ID']);
-		//console.log("JPushPlugin:openNotificationCallback is ready");
 	} catch(exception) {
 		console.log(exception);
 	}

@@ -181,7 +181,7 @@ public class JPushPlugin extends CordovaPlugin {
             return;
         }
         JSONObject data = notificationObject(message, extras);
-        String format = "window.plugins.jPushPlugin.receiveMessageInAndroidCallback('%s');";
+        String format = "window.plugins.jPushPlugin.receiveMessageInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
         cordovaActivity.runOnUiThread(new Runnable() {
             @Override
@@ -198,10 +198,8 @@ public class JPushPlugin extends CordovaPlugin {
         if (JPushPlugin.shouldCacheMsg) {
             return;
         }
-        Log.i(TAG, "----------------  transmitOpen");
-
         JSONObject data = openNotificationObject(alert, extras);
-        String format = "window.plugins.jPushPlugin.openNotificationInAndroidCallback('%s');";
+        String format = "window.plugins.jPushPlugin.openNotificationInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
         cordovaActivity.runOnUiThread(new Runnable() {
             @Override
@@ -217,7 +215,7 @@ public class JPushPlugin extends CordovaPlugin {
             return;
         }
         JSONObject data = openNotificationObject(alert, extras);
-        String format = "window.plugins.jPushPlugin.receiveNotificationInAndroidCallback('%s');";
+        String format = "window.plugins.jPushPlugin.receiveNotificationInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
         cordovaActivity.runOnUiThread(new Runnable() {
             @Override
@@ -258,13 +256,6 @@ public class JPushPlugin extends CordovaPlugin {
         boolean mode;
         try {
             mode = data.getBoolean(0);
-            // if (mode.equals("true")) {
-            // 	JPushInterface.setDebugMode(true);
-            // } else if (mode.equals("false")) {
-            // 	JPushInterface.setDebugMode(false);
-            // } else {
-            // 	callbackContext.error("error mode");
-            // }
             JPushInterface.setDebugMode(mode);
             callbackContext.success();
         } catch (JSONException e) {
@@ -530,7 +521,12 @@ public class JPushPlugin extends CordovaPlugin {
                 String jsEvent = String.format(
                         "cordova.fireDocumentEvent('jpush.setTagsWithAlias',%s)",
                         data.toString());
-                instance.webView.sendJavascript(jsEvent);
+                cordovaActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        instance.webView.loadUrl("javascript:" + jsEvent);
+                    }
+                });
             } catch (JSONException e) {
                 e.printStackTrace();
             }
