@@ -518,7 +518,7 @@ public class JPushPlugin extends CordovaPlugin {
                 data.put("resultCode", code);
                 data.put("tags", tags);
                 data.put("alias", alias);
-                String jsEvent = String.format(
+                final String jsEvent = String.format(
                         "cordova.fireDocumentEvent('jpush.setTagsWithAlias',%s)",
                         data.toString());
                 cordovaActivity.runOnUiThread(new Runnable() {
