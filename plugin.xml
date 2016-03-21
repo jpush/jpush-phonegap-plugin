@@ -29,7 +29,7 @@
 
             <header-file src="src/ios/Plugins/JPushPlugin.h"/>
             <source-file src="src/ios/Plugins/JPushPlugin.m"/>
-           
+
             <header-file src="src/ios/lib/JPUSHService.h" />
             <source-file src="src/ios/lib/jpush-ios-2.1.0.a" framework="true" />
             <header-file src="src/ios/Plugins/AppDelegate+JPush.h"/>
@@ -49,14 +49,14 @@
                 <string>$API_KEY</string>
             </config-file>
         </platform>
-        
+
     <!-- android -->
     <platform name="android">
         <hook type="after_plugin_add" src="scripts/android-install.js" />
         <hook type="after_plugin_install" src="scripts/android-install.js" />
         <hook type="before_plugin_rm" src="scripts/android-install.js" />
         <hook type="before_plugin_uninstall" src="scripts/android-install.js" />
-    
+
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="JPushPlugin">
                 <param name="android-package" value="cn.jpush.phonegap.JPushPlugin"/>
@@ -163,11 +163,13 @@
             <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
             <meta-data android:name="JPUSH_APPKEY" android:value="$API_KEY"/>
         </config-file>
-        <source-file src="src/android/jpush-android-2.0.6.jar" target-dir="libs"/>
-        <source-file src="src/android/armeabi/libjpush206.so" target-dir="libs/armeabi"/>
-        <source-file src="src/android/armeabi-v7a/libjpush206.so" target-dir="libs/armeabi-v7a"/>
-        <source-file src="src/android/arm64-v8a/libjpush206.so" target-dir="libs/arm64-v8a"/>
-        
+        <source-file src="src/android/jpush-android-2.1.0.jar" target-dir="libs"/>
+        <source-file src="src/android/armeabi/libjpush210.so" target-dir="libs/armeabi"/>
+        <source-file src="src/android/armeabi-v7a/libjpush210.so" target-dir="libs/armeabi-v7a"/>
+        <source-file src="src/android/arm64-v8a/libjpush210.so" target-dir="libs/arm64-v8a"/>
+        <source-file src="src/android/x86/libjpush210.so" target-dir="libs/x86"/>
+        <source-file src="src/android/x86_64/libjpush210.so" target-dir="libs/x86_64"/>
+
         <!--<source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap"/>-->
         <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap"/>
     	<source-file src="src/android/test_notification_layout.xml" target-dir="res/layout"/>
