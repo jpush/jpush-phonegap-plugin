@@ -106,7 +106,7 @@ public class JPushPlugin extends CordovaPlugin {
     public void onPause(boolean multitasking) {
         Log.i(TAG, "----------------  onPause");
         shouldCacheMsg = true;
-        if (isStatisticsOpened) {
+        if (isStatisticsOpened && multitasking) {
             JPushInterface.onPause(cordovaActivity);
         }
     }
@@ -116,7 +116,7 @@ public class JPushPlugin extends CordovaPlugin {
         Log.i(TAG, "---------------- onResume" + "-"
             + JPushPlugin.openNotificationAlert + "-"
             + JPushPlugin.notificationAlert);
-        if (isStatisticsOpened) {
+        if (isStatisticsOpened && multitasking) {
             JPushInterface.onResume(cordovaActivity);
         }
         if (JPushPlugin.openNotificationAlert != null) {
