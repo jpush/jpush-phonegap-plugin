@@ -134,20 +134,29 @@ jpush-phonegap-plugin 支持 iOS,Android 的推送插件。
 		window.plugins.jPushPlugin.startLogPageView (pageName)
 		window.plugins.jPushPlugin.stopLogPageView (pageName)
 		window.plugins.jPushPlugin.beginLogPageView (pageName,duration)
+
 + 设置Badge
 
 		window.plugins.jPushPlugin.setBadge(value)
 		window.plugins.jPushPlugin.resetBadge()
 		window.plugins.jPushPlugin.setApplicationIconBadgeNumber(badge)
+		window.plugins.JPushPlugin.getApplicationIconBadgeNumber(callback)
+
 + 本地通知
 
-	+ 后续版本加入
+		window.plugins.JPushPlugin.addLocalNotificationForIOS(delayTime, content, badge, notificationID, extras)
+		window.plugins.JPushPlugin.deleteLocalNotificationWithIdentifierKeyInIOS()
+		window.plugins.JPushPlugin.clearAllLocalNotifications()
 
 + 日志等级设置
 
 		window.plugins.jPushPlugin.setDebugModeFromIos ()
 		window.plugins.jPushPlugin.setLogOFF()
+		window.plugins.JPushPlugin.setCrashLogON()
 
++ 地理位置上报
+
+		window.plugins.JPushPlugin.setLocation(latitude, longitude)
 
 [iOS API详细说明](document/iOS_detail_api.md)
 
