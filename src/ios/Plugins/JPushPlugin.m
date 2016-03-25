@@ -35,13 +35,11 @@ static NSDictionary *_luanchOptions = nil;
                                                           UIUserNotificationTypeAlert)
                                               categories:nil];
     } else {
-#ifndef __IPHONE_8_0
         //categories 必须为nil
         [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
                                                           UIRemoteNotificationTypeSound |
                                                           UIRemoteNotificationTypeAlert)
                                               categories:nil];
-#endif
     }
 }
 
