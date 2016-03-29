@@ -68,7 +68,7 @@ public class JPushPlugin extends CordovaPlugin {
     private static String TAG = "JPushPlugin";
 
     private static boolean shouldCacheMsg = false;
-    private static boolean isStatisticsOpened = true;    // 是否开启统计分析功能
+    private static boolean isStatisticsOpened = false;    // 是否开启统计分析功能
 
     public static String notificationAlert;
     public static Map<String, Object> notificationExtras = new HashMap<String, Object>();
