@@ -1,14 +1,14 @@
-## JPush PhoneGap Plugin ##
+## JPush PhoneGap/Cordova Plugin ##
 
-jpush-phonegap-plugin 支持 iOS,Android 的推送插件。
+支持 iOS, Android 的极光推送插件。
 
-**功能特性：**
->+ 发送推送通知
+### 功能特性
++ 发送推送通知
 + 发送推送自定义消息
 + 设置推送标签和别名
 + 设置角标（iOS）
 
-*如需要 IM 功能插件，请关注[jmessage-phonegap-plugin](https://github.com/jpush/jmessage-phonegap-plugin)*
+> 如需要 IM 功能插件，请关注[jmessage-phonegap-plugin](https://github.com/jpush/jmessage-phonegap-plugin)
 
 
 ## 安装 ##
