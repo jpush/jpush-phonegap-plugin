@@ -87,14 +87,14 @@ JPush SDK 会恢复正常的默认行为。（因为保存在本地的状态数�
 + callback 回调函数，用来通知JPush的推送服务是否开启
 
 ####代码示例
-	    window.plugins.jPushPlugin.resumePush(callback)
-		var onCallback = function(data) {
-		    if(data>0){
+	window.plugins.jPushPlugin.resumePush(callback)
+	var onCallback = function(data) {
+		if(data>0){
 		    	//开启
-		    }else{
+		}else{
 		    	//关闭
-		    }
 		}
+	}
 
 
 ##获取 RegistrationID API
@@ -136,7 +136,7 @@ RegistrationID 定义
 
 这几个 API 可以在 App 里任何地方调用。
 
-别名 alias
+**别名 alias**
 
 为安装了应用程序的用户，取个别名来标识。以后给该用户 Push 消息时，就可以用此别名来指定。
 
@@ -148,7 +148,7 @@ RegistrationID 定义
 
 举例：在一个用户要登录的游戏中，可能设置别名为 userid。游戏运营时，发现该用户 3 天没有玩游戏了，则根据 userid 调用服务器端API发通知到客户端提醒用户。
 
-标签 tag
+**标签 tag**
 
 为安装了应用程序的用户，打上标签。其目的主要是方便开发者根据标签，来批量下发 Push 消息。
 
@@ -163,10 +163,6 @@ RegistrationID 定义
 	JPushPlugin.prototype.setTagsWithAlias = function(tags,alias)
 	JPushPlugin.prototype.setTags = function(tags)
 	JPushPlugin.prototype.setAlias = function(alias)
-
-####使用平台
-android iOS
-
 
 #### 参数说明
 * tags
@@ -207,17 +203,18 @@ android iOS
 
 
 
-|Code|描述|详细解释|
-|-|-|-|
-|6001|	无效的设置，tag/alias 不应参数都为 null||	
-|6002|	设置超时|	建议重试|
-|6003|	alias| 字符串不合法	有效的别名、标签组成：字母（区分大小写）、数字、下划线、汉字。|
-|6004|	alias超长。最多 40个字节	中文 UTF-8 是 3 个字节|
-|6005|	某一个 tag 字符串不合法|	有效的别名、标签组成：字母（区分大小写）、数字、下划线、汉字。|
-|6006|	某一个 tag 超长。|一个 tag 最多 40个字节	中文 UTF-8 是 3 个字节|
-|6007|	tags 数量超出限制。最多 100个|	这是一台设备的限制。一个应用全局的标签数量无限制。|
-|6008|	tag/alias 超出总长度限制。|总长度最多 1K 字节|
-|6011|	10s内设置tag或alias大于3次|	短时间内操作过于频繁|
+|Code|描述                   		       |详细解释 |
+|----|:----------------------------------------|:--------|
+|6001|无效的设置，tag/alias 不应参数都为 null  |   	 |
+|6002|设置超时			       	       |建议重试|
+|6003|alias 字符串不合法	               |有效的别名、标签组成：字母（区分大小写）、数字、下划线、汉字。|
+|6004|alias超长。			       |最多 40个字节	中文 UTF-8 是 3 个字节|
+|6005|某一个 tag 字符串不合法		       |有效的别名、标签组成：字母（区分大小写）、数字、下划线、汉字。|
+|6006|某一个 tag 超长			       |一个 tag 最多 40个字节	中文 UTF-8 是 3 个字节|
+|6007|tags 数量超出限制。最多 100个	       |这是一台设备的限制。一个应用全局的标签数量无限制。|
+|6008|tag/alias 超出总长度限制	       	       |总长度最多 1K 字节|
+|6011|10s内设置tag或alias大于3次	       |短时间内操作过于频繁|
+
 
 ### 获取点击通知内容
 
@@ -264,6 +261,8 @@ ps：点击通知后传递的json object 保存在window.plugins.jPushPlugin.ope
 			  "sound":"default",
 			  "alert":"今天去哪儿"
 			  },
+		"key1":"value1",
+		"key2":"value2",
 		"_j_msgid":154604475
 		}
 
@@ -312,6 +311,8 @@ ps：点击通知后传递的json object 保存在window.plugins.jPushPlugin.rec
 			  "sound":"default",
 			  "alert":"今天去哪儿"
 			  },
+		"key1":"value1",
+		"key2":"value2",
 		"_j_msgid":154604475
 		}
 

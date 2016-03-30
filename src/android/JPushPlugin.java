@@ -68,7 +68,7 @@ public class JPushPlugin extends CordovaPlugin {
     private static String TAG = "JPushPlugin";
 
     private static boolean shouldCacheMsg = false;
-    private static boolean isStatisticsOpened = true;    // 是否开启统计分析功能
+    private static boolean isStatisticsOpened = false;    // 是否开启统计分析功能
 
     public static String notificationAlert;
     public static Map<String, Object> notificationExtras = new HashMap<String, Object>();
@@ -106,7 +106,7 @@ public class JPushPlugin extends CordovaPlugin {
     public void onPause(boolean multitasking) {
         Log.i(TAG, "----------------  onPause");
         shouldCacheMsg = true;
-        if (isStatisticsOpened) {
+        if (isStatisticsOpened && multitasking) {
             JPushInterface.onPause(cordovaActivity);
         }
     }
@@ -116,7 +116,7 @@ public class JPushPlugin extends CordovaPlugin {
         Log.i(TAG, "---------------- onResume" + "-"
             + JPushPlugin.openNotificationAlert + "-"
             + JPushPlugin.notificationAlert);
-        if (isStatisticsOpened) {
+        if (isStatisticsOpened && multitasking) {
             JPushInterface.onResume(cordovaActivity);
         }
         if (JPushPlugin.openNotificationAlert != null) {
