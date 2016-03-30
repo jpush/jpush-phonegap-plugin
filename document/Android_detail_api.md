@@ -1,4 +1,4 @@
-## adnroid API简介
+## Android API简介
 
 
 
@@ -6,11 +6,11 @@
 
 #### API - setDebugMode
 
-用于开启调试模式，可以查看集成JPush过程中的log，如果集成失败，可方便定位问题所在
+用于开启调试模式，可以查看集成 JPush 过程中的 Log，如果集成失败，可方便定位问题所在
 
 ##### 接口定义
 
-	window.plugins.jPushPlugin.setDebugMode (mode)
+	window.plugins.jPushPlugin.setDebugMode(mode)
 
 ##### 参数说明
 
@@ -23,20 +23,20 @@
 ###  接收消息和点击通知事件
 #### API - receiveMessageInAndroidCallback
 
-用于android收到应用内消息的回调函数(请注意和通知的区别)，该函数不需要主动调用
+用于 Android 收到应用内消息的回调函数(请注意和通知的区别)，该函数不需要主动调用
 
 ##### 接口定义
 
 	window.plugins.jPushPlugin.receiveMessageInAndroidCallback = function(data)
 
 ##### 参数说明
-- data 接收到的js字符串，包含的key:value请进入该函数体查看
+- data 接收到的 js 字符串，包含的 key:value 请进入该函数体查看
 
 ##### 代码示例
 
 #### API - openNotificationInAndroidCallback
 
-当点击android手机的通知栏进入应用程序时,会调用这个函数，这个函数不需要主动调用，是作为回调函数来用的
+当点击 Android 手机的通知栏进入应用程序时,会调用这个函数，这个函数不需要主动调用，是作为回调函数来用的
 
 
 ##### 接口定义
@@ -51,7 +51,7 @@
 ###  统计分析 API
 
 #### API - onResume / onPause
-这是一个 android local api，不是js的api，请注意
+这是一个 android local api，不是 js 的 API，请注意
 本 API 用于“用户使用时长”，“活跃用户”，“用户打开次数”的统计，并上报到服务器，在 Portal 上展示给开发者。
 
 
@@ -62,7 +62,7 @@
 		public static void onPause(final Activity activity)
 ####参数说明
 
- ＋ Activity activity 当前所在的Activity。
+ ＋ Activity activity 当前所在的 Activity。
 ####调用说明
 
 应在所有的 Activity 的 onResume / onPause 方法里调用。
@@ -82,7 +82,7 @@
 
 #### API - setStatisticsOpen(boolean)
 
-用于在 js 中控制是否打开应用的统计分析功能，但如果已经添加了上面的 onResume/onPause 方法，
+用于在 js 中控制是否打开应用的统计分析功能，但如果已经添加了上面的 onResume / onPause 方法，
 就不能再通过这个方法来控制统计分析功能了。
 
 #### 接口定义
@@ -105,7 +105,7 @@
 
 ##### 参数说明
 - msgID
-	-收到的通知或者自定义消息的id 	
+	-收到的通知或者自定义消息的 id 	
 
 
 ###  清除通知 API
@@ -125,7 +125,7 @@
 ###  设置通知静默时间 API
 ###  通知栏样式定制 API
 
-#### API - setBasicPushNotificationBuilder,setCustomPushNotificationBuilder
+#### API - setBasicPushNotificationBuilder, setCustomPushNotificationBuilder
 
 当用户需要定制默认的通知栏样式时，则可调用此方法。
 极光 Push SDK 提供了 2 个用于定制通知栏样式的构建类：
@@ -135,7 +135,7 @@
 - setCustomPushNotificationBuilder
 	- 继承 Basic 进一步让开发者定制 Notification Layout
 
-如果不调用此方法定制，则极光Push SDK 默认的通知栏样式是：Android标准的通知栏提示。
+如果不调用此方法定制，则极光 Push SDK 默认的通知栏样式是：Android 标准的通知栏提示。
 
 ##### 接口定义
 
@@ -162,11 +162,11 @@
 - num 保存的条数
 
 
-###  本地通知API
+###  本地通知 API
 #### API - addLocalNotification,removeLocalNotification,clearLocalNotifications
 
 
-本地通知API不依赖于网络，无网条件下依旧可以触发
+本地通知 API 不依赖于网络，无网条件下依旧可以触发
 
 本地通知与网络推送的通知是相互独立的，不受保留最近通知条数上限的限制
 
@@ -178,19 +178,15 @@
 #####接口定义
 
 	window.plugins.jPushPlugin.addLocalNotification = function(builderId,
-											    content,
-												title,
-												notificaitonID,
-												broadcastTime,
-												extras)
+			content, title, notificaitonID, broadcastTime, extras)
 	window.plugins.jPushPlugin.removeLocalNotification = function(notificationID)
 	window.plugins.jPushPlugin.clearLocalNotifications = function()
 
 ##### 参数说明
 
 - builderId 设置本地通知样式
-- content 设置本地通知的content
-- title 设置本地通知的title
-- notificaitonID 设置本地通知的ID
+- content 设置本地通知的 content
+- title 设置本地通知的 title
+- notificaitonID 设置本地通知的 ID
 - broadcastTime 设置本地通知触发时间，为距离当前时间的数值，单位是毫秒
-- extras 设置额外的数据信息extras为json字符串
+- extras 设置额外的数据信息 extras 为 json 字符串
