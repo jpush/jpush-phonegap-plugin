@@ -1,12 +1,12 @@
-### IOS手工安装
+### iOS手工安装
 
-下载jpush phonegap插件，并解压缩，标记插件目录为：`$JPUSH_PLUGIN_DIR`
+下载 JPush PhoneGap 插件，并解压缩，标记插件目录为：`$JPUSH_PLUGIN_DIR`
 
 
-1. 用xcode打开iOS工程 将`$JPUSH_PLUGIN_DIR`/src/ios/Plugins/拖到project中  
-2. 将`$JPUSH_PLUGIN_DIR`/src/ios/lib/拖到project中  
+1. 用 xcode 打开 iOS 工程 将 `$JPUSH_PLUGIN_DIR`/src/ios/Plugins/ 拖到 project 中  
+2. 将 `$JPUSH_PLUGIN_DIR`/src/ios/lib/ 拖到 project 中  
 
-4. 添加以下框架，打开xocode，点击project，选择(Target -> Build Phases -> Link Binary With Libraries)
+4. 添加以下框架，打开 xcode，点击 project，选择(Target -> Build Phases -> Link Binary With Libraries)
 
 		CFNetwork.framework
 		CoreFoundation.framework
@@ -17,11 +17,11 @@
 		UIKit.framework
 
 
-5. 在你的工程中创建一个新的Property List文件
+5. 在你的工程中创建一个新的 Property List 文件
 
-		并将其命名为PushConfig.plist，填入Portal为你的应用提供的APP_KEY等参数
+		并将其命名为 PushConfig.plist，填入 Portal 为你的应用提供的 APP_KEY 等参数
 
-10. 在AppDelegate.m中包含头文件
+10. 在 AppDelegate.m 中包含头文件
 
 		#import "APService.h"
 	    #import "JPushPlugin.h"
@@ -30,7 +30,7 @@
 
 		- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
 		   //原内容保持不变
-		   //Required add 
+		   //Required add
 		   [JPushPlugin setLaunchOptions:launchOptions];
 		    return YES;
 		}
@@ -47,7 +47,7 @@
                                                                object:userInfo];
 		}
 
-7. 修改phonegap config.xml文件用来包含Plugin/内的插件
+7. 修改 phonegap config.xml 文件用来包含 Plugin/ 内的插件
 
 
 		<feature name="JPushPlugin">
@@ -56,7 +56,7 @@
 		</feature>
 
 
-8. 复制`$JPUSH_PLUGIN_DIR`/www/PushNotification.js到工程的www目录下面  
+8. 复制 `$JPUSH_PLUGIN_DIR`/www/PushNotification.js 到工程的 www 目录下面  
 9. 在需要使用插件处加入
 
 		<script type="text/javascript" src="JPushPlugin.js"></script>
