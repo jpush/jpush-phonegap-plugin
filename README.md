@@ -28,7 +28,7 @@
 		然后再执行`cordova plugin add xxxxx`命令，不然有一些必须要的链接库需要手动添加
 
 
-###Cordova CLI/Phonegap 安装 Android & iOS
+### Cordova CLI/Phonegap 安装 Android & iOS
 
 1).  安装JPush PhoneGap Plugin。 有两种方法。
 
