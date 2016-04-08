@@ -1,0 +1,35 @@
+{
+  "name": "jpush-phonegap-plugin",
+  "version": "2.1.1",
+  "description": "JPush for cordova plugin",
+  "cordova": {
+    "id": "cn.jpush.phonegap.JPushPlugin",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpush/jpush-phonegap-plugin.git"
+  },
+  "keywords": [
+    "JPush",
+    "push",
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0"
+    }
+  ],
+  "author": "jpush",
+  "license": "Apache 2.0 License",
+  "bugs": {
+    "url": "https://github.com/jpush/jpush-phonegap-plugin/issues"
+  },
+  "homepage": "https://github.com/jpush/jpush-phonegap-plugin#readme"
+}
