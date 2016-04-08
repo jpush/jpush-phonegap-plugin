@@ -253,7 +253,6 @@ JPushPlugin.prototype.setDebugMode = function(mode) {
 	}
 }
 
-//setDebugMode
 JPushPlugin.prototype.clearAllNotification = function() {
 	if(device.platform == "Android") {
 		data = [];
