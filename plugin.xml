@@ -163,12 +163,12 @@
             <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
             <meta-data android:name="JPUSH_APPKEY" android:value="$API_KEY"/>
         </config-file>
-        <source-file src="src/android/jpush-android-2.1.0.jar" target-dir="libs"/>
-        <source-file src="src/android/armeabi/libjpush210.so" target-dir="libs/armeabi"/>
-        <source-file src="src/android/armeabi-v7a/libjpush210.so" target-dir="libs/armeabi-v7a"/>
-        <source-file src="src/android/arm64-v8a/libjpush210.so" target-dir="libs/arm64-v8a"/>
-        <source-file src="src/android/x86/libjpush210.so" target-dir="libs/x86"/>
-        <source-file src="src/android/x86_64/libjpush210.so" target-dir="libs/x86_64"/>
+        <source-file src="src/android/jpush-android-2.1.3.jar" target-dir="libs"/>
+        <source-file src="src/android/armeabi/libjpush213.so" target-dir="libs/armeabi"/>
+        <source-file src="src/android/armeabi-v7a/libjpush213.so" target-dir="libs/armeabi-v7a"/>
+        <source-file src="src/android/arm64-v8a/libjpush213.so" target-dir="libs/arm64-v8a"/>
+        <source-file src="src/android/x86/libjpush213.so" target-dir="libs/x86"/>
+        <source-file src="src/android/x86_64/libjpush213.so" target-dir="libs/x86_64"/>
 
         <!--<source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap"/>-->
         <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap"/>

@@ -3,13 +3,13 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Phonegap Sample App</title>
-    <link href="css/jquery.mobile-1.1.1.css" rel="stylesheet" type="text/css"/>
+    <title>JPush Phonegap Simple Demo</title>
+    <link href="css/jquery.mobile-1.1.1.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/jquery.mobile-1.1.1.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript">
-        var onDeviceReady = function () {
+        var onDeviceReady = function() {
             console.log("JPushPlugin:Device ready!");
             initiateUI();
         };
@@ -18,34 +18,32 @@
             window.plugins.jPushPlugin.getRegistrationID(onGetRegistradionID);
         }
 
-        var onGetRegistradionID = function (data) {
+        var onGetRegistradionID = function(data) {
             try {
-
                 console.log("JPushPlugin:registrationID is " + data);
 
                 if (data.length == 0) {
                     var t1 = window.setTimeout(getRegistrationID, 1000);
                 }
                 $("#registrationid").html(data);
-            }
-            catch (exception) {
+            } catch (exception) {
                 console.log(exception);
             }
         };
 
-        var onTagsWithAlias = function (event) {
+        var onTagsWithAlias = function(event) {
             try {
                 console.log("onTagsWithAlias");
                 var result = "result code:" + event.resultCode + " ";
                 result += "tags:" + event.tags + " ";
                 result += "alias:" + event.alias + " ";
                 $("#tagAliasResult").html(result);
-            }
-            catch (exception) {
+            } catch (exception) {
                 console.log(exception)
             }
         };
-        var onOpenNotification = function (event) {
+
+        var onOpenNotification = function(event) {
             try {
                 var alertContent;
                 if (device.platform == "Android") {
@@ -54,13 +52,12 @@
                     alertContent = event.aps.alert;
                 }
                 alert("open Notificaiton:" + alertContent);
-
-            }
-            catch (exception) {
+            } catch (exception) {
                 console.log("JPushPlugin:onOpenNotification" + exception);
             }
         };
-        var onReceiveNotification = function (event) {
+
+        var onReceiveNotification = function(event) {
             try {
                 var alertContent;
                 if (device.platform == "Android") {
@@ -70,31 +67,26 @@
                 }
                 $("#notificationResult").html(alertContent);
 
-            }
-            catch (exeption) {
+            } catch (exeption) {
                 console.log(exception)
             }
         };
-        var onReceiveMessage = function (event) {
-            try {
 
+        var onReceiveMessage = function(event) {
+            try {
                 var message;
                 if (device.platform == "Android") {
                     message = window.plugins.jPushPlugin.receiveMessage.message;
                 } else {
                     message = event.content;
                 }
-                //var extras = window.plugins.jPushPlugin.extras
-
                 $("#messageResult").html(message);
-
-            }
-            catch (exception) {
+            } catch (exception) {
                 console.log("JPushPlugin:onReceiveMessage-->" + exception);
             }
         };
 
-        var initiateUI = function () {
+        var initiateUI = function() {
             try {
                 window.plugins.jPushPlugin.init();
                 getRegistrationID();
@@ -106,16 +98,10 @@
                     window.plugins.jPushPlugin.setDebugMode(true);
                     window.plugins.jPushPlugin.setStatisticsOpen(true);
                 }
-            }
-            catch (exception) {
+            } catch (exception) {
                 console.log(exception);
             }
-            $("#setTagWithAliasButton").click(function (ev) {
-
-//                 window.plugins.jPushPlugin.getApplicationIconBadgeNumber(function(data){
-//                     console.log(data);
-//                 });
-
+            $("#setTagWithAliasButton").click(function(ev) {
                 try {
                     var tag1 = $("#tagText1").attr("value");
                     var tag2 = $("#tagText2").attr("value");
@@ -123,100 +109,91 @@
                     var alias = $("#aliasText").attr("value");
                     var dd = [];
 
-                    if (tag1 == "" && tag2 == "" && tag3 == "") {
+                    if (tag1 != "") {
+                        dd.push(tag1);
                     }
-                    else {
-                        if (tag1 != "") {
-                            dd.push(tag1);
-                        }
-                        if (tag2 != "") {
-                            dd.push(tag2);
-                        }
-                        if (tag3 != "") {
-                            dd.push(tag3);
-                        }
+                    if (tag2 != "") {
+                        dd.push(tag2);
+                    }
+                    if (tag3 != "") {
+                        dd.push(tag3);
                     }
                     window.plugins.jPushPlugin.setTagsWithAlias(dd, alias);
-
-                }
-                catch (exception) {
+                } catch (exception) {
                     console.log(exception);
                 }
             })
         };
+
         document.addEventListener("jpush.setTagsWithAlias", onTagsWithAlias, false);
         document.addEventListener("deviceready", onDeviceReady, false);
         document.addEventListener("jpush.openNotification", onOpenNotification, false);
         document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
         document.addEventListener("jpush.receiveMessage", onReceiveMessage, false);
-
-
-        //jpush.receiveMessage
     </script>
 </head>
+
 <body>
-<div data-role="page" id="page">
-
-    <div data-role="content">
-        <form>
-            <div class="ui-body ui-body-b">
-
-                <div data-role="fieldcontain">
-                    <center><h3>JPushPlugin Example</h3></center>
-                    <span name="alias" id="alias"></span>
-                    <hr/>
-                    <label>RegistrationID: </label>
-                    <label id="registrationid">null</label>
+    <div data-role="page" id="page">
+        <div data-role="content">
+            <form>
+                <div class="ui-body ui-body-b">
+                    <div data-role="fieldcontain">
+                        <center>
+                            <h3>JPushPlugin Example</h3>
+                        </center>
+                        <span name="alias" id="alias"></span>
+                        <hr/>
+                        <label>RegistrationID: </label>
+                        <label id="registrationid">null</label>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <label>Tags: </label>
+                        <table>
+                            <tr>
+                                <td>
+                                    <input type="text" id="tagText1" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="tagText2" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="tagText3" />
+                                </td>
+                            </tr>
+                        </table>
+                        <label>Alias: </label>
+                        <table>
+                            <tr>
+                                <td>
+                                    <input type="text" id="aliasText" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <input type="button" id="setTagWithAliasButton" value="Add tag and alias" />
+                    </div>
+                    <div data-role="fieldcontain">
+                        <label id="tagAliasPrompt">设置tag/alias结果:</label>
+                        <label id="tagAliasResult">null</label>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <label id="notificationPrompt">接受的通知内容:</label>
+                        <label id="notificationResult">null</label>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <label id="messagePrompt">接受的自定义消息:</label>
+                        <label id="messageResult">null</label>
+                    </div>
                 </div>
-                <div data-role="fieldcontain">
-                    <label>Tags: </label>
-                    <table>
-                        <tr>
-                            <td>
-                                <input type="text" id="tagText1"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="text" id="tagText2"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="text" id="tagText3">
-                            </td>
-                        </tr>
-                    </table>
-                    <label>Alias: </label>
-                    <table>
-                        <tr>
-                            <td>
-                                <input type="text" id="aliasText">
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div data-role="fieldcontain">
-                    <input type="button" id="setTagWithAliasButton" value="Add tag and alias"/>
-                </div>
-                <div data-role="fieldcontain">
-                    <label id="tagAliasPrompt">设置tag/alias结果： </label>
-                    <label id="tagAliasResult">null</label>
-                </div>
-                <div data-role="fieldcontain">
-                    <label id="notificationPrompt">接受的通知内容:</label>
-                    <label id="notificationResult">null</label>
-                </div>
-                <div data-role="fieldcontain">
-                    <label id="messagePrompt">接受的自定义消息:</label>
-                    <label id="messageResult">null</label>
-                </div>
-
-
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-
-</div>
 </body>
+
 </html>
