@@ -1,13 +1,21 @@
-#Android 手工安装
+#Android 手动安装
 
 下载 JPush PhoneGap 插件，并解压缩，标记插件目录为：`$JPUSH_PLUGIN_DIR`
 
-1. 复制：`$JPUSH_PLUGIN_DIR`/src/android/*.java 到 cn/jpush/phonega/ 目录下(即：cn.jpush.phonegap 的包下)
-2. 复制：`$JPUSH_PLUGIN_DIR`/src/android/armeabi/libjpush.so 到 lib/armeabi/
-3. 复制：`$JPUSH_PLUGIN_DIR`/src/android/jpush-sdk-release2.0.6.jar 到 lib/
-4. 复制：`$JPUSH_PLUGIN_DIR`/src/android/test_notification_layout.xml 到 res/layout/
-5. 复制：`$JPUSH_PLUGIN_DIR`/src/android/jpush_notification_icon.png 到 res/drawable/
-6. 修改 AndroidManifest.xml 在 manifest 节点下添加以下权限
+1. 复制：$JPUSH_PLUGIN_DIR/src/android/*.java 到 cn/jpush/phonega/ 目录下(即：cn.jpush.phonegap 的包下)
+2. 复制：$JPUSH_PLUGIN_DIR/src/android/armeabi/libjpush.so 到 lib/armeabi/
+3. 复制：$JPUSH_PLUGIN_DIR/src/android/jpush-sdk-release2.0.6.jar 到 lib/
+4. 复制：$JPUSH_PLUGIN_DIR/src/android/test_notification_layout.xml 到 res/layout/
+5. 复制：$JPUSH_PLUGIN_DIR/src/android/jpush_notification_icon.png 到 res/drawable/
+6. 复制：$JPUSH_PLUGIN_DIR/www/JPushPlugin.js 到 assets/www/plugins/cn.jpush.phonegap.JPushPlugin.www/
+   和 platform_www/plugins/cn.jpush.phonegap.JPushPlugin/www/
+   并在 JPushPlugin.js 文件的代码外添加:
+
+        cordova.define("cn.jpush.phonegap.JPushPlugin.JPushPlugin", function(require, exports, module) {
+            // 代码
+        });
+
+7. 修改 AndroidManifest.xml 在 manifest 节点下添加以下权限
 
 		<!-- Required 一些系统要求的权限，如访问网络等-->
 		<uses-permission android:name="$PACKAGE_NAME.permission.JPUSH_MESSAGE"/>

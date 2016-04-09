@@ -44,13 +44,16 @@ public class MyReceiver extends BroadcastReceiver {
     private void handlingNotificationOpen(Context context, Intent intent) {
         Log.i(TAG, "----------------  handlingNotificationOpen");
 
+        String title = intent.getStringExtra(JPushInterface.EXTRA_NOTIFICATION_TITLE);
+        JPushPlugin.openNotificationTitle = title;
+
         String alert = intent.getStringExtra(JPushInterface.EXTRA_ALERT);
         JPushPlugin.openNotificationAlert = alert;
 
         Map<String, Object> extras = getNotificationExtras(intent);
         JPushPlugin.openNotificationExtras = extras;
 
-        JPushPlugin.transmitOpen(alert, extras);
+        JPushPlugin.transmitOpen(title, alert, extras);
 
         Intent launch = context.getPackageManager().getLaunchIntentForPackage(
             context.getPackageName());
@@ -62,9 +65,13 @@ public class MyReceiver extends BroadcastReceiver {
     private void handlingNotificationReceive(Context context, Intent intent) {
         Log.i(TAG, "----------------  handlingNotificationReceive");
 
-        Intent launch = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+        Intent launch = context.getPackageManager().getLaunchIntentForPackage(
+                context.getPackageName());
         launch.addCategory(Intent.CATEGORY_LAUNCHER);
         launch.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        String title = intent.getStringExtra(JPushInterface.EXTRA_NOTIFICATION_TITLE);
+        JPushPlugin.notificationTitle = title;
 
         String alert = intent.getStringExtra(JPushInterface.EXTRA_ALERT);
         JPushPlugin.notificationAlert = alert;
@@ -72,7 +79,7 @@ public class MyReceiver extends BroadcastReceiver {
         Map<String, Object> extras = getNotificationExtras(intent);
         JPushPlugin.notificationExtras = extras;
 
-        JPushPlugin.transmitReceive(alert, extras);
+        JPushPlugin.transmitReceive(title, alert, extras);
     }
 
     private Map<String, Object> getNotificationExtras(Intent intent) {

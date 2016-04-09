@@ -70,8 +70,11 @@ public class JPushPlugin extends CordovaPlugin {
     private static boolean shouldCacheMsg = false;
     private static boolean isStatisticsOpened = false;    // 是否开启统计分析功能
 
+    public static String notificationTitle;
     public static String notificationAlert;
     public static Map<String, Object> notificationExtras = new HashMap<String, Object>();
+
+    public static String openNotificationTitle;
     public static String openNotificationAlert;
     public static Map<String, Object> openNotificationExtras = new HashMap<String, Object>();
 
@@ -93,11 +96,13 @@ public class JPushPlugin extends CordovaPlugin {
         //这样做是为了和iOS 统一
         if (JPushPlugin.openNotificationAlert != null) {
             JPushPlugin.notificationAlert = null;
-            JPushPlugin.transmitOpen(JPushPlugin.openNotificationAlert,
+            JPushPlugin.transmitOpen(JPushPlugin.notificationTitle,
+                    JPushPlugin.openNotificationAlert,
                     JPushPlugin.openNotificationExtras);
         }
         if (JPushPlugin.notificationAlert != null) {
-            JPushPlugin.transmitReceive(JPushPlugin.notificationAlert,
+            JPushPlugin.transmitReceive(JPushPlugin.notificationTitle,
+                    JPushPlugin.notificationAlert,
                     JPushPlugin.notificationExtras);
         }
         //JPushInterface.init(cordova.getActivity().getApplicationContext());
@@ -121,11 +126,13 @@ public class JPushPlugin extends CordovaPlugin {
         }
         if (JPushPlugin.openNotificationAlert != null) {
             JPushPlugin.notificationAlert = null;
-            JPushPlugin.transmitOpen(JPushPlugin.openNotificationAlert,
+            JPushPlugin.transmitOpen(JPushPlugin.notificationTitle,
+                    JPushPlugin.openNotificationAlert,
                     JPushPlugin.openNotificationExtras);
         }
         if (JPushPlugin.notificationAlert != null) {
-            JPushPlugin.transmitReceive(JPushPlugin.notificationAlert,
+            JPushPlugin.transmitReceive(JPushPlugin.notificationTitle,
+                    JPushPlugin.notificationAlert,
                     JPushPlugin.notificationExtras);
         }
     }
@@ -139,6 +146,13 @@ public class JPushPlugin extends CordovaPlugin {
             for (Entry<String, Object> entry : extras.entrySet()) {
                 if (entry.getKey().equals("cn.jpush.android.EXTRA")) {
                     JSONObject jo = new JSONObject((String) entry.getValue());
+                    String key;
+                    Iterator keys = jo.keys();
+                    while(keys.hasNext()) {
+                        key = keys.next().toString();
+                        Log.i(TAG, key);
+                        jExtras.put(key, jo.getString(key));
+                    }
                     jExtras.put("cn.jpush.android.EXTRA", jo);
                 } else {
                     jExtras.put(entry.getKey(), entry.getValue());
@@ -153,15 +167,22 @@ public class JPushPlugin extends CordovaPlugin {
         return data;
     }
 
-    private static JSONObject openNotificationObject(String alert,
-            Map<String, Object> extras) {
+    private static JSONObject openNotificationObject(String title,
+            String alert, Map<String, Object> extras) {
         JSONObject data = new JSONObject();
         try {
+            data.put("title", title);
             data.put("alert", alert);
             JSONObject jExtras = new JSONObject();
             for (Entry<String, Object> entry : extras.entrySet()) {
                 if (entry.getKey().equals("cn.jpush.android.EXTRA")) {
                     JSONObject jo = new JSONObject((String) entry.getValue());
+                    String key;
+                    Iterator keys = jo.keys();
+                    while(keys.hasNext()) {
+                        key = keys.next().toString();
+                        jExtras.put(key, jo.getString(key));
+                    }
                     jExtras.put("cn.jpush.android.EXTRA", jo);
                 } else {
                     jExtras.put(entry.getKey(), entry.getValue());
@@ -191,14 +212,14 @@ public class JPushPlugin extends CordovaPlugin {
         });
     }
 
-    static void transmitOpen(String alert, Map<String, Object> extras) {
+    static void transmitOpen(String title, String alert, Map<String, Object> extras) {
         if (instance == null) {
             return;
         }
         if (JPushPlugin.shouldCacheMsg) {
             return;
         }
-        JSONObject data = openNotificationObject(alert, extras);
+        JSONObject data = openNotificationObject(title, alert, extras);
         String format = "window.plugins.jPushPlugin.openNotificationInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
         cordovaActivity.runOnUiThread(new Runnable() {
@@ -207,14 +228,15 @@ public class JPushPlugin extends CordovaPlugin {
                 instance.webView.loadUrl("javascript:" + js);
             }
         });
+        JPushPlugin.openNotificationTitle = null;
         JPushPlugin.openNotificationAlert = null;
     }
 
-    static void transmitReceive(String alert, Map<String, Object> extras) {
+    static void transmitReceive(String title, String alert, Map<String, Object> extras) {
         if (instance == null) {
             return;
         }
-        JSONObject data = openNotificationObject(alert, extras);
+        JSONObject data = openNotificationObject(title, alert, extras);
         String format = "window.plugins.jPushPlugin.receiveNotificationInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
         cordovaActivity.runOnUiThread(new Runnable() {
@@ -223,6 +245,7 @@ public class JPushPlugin extends CordovaPlugin {
                 instance.webView.loadUrl("javascript:" + js);
             }
         });
+        JPushPlugin.notificationTitle = null;
         JPushPlugin.notificationAlert = null;
     }
 

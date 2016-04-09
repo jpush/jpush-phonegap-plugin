@@ -63,14 +63,14 @@ JPush-PhoneGap-Plugin 支持 iOS, Android 的推送插件。
     window.plugins.jPushPlugin.init();
 
 
-### Android 手工安装
+### Android 手动安装
 
-[Android 手工安装文档地址](document/Android_handle_install.md)
+[Android 手动安装文档地址](document/Android_handle_install.md)
 
 
-### iOS 手工安装
+### iOS 手动安装
 
-[IOS手工安装文档地址](document/iOS_handle_install.md)
+[IOS手动安装文档地址](document/iOS_handle_install.md)
 
 
 ###示例

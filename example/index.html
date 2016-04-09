@@ -66,7 +66,6 @@
                     alertContent = event.aps.alert;
                 }
                 $("#notificationResult").html(alertContent);
-
             } catch (exeption) {
                 console.log(exception)
             }
@@ -90,7 +89,6 @@
             try {
                 window.plugins.jPushPlugin.init();
                 getRegistrationID();
-
                 if (device.platform != "Android") {
                     window.plugins.jPushPlugin.setDebugModeFromIos();
                     window.plugins.jPushPlugin.setApplicationIconBadgeNumber(0);
