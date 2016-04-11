@@ -295,9 +295,9 @@ JPushPlugin.prototype.setDebugMode = function(mode) {
 }
 
 JPushPlugin.prototype.addLocalNotification = function(builderId, content, title,
-	notificaitonID, broadcastTime, extras) {
+	notificationID, broadcastTime, extras) {
 	if(device.platform == "Android") {
-		data = [builderId, content, title, notificaitonID, broadcastTime, extras];
+		data = [builderId, content, title, notificationID, broadcastTime, extras];
 		this.call_native("addLocalNotification", data, null);
 	}
 }

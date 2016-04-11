@@ -86,26 +86,22 @@ public class JPushPlugin extends CordovaPlugin {
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
 
-        Log.i(TAG, "---------------- initialize" + "-"
-            + JPushPlugin.openNotificationAlert + "-"
-            + JPushPlugin.notificationAlert);
+        Log.i(TAG, "---------------- initialize" + "-" + openNotificationAlert
+            + "-" + notificationAlert);
 
         cordovaActivity = this.cordova.getActivity();
 
-        //如果同时缓存了打开事件openNotificationAlert 和 消息事件notificationAlert，只向UI 发 打开事件。
-        //这样做是为了和iOS 统一
-        if (JPushPlugin.openNotificationAlert != null) {
-            JPushPlugin.notificationAlert = null;
-            JPushPlugin.transmitOpen(JPushPlugin.notificationTitle,
-                    JPushPlugin.openNotificationAlert,
-                    JPushPlugin.openNotificationExtras);
+        //如果同时缓存了打开事件 openNotificationAlert 和 消息事件 notificationAlert，只向 UI 发打开事件。
+        //这样做是为了和 iOS 统一。
+        if (openNotificationAlert != null) {
+            notificationAlert = null;
+            transmitNotificationOpen(notificationTitle, openNotificationAlert,
+                openNotificationExtras);
         }
-        if (JPushPlugin.notificationAlert != null) {
-            JPushPlugin.transmitReceive(JPushPlugin.notificationTitle,
-                    JPushPlugin.notificationAlert,
-                    JPushPlugin.notificationExtras);
+        if (notificationAlert != null) {
+            transmitNotificationReceive(notificationTitle, notificationAlert,
+                notificationExtras);
         }
-        //JPushInterface.init(cordova.getActivity().getApplicationContext());
     }
 
     public void onPause(boolean multitasking) {
@@ -118,26 +114,23 @@ public class JPushPlugin extends CordovaPlugin {
 
     public void onResume(boolean multitasking) {
         shouldCacheMsg = false;
-        Log.i(TAG, "---------------- onResume" + "-"
-            + JPushPlugin.openNotificationAlert + "-"
-            + JPushPlugin.notificationAlert);
+        Log.i(TAG, "---------------- onResume" + "-" + openNotificationAlert
+            + "-" + notificationAlert);
         if (isStatisticsOpened && multitasking) {
             JPushInterface.onResume(cordovaActivity);
         }
-        if (JPushPlugin.openNotificationAlert != null) {
-            JPushPlugin.notificationAlert = null;
-            JPushPlugin.transmitOpen(JPushPlugin.notificationTitle,
-                    JPushPlugin.openNotificationAlert,
-                    JPushPlugin.openNotificationExtras);
+        if (openNotificationAlert != null) {
+            notificationAlert = null;
+            transmitNotificationOpen(notificationTitle, openNotificationAlert,
+                openNotificationExtras);
         }
-        if (JPushPlugin.notificationAlert != null) {
-            JPushPlugin.transmitReceive(JPushPlugin.notificationTitle,
-                    JPushPlugin.notificationAlert,
-                    JPushPlugin.notificationExtras);
+        if (notificationAlert != null) {
+            transmitNotificationReceive(notificationTitle, notificationAlert,
+                notificationExtras);
         }
     }
 
-    private static JSONObject notificationObject(String message,
+    private static JSONObject getMessageObject(String message,
             Map<String, Object> extras) {
         JSONObject data = new JSONObject();
         try {
@@ -150,7 +143,6 @@ public class JPushPlugin extends CordovaPlugin {
                     Iterator keys = jo.keys();
                     while(keys.hasNext()) {
                         key = keys.next().toString();
-                        Log.i(TAG, key);
                         jExtras.put(key, jo.getString(key));
                     }
                     jExtras.put("cn.jpush.android.EXTRA", jo);
@@ -167,7 +159,7 @@ public class JPushPlugin extends CordovaPlugin {
         return data;
     }
 
-    private static JSONObject openNotificationObject(String title,
+    private static JSONObject getNotificationObject(String title,
             String alert, Map<String, Object> extras) {
         JSONObject data = new JSONObject();
         try {
@@ -197,11 +189,11 @@ public class JPushPlugin extends CordovaPlugin {
         return data;
     }
 
-    static void transmitPush(String message, Map<String, Object> extras) {
+    static void transmitMessageReceive(String message, Map<String, Object> extras) {
         if (instance == null) {
             return;
         }
-        JSONObject data = notificationObject(message, extras);
+        JSONObject data = getMessageObject(message, extras);
         String format = "window.plugins.jPushPlugin.receiveMessageInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
         cordovaActivity.runOnUiThread(new Runnable() {
@@ -212,14 +204,15 @@ public class JPushPlugin extends CordovaPlugin {
         });
     }
 
-    static void transmitOpen(String title, String alert, Map<String, Object> extras) {
+    static void transmitNotificationOpen(String title, String alert,
+            Map<String, Object> extras) {
         if (instance == null) {
             return;
         }
         if (JPushPlugin.shouldCacheMsg) {
             return;
         }
-        JSONObject data = openNotificationObject(title, alert, extras);
+        JSONObject data = getNotificationObject(title, alert, extras);
         String format = "window.plugins.jPushPlugin.openNotificationInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
         cordovaActivity.runOnUiThread(new Runnable() {
@@ -232,11 +225,12 @@ public class JPushPlugin extends CordovaPlugin {
         JPushPlugin.openNotificationAlert = null;
     }
 
-    static void transmitReceive(String title, String alert, Map<String, Object> extras) {
+    static void transmitNotificationReceive(String title, String alert,
+            Map<String, Object> extras) {
         if (instance == null) {
             return;
         }
-        JSONObject data = openNotificationObject(title, alert, extras);
+        JSONObject data = getNotificationObject(title, alert, extras);
         String format = "window.plugins.jPushPlugin.receiveNotificationInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
         cordovaActivity.runOnUiThread(new Runnable() {
@@ -272,7 +266,6 @@ public class JPushPlugin extends CordovaPlugin {
 
     void init(JSONArray data, CallbackContext callbackContext) {
         JPushInterface.init(cordovaActivity.getApplicationContext());
-        //callbackContext.success();
     }
 
     void setDebugMode(JSONArray data, CallbackContext callbackContext) {
@@ -416,24 +409,6 @@ public class JPushPlugin extends CordovaPlugin {
         }
     }
 
-//	void getNotification(JSONArray data, CallbackContext callBackContext) {
-//		String alert = JPushPlugin.notificationAlert;
-//		Map<String, String> extras = JPushPlugin.notificationExtras;
-//
-//		JSONObject jsonData = new JSONObject();
-//		try {
-//			jsonData.put("message", alert);
-//			jsonData.put("extras", new JSONObject(extras));
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
-//
-//		callBackContext.success(jsonData);
-//
-//		JPushPlugin.notificationAlert = "";
-//		JPushPlugin.notificationExtras = new HashMap<String, Obl>();
-//	}
-
     void setBasicPushNotificationBuilder(JSONArray data,
             CallbackContext callbackContext) {
         BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(
@@ -446,7 +421,6 @@ public class JPushPlugin extends CordovaPlugin {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //callbackContext.success(obj);
     }
 
     void setCustomPushNotificationBuilder(JSONArray data,
@@ -463,12 +437,10 @@ public class JPushPlugin extends CordovaPlugin {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //callbackContext.success(obj);
     }
 
     void clearAllNotification(JSONArray data, CallbackContext callbackContext) {
         JPushInterface.clearAllNotifications(cordovaActivity);
-        //callbackContext.success();
     }
 
     void clearNotificationById(JSONArray data, CallbackContext callbackContext) {
@@ -488,7 +460,6 @@ public class JPushPlugin extends CordovaPlugin {
 
     void addLocalNotification(JSONArray data, CallbackContext callbackContext)
             throws JSONException {
-        //builderId,content,title,notificaitonID,broadcastTime,extras
         int builderId = data.getInt(0);
         String content = data.getString(1);
         String title = data.getString(2);
@@ -519,8 +490,6 @@ public class JPushPlugin extends CordovaPlugin {
 
     /**
      * 决定是否启用统计分析功能。
-     * @param data
-     * @param callbackContext
      */
     void setStatisticsOpen(JSONArray data, CallbackContext callbackContext) {
         try {

@@ -38,7 +38,7 @@ public class MyReceiver extends BroadcastReceiver {
     private void handlingReceivedMessage(Intent intent) {
         String msg = intent.getStringExtra(JPushInterface.EXTRA_MESSAGE);
         Map<String, Object> extras = getNotificationExtras(intent);
-        JPushPlugin.transmitPush(msg, extras);
+        JPushPlugin.transmitMessageReceive(msg, extras);
     }
 
     private void handlingNotificationOpen(Context context, Intent intent) {
@@ -53,7 +53,7 @@ public class MyReceiver extends BroadcastReceiver {
         Map<String, Object> extras = getNotificationExtras(intent);
         JPushPlugin.openNotificationExtras = extras;
 
-        JPushPlugin.transmitOpen(title, alert, extras);
+        JPushPlugin.transmitNotificationOpen(title, alert, extras);
 
         Intent launch = context.getPackageManager().getLaunchIntentForPackage(
             context.getPackageName());
@@ -79,14 +79,13 @@ public class MyReceiver extends BroadcastReceiver {
         Map<String, Object> extras = getNotificationExtras(intent);
         JPushPlugin.notificationExtras = extras;
 
-        JPushPlugin.transmitReceive(title, alert, extras);
+        JPushPlugin.transmitNotificationReceive(title, alert, extras);
     }
 
     private Map<String, Object> getNotificationExtras(Intent intent) {
         Map<String, Object> extrasMap = new HashMap<String, Object>();
         for (String key : intent.getExtras().keySet()) {
             if (!IGNORED_EXTRAS_KEYS.contains(key)) {
-                Log.e("key", "key:" + key);
                 if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)) {
                     extrasMap.put(key, intent.getIntExtra(key, 0));
                 } else {

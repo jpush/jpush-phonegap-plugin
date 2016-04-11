@@ -14,9 +14,9 @@
             initiateUI();
         };
 
-        function getRegistrationID() {
-            window.plugins.jPushPlugin.getRegistrationID(onGetRegistradionID);
-        }
+        var getRegistrationID = function() {
+            window.plugins.jPushPlugin.getRegistrationID(onGetRegistrationID);
+        };
 
         var onGetRegistrationID = function(data) {
             try {
@@ -25,7 +25,7 @@
                 if (data.length == 0) {
                     var t1 = window.setTimeout(getRegistrationID, 1000);
                 }
-                $("#registrationid").html(data);
+                $("#registrationId").html(data);
             } catch (exception) {
                 console.log(exception);
             }
@@ -105,18 +105,18 @@
                     var tag2 = $("#tagText2").attr("value");
                     var tag3 = $("#tagText3").attr("value");
                     var alias = $("#aliasText").attr("value");
-                    var dd = [];
+                    var tags = [];
 
                     if (tag1 != "") {
-                        dd.push(tag1);
+                        tags.push(tag1);
                     }
                     if (tag2 != "") {
-                        dd.push(tag2);
+                        tags.push(tag2);
                     }
                     if (tag3 != "") {
-                        dd.push(tag3);
+                        tags.push(tag3);
                     }
-                    window.plugins.jPushPlugin.setTagsWithAlias(dd, alias);
+                    window.plugins.jPushPlugin.setTagsWithAlias(tags, alias);
                 } catch (exception) {
                     console.log(exception);
                 }
@@ -143,7 +143,7 @@
                         <span name="alias" id="alias"></span>
                         <hr/>
                         <label>RegistrationID: </label>
-                        <label id="registrationid">null</label>
+                        <label id="registrationId">null</label>
                     </div>
                     <div data-role="fieldcontain">
                         <label>Tags: </label>
@@ -174,7 +174,8 @@
                         </table>
                     </div>
                     <div data-role="fieldcontain">
-                        <input type="button" id="setTagWithAliasButton" value="Add tag and alias" />
+                        <input type="button" id="setTagWithAliasButton"
+                            value="Add tag and alias" />
                     </div>
                     <div data-role="fieldcontain">
                         <label id="tagAliasPrompt">设置tag/alias结果:</label>
