@@ -465,7 +465,11 @@ public class JPushPlugin extends CordovaPlugin {
         String title = data.getString(2);
         int notificationID = data.getInt(3);
         int broadcastTime = data.getInt(4);
-        JSONObject extras = data.getJSONObject(5);
+        String extrasStr = data.isNull(5) ? "" : data.getString(5);
+        JSONObject extras = new JSONObject();
+        if (!extrasStr.isEmpty()) {
+             extras = new JSONObject(extrasStr);
+        }
 
         JPushLocalNotification ln = new JPushLocalNotification();
         ln.setBuilderId(builderId);
@@ -473,8 +477,8 @@ public class JPushPlugin extends CordovaPlugin {
         ln.setTitle(title);
         ln.setNotificationId(notificationID);
         ln.setBroadcastTime(System.currentTimeMillis() + broadcastTime);
-
         ln.setExtras(extras.toString());
+
         JPushInterface.addLocalNotification(cordovaActivity, ln);
     }
 
