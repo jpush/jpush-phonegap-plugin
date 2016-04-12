@@ -25,7 +25,7 @@ public class MyReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(action)) {
-            handlingReceivedMessage(intent);
+            handlingMessageReceive(intent);
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(action)) {
             handlingNotificationReceive(context, intent);
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(action)) {
@@ -35,7 +35,7 @@ public class MyReceiver extends BroadcastReceiver {
         }
     }
 
-    private void handlingReceivedMessage(Intent intent) {
+    private void handlingMessageReceive(Intent intent) {
         String msg = intent.getStringExtra(JPushInterface.EXTRA_MESSAGE);
         Map<String, Object> extras = getNotificationExtras(intent);
         JPushPlugin.transmitMessageReceive(msg, extras);
