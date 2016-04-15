@@ -37,30 +37,32 @@ import cn.jpush.android.data.JPushLocalNotification;
 public class JPushPlugin extends CordovaPlugin {
     private final static List<String> methodList =
             Arrays.asList(
-                    "getRegistrationID",
-                    "setTags",
-                    "setTagsWithAlias",
-                    "setAlias",
-                    "getNotification",
-                    "setBasicPushNotificationBuilder",
-                    "setCustomPushNotificationBuilder",
-                    "setPushTime",
-                    "init",
-                    "setDebugMode",
-                    "stopPush",
-                    "resumePush",
-                    "isPushStopped",
-                    "setLatestNotificationNum",
-                    "setPushTime",
-                    "clearAllNotification",
-                    "clearNotificationById",
-                    "addLocalNotification",
-                    "removeLocalNotification",
-                    "clearLocalNotifications",
-                    "onResume",
-                    "onPause",
-                    "reportNotificationOpened",
-                    "setStatisticsOpen");
+                "addLocalNotification",
+                "clearAllNotification",
+                "clearLocalNotifications",
+                "clearNotificationById",
+                "getNotification",
+                "getRegistrationID",
+                "init",
+                "isPushStopped",
+                "onPause",
+                "onResume",
+                "requestPermission",
+                "removeLocalNotification",
+                "reportNotificationOpened",
+                "resumePush",
+                "setAlias",
+                "setBasicPushNotificationBuilder",
+                "setCustomPushNotificationBuilder",
+                "setDebugMode",
+                "setLatestNotificationNum",
+                "setPushTime",
+                "setTags",
+                "setTagsWithAlias",
+                "setSilenceTime",
+                "setStatisticsOpen",
+                "stopPush"
+            );
 
     private ExecutorService threadPool = Executors.newFixedThreadPool(1);
     private static JPushPlugin instance;
@@ -95,7 +97,7 @@ public class JPushPlugin extends CordovaPlugin {
         //这样做是为了和 iOS 统一。
         if (openNotificationAlert != null) {
             notificationAlert = null;
-            transmitNotificationOpen(notificationTitle, openNotificationAlert,
+            transmitNotificationOpen(openNotificationTitle, openNotificationAlert,
                 openNotificationExtras);
         }
         if (notificationAlert != null) {
@@ -121,7 +123,7 @@ public class JPushPlugin extends CordovaPlugin {
         }
         if (openNotificationAlert != null) {
             notificationAlert = null;
-            transmitNotificationOpen(notificationTitle, openNotificationAlert,
+            transmitNotificationOpen(openNotificationTitle, openNotificationAlert,
                 openNotificationExtras);
         }
         if (notificationAlert != null) {
@@ -207,9 +209,6 @@ public class JPushPlugin extends CordovaPlugin {
     static void transmitNotificationOpen(String title, String alert,
             Map<String, Object> extras) {
         if (instance == null) {
-            return;
-        }
-        if (JPushPlugin.shouldCacheMsg) {
             return;
         }
         JSONObject data = getNotificationObject(title, alert, extras);
@@ -502,6 +501,48 @@ public class JPushPlugin extends CordovaPlugin {
             e.printStackTrace();
         }
     }
+
+      /**
+       * 设置通知静默时间
+       * http://docs.jpush.io/client/android_api/#api_5
+       */
+      void setSilenceTime(JSONArray data, CallbackContext callbackContext) {
+          try {
+          int startHour = data.getInt(0);
+          int startMinute = data.getInt(1);
+          int endHour = data.getInt(2);
+          int endMinute = data.getInt(3);
+          if (!isValidHour(startHour) || !isValidMinute(startMinute)) {
+              callbackContext.error("开始时间数值错误");
+              return;
+          }
+          if(!isValidHour(endHour) || !isValidMinute(endMinute)) {
+              callbackContext.error("结束时间数值错误");
+              return;
+          }
+          JPushInterface.setSilenceTime(cordovaActivity, startHour, startMinute,
+                  endHour, endMinute);
+          } catch (JSONException e) {
+              e.printStackTrace();
+              callbackContext.error("error: reading json data.");
+          }
+      }
+
+      private boolean isValidHour(int hour) {
+          return !(hour < 0 || hour > 23);
+      }
+
+      private boolean isValidMinute(int minute) {
+          return !(minute < 0 || minute > 59);
+      }
+
+      /**
+       *  用于 Android 6.0 以上系统申请权限，具体可参考：
+       *  http://docs.Push.io/client/android_api/#android-60
+       */
+      void requestPermission(JSONArray data, CallbackContext callbackContext) {
+          JPushInterface.requestPermission(cordovaActivity);
+      }
 
     private final TagAliasCallback mTagWithAliasCallback = new TagAliasCallback() {
         @Override

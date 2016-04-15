@@ -27,38 +27,42 @@ JPushPlugin.prototype.call_native = function(name, args, callback) {
 	return ret;
 }
 
-//public plugin function
-
-JPushPlugin.prototype.startLogPageView = function(pageName) {
+// public methods
+JPushPlugin.prototype.init = function() {
 	if(this.isPlatformIOS()) {
-		this.call_native("startLogPageView", [pageName], null);
-  	}
-}
-
-JPushPlugin.prototype.stopLogPageView = function(pageName) {
-  	if(this.isPlatformIOS()) {
-		this.call_native("stopLogPageView", [pageName], null);
+		var data = [];
+		this.call_native("initial", data, null);
+	} else {
+		data = [];
+		this.call_native("init", data, null);
 	}
 }
 
-JPushPlugin.prototype.beginLogPageView = function(pageName, duration) {
-  	if(this.isPlatformIOS()) {
-		this.call_native("beginLogPageView", [pageName, duration], null);
+JPushPlugin.prototype.getRegistrationID = function(callback) {
+	try {
+	  	var data = [];
+		this.call_native("getRegistrationID", [data], callback);
+	} catch(exception) {
+		console.log(exception);
 	}
 }
 
-JPushPlugin.prototype.setApplicationIconBadgeNumber = function(badge) {
-  	if(this.isPlatformIOS()) {
-		this.call_native("setApplicationIconBadgeNumber", [badge], null);
-	}
+JPushPlugin.prototype.stopPush = function() {
+	data = [];
+	this.call_native("stopPush", data, null);
 }
 
-JPushPlugin.prototype.getApplicationIconBadgeNumber = function(callback) {
-	if(this.isPlatformIOS()) {
-		this.call_native("getApplicationIconBadgeNumber", [], callback);
-	}
+JPushPlugin.prototype.resumePush = function() {
+	data = [];
+	this.call_native("resumePush", data, null);
 }
 
+JPushPlugin.prototype.isPushStopped = function(callback) {
+	data = [];
+	this.call_native("isPushStopped", data, callback);
+}
+
+// iOS methods
 JPushPlugin.prototype.setTagsWithAlias = function(tags, alias) {
 	try {
   		if(tags == null) {
@@ -88,15 +92,6 @@ JPushPlugin.prototype.setTags = function(tags) {
 JPushPlugin.prototype.setAlias = function(alias) {
 	try {
 		this.call_native("setAlias", [alias], null);
-	} catch(exception) {
-		console.log(exception);
-	}
-}
-
-JPushPlugin.prototype.getRegistrationID = function(callback) {
-	try {
-	  	var data = [];
-		this.call_native("getRegistrationID", [data], callback);
 	} catch(exception) {
 		console.log(exception);
 	}
@@ -185,6 +180,57 @@ JPushPlugin.prototype.receiveMessageIniOSCallback = function(data) {
 	}
 }
 
+JPushPlugin.prototype.startLogPageView = function(pageName) {
+	if(this.isPlatformIOS()) {
+		this.call_native("startLogPageView", [pageName], null);
+  	}
+}
+
+JPushPlugin.prototype.stopLogPageView = function(pageName) {
+  	if(this.isPlatformIOS()) {
+		this.call_native("stopLogPageView", [pageName], null);
+	}
+}
+
+JPushPlugin.prototype.beginLogPageView = function(pageName, duration) {
+  	if(this.isPlatformIOS()) {
+		this.call_native("beginLogPageView", [pageName, duration], null);
+	}
+}
+
+JPushPlugin.prototype.setApplicationIconBadgeNumber = function(badge) {
+  	if(this.isPlatformIOS()) {
+		this.call_native("setApplicationIconBadgeNumber", [badge], null);
+	}
+}
+
+JPushPlugin.prototype.getApplicationIconBadgeNumber = function(callback) {
+	if(this.isPlatformIOS()) {
+		this.call_native("getApplicationIconBadgeNumber", [], callback);
+	}
+}
+
+// Android methods
+JPushPlugin.prototype.setDebugMode = function(mode) {
+	if(device.platform == "Android") {
+		this.call_native("setDebugMode", [mode], null);
+	}
+}
+
+JPushPlugin.prototype.setBasicPushNotificationBuilder = function() {
+	if(device.platform == "Android") {
+		data = [];
+		this.call_native("setBasicPushNotificationBuilder", data, null);
+	}
+}
+
+JPushPlugin.prototype.setCustomPushNotificationBuilder = function() {
+	if(device.platform == "Android") {
+		data = [];
+		this.call_native("setCustomPushNotificationBuilder", data, null);
+	}
+}
+
 JPushPlugin.prototype.receiveMessageInAndroidCallback = function(data) {
 	try {
 		console.log("JPushPlugin:receiveMessageInAndroidCallback");
@@ -221,38 +267,6 @@ JPushPlugin.prototype.receiveNotificationInAndroidCallback = function(data) {
 	}
 }
 
-//android single
-
-JPushPlugin.prototype.setBasicPushNotificationBuilder = function() {
-	if(device.platform == "Android") {
-		data = [];
-		this.call_native("setBasicPushNotificationBuilder", data, null);
-	}
-}
-
-JPushPlugin.prototype.setCustomPushNotificationBuilder = function() {
-	if(device.platform == "Android") {
-		data = [];
-		this.call_native("setCustomPushNotificationBuilder", data, null);
-	}
-}
-
-JPushPlugin.prototype.stopPush = function() {
-	data = [];
-	this.call_native("stopPush", data, null);
-}
-
-JPushPlugin.prototype.resumePush = function() {
-	data = [];
-	this.call_native("resumePush", data, null);
-}
-
-JPushPlugin.prototype.setDebugMode = function(mode) {
-	if(device.platform == "Android") {
-		this.call_native("setDebugMode", [mode], null);
-	}
-}
-
 JPushPlugin.prototype.clearAllNotification = function() {
 	if(device.platform == "Android") {
 		data = [];
@@ -270,21 +284,6 @@ JPushPlugin.prototype.clearNotificationById = function(notificationId) {
 JPushPlugin.prototype.setLatestNotificationNum = function(num) {
 	if(device.platform == "Android") {
 		this.call_native("setLatestNotificationNum", [num], null);
-	}
-}
-
-JPushPlugin.prototype.isPushStopped = function(callback) {
-	data = [];
-	this.call_native("isPushStopped", data, callback);
-}
-
-JPushPlugin.prototype.init = function() {
-	if(this.isPlatformIOS()) {
-		var data = [];
-		this.call_native("initial", data, null);
-	} else {
-		data = [];
-		this.call_native("init", data, null);
 	}
 }
 
@@ -324,14 +323,26 @@ JPushPlugin.prototype.reportNotificationOpened = function(msgID) {
 /**
  *是否开启统计分析功能，用于“用户使用时长”，“活跃用户”，“用户打开次数”的统计，并上报到服务器上，
  *在 Portal 上展示给开发者。
- **/
+ */
 JPushPlugin.prototype.setStatisticsOpen = function(mode) {
 	if(device.platform == "Android") {
 		this.call_native("setStatisticsOpen", [mode], null);
 	}
 }
 
-//iOS  single
+/**
+* 用于在 Android 6.0 及以上系统，申请一些权限
+* 具体可看：http://docs.jpush.io/client/android_api/#android-60
+*/
+JPushPlugin.prototype.requestPermission = function() {
+	if(device.platform == "Android") {
+		this.call_native("requestPermission", [], null);
+	}
+}
+
+JPushPlugin.prototype.setSilenceTime = function() {
+	
+}
 
 if(!window.plugins) {
 	window.plugins = {};
