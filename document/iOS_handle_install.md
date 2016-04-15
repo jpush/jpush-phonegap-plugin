@@ -1,4 +1,4 @@
-### iOS手工安装
+### iOS手动安装
 
 下载 JPush PhoneGap 插件，并解压缩，标记插件目录为：`$JPUSH_PLUGIN_DIR`
 

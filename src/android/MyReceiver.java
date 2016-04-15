@@ -25,7 +25,7 @@ public class MyReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(action)) {
-            handlingReceivedMessage(intent);
+            handlingMessageReceive(intent);
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(action)) {
             handlingNotificationReceive(context, intent);
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(action)) {
@@ -35,14 +35,17 @@ public class MyReceiver extends BroadcastReceiver {
         }
     }
 
-    private void handlingReceivedMessage(Intent intent) {
+    private void handlingMessageReceive(Intent intent) {
         String msg = intent.getStringExtra(JPushInterface.EXTRA_MESSAGE);
         Map<String, Object> extras = getNotificationExtras(intent);
-        JPushPlugin.transmitPush(msg, extras);
+        JPushPlugin.transmitMessageReceive(msg, extras);
     }
 
     private void handlingNotificationOpen(Context context, Intent intent) {
         Log.i(TAG, "----------------  handlingNotificationOpen");
+
+        String title = intent.getStringExtra(JPushInterface.EXTRA_NOTIFICATION_TITLE);
+        JPushPlugin.openNotificationTitle = title;
 
         String alert = intent.getStringExtra(JPushInterface.EXTRA_ALERT);
         JPushPlugin.openNotificationAlert = alert;
@@ -50,7 +53,7 @@ public class MyReceiver extends BroadcastReceiver {
         Map<String, Object> extras = getNotificationExtras(intent);
         JPushPlugin.openNotificationExtras = extras;
 
-        JPushPlugin.transmitOpen(alert, extras);
+        JPushPlugin.transmitNotificationOpen(title, alert, extras);
 
         Intent launch = context.getPackageManager().getLaunchIntentForPackage(
             context.getPackageName());
@@ -62,9 +65,13 @@ public class MyReceiver extends BroadcastReceiver {
     private void handlingNotificationReceive(Context context, Intent intent) {
         Log.i(TAG, "----------------  handlingNotificationReceive");
 
-        Intent launch = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+        Intent launch = context.getPackageManager().getLaunchIntentForPackage(
+                context.getPackageName());
         launch.addCategory(Intent.CATEGORY_LAUNCHER);
         launch.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        String title = intent.getStringExtra(JPushInterface.EXTRA_NOTIFICATION_TITLE);
+        JPushPlugin.notificationTitle = title;
 
         String alert = intent.getStringExtra(JPushInterface.EXTRA_ALERT);
         JPushPlugin.notificationAlert = alert;
@@ -72,14 +79,13 @@ public class MyReceiver extends BroadcastReceiver {
         Map<String, Object> extras = getNotificationExtras(intent);
         JPushPlugin.notificationExtras = extras;
 
-        JPushPlugin.transmitReceive(alert, extras);
+        JPushPlugin.transmitNotificationReceive(title, alert, extras);
     }
 
     private Map<String, Object> getNotificationExtras(Intent intent) {
         Map<String, Object> extrasMap = new HashMap<String, Object>();
         for (String key : intent.getExtras().keySet()) {
             if (!IGNORED_EXTRAS_KEYS.contains(key)) {
-                Log.e("key", "key:" + key);
                 if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)) {
                     extrasMap.put(key, intent.getIntExtra(key, 0));
                 } else {

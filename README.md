@@ -63,14 +63,14 @@ JPush-PhoneGap-Plugin 支持 iOS, Android 的推送插件。
     window.plugins.jPushPlugin.init();
 
 
-### Android 手工安装
+### Android 手动安装
 
-[Android 手工安装文档地址](document/Android_handle_install.md)
+[Android 手动安装文档地址](document/Android_handle_install.md)
 
 
-### iOS 手工安装
+### iOS 手动安装
 
-[IOS手工安装文档地址](document/iOS_handle_install.md)
+[IOS手动安装文档地址](document/iOS_handle_install.md)
 
 
 ###示例
@@ -118,6 +118,8 @@ iOS:
 		window.plugins.jPushPlugin.setTags(tags)
 		window.plugins.jPushPlugin.setAlias(alias)
 
+	 	event - jpush.setTagsWithAlias //三个方法都是触发该回调事件
+
 + 获取点击通知内容
 
 		event - jpush.openNotification
@@ -137,9 +139,10 @@ iOS:
 
 + 获取自定义消息推送内容
 
-		event - jpush.receiveMessage
 		//推荐使用事件的方式传递，但同时保留了 receiveMessageIniOSCallback 的回调函数，兼容以前的代码
 		window.plugins.jPushPlugin.receiveMessageIniOSCallback(data)
+
+		event - jpush.receiveMessage
 
 + 页面的统计
 
@@ -156,7 +159,8 @@ iOS:
 
 + 本地通知
 
-		window.plugins.JPushPlugin.addLocalNotificationForIOS(delayTime, content, badge, notificationID, extras)
+		window.plugins.JPushPlugin.addLocalNotificationForIOS(delayTime, content,
+			badge, notificationID, extras)
 		window.plugins.JPushPlugin.deleteLocalNotificationWithIdentifierKeyInIOS()
 		window.plugins.JPushPlugin.clearAllLocalNotifications()
 
@@ -231,6 +235,5 @@ iOS:
     	IsProduction: 是否生产环境（暂未启用）
 
 
-
 ###更多
- [ JPush 官网文档](http://docs.jpush.io/)
+ [JPush 官网文档](http://docs.jpush.io/)
