@@ -23,8 +23,8 @@
 
 10. 在 AppDelegate.m 中包含头文件
 
-		#import "APService.h"
-	    #import "JPushPlugin.h"
+		#import "JPUSHService.h"
+		#import "JPushPlugin.h"
 
 6. 调用代码,监听系统事件，相应地调用 JPush SDK 提供的 API 来实现功能
 
@@ -37,12 +37,12 @@
 		- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken   {
 		    //原内容保持不变
 		    // Required add
-		    [APService registerDeviceToken:deviceToken];
+		    [JPUSHService registerDeviceToken:deviceToken];
 		}
 		- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
 		    //原内容保持不变
-		    // Required
-		    [APService handleRemoteNotification:userInfo];
+		    // Required add
+		    [JPUSHService handleRemoteNotification:userInfo];
     		[[NSNotificationCenter defaultCenter] postNotificationName:kJPushPluginReceiveNotification
                                                                object:userInfo];
 		}
