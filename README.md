@@ -36,11 +36,11 @@ JPush-PhoneGap-Plugin 支持 iOS, Android 的推送插件。
 
 方法一：在线安装
 
-通过 cordova plugins 安装，要求 phonegap/cordova CLI 5.0+ (current stable v2.1.1)
+通过 cordova plugins 安装，要求 phonegap/cordova CLI 5.0+
 
 	cordova plugin add jpush-phonegap-plugin --variable API_KEY=your_jpush_appkey
 
-直接通过 url 安装（unstable）
+直接通过 url 安装
 
     cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git --variable API_KEY=your_jpush_appkey  
 
