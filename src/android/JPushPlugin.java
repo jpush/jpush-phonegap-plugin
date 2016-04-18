@@ -1,9 +1,6 @@
 package cn.jpush.phonegap;
 
 import android.app.Activity;
-import android.app.Notification;
-import android.content.ComponentName;
-import android.content.Intent;
 import android.content.Context;
 import android.util.Log;
 
@@ -316,24 +313,23 @@ public class JPushPlugin extends CordovaPlugin {
     }
 
     void setPushTime(JSONArray data, CallbackContext callbackContext) {
-        Set<Integer> days = new HashSet<Integer>();
+        Set<Integer> days = null;
         JSONArray dayArray;
         int startHour = -1;
         int endHour = -1;
         try {
-            dayArray = data.getJSONArray(0);
-            for (int i = 0; i < dayArray.length(); i++) {
-                days.add(dayArray.getInt(i));
+            dayArray = data.isNull(0) ? null : data.getJSONArray(0);
+            if (dayArray != null) {
+                days = new HashSet<Integer>();
+                for (int i = 0; i < dayArray.length(); i++) {
+                    days.add(dayArray.getInt(i));
+                }
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            callbackContext.error("error reading days json");
-        }
-        try {
             startHour = data.getInt(1);
             endHour = data.getInt(2);
         } catch (JSONException e) {
-            callbackContext.error("error reading hour json");
+            e.printStackTrace();
+            callbackContext.error("error reading data json");
         }
         Context context = cordovaActivity.getApplicationContext();
         JPushInterface.setPushTime(context, days, startHour, endHour);
@@ -508,20 +504,20 @@ public class JPushPlugin extends CordovaPlugin {
        */
       void setSilenceTime(JSONArray data, CallbackContext callbackContext) {
           try {
-          int startHour = data.getInt(0);
-          int startMinute = data.getInt(1);
-          int endHour = data.getInt(2);
-          int endMinute = data.getInt(3);
-          if (!isValidHour(startHour) || !isValidMinute(startMinute)) {
-              callbackContext.error("开始时间数值错误");
-              return;
-          }
-          if(!isValidHour(endHour) || !isValidMinute(endMinute)) {
-              callbackContext.error("结束时间数值错误");
-              return;
-          }
-          JPushInterface.setSilenceTime(cordovaActivity, startHour, startMinute,
-                  endHour, endMinute);
+              int startHour = data.getInt(0);
+              int startMinute = data.getInt(1);
+              int endHour = data.getInt(2);
+              int endMinute = data.getInt(3);
+              if (!isValidHour(startHour) || !isValidMinute(startMinute)) {
+                  callbackContext.error("开始时间数值错误");
+                  return;
+              }
+              if(!isValidHour(endHour) || !isValidMinute(endMinute)) {
+                  callbackContext.error("结束时间数值错误");
+                  return;
+              }
+              JPushInterface.setSilenceTime(cordovaActivity, startHour, startMinute,
+                      endHour, endMinute);
           } catch (JSONException e) {
               e.printStackTrace();
               callbackContext.error("error: reading json data.");

@@ -83,8 +83,8 @@
 
 ####接口定义
 
-		public static void onResume(final Activity activity)
-		public static void onPause(final Activity activity)
+	public static void onResume(final Activity activity)
+	public static void onPause(final Activity activity)
 
 ####参数说明
 
@@ -147,11 +147,44 @@
 
 ##### 接口定义
 
-	window.plugins.jPushPlugin.clearAllNotification = function()
+	window.plugins.jPushPlugin.clearAllNotification()
 
 ###  设置允许推送时间 API
+
+#### API - setPushTime
+默认情况下用户在任何时间都允许推送。即任何时候有推送下来，客户端都会收到，并展示。
+开发者可以调用此 API 来设置允许推送的时间。
+如果不在该时间段内收到消息，当前的行为是：推送到的通知会被扔掉。
+
+##### 接口定义
+
+    window.plugins.jPushPlugin.setPushTime(days, startHour, endHour)
+
+##### 参数说明
+- days: 数组 0表示星期天，1表示星期一，以此类推。 （7天制，数组中的int范围为0到6）set的值为null, 表示任何时间都可以收到消息和通知，set的size为0，则表示任何时间都收不到消息和通知.
+- startHour: int 允许推送的开始时间 （24小时制：startHour的范围为0到23）
+- endHour: int 允许推送的结束时间 （24小时制：endHour的范围为0到23）
+
 ###  设置通知静默时间 API
+
+#### API - setSilenceTime
+默认情况下用户在收到推送通知时，客户端可能会有震动，响铃等提示。但用户在睡觉、开会等时间点希望为 "免打扰" 模式，也是静音时段的概念。
+开发者可以调用此 API 来设置静音时段。如果在该时间段内收到消息，则：不会有铃声和震动。
+
+##### 接口定义
+
+    window.plugins.jPushPlugin.setSilenceTime(startHour, startMinute, endHour, endMinute)
+
+##### 参数说明
+
+- startHour: int 静音时段的开始时间 - 小时 （24小时制，范围：0~23 ）
+- startMinute: int 静音时段的开始时间 - 分钟（范围：0~59 ）
+- endHour: 静音时段的结束时间 - 小时 （24小时制，范围：0~23 ）
+- endMinute: 静音时段的结束时间 - 分钟（范围：0~59 ）
+
+
 ###  通知栏样式定制 API
+
 
 #### API - setBasicPushNotificationBuilder, setCustomPushNotificationBuilder
 

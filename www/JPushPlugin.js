@@ -340,8 +340,16 @@ JPushPlugin.prototype.requestPermission = function() {
 	}
 }
 
-JPushPlugin.prototype.setSilenceTime = function() {
-	
+JPushPlugin.prototype.setSilenceTime = function(startHour, startMinute, endHour, endMinute) {
+	if (device.platform == "Android") {
+		this.call_native("setSilenceTime", [startHour, startMinute, endHour, endMinute], null);
+	}
+}
+
+JPushPlugin.prototype.setPushTime = function(weekdays, startHour, endHour) {
+	if (device.platform == "Android") {
+		this.call_native("setPushTime", [weekdays, startHour, endHour], null);
+	}
 }
 
 if(!window.plugins) {
