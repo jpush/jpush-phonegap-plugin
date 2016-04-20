@@ -1,17 +1,22 @@
 ## JPush PhoneGap/Cordova Plugin ##
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jpush/jpush-phonegap-plugin)
+[![release](https://img.shields.io/badge/release-2.1.3-blue.svg)](https://github.com/jpush/jpush-phonegap-plugin/releases)
+[![platforms](https://img.shields.io/badge/platforms-iOS%7CAndroid-lightgrey.svg)](https://github.com/jpush/jpush-phonegap-plugin-plugin)
+[![weibo](https://img.shields.io/badge/weibo-JPush-blue.svg)](http://weibo.com/jpush?refer_flag=1001030101_&is_all=1)
+
 JPush-PhoneGap-Plugin 支持 iOS, Android 的推送插件。
 
 **功能特性：**
 支持 iOS, Android 的极光推送插件。
 
 ### 功能特性
-+ 发送推送通知
-+ 发送推送自定义消息
-+ 设置推送标签和别名
-+ 设置角标（iOS）
++ 发送推送通知。
++ 发送推送自定义消息。
++ 设置推送标签和别名。
++ 设置角标（iOS）。
 
-*如需要 IM 功能插件，请关注 [jmessage-phonegap-plugin](https://github.com/jpush/jmessage-phonegap-plugin)*
+*如需要 IM 功能插件，请关注 [jmessage-phonegap-plugin](https://github.com/jpush/jmessage-phonegap-plugin)*。
 
 ## 安装 ##
 ###准备工作
@@ -113,7 +118,7 @@ iOS:
 	eclipse 中 PhoneGap 工程 import 之后出现：`Type CallbackContext cannot be resolved to a type`
 	解决方案：eclipse 中右键单击工程名，Build Path -> Config Build Path -> Projects -> 选中工程名称 -> CordovaLib -> 点击 add
 
-####2. iOS 
+####2. iOS
 
 - 设置 / 修改 APP_KEY
 
