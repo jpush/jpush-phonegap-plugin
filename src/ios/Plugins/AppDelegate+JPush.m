@@ -9,20 +9,29 @@
 #import "AppDelegate+JPush.h"
 #import "JPushPlugin.h"
 #import "JPUSHService.h"
+#import <objc/runtime.h>
 
 @implementation AppDelegate (JPush)
 
--(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-    [JPushPlugin setLaunchOptions:launchOptions];
++(void)load{
 
-    //cordova didFinishLaunchingWithOptions
-    CGRect screenBounds = [[UIScreen mainScreen] bounds];
-    self.window = [[UIWindow alloc] initWithFrame:screenBounds];
-    self.viewController = [[CDVViewController alloc] init];
-    self.window.rootViewController = self.viewController;
-    self.window.autoresizesSubviews = YES;
-    [self.window makeKeyAndVisible];
-    return YES;
+    Method origin;
+    Method swizzle;
+
+    origin=class_getInstanceMethod([self class],@selector(init));
+    swizzle=class_getInstanceMethod([self class], @selector(init_plus));
+    method_exchangeImplementations(origin, swizzle);
+}
+
+-(instancetype)init_plus{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidLaunch:) name:@"UIApplicationDidFinishLaunchingNotification" object:nil];
+    return [self init_plus];
+}
+
+-(void)applicationDidLaunch:(NSNotification *)notification{
+    if (notification) {
+        [JPushPlugin setLaunchOptions:notification.userInfo];
+    }
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {

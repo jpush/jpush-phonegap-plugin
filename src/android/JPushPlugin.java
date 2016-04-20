@@ -1,10 +1,8 @@
 package cn.jpush.phonegap;
 
 import android.app.Activity;
-import android.app.Notification;
-import android.content.ComponentName;
-import android.content.Intent;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import __PACKAGE_NAME__.R;
@@ -38,31 +36,31 @@ import cn.jpush.android.data.JPushLocalNotification;
 public class JPushPlugin extends CordovaPlugin {
     private final static List<String> methodList =
             Arrays.asList(
-                "addLocalNotification",
-                "clearAllNotification",
-                "clearLocalNotifications",
-                "clearNotificationById",
-                "getNotification",
-                "getRegistrationID",
-                "init",
-                "isPushStopped",
-                "onPause",
-                "onResume",
-                "requestPermission",
-                "removeLocalNotification",
-                "reportNotificationOpened",
-                "resumePush",
-                "setAlias",
-                "setBasicPushNotificationBuilder",
-                "setCustomPushNotificationBuilder",
-                "setDebugMode",
-                "setLatestNotificationNum",
-                "setPushTime",
-                "setTags",
-                "setTagsWithAlias",
-                "setSilenceTime",
-                "setStatisticsOpen",
-                "stopPush"
+                    "addLocalNotification",
+                    "clearAllNotification",
+                    "clearLocalNotifications",
+                    "clearNotificationById",
+                    "getNotification",
+                    "getRegistrationID",
+                    "init",
+                    "isPushStopped",
+                    "onPause",
+                    "onResume",
+                    "requestPermission",
+                    "removeLocalNotification",
+                    "reportNotificationOpened",
+                    "resumePush",
+                    "setAlias",
+                    "setBasicPushNotificationBuilder",
+                    "setCustomPushNotificationBuilder",
+                    "setDebugMode",
+                    "setLatestNotificationNum",
+                    "setPushTime",
+                    "setTags",
+                    "setTagsWithAlias",
+                    "setSilenceTime",
+                    "setStatisticsOpen",
+                    "stopPush"
             );
 
     private ExecutorService threadPool = Executors.newFixedThreadPool(1);
@@ -90,20 +88,20 @@ public class JPushPlugin extends CordovaPlugin {
         super.initialize(cordova, webView);
 
         Log.i(TAG, "---------------- initialize" + "-" + openNotificationAlert
-            + "-" + notificationAlert);
+                + "-" + notificationAlert);
 
-        cordovaActivity = this.cordova.getActivity();
+        cordovaActivity = cordova.getActivity();
 
         //如果同时缓存了打开事件 openNotificationAlert 和 消息事件 notificationAlert，只向 UI 发打开事件。
         //这样做是为了和 iOS 统一。
         if (openNotificationAlert != null) {
             notificationAlert = null;
             transmitNotificationOpen(openNotificationTitle, openNotificationAlert,
-                openNotificationExtras);
+                    openNotificationExtras);
         }
         if (notificationAlert != null) {
             transmitNotificationReceive(notificationTitle, notificationAlert,
-                notificationExtras);
+                    notificationExtras);
         }
     }
 
@@ -111,25 +109,25 @@ public class JPushPlugin extends CordovaPlugin {
         Log.i(TAG, "----------------  onPause");
         shouldCacheMsg = true;
         if (isStatisticsOpened && multitasking) {
-            JPushInterface.onPause(cordovaActivity);
+            JPushInterface.onPause(this.cordova.getActivity());
         }
     }
 
     public void onResume(boolean multitasking) {
         shouldCacheMsg = false;
         Log.i(TAG, "---------------- onResume" + "-" + openNotificationAlert
-            + "-" + notificationAlert);
+                + "-" + notificationAlert);
         if (isStatisticsOpened && multitasking) {
-            JPushInterface.onResume(cordovaActivity);
+            JPushInterface.onResume(this.cordova.getActivity());
         }
         if (openNotificationAlert != null) {
             notificationAlert = null;
             transmitNotificationOpen(openNotificationTitle, openNotificationAlert,
-                openNotificationExtras);
+                    openNotificationExtras);
         }
         if (notificationAlert != null) {
             transmitNotificationReceive(notificationTitle, notificationAlert,
-                notificationExtras);
+                    notificationExtras);
         }
     }
 
@@ -141,12 +139,17 @@ public class JPushPlugin extends CordovaPlugin {
             JSONObject jExtras = new JSONObject();
             for (Entry<String, Object> entry : extras.entrySet()) {
                 if (entry.getKey().equals("cn.jpush.android.EXTRA")) {
-                    JSONObject jo = new JSONObject((String) entry.getValue());
-                    String key;
-                    Iterator keys = jo.keys();
-                    while(keys.hasNext()) {
-                        key = keys.next().toString();
-                        jExtras.put(key, jo.getString(key));
+                    JSONObject jo = null;
+                    if (TextUtils.isEmpty((String) entry.getValue())) {
+                        jo = new JSONObject();
+                    } else {
+                        jo = new JSONObject((String) entry.getValue());
+                        String key;
+                        Iterator keys = jo.keys();
+                        while (keys.hasNext()) {
+                            key = keys.next().toString();
+                            jExtras.put(key, jo.getString(key));
+                        }
                     }
                     jExtras.put("cn.jpush.android.EXTRA", jo);
                 } else {
@@ -171,12 +174,17 @@ public class JPushPlugin extends CordovaPlugin {
             JSONObject jExtras = new JSONObject();
             for (Entry<String, Object> entry : extras.entrySet()) {
                 if (entry.getKey().equals("cn.jpush.android.EXTRA")) {
-                    JSONObject jo = new JSONObject((String) entry.getValue());
-                    String key;
-                    Iterator keys = jo.keys();
-                    while(keys.hasNext()) {
-                        key = keys.next().toString();
-                        jExtras.put(key, jo.getString(key));
+                    JSONObject jo = null;
+                    if (TextUtils.isEmpty((String) entry.getValue())) {
+                        jo = new JSONObject();
+                    } else {
+                        jo = new JSONObject((String) entry.getValue());
+                        String key;
+                        Iterator keys = jo.keys();
+                        while (keys.hasNext()) {
+                            key = keys.next().toString();
+                            jExtras.put(key, jo.getString(key));
+                        }
                     }
                     jExtras.put("cn.jpush.android.EXTRA", jo);
                 } else {
@@ -265,7 +273,7 @@ public class JPushPlugin extends CordovaPlugin {
     }
 
     void init(JSONArray data, CallbackContext callbackContext) {
-        JPushInterface.init(cordovaActivity.getApplicationContext());
+        JPushInterface.init(this.cordova.getActivity().getApplicationContext());
     }
 
     void setDebugMode(JSONArray data, CallbackContext callbackContext) {
@@ -280,18 +288,18 @@ public class JPushPlugin extends CordovaPlugin {
     }
 
     void stopPush(JSONArray data, CallbackContext callbackContext) {
-        JPushInterface.stopPush(cordovaActivity.getApplicationContext());
+        JPushInterface.stopPush(this.cordova.getActivity().getApplicationContext());
         callbackContext.success();
     }
 
     void resumePush(JSONArray data, CallbackContext callbackContext) {
-        JPushInterface.resumePush(cordovaActivity.getApplicationContext());
+        JPushInterface.resumePush(this.cordova.getActivity().getApplicationContext());
         callbackContext.success();
     }
 
     void isPushStopped(JSONArray data, CallbackContext callbackContext) {
         boolean isStopped = JPushInterface.isPushStopped(
-                cordovaActivity.getApplicationContext());
+                this.cordova.getActivity().getApplicationContext());
         if (isStopped) {
             callbackContext.success(1);
         } else {
@@ -309,7 +317,7 @@ public class JPushPlugin extends CordovaPlugin {
         }
         if (num != -1) {
             JPushInterface.setLatestNotificationNumber(
-                    cordovaActivity.getApplicationContext(), num);
+                    this.cordova.getActivity().getApplicationContext(), num);
         } else {
             callbackContext.error("error num");
         }
@@ -335,30 +343,30 @@ public class JPushPlugin extends CordovaPlugin {
         } catch (JSONException e) {
             callbackContext.error("error reading hour json");
         }
-        Context context = cordovaActivity.getApplicationContext();
+        Context context = this.cordova.getActivity().getApplicationContext();
         JPushInterface.setPushTime(context, days, startHour, endHour);
         callbackContext.success();
     }
 
     void getRegistrationID(JSONArray data, CallbackContext callbackContext) {
-        Context context = cordovaActivity.getApplicationContext();
+        Context context = this.cordova.getActivity().getApplicationContext();
         String regID = JPushInterface.getRegistrationID(context);
         callbackContext.success(regID);
     }
 
     void onResume(JSONArray data, CallbackContext callbackContext) {
-        JPushInterface.onResume(cordovaActivity);
+        JPushInterface.onResume(this.cordova.getActivity());
     }
 
     void onPause(JSONArray data, CallbackContext callbackContext) {
-        JPushInterface.onPause(cordovaActivity);
+        JPushInterface.onPause(this.cordova.getActivity());
     }
 
     void reportNotificationOpened(JSONArray data, CallbackContext callbackContext) {
         try {
             String msgID;
             msgID = data.getString(0);
-            JPushInterface.reportNotificationOpened(cordovaActivity, msgID);
+            JPushInterface.reportNotificationOpened(this.cordova.getActivity(), msgID);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -370,8 +378,8 @@ public class JPushPlugin extends CordovaPlugin {
             for (int i = 0; i < data.length(); i++) {
                 tags.add(data.getString(i));
             }
-            JPushInterface.setTags(cordovaActivity.getApplicationContext(),
-                tags, mTagWithAliasCallback);
+            JPushInterface.setTags(this.cordova.getActivity().getApplicationContext(),
+                    tags, mTagWithAliasCallback);
             callbackContext.success();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -382,8 +390,8 @@ public class JPushPlugin extends CordovaPlugin {
     void setAlias(JSONArray data, CallbackContext callbackContext) {
         try {
             String alias = data.getString(0);
-            JPushInterface.setAlias(cordovaActivity.getApplicationContext(),
-                alias, mTagWithAliasCallback);
+            JPushInterface.setAlias(this.cordova.getActivity().getApplicationContext(),
+                    alias, mTagWithAliasCallback);
             callbackContext.success();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -400,8 +408,8 @@ public class JPushPlugin extends CordovaPlugin {
             for (int i = 0; i < tagsArray.length(); i++) {
                 tags.add(tagsArray.getString(i));
             }
-            JPushInterface.setAliasAndTags(cordovaActivity.getApplicationContext(),
-                alias, tags, mTagWithAliasCallback);
+            JPushInterface.setAliasAndTags(this.cordova.getActivity().getApplicationContext(),
+                    alias, tags, mTagWithAliasCallback);
             callbackContext.success();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -412,7 +420,7 @@ public class JPushPlugin extends CordovaPlugin {
     void setBasicPushNotificationBuilder(JSONArray data,
             CallbackContext callbackContext) {
         BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(
-                cordovaActivity);
+                this.cordova.getActivity());
         builder.developerArg0 = "Basic builder 1";
         JPushInterface.setPushNotificationBuilder(1, builder);
         JSONObject obj = new JSONObject();
@@ -426,7 +434,7 @@ public class JPushPlugin extends CordovaPlugin {
     void setCustomPushNotificationBuilder(JSONArray data,
             CallbackContext callbackContext) {
         CustomPushNotificationBuilder builder = new CustomPushNotificationBuilder(
-                cordovaActivity, R.layout.test_notification_layout,
+                this.cordova.getActivity(), R.layout.test_notification_layout,
                 R.id.icon, R.id.title, R.id.text);
         builder.developerArg0 = "Custom Builder 1";
         JPushInterface.setPushNotificationBuilder(2, builder);
@@ -439,7 +447,7 @@ public class JPushPlugin extends CordovaPlugin {
     }
 
     void clearAllNotification(JSONArray data, CallbackContext callbackContext) {
-        JPushInterface.clearAllNotifications(cordovaActivity);
+        JPushInterface.clearAllNotifications(this.cordova.getActivity());
     }
 
     void clearNotificationById(JSONArray data, CallbackContext callbackContext) {
@@ -451,7 +459,7 @@ public class JPushPlugin extends CordovaPlugin {
             callbackContext.error("error reading id json");
         }
         if (notificationId != -1) {
-            JPushInterface.clearNotificationById(cordovaActivity, notificationId);
+            JPushInterface.clearNotificationById(this.cordova.getActivity(), notificationId);
         } else {
             callbackContext.error("error id");
         }
@@ -467,7 +475,7 @@ public class JPushPlugin extends CordovaPlugin {
         String extrasStr = data.isNull(5) ? "" : data.getString(5);
         JSONObject extras = new JSONObject();
         if (!extrasStr.isEmpty()) {
-             extras = new JSONObject(extrasStr);
+            extras = new JSONObject(extrasStr);
         }
 
         JPushLocalNotification ln = new JPushLocalNotification();
@@ -478,17 +486,17 @@ public class JPushPlugin extends CordovaPlugin {
         ln.setBroadcastTime(System.currentTimeMillis() + broadcastTime);
         ln.setExtras(extras.toString());
 
-        JPushInterface.addLocalNotification(cordovaActivity, ln);
+        JPushInterface.addLocalNotification(this.cordova.getActivity(), ln);
     }
 
     void removeLocalNotification(JSONArray data, CallbackContext callbackContext)
             throws JSONException {
         int notificationID = data.getInt(0);
-        JPushInterface.removeLocalNotification(cordovaActivity, notificationID);
+        JPushInterface.removeLocalNotification(this.cordova.getActivity(), notificationID);
     }
 
     void clearLocalNotifications(JSONArray data, CallbackContext callbackContext) {
-        JPushInterface.clearLocalNotifications(cordovaActivity);
+        JPushInterface.clearLocalNotifications(this.cordova.getActivity());
     }
 
     /**
@@ -502,47 +510,47 @@ public class JPushPlugin extends CordovaPlugin {
         }
     }
 
-      /**
-       * 设置通知静默时间
-       * http://docs.jpush.io/client/android_api/#api_5
-       */
-      void setSilenceTime(JSONArray data, CallbackContext callbackContext) {
-          try {
-          int startHour = data.getInt(0);
-          int startMinute = data.getInt(1);
-          int endHour = data.getInt(2);
-          int endMinute = data.getInt(3);
-          if (!isValidHour(startHour) || !isValidMinute(startMinute)) {
-              callbackContext.error("开始时间数值错误");
-              return;
-          }
-          if(!isValidHour(endHour) || !isValidMinute(endMinute)) {
-              callbackContext.error("结束时间数值错误");
-              return;
-          }
-          JPushInterface.setSilenceTime(cordovaActivity, startHour, startMinute,
-                  endHour, endMinute);
-          } catch (JSONException e) {
-              e.printStackTrace();
-              callbackContext.error("error: reading json data.");
-          }
-      }
+    /**
+     * 设置通知静默时间
+     * http://docs.jpush.io/client/android_api/#api_5
+     */
+    void setSilenceTime(JSONArray data, CallbackContext callbackContext) {
+        try {
+            int startHour = data.getInt(0);
+            int startMinute = data.getInt(1);
+            int endHour = data.getInt(2);
+            int endMinute = data.getInt(3);
+            if (!isValidHour(startHour) || !isValidMinute(startMinute)) {
+                callbackContext.error("开始时间数值错误");
+                return;
+            }
+            if (!isValidHour(endHour) || !isValidMinute(endMinute)) {
+                callbackContext.error("结束时间数值错误");
+                return;
+            }
+            JPushInterface.setSilenceTime(this.cordova.getActivity(), startHour, startMinute,
+                    endHour, endMinute);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            callbackContext.error("error: reading json data.");
+        }
+    }
 
-      private boolean isValidHour(int hour) {
-          return !(hour < 0 || hour > 23);
-      }
+    private boolean isValidHour(int hour) {
+        return !(hour < 0 || hour > 23);
+    }
 
-      private boolean isValidMinute(int minute) {
-          return !(minute < 0 || minute > 59);
-      }
+    private boolean isValidMinute(int minute) {
+        return !(minute < 0 || minute > 59);
+    }
 
-      /**
-       *  用于 Android 6.0 以上系统申请权限，具体可参考：
-       *  http://docs.Push.io/client/android_api/#android-60
-       */
-      void requestPermission(JSONArray data, CallbackContext callbackContext) {
-          JPushInterface.requestPermission(cordovaActivity);
-      }
+    /**
+     * 用于 Android 6.0 以上系统申请权限，具体可参考：
+     * http://docs.Push.io/client/android_api/#android-60
+     */
+    void requestPermission(JSONArray data, CallbackContext callbackContext) {
+        JPushInterface.requestPermission(this.cordova.getActivity());
+    }
 
     private final TagAliasCallback mTagWithAliasCallback = new TagAliasCallback() {
         @Override
@@ -558,7 +566,7 @@ public class JPushPlugin extends CordovaPlugin {
                 final String jsEvent = String.format(
                         "cordova.fireDocumentEvent('jpush.setTagsWithAlias',%s)",
                         data.toString());
-                cordovaActivity.runOnUiThread(new Runnable() {
+                cordova.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         instance.webView.loadUrl("javascript:" + jsEvent);
