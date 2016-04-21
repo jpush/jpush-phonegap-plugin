@@ -18,8 +18,8 @@ JPush-PhoneGap-Plugin 支持 iOS, Android 的推送插件。
 
 *如需要 IM 功能插件，请关注 [jmessage-phonegap-plugin](https://github.com/jpush/jmessage-phonegap-plugin)*。
 
-## 安装 ##
-###准备工作
+## 安装 
+### 准备工作
 
 1. cordova create 文件夹名字 包名 应用名字
 
@@ -35,7 +35,7 @@ JPush-PhoneGap-Plugin 支持 iOS, Android 的推送插件。
 		然后再执行 `cordova plugin add xxxxx` 命令，不然有一些必须要的链接库需要手动添加
 
 
-###Cordova CLI / PhoneGap 安装 Android & iOS
+### Cordova CLI / PhoneGap 安装 Android & iOS
 
 1). 安装 JPush PhoneGap Plugin, 有两种方法：
 
@@ -78,7 +78,7 @@ JPush-PhoneGap-Plugin 支持 iOS, Android 的推送插件。
 [IOS 手动安装文档地址](API/iOS_install.md)
 
 
-###示例
+### 示例
 
 "$JPUSH_PLUGIN_DIR/example"文件夹内找到并拷贝以下文件
 
@@ -86,7 +86,7 @@ JPush-PhoneGap-Plugin 支持 iOS, Android 的推送插件。
 		src/example/css/* to www/css
 		src/example/js/* to www/js
 
-###关于'PhoneGap build'云服务
+### 关于'PhoneGap build'云服务
 
 该项目基于 cordova 实现，目前无法使用 'PhoneGap build' 云服务进行打包，建议使用本地环境进行打包
 
@@ -111,14 +111,16 @@ iOS:
 - [Android API](https://github.com/jpush/jpush-phonegap-plugin/blob/dev/API/Android_detail_api.md)
 
 
-###常见问题
+### 常见问题
 
-####1. Android
+若要使用 CLI 来编译项目，注意使用 cordova compile 而不是 cordova build，因为 cordova build 会覆盖掉对插件的修改。
+
+#### 1. Android
 
 	eclipse 中 PhoneGap 工程 import 之后出现：`Type CallbackContext cannot be resolved to a type`
 	解决方案：eclipse 中右键单击工程名，Build Path -> Config Build Path -> Projects -> 选中工程名称 -> CordovaLib -> 点击 add
 
-####2. iOS
+#### 2. iOS
 
 - 设置 / 修改 APP_KEY
 
@@ -133,5 +135,5 @@ iOS:
 	[iOS 证书 设置指南](http://docs.jpush.io/client/ios_tutorials/#ios_1)
 
 
-###更多
+### 更多
  [JPush 官网文档](http://docs.jpush.io/)

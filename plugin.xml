@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cn.jpush.phonegap.JPushPlugin"
-        version="2.1.0">
+        version="2.1.5">
 
     <name>JPush Plugin</name>
     <description>JPush for cordova plugin</description>
@@ -93,12 +93,14 @@
                     <category android:name="$PACKAGE_NAME"/>
                 </intent-filter>
             </activity>
+
             <!-- Required  SDK核心功能-->
             <service
                     android:name="cn.jpush.android.service.DownloadService"
                     android:enabled="true"
                     android:exported="false">
             </service>
+
             <!-- Required SDK 核心功能-->
             <service
                     android:name="cn.jpush.android.service.PushService"
@@ -109,9 +111,9 @@
                     <action android:name="cn.jpush.android.intent.REPORT"/>
                     <action android:name="cn.jpush.android.intent.PushService"/>
                     <action android:name="cn.jpush.android.intent.PUSH_TIME"/>
-
                 </intent-filter>
             </service>
+
             <!-- Required SDK核心功能-->
             <receiver
                     android:name="cn.jpush.android.service.PushReceiver"

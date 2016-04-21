@@ -22,9 +22,9 @@
 ### 收到自定义消息时获得通知的信息
 
 - 内容
-    window.plugins.jPushPlugin.openNotification.message;
+    window.plugins.jPushPlugin.receiveMessage.message;
 - 附加字段
-    window.plugins.jPushPlugin.openNotification.extras.yourKey;
+    window.plugins.jPushPlugin.receiveMessage.extras.yourKey;
 
 ### 获取集成日志
 
