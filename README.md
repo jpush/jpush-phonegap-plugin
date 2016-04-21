@@ -1,5 +1,6 @@
 ## JPush PhoneGap/Cordova Plugin ##
 
+[![Build Status](https://travis-ci.org/jpush/jpush-phonegap-plugin.svg?branch=master)](https://travis-ci.org/jpush/jpush-phonegap-plugin)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jpush/jpush-phonegap-plugin)
 [![release](https://img.shields.io/badge/release-2.1.3-blue.svg)](https://github.com/jpush/jpush-phonegap-plugin/releases)
 [![platforms](https://img.shields.io/badge/platforms-iOS%7CAndroid-lightgrey.svg)](https://github.com/jpush/jpush-phonegap-plugin-plugin)
@@ -18,7 +19,7 @@ JPush-PhoneGap-Plugin 支持 iOS, Android 的推送插件。
 
 *如需要 IM 功能插件，请关注 [jmessage-phonegap-plugin](https://github.com/jpush/jmessage-phonegap-plugin)*。
 
-## 安装 
+## 安装
 ### 准备工作
 
 1. cordova create 文件夹名字 包名 应用名字
