@@ -2,7 +2,7 @@
 
 - [停止与恢复推送服务](#停止与恢复推送服务)
 - [获取 RegistrationID](#获取-registrationid)
-- [别名与标签 API](#别名与标签-api)
+- [设置别名与标签](#设置别名与标签)
 - [获取点击通知内容](#获取点击通知内容)
 - [获取通知内容](#获取通知内容)
 - [获取自定义消息推送内容](#获取自定义消息推送内容)
@@ -11,12 +11,11 @@
 ## 停止与恢复推送服务
 ### API - init
 
-调用此 API,用来开启
-JPush SDK 提供的推送服务。
+调用此 API，用来开启 JPush SDK 提供的推送服务。
 
 开发者 App 可以通过调用停止推送服务 API 来停止极光推送服务。当又需要使用极光推送服务时，则必须要调用恢复推送服务 API。
 
-本功能是一个完全本地的状态操作。也就是说：停止推送服务的状态不会保存到服务器上。
+本功能是一个完全本地的状态操作，也就是说：停止推送服务的状态不会保存到服务器上。
 
 如果停止推送服务后，开发者 App 被重新安装，或者被清除数据，
 JPush SDK 会恢复正常的默认行为。（因为保存在本地的状态数据被清除掉了）。
@@ -127,7 +126,7 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 		}
 	}
 
-## 别名与标签 API
+## 设置别名与标签
 
 ### API - setTagsWithAlias, setTags, setAlias
 
@@ -205,8 +204,8 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 |6003|alias 字符串不合法。	               |有效的别名、标签组成：字母（区分大小写）、数字、下划线、汉字。|
 |6004|alias超长。			       |最多 40个字节，中文 UTF-8 是 3 个字节。|
 |6005|某一个 tag 字符串不合法。		       |有效的别名、标签组成：字母（区分大小写）、数字、下划线、汉字。|
-|6006|某一个 tag 超长。			       |一个 tag 最多 40个字节	中文 UTF-8 是 3 个字节。|
-|6007|tags 数量超出限制，最多 100 个。	       |这是一台设备的限制。一个应用全局的标签数量无限制。|
+|6006|某一个 tag 超长。			       |一个 tag 最多 40个字节，中文 UTF-8 是 3 个字节。|
+|6007|tags 数量超出限制，最多 100 个。	       |这是一台设备的限制，一个应用全局的标签数量无限制。|
 |6008|tag / alias 超出总长度限制。	       	       |总长度最多 1K 字节。|
 |6011|10s内设置 tag 或 alias 大于 3 次。	       |短时间内操作过于频繁。|
 
@@ -269,23 +268,23 @@ ps：点击通知后传递的 json object 保存在 window.plugins.jPushPlugin.o
 
 ### event - jpush.receiveNotification
 
-点击通知进入应用程序时会触发该事件。
+收到通知时会触发该事件。
 
 #### 代码示例
 
 - 在你需要接收通知的的 js 文件中加入:
 
-	document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
+		document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
 
 - onReceiveNotification 需要这样写：
 
-    var alertContent;
-    if(device.platform == "Android") {
-        alertContent = window.plugins.jPushPlugin.receiveNotification.alert;
-    } else {
-        alertContent = event.aps.alert;
-    }
-    alert("open Notificaiton:" + alertContent);
+	    var alertContent;
+	    if(device.platform == "Android") {
+	        alertContent = window.plugins.jPushPlugin.receiveNotification.alert;
+	    } else {
+	        alertContent = event.aps.alert;
+	    }
+	    alert("open Notificaiton:" + alertContent);
 
 ps：点击通知后传递的 json object 保存在 window.plugins.jPushPlugin.receiveNotification，直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意。
 
@@ -324,7 +323,9 @@ ps：点击通知后传递的 json object 保存在 window.plugins.jPushPlugin.r
 
 ### event - jpush.receiveMessage
 
-收到应用内消息时触发这个事件，推荐使用事件的方式传递，但同时保留了 receiveMessageIniOSCallback 的回调函数，兼容以前的代码。
+收到自定义消息时触发这个事件，推荐使用事件的方式传递。
+
+但同时保留了 receiveMessageIniOSCallback 的回调函数，兼容以前的代码。
 
 #### 代码示例
 
@@ -343,7 +344,6 @@ ps：点击通知后传递的 json object 保存在 window.plugins.jPushPlugin.r
                      message = event.content;
                 }          
                  $("#messageResult").html(message);
-
             } catch(exception) {
                 console.log("JPushPlugin:onReceiveMessage-->" + exception);
             }

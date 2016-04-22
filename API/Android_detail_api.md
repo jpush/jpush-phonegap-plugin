@@ -36,7 +36,7 @@
 
 - 内容:
     window.plugins.jPushPlugin.receiveMessage.message
-- 附加字段: 
+- 附加字段:
     window.plugins.jPushPlugin.receiveMessage.extras.yourKey
 
 ## 获取集成日志
@@ -199,14 +199,18 @@
 ### API - setBasicPushNotificationBuilder, setCustomPushNotificationBuilder
 
 当用户需要定制默认的通知栏样式时，则可调用此方法。
+需要用户去自定义 ../JPushPlugin.java 中的同名方法代码，然后再在 js 端 调用该方法。
+
+具体用法可参考[官方文档](http://docs.jpush.io/client/android_tutorials/#_11)。
+
 JPush SDK 提供了 2 个用于定制通知栏样式的构建类：
 
-- setBasicPushNotificationBuilder
-	- Basic 用于定制 Android Notification 里的 defaults / flags / icon 等基础样式（行为）。
-- setCustomPushNotificationBuilder
-	- 继承 Basic 进一步让开发者定制 Notification Layout。
+- setBasicPushNotificationBuilder:
+    Basic 用于定制 Android Notification 里的 defaults / flags / icon 等基础样式（行为）。
+- setCustomPushNotificationBuilder:
+    继承 Basic 进一步让开发者定制 Notification Layout。
 
-如果不调用此方法定制，则极光 Push SDK 默认的通知栏样式是：Android 标准的通知栏提示。
+如果不调用此方法定制，则极光 Push SDK 默认的通知栏样式是 Android 标准的通知栏。
 
 #### 接口定义
 
