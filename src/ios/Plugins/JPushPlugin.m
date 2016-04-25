@@ -356,29 +356,33 @@ static NSDictionary *_luanchOptions = nil;
 
     NSData   *jsonData   = [NSJSONSerialization dataWithJSONObject:userInfo options:0 error:&error];
     NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-    NSLog(@"%ld",(long)[UIApplication sharedApplication].applicationState);
     switch ([UIApplication sharedApplication].applicationState) {
-        case UIApplicationStateActive:
-        {
+        case UIApplicationStateActive:{
+            //前台收到
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.receiveNotification',%@)",jsonString]];
             });
-        }
             break;
-        case UIApplicationStateInactive:
-        case UIApplicationStateBackground:
-        {
+        }
+        case UIApplicationStateInactive:{
+            //后台点击
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.openNotification',%@)",jsonString]];
             });
-            
+            break;
         }
+        case UIApplicationStateBackground:{
+            //后台收到
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.backgoundNotification',%@)",jsonString]];
+            });
             break;
+        }
         default:
-            //do nothing
-            break;
+        //do nothing
+        break;
     }
-    
+
 }
 
 @end

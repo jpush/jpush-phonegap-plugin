@@ -4,8 +4,9 @@
 - [获取 RegistrationID](#获取-registrationid)
 - [别名与标签](#别名与标签)
 - [获取 APNS 推送内容](#获取-apns-推送内容)
-	- [点击推送获取](#点击推送获取)
-	- [前台获取](#前台获取)
+	- [点击推送通知](#点击推送通知)
+	- [前台收到推送](#前台收到推送)
+	- [后台收到推送](#后台收到推送)
 - [获取自定义消息内容](#获取自定义消息内容)
 - [设置Badge](#设置badge)
 - [本地通知](#本地通知)
@@ -194,11 +195,11 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 
 ## 获取 APNS 推送内容
 
-### 点击推送获取
+### 点击推送通知
 
 #### event - jpush.openNotification
 
-点击通知进入应用程序时会出发改事件。
+点击通知启动或唤醒应用程序时会出发该事件
 
 #### 代码示例
 
@@ -227,11 +228,11 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 			"_j_msgid":154604475
 		}
 
-### 前台获取
+### 前台收到推送
 
 #### event - jpush.receiveNotification
 
-应用程序处于前台时会触发该事件。
+应用程序处于前台时收到推送会触发该事件
 
 #### 代码示例
 
@@ -248,6 +249,39 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 		}
 
 - event 举例
+
+		{
+			"aps":{
+				  "badge":1,
+				  "sound":"default",
+				  "alert":"今天去哪儿"
+			},
+			"key1":"value1",
+			"key2":"value2",
+			"_j_msgid":154604475
+		}
+
+### 后台收到推送
+
+#### event - jpush.backgroundNotification
+
+应用程序处于后台时收到推送会触发该事件，可以在后台执行一段代码。具体配置参考 [iOS 7 Background Remote Notification](http://docs.jpush.io/client/ios_tutorials/#ios-7-background-remote-notification)
+
+#### 代码示例
+
+- 在你需要接收通知的的 js 文件中加入:
+
+		document.addEventListener("jpush.backgroundNotification", onBackgroundNotification, false);
+
+- onBackgroundNotification 需要这样写：
+
+		var onBackgroundNotification = function(event) {
+			var alertContent;
+			alertContent = event.aps.alert;
+			alert("open Notificaiton:" + alertContent);
+		}
+
++ event 举例
 
 		{
 			"aps":{

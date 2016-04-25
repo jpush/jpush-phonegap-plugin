@@ -60,10 +60,11 @@
 
 /*
  *  以下为js中可监听到的事件
- *  jpush.openNotification      点击推送消息唤醒或启动app
+ *  jpush.openNotification      点击推送消息启动或唤醒app
  *  jpush.setTagsWithAlias      设置标签、别名完成
  *  jpush.receiveMessage        收到自定义消息
- *  jpush.receiveNotification   前台收到推送消息
+ *  jpush.receiveNotification   前台收到推送
+ *  jpush.backgoundNotification 后台收到推送
  */
 
 @end

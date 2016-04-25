@@ -131,6 +131,13 @@ public class JPushPlugin extends CordovaPlugin {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        cordovaActivity = null;
+        instance = null;
+    }
+
     private static JSONObject getMessageObject(String message,
             Map<String, Object> extras) {
         JSONObject data = new JSONObject();
