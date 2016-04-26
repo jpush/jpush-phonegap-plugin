@@ -31,7 +31,7 @@
             <source-file src="src/ios/Plugins/JPushPlugin.m"/>
 
             <header-file src="src/ios/lib/JPUSHService.h" />
-            <source-file src="src/ios/lib/jpush-ios-2.1.0.a" framework="true" />
+            <source-file src="src/ios/lib/jpush-ios-2.1.6.a" framework="true" />
             <header-file src="src/ios/Plugins/AppDelegate+JPush.h"/>
             <source-file src="src/ios/Plugins/AppDelegate+JPush.m"/>
             <resource-file src="src/ios/PushConfig.plist" />
@@ -43,7 +43,8 @@
             <framework src="Foundation.framework" weak="true" />
             <framework src="UIKit.framework" weak="true" />
             <framework src="Security.framework" weak="true" />
-            <framework src="libz.dylib" weak="true" />
+            <framework src="libz.tbd" weak="true" />
+            <framework src="AdSupport.framework" weak="true" />
 
             <config-file target="*PushConfig.plist" parent="APP_KEY">
                 <string>$API_KEY</string>
