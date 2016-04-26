@@ -14,7 +14,7 @@
 static NSString *const JP_APP_KEY = @"APP_KEY";
 static NSString *const JP_APP_CHANNEL = @"CHANNEL";
 static NSString *const JP_APP_ISPRODUCTION = @"IsProduction";
-static NSString *const JP_APP_ISIDFA = @"isIDFA";
+static NSString *const JP_APP_ISIDFA = @"IsIDFA";
 static NSString *const JPushConfigFileName = @"PushConfig";
 static NSDictionary *_luanchOptions = nil;
 
