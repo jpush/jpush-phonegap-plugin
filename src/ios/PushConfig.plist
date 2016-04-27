@@ -8,5 +8,7 @@
 	<string>Subscription</string>
 	<key>IsProduction</key>
 	<false/>
+	<key>IsIDFA</key>
+	<true/>
 </dict>
 </plist>

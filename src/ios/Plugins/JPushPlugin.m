@@ -9,10 +9,12 @@
 #import "JPushPlugin.h"
 #import "JPUSHService.h"
 #import <UIKit/UIKit.h>
+#import <AdSupport/AdSupport.h>
 
-static NSString *const JM_APP_KEY = @"APP_KEY";
-static NSString *const JM_APP_CHANNEL = @"CHANNEL";
-static NSString *const JM_APP_ISPRODUCTION = @"IsProduction";
+static NSString *const JP_APP_KEY = @"APP_KEY";
+static NSString *const JP_APP_CHANNEL = @"CHANNEL";
+static NSString *const JP_APP_ISPRODUCTION = @"IsProduction";
+static NSString *const JP_APP_ISIDFA = @"IsIDFA";
 static NSString *const JPushConfigFileName = @"PushConfig";
 static NSDictionary *_luanchOptions = nil;
 
@@ -273,17 +275,26 @@ static NSDictionary *_luanchOptions = nil;
     }
 
     NSMutableDictionary *plistData = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
-    NSString * appkey       = [plistData valueForKey:JM_APP_KEY];
-    NSString * channel      = [plistData valueForKey:JM_APP_CHANNEL];
-    NSNumber * isProduction = [plistData valueForKey:JM_APP_ISPRODUCTION];
+    NSString * appkey       = [plistData valueForKey:JP_APP_KEY];
+    NSString * channel      = [plistData valueForKey:JP_APP_CHANNEL];
+    NSNumber * isProduction = [plistData valueForKey:JP_APP_ISPRODUCTION];
+    NSNumber *isIDFA        = [plistData valueForKey:JP_APP_ISIDFA];
 
     if (!appkey || appkey.length == 0) {
         NSLog(@"error: app key not found in PushConfig.plist ");
         assert(0);
     }
 
-    [JPUSHService setupWithOption:_luanchOptions appKey:appkey
-                          channel:channel apsForProduction:[isProduction boolValue] ];
+    NSString *advertisingId = nil;
+    if(isIDFA){
+        advertisingId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+    }
+    [JPUSHService setupWithOption:_luanchOptions
+                           appKey:appkey
+                          channel:channel
+                 apsForProduction:[isProduction boolValue]
+            advertisingIdentifier:advertisingId];
+
 }
 
 #pragma mark 将参数返回给js
