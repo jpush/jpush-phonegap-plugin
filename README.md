@@ -60,9 +60,9 @@
 [IOS 手动安装文档地址](/doc/iOS_install.md)
 
 
-#### 2.安装 org.apache.cordova.device 插件
+#### 2.安装 cordova device 插件
 
-     cordova plugin add org.apache.cordova.device
+     cordova plugin add cordova-plugin-device
 
 
 #### 3.在 js 中调用函数，初始化 JPush
@@ -119,12 +119,12 @@ eclipse 中 import PhoneGap 工程之后出现：`Type CallbackContext cannot be
 
 - 收不到推送:
 
-	请首先按照正确方式再次配置证书、描述文件 
+	请首先按照正确方式再次配置证书、描述文件
 	[iOS 证书设置指南](http://docs.jpush.io/client/ios_tutorials/#ios_1)
 
 - 设置 PushConfig.plist：
 
-	- APP_KEY：应用标识 
+	- APP_KEY：应用标识
 	- CHANNEL：渠道标识
 	- IsProduction：是否生产环境
 	- IsIDFA：是否使用 IDFA 启动 sdk
