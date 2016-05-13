@@ -30,6 +30,10 @@ public class MyReceiver extends BroadcastReceiver {
             handlingNotificationReceive(context, intent);
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(action)) {
             handlingNotificationOpen(context, intent);
+        } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(action)) {
+            // 当在 HTML 页面中调用 JPushWeb.triggerNativeAction(String params) 方法时触发此方法，
+            // 再进行相关的操作。
+            
         } else {
             Log.d(TAG, "Unhandled intent - " + action);
         }
