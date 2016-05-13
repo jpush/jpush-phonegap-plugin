@@ -33,9 +33,13 @@
 		然后再执行 cordova plugin add xxxxx 命令，不然有一些必须要的链接库需要手动添加。
 
 
-### 安装插件(Android & iOS)
+### 集成步骤(Android & iOS)
 
-#### 1.安装 JPush PhoneGap Plugin
+#### 1.首先安装 cordova device 插件
+
+     cordova plugin add cordova-plugin-device
+
+#### 2.安装 JPush PhoneGap Plugin
 安装 JPush PhoneGap Plugin 有两种方法：
 
 方法一：在线安装
@@ -59,17 +63,10 @@
 
 [IOS 手动安装文档地址](/doc/iOS_install.md)
 
-
-#### 2.安装 cordova device 插件
-
-     cordova plugin add cordova-plugin-device
-
-
 #### 3.在 js 中调用函数，初始化 JPush
 
     //由于 PhoneGap 插件采用了 Lazy load 的特性，所以建议在 js 文件能执行的最开始就添加
     window.plugins.jPushPlugin.init();
-
 
 
 ## Demo
