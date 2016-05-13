@@ -189,10 +189,10 @@
         <!-- Rich Push resources  -->
         <source-file src="src/android/ic_richpush_actionbar_back.png" target-dir="res/drawable" />
         <source-file src="src/android/ic_richpush_actionbar_divider.png" target-dir="res/drawable" />
-        <source-file src="src/android/richpush_btn_selector.png" target-dir="res/drawable" />
+        <source-file src="src/android/richpush_btn_selector.xml" target-dir="res/drawable" />
         <source-file src="src/android/jpush_popwin_layout.xml" target-dir="res/layout" />
-        <source-file src="src/android/jpush_style.xml" target-dir="res/layout" />
         <source-file src="src/android/jpush_webview_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/jpush_style.xml" target-dir="res/values" />
 
     </platform>
 </plugin>

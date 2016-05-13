@@ -12,7 +12,7 @@
 - [通知栏样式定制](#通知栏样式定制)
 - [设置保留最近通知条数](#设置保留最近通知条数)
 - [本地通知](#本地通知)
-
+- [富媒体页面 JavaScript 回调 API](#富媒体页面-javascript-回调-api)
 
 ## 接收通知时获得通知的内容
 
@@ -261,3 +261,64 @@ JPush SDK 提供了 2 个用于定制通知栏样式的构建类：
 - notificaitonID: 设置本地通知的 ID。
 - broadcastTime: 设置本地通知触发时间，为距离当前时间的数值，单位是毫秒。
 - extras: 设置额外的数据信息 extras 为 json 字符串。
+
+
+## 富媒体页面 JavaScript 回调 API
+富媒体推送通知时，用户可以用自定义的Javascript 函数来控制页面，如关闭当前页面，点击按钮跳转到指定的 Activity，通知应用程序做一些指定的动作等。
+
+此 API 提供的回调函数包括：关闭当前页面、打开应用的主 Activity、根据 Activity 名字打开对应的 Activity、以广播的形式传递页面参数到应用程序等功能。
+
+### API - 关闭当前页面
+
+    JPushWeb.close();   // 在富文本 HTML 页面中调用后会关闭当前页面。
+
+### API - 打开主 Activity
+
+    JPushWeb.startMainActivity(String params);
+
+在HTML中调用此函数后,会打开程序的主Activity， 并在对应的 Intent 传入参数 ”params“ ，Key 为 JPushInterface.EXTRA_EXTRA。
+
+对应 Activity 获取 params 示例代码：
+
+    Intent intent = getIntent();
+    if (null != intent ) {
+        String params = intent.getStringExtra(JPushInterface.EXTRA_EXTRA);
+    }
+
+### API - 触发应用中的操作
+
+    JPushWeb.triggerNativeAction(String params);
+
+调用了该方法后需要在 MyReceiver.java 中实现后面的业务逻辑：
+
+    if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
+        Log.d(TAG, "用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
+        //在这里根据 JPushInterface.EXTRA_EXTRA 的内容触发客户端动作，比如打开新的Activity 、打开一个网页等。
+    }
+
+#### 代码示例
+
+    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+    <html>
+     <head>
+      <title>JPush Webview Test</title>
+      <script>
+           function clickButton() {
+             JPushWeb.close();
+           }
+
+          function openUrl() {
+             var json = "{'action':'open', 'url':'www.jpush.cn'}";
+             JPushWeb.triggerNativeAction(json);
+             JPushWeb.close(); //客服端在广播中收到json 后，可以打开对应的URL。
+          }
+     </script>
+     </head>
+     <body>
+         <button onclick="javascript:clickButton(this);return false;">Close</button>
+         <button onclick="javascript:JPushWeb.startMainActivity('test - startMainActivity');return false;">StartMainActivity</button>
+         <button onclick="javascript:JPushWeb.triggerNativeAction('test - triggerNativeAction');Javascript:JPushWeb.close();">triggerNativeAction and Close current webwiew</button>
+         <button onclick="javascript:JPushWeb.startActivityByName('com.example.jpushdemo.TestActivity','test - startActivityByName');">startActivityByName</button>
+         <button onclick="javascript:openUrl();">open a url</button>
+     </body>
+    </html>
