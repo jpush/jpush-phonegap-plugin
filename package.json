@@ -26,6 +26,9 @@
       "version": ">=3.0"
     }
   ],
+  "peerDependencies": {
+    "cordova-plugin-device": ">=1.0.0"
+  },
   "author": "jpush",
   "license": "Apache 2.0 License",
   "bugs": {
