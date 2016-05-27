@@ -9,6 +9,6 @@
 	<key>IsProduction</key>
 	<false/>
 	<key>IsIDFA</key>
-	<true/>
+	<false/>
 </dict>
 </plist>
