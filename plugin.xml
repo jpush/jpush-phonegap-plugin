@@ -31,7 +31,7 @@
             <source-file src="src/ios/Plugins/JPushPlugin.m"/>
 
             <header-file src="src/ios/lib/JPUSHService.h" />
-            <source-file src="src/ios/lib/jpush-ios-2.1.6.a" framework="true" />
+            <source-file src="src/ios/lib/jpush-ios-2.1.7.a" framework="true" />
             <header-file src="src/ios/Plugins/AppDelegate+JPush.h"/>
             <source-file src="src/ios/Plugins/AppDelegate+JPush.m"/>
             <resource-file src="src/ios/PushConfig.plist" />
