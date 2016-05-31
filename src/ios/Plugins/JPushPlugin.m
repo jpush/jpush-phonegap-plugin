@@ -16,7 +16,7 @@ static NSString *const JP_APP_CHANNEL = @"CHANNEL";
 static NSString *const JP_APP_ISPRODUCTION = @"IsProduction";
 static NSString *const JP_APP_ISIDFA = @"IsIDFA";
 static NSString *const JPushConfigFileName = @"PushConfig";
-static NSDictionary *_luanchOptions = nil;
+static NSDictionary *_launchOptions = nil;
 
 @implementation JPushPlugin
 
@@ -92,8 +92,8 @@ static NSDictionary *_luanchOptions = nil;
                           name:kJPushPluginReceiveNotification
                         object:nil];
 
-    if (_luanchOptions) {
-        NSDictionary *userInfo = [_luanchOptions
+    if (_launchOptions) {
+        NSDictionary *userInfo = [_launchOptions
                                   valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         if ([userInfo count] >0) {
             NSError  *error;
@@ -261,7 +261,7 @@ static NSDictionary *_luanchOptions = nil;
 
 #pragma mark- 内部方法
 +(void)setLaunchOptions:(NSDictionary *)theLaunchOptions{
-    _luanchOptions = theLaunchOptions;
+    _launchOptions = theLaunchOptions;
 
     [JPUSHService setDebugMode];
 
@@ -289,7 +289,7 @@ static NSDictionary *_luanchOptions = nil;
     if(isIDFA){
         advertisingId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
     }
-    [JPUSHService setupWithOption:_luanchOptions
+    [JPUSHService setupWithOption:_launchOptions
                            appKey:appkey
                           channel:channel
                  apsForProduction:[isProduction boolValue]
