@@ -1,6 +1,6 @@
 {
   "name": "jpush-phonegap-plugin",
-  "version": "2.1.8",
+  "version": "2.2.0",
   "description": "JPush for cordova plugin",
   "cordova": {
     "id": "cn.jpush.phonegap.JPushPlugin",
@@ -16,6 +16,7 @@
   "keywords": [
     "JPush",
     "push",
+    "Push",
     "ecosystem:cordova",
     "cordova-ios",
     "cordova-android"
