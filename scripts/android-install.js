@@ -9,9 +9,6 @@ module.exports = function (context) {
         config       = new ConfigParser(path.join(context.opts.projectRoot, "config.xml")),
         packageName  = config.android_packageName() || config.packageName();
 
-    console.info("Running android-install.Hook: " + context.hook
-        + ", Package: " + packageName + ", Path: " + projectRoot + ".");
-
     if (!packageName) {
         console.error("Package name could not be found!");
         return ;
