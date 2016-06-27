@@ -57,7 +57,7 @@ JPush SDK 会恢复正常的默认行为。（因为保存在本地的状态数�
 
 ### API - isPushStopped
 
-iOS平台，检查推送服务是否注册。
+iOS平台，检查推送服务是否停止。
 
 #### 接口定义
 
@@ -69,12 +69,12 @@ iOS平台，检查推送服务是否注册。
 - callback 回调函数，用来通知 JPush 的推送服务是否开启。
 
 #### 代码示例
-	window.plugins.jPushPlugin.resumePush(callback)
-	var onCallback = function(data) {
+	window.plugins.jPushPlugin.isPushStopped(callback)
+	var callback = function(data) {
 		if(data > 0) {
-		    // 开启
+		    // 已关闭
 		} else {
-		    // 关闭
+		    // 已开启
 		}
 	}
 
