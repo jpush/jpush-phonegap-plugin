@@ -10,26 +10,18 @@
 > 如需要 IM 功能的插件，可关注 [jmessage-phonegap-plugin](https://github.com/jpush/jmessage-phonegap-plugin)。
 
 ## 集成步骤
+集成 JPush PhoneGap Plugin 有两种方法：
 
-### 1.首先安装 cordova device 插件
-
-     cordova plugin add cordova-plugin-device
-
-### 2.安装 JPush PhoneGap Plugin
-安装 JPush PhoneGap Plugin 有两种方法：
-
-方法一：在线安装
-
-通过 Cordova plugins 安装，要求 PhoneGap/Cordova CLI 5.0+：
+### 在线安装
+- 通过 Cordova Plugins 安装，要求 PhoneGap/Cordova CLI 5.0+：
 
 	cordova plugin add jpush-phonegap-plugin --variable API_KEY=your_jpush_appkey
 
-直接通过 url 安装：
+- 直接通过 url 安装：
 
     cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git --variable API_KEY=your_jpush_appkey  
 
-方法二：下载到本地再安装
-
+### 本地安装
 使用 git 命令将 JPush PhoneGap 插件下载的本地，目录标记为 $JPUSH_PLUGIN_DIR：
 
     git clone https://github.com/jpush/jpush-phonegap-plugin.git
@@ -39,12 +31,6 @@
 - [Android 手动安装文档地址](/doc/Android_handle_install.md)。
 
 - [iOS 手动安装文档地址](/doc/iOS_install.md)。
-
-### 3.在 js 中调用函数，初始化 JPush
-
-    //由于 PhoneGap 插件采用了 lazy load 的特性，所以建议在 js 文件能执行的最开始就添加。
-    window.plugins.jPushPlugin.init();
-
 
 ## Demo
 插件项目中包含一个简单的 Demo。若想参考，可以在 /example 文件夹内找到并拷贝以下文件:
