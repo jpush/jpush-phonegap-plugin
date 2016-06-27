@@ -15,11 +15,11 @@
 ### 在线安装
 - 通过 Cordova Plugins 安装，要求 PhoneGap/Cordova CLI 5.0+：
 
-	cordova plugin add jpush-phonegap-plugin --variable API_KEY=your_jpush_appkey
+    	cordova plugin add jpush-phonegap-plugin --variable API_KEY=your_jpush_appkey
 
 - 直接通过 url 安装：
 
-    cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git --variable API_KEY=your_jpush_appkey  
+        cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git --variable API_KEY=your_jpush_appkey  
 
 ### 本地安装
 使用 git 命令将 JPush PhoneGap 插件下载的本地，目录标记为 $JPUSH_PLUGIN_DIR：
