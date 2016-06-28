@@ -5,8 +5,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
-import __PACKAGE_NAME__.R;
-
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
@@ -438,19 +436,23 @@ public class JPushPlugin extends CordovaPlugin {
         }
     }
 
+    /**
+    *  自定义推送通知栏样式，需要自己实现具体代码。
+    *  http://docs.jiguang.cn/client/android_tutorials/#_11
+    */
     void setCustomPushNotificationBuilder(JSONArray data,
             CallbackContext callbackContext) {
-        CustomPushNotificationBuilder builder = new CustomPushNotificationBuilder(
-                this.cordova.getActivity(), R.layout.test_notification_layout,
-                R.id.icon, R.id.title, R.id.text);
-        builder.developerArg0 = "Custom Builder 1";
-        JPushInterface.setPushNotificationBuilder(2, builder);
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("id", 2);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        // CustomPushNotificationBuilder builder = new CustomPushNotificationBuilder(
+        //         this.cordova.getActivity(), R.layout.test_notification_layout,
+        //         R.id.icon, R.id.title, R.id.text);
+        // builder.developerArg0 = "Custom Builder 1";
+        // JPushInterface.setPushNotificationBuilder(2, builder);
+        // JSONObject obj = new JSONObject();
+        // try {
+        //     obj.put("id", 2);
+        // } catch (JSONException e) {
+        //     e.printStackTrace();
+        // }
     }
 
     void clearAllNotification(JSONArray data, CallbackContext callbackContext) {

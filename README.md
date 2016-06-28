@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jpush/jpush-phonegap-plugin.svg?branch=master)](https://travis-ci.org/jpush/jpush-phonegap-plugin)
 [![QQ Group](https://img.shields.io/badge/QQ%20Group-413602425-red.svg)]()
-[![release](https://img.shields.io/badge/release-2.2.0-blue.svg)](https://github.com/jpush/jpush-phonegap-plugin/releases)
+[![release](https://img.shields.io/badge/release-2.2.1-blue.svg)](https://github.com/jpush/jpush-phonegap-plugin/releases)
 [![platforms](https://img.shields.io/badge/platforms-iOS%7CAndroid-lightgrey.svg)](https://github.com/jpush/jpush-phonegap-plugin)
 [![weibo](https://img.shields.io/badge/weibo-JPush-blue.svg)](http://weibo.com/jpush?refer_flag=1001030101_&is_all=1)
 
@@ -63,7 +63,8 @@
 
 ## 常见问题
 
-若要使用 CLI 来编译项目，注意应使用 cordova compile 而不是 cordova build 命令，因为 cordova build 会清除对插件文件的修改。
+若要使用 CLI 来编译项目，注意应使用 cordova compile 而不是 cordova build 命令，因为如果修改了插件安装时默认写入到 AndroidManifest.xml
+中的代码，cordova build 可能会导致对 AndroidManifest.xml 的修改。
 Cordova CLI 的具体用法可参考 [Cordova CLI 官方文档](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html)。
 
 ### 1. Android
