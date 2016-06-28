@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cn.jpush.phonegap.JPushPlugin"
-        version="2.2.0">
+        version="2.2.1">
 
     <name>JPush Plugin</name>
     <description>JPush for cordova plugin</description>
@@ -55,9 +55,6 @@
 
     <!-- android -->
     <platform name="android">
-        <hook type="after_plugin_install" src="scripts/android-install.js" />
-        <hook type="before_plugin_uninstall" src="scripts/android-install.js" />
-
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="JPushPlugin">
                 <param name="android-package" value="cn.jpush.phonegap.JPushPlugin"/>
@@ -139,7 +136,6 @@
                 <intent-filter>
                     <action android:name="android.intent.action.PACKAGE_ADDED"/>
                     <action android:name="android.intent.action.PACKAGE_REMOVED"/>
-                    <data android:scheme="package"/>
                 </intent-filter>
             </receiver>
 
@@ -169,20 +165,21 @@
             </receiver>
             <!-- Required SDK核心功能-->
             <receiver android:name="cn.jpush.android.service.AlarmReceiver"/>
-            <!-- Required  . Enable it you can get statistics data with channel -->
+            <!-- Required. Enable it you can get statistics data with channel -->
             <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
             <meta-data android:name="JPUSH_APPKEY" android:value="$API_KEY"/>
         </config-file>
 
-        <source-file src="src/android/jpush-android-2.1.5.jar" target-dir="libs"/>
-        <source-file src="src/android/armeabi/libjpush215.so" target-dir="libs/armeabi"/>
-        <source-file src="src/android/armeabi-v7a/libjpush215.so" target-dir="libs/armeabi-v7a"/>
-        <source-file src="src/android/arm64-v8a/libjpush215.so" target-dir="libs/arm64-v8a"/>
-        <source-file src="src/android/x86/libjpush215.so" target-dir="libs/x86"/>
-        <source-file src="src/android/x86_64/libjpush215.so" target-dir="libs/x86_64"/>
+        <source-file src="src/android/jpush-android-2.1.7.jar" target-dir="libs"/>
+        <source-file src="src/android/armeabi/libjpush217.so" target-dir="libs/armeabi"/>
+        <source-file src="src/android/armeabi-v7a/libjpush217.so" target-dir="libs/armeabi-v7a"/>
+        <source-file src="src/android/arm64-v8a/libjpush217.so" target-dir="libs/arm64-v8a"/>
+        <source-file src="src/android/x86/libjpush217.so" target-dir="libs/x86"/>
+        <source-file src="src/android/x86_64/libjpush217.so" target-dir="libs/x86_64"/>
 
         <!--<source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap"/>-->
         <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap"/>
+        <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap"/>
     	<source-file src="src/android/test_notification_layout.xml" target-dir="res/layout"/>
     	<source-file src="src/android/jpush_notification_icon.png" target-dir="res/drawable"/>
 
