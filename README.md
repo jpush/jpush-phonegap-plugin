@@ -87,6 +87,6 @@ Eclipse 中 import PhoneGap 工程之后出现：*Type CallbackContext cannot be
 
 
 ## 更多
- [JPush 官网文档](http://docs.jpush.io/)。
-
- 如有问题可访问[极光社区](http://community.jpush.cn/)。
+- QQ 群：413602425。
+- [JPush 官网文档](http://docs.jpush.io/)。
+- 如有问题可访问[极光社区](http://community.jpush.cn/)。
