@@ -7,7 +7,9 @@
 [![weibo](https://img.shields.io/badge/weibo-JPush-blue.svg)](http://weibo.com/jpush?refer_flag=1001030101_&is_all=1)
 
 支持 iOS, Android 的 Cordova 推送插件。
-> 如需要 IM 功能的插件，可关注 [jmessage-phonegap-plugin](https://github.com/jpush/jmessage-phonegap-plugin)。
+> 如需要 IM 功能的插件，可关注 [JMessage PhoneGap Plugin](https://github.com/jpush/jmessage-phonegap-plugin)。
+
+> QQ 交流群：413602425
 
 ## 集成步骤
 集成 JPush PhoneGap Plugin 有两种方法：
