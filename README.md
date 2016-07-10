@@ -7,7 +7,9 @@
 [![weibo](https://img.shields.io/badge/weibo-JPush-blue.svg)](http://weibo.com/jpush?refer_flag=1001030101_&is_all=1)
 
 支持 iOS, Android 的 Cordova 推送插件。
-> 如需要 IM 功能的插件，可关注 [jmessage-phonegap-plugin](https://github.com/jpush/jmessage-phonegap-plugin)。
+> 如需要 IM 功能的插件，可关注 [JMessage PhoneGap Plugin](https://github.com/jpush/jmessage-phonegap-plugin)。
+
+> QQ 交流群：413602425
 
 ## 集成步骤
 集成 JPush PhoneGap Plugin 有两种方法：
@@ -15,11 +17,11 @@
 ### 在线安装
 - 通过 Cordova Plugins 安装，要求 PhoneGap/Cordova CLI 5.0+：
 
-	cordova plugin add jpush-phonegap-plugin --variable API_KEY=your_jpush_appkey
+    	cordova plugin add jpush-phonegap-plugin --variable API_KEY=your_jpush_appkey
 
 - 直接通过 url 安装：
 
-    cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git --variable API_KEY=your_jpush_appkey  
+        cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git --variable API_KEY=your_jpush_appkey  
 
 ### 本地安装
 使用 git 命令将 JPush PhoneGap 插件下载的本地，目录标记为 $JPUSH_PLUGIN_DIR：
@@ -87,6 +89,6 @@ Eclipse 中 import PhoneGap 工程之后出现：*Type CallbackContext cannot be
 
 
 ## 更多
- [JPush 官网文档](http://docs.jpush.io/)。
-
- 如有问题可访问[极光社区](http://community.jpush.cn/)。
+- QQ 群：413602425。
+- [JPush 官网文档](http://docs.jpush.io/)。
+- 如有问题可访问[极光社区](http://community.jpush.cn/)。
