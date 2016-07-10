@@ -52,7 +52,7 @@ static NSDictionary *_launchOptions = nil;
     }else{
         result = @(1);
     }
-    [self hanleResultWithValue:result command:command];
+    [self handleResultWithValue:result command:command];
 }
 
 -(void)initial:(CDVInvokedUrlCommand*)command{
@@ -153,7 +153,7 @@ static NSDictionary *_launchOptions = nil;
 -(void)getRegistrationID:(CDVInvokedUrlCommand*)command{
     NSString* registrationID = [JPUSHService registrationID];
     NSLog(@"### getRegistrationID %@",registrationID);
-    [self hanleResultWithValue:registrationID command:command];
+    [self handleResultWithValue:registrationID command:command];
 }
 
 -(void)startLogPageView:(CDVInvokedUrlCommand*)command{
@@ -222,7 +222,7 @@ static NSDictionary *_launchOptions = nil;
 -(void)getApplicationIconBadgeNumber:(CDVInvokedUrlCommand *)command {
     NSInteger num = [UIApplication sharedApplication].applicationIconBadgeNumber;
     NSNumber *number = [NSNumber numberWithInteger:num];
-    [self hanleResultWithValue:number command:command];
+    [self handleResultWithValue:number command:command];
 }
 
 -(void)setDebugModeFromIos:(CDVInvokedUrlCommand*)command{
@@ -298,7 +298,7 @@ static NSDictionary *_launchOptions = nil;
 }
 
 #pragma mark 将参数返回给js
--(void)hanleResultWithValue:(id)value command:(CDVInvokedUrlCommand*)command{
+-(void)handleResultWithValue:(id)value command:(CDVInvokedUrlCommand*)command{
     CDVPluginResult *result = nil;
     CDVCommandStatus status = CDVCommandStatus_OK;
 
