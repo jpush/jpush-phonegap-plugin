@@ -2,6 +2,7 @@ package cn.jpush.phonegap;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.NotificationManagerCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -26,7 +27,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import cn.jpush.android.api.BasicPushNotificationBuilder;
-import cn.jpush.android.api.CustomPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import cn.jpush.android.data.JPushLocalNotification;
@@ -35,6 +35,7 @@ public class JPushPlugin extends CordovaPlugin {
     private final static List<String> methodList =
             Arrays.asList(
                     "addLocalNotification",
+                    "areNotificationEnabled",
                     "clearAllNotification",
                     "clearLocalNotifications",
                     "clearNotificationById",
@@ -310,6 +311,18 @@ public class JPushPlugin extends CordovaPlugin {
         } else {
             callbackContext.success(0);
         }
+    }
+
+    void areNotificationEnabled(JSONArray data, final CallbackContext callback) {
+        NotificationManagerCompat nmc = NotificationManagerCompat.from(
+                cordova.getActivity().getApplicationContext());
+        int isEnabled;
+        if (nmc.areNotificationsEnabled()) {
+            isEnabled = 1;
+        } else {
+           isEnabled = 0;
+        }
+        callback.success(isEnabled);
     }
 
     void setLatestNotificationNum(JSONArray data, CallbackContext callbackContext) {

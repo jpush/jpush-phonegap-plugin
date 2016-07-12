@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="cn.jpush.phonegap.JPushPlugin"
+        id="cordova-plugin-JPush"
         version="2.2.1">
 
     <name>JPush Plugin</name>
@@ -16,8 +16,10 @@
         <engine name="cordova" version=">=3.0"/>
     </engines>
 
+    <dependency id="org.apache.cordova.device" url="https://github.com/apache/cordova-plugin-device.git"/>
+
     <js-module src="www/JPushPlugin.js" name="JPushPlugin">
-            <clobbers target="window.JPush"/>
+            <clobbers target="JPush"/>
     </js-module>
 
     <platform name="ios">
@@ -57,6 +59,8 @@
                 <param name="android-package" value="cn.jpush.phonegap.JPushPlugin"/>
             </feature>
         </config-file>
+
+        <framework src="com.android.support:support-v4:24.0.0" />
 
         <config-file target="AndroidManifest.xml" parent="/manifest">
             <!-- Required  一些系统要求的权限，如访问网络等-->
@@ -186,7 +190,6 @@
         <source-file src="src/android/x86/libjpush217.so" target-dir="libs/x86"/>
         <source-file src="src/android/x86_64/libjpush217.so" target-dir="libs/x86_64"/>
 
-        <!--<source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap"/>-->
         <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap"/>
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap"/>
     	<source-file src="src/android/test_notification_layout.xml" target-dir="res/layout"/>

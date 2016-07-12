@@ -210,9 +210,20 @@ JPushPlugin.prototype.getApplicationIconBadgeNumber = function(callback) {
 	}
 }
 
+
+// 判断系统设置中是否对本应用启用通知。
+// iOS: 返回值如果大于 0，代表通知开启；0: 通知关闭。
+//		UIRemoteNotificationTypeNone    = 0,
+//    	UIRemoteNotificationTypeBadge   = 1 << 0,
+//    	UIRemoteNotificationTypeSound   = 1 << 1,
+//    	UIRemoteNotificationTypeAlert   = 1 << 2,
+//    	UIRemoteNotificationTypeNewsstandContentAvailability = 1 << 3,
+// Android: 返回值 1 代表通知启用、0: 通知关闭。
 JPushPlugin.prototype.getUserNotificationSettings = function(callback) {
 	if(this.isPlatformIOS()) {
 		this.call_native("getUserNotificationSettings", [], callback);
+	} else if (device.platform == "Android") {
+		this.call_native("areNotificationEnabled", [], callback);
 	}
 }
 
