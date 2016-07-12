@@ -52,7 +52,7 @@ static NSDictionary *_launchOptions = nil;
     }else{
         result = @(1);
     }
-    [self hanleResultWithValue:result command:command];
+    [self handleResultWithValue:result command:command];
 }
 
 -(void)initial:(CDVInvokedUrlCommand*)command{
@@ -153,7 +153,7 @@ static NSDictionary *_launchOptions = nil;
 -(void)getRegistrationID:(CDVInvokedUrlCommand*)command{
     NSString* registrationID = [JPUSHService registrationID];
     NSLog(@"### getRegistrationID %@",registrationID);
-    [self hanleResultWithValue:registrationID command:command];
+    [self handleResultWithValue:registrationID command:command];
 }
 
 -(void)startLogPageView:(CDVInvokedUrlCommand*)command{
@@ -222,7 +222,7 @@ static NSDictionary *_launchOptions = nil;
 -(void)getApplicationIconBadgeNumber:(CDVInvokedUrlCommand *)command {
     NSInteger num = [UIApplication sharedApplication].applicationIconBadgeNumber;
     NSNumber *number = [NSNumber numberWithInteger:num];
-    [self hanleResultWithValue:number command:command];
+    [self handleResultWithValue:number command:command];
 }
 
 -(void)setDebugModeFromIos:(CDVInvokedUrlCommand*)command{
@@ -257,6 +257,20 @@ static NSDictionary *_launchOptions = nil;
 
 -(void)setLocation:(CDVInvokedUrlCommand*)command{
     [JPUSHService setLatitude:[((NSString*)command.arguments[0]) doubleValue] longitude:[((NSString*)command.arguments[1]) doubleValue]];
+}
+
+-(void)getUserNotificationSettings:(CDVInvokedUrlCommand*)command{
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+        UIUserNotificationSettings *settings = [[UIApplication sharedApplication] currentUserNotificationSettings];
+        UIUserNotificationType type = settings.types;
+        NSNumber *number = [NSNumber numberWithInteger:type];
+        [self handleResultWithValue:number command:command];
+    }else{
+        UIRemoteNotificationType type = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
+        NSNumber *number = [NSNumber numberWithInteger:type];
+        [self handleResultWithValue:number command:command];
+    }
+
 }
 
 #pragma mark- 内部方法
@@ -298,7 +312,7 @@ static NSDictionary *_launchOptions = nil;
 }
 
 #pragma mark 将参数返回给js
--(void)hanleResultWithValue:(id)value command:(CDVInvokedUrlCommand*)command{
+-(void)handleResultWithValue:(id)value command:(CDVInvokedUrlCommand*)command{
     CDVPluginResult *result = nil;
     CDVCommandStatus status = CDVCommandStatus_OK;
 

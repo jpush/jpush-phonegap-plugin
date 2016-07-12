@@ -370,3 +370,27 @@ ps：点击通知后传递的 json object 保存在 window.plugins.jPushPlugin.r
 			 "content":"今天去哪儿",
 			 "extras":{"key":"不填写没有"}
 		}
+
+## 判断系统设置中是否允许当前应用推送
+### API - getUserNotificationSettings
+判断系统设置中是否允许当前应用推送。
+
+在 Android 中，返回值为 0 时，代表系统设置中关闭了推送；为 1 时，代表打开了推送（目前仅适用于Android 4.4+）。
+
+在 iOS 中，返回值为 0 时，代表系统设置中关闭了推送；大于 0 时，代表打开了推送，且能够根据返回值判断具体通知形式：
+
+	UIRemoteNotificationTypeNone    = 0,		// 0
+	UIRemoteNotificationTypeBadge   = 1 << 0,	// 1
+	UIRemoteNotificationTypeSound   = 1 << 1,	// 2
+	UIRemoteNotificationTypeAlert   = 1 << 2,	// 4
+	UIRemoteNotificationTypeNewsstandContentAvailability = 1 << 3	// 8
+
+#### 代码示例
+
+	window.plugins.jPushPlugin.getUserNotificationSettings(function(result) {
+		if(result == 0) {
+			// 系统设置中已关闭应用推送。
+		} else if(result > 0) {
+			// 系统设置中打开了应用推送。
+		}
+	});

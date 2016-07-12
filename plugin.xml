@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="cn.jpush.phonegap.JPushPlugin"
-        version="2.2.1">
+        id="cordova-plugin-JPush"
+        version="2.2.2">
 
     <name>JPush Plugin</name>
     <description>JPush for cordova plugin</description>
@@ -16,8 +16,10 @@
         <engine name="cordova" version=">=3.0"/>
     </engines>
 
+    <dependency id="org.apache.cordova.device" url="https://github.com/apache/cordova-plugin-device.git"/>
+
     <js-module src="www/JPushPlugin.js" name="JPushPlugin">
-            <clobbers target="window.JPush"/>
+            <clobbers target="JPush"/>
     </js-module>
 
     <platform name="ios">
@@ -31,7 +33,7 @@
             <source-file src="src/ios/Plugins/JPushPlugin.m"/>
 
             <header-file src="src/ios/lib/JPUSHService.h" />
-            <source-file src="src/ios/lib/jpush-ios-2.1.7.a" framework="true" />
+            <source-file src="src/ios/lib/jpush-ios-2.1.8.a" framework="true" />
             <header-file src="src/ios/Plugins/AppDelegate+JPush.h"/>
             <source-file src="src/ios/Plugins/AppDelegate+JPush.m"/>
             <resource-file src="src/ios/PushConfig.plist" />
@@ -57,6 +59,8 @@
                 <param name="android-package" value="cn.jpush.phonegap.JPushPlugin"/>
             </feature>
         </config-file>
+
+        <framework src="com.android.support:support-v4:24.0.0" />
 
         <config-file target="AndroidManifest.xml" parent="/manifest">
             <!-- Required  一些系统要求的权限，如访问网络等-->
@@ -136,6 +140,18 @@
                 </intent-filter>
             </receiver>
 
+            <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
+            <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
+            <service
+                android:name="cn.jpush.android.service.DaemonService"
+                android:enabled="true"
+                android:exported="true">
+                <intent-filter >
+                    <action android:name="cn.jpush.android.intent.DaemonService" />
+                    <category android:name="$PACKAGE_NAME"/>
+                </intent-filter>
+            </service>
+
             <!-- User defined.  For test only  用户自定义的广播接收器 -->
             <receiver
                     android:name="cn.jpush.phonegap.MyReceiver"
@@ -174,7 +190,6 @@
         <source-file src="src/android/x86/libjpush217.so" target-dir="libs/x86"/>
         <source-file src="src/android/x86_64/libjpush217.so" target-dir="libs/x86_64"/>
 
-        <!--<source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap"/>-->
         <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap"/>
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap"/>
     	<source-file src="src/android/test_notification_layout.xml" target-dir="res/layout"/>
