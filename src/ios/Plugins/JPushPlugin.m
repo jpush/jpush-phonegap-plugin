@@ -262,8 +262,9 @@ static NSDictionary *_launchOptions = nil;
 -(void)getUserNotificationSettings:(CDVInvokedUrlCommand*)command{
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
         UIUserNotificationSettings *settings = [[UIApplication sharedApplication] currentUserNotificationSettings];
-        NSString *description = [settings description];
-        [self handleResultWithValue:description command:command];
+        UIUserNotificationType type = settings.types;
+        NSNumber *number = [NSNumber numberWithInteger:type];
+        [self handleResultWithValue:number command:command];
     }else{
         UIRemoteNotificationType type = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
         NSNumber *number = [NSNumber numberWithInteger:type];
