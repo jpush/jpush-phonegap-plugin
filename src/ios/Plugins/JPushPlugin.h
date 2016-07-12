@@ -58,6 +58,9 @@
 //地理位置上报 [latitude,longitude]
 -(void)setLocation:(CDVInvokedUrlCommand*)command;
 
+//检查用户的推送设置情况
+-(void)getUserNotificationSettings:(CDVInvokedUrlCommand*)command;
+
 /*
  *  以下为js中可监听到的事件
  *  jpush.openNotification      点击推送消息启动或唤醒app

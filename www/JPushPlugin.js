@@ -210,6 +210,12 @@ JPushPlugin.prototype.getApplicationIconBadgeNumber = function(callback) {
 	}
 }
 
+JPushPlugin.prototype.getUserNotificationSettings = function(callback) {
+	if(this.isPlatformIOS()) {
+		this.call_native("getUserNotificationSettings", [], callback);
+	}
+}
+
 // Android methods
 JPushPlugin.prototype.setDebugMode = function(mode) {
 	if(device.platform == "Android") {

@@ -259,6 +259,19 @@ static NSDictionary *_launchOptions = nil;
     [JPUSHService setLatitude:[((NSString*)command.arguments[0]) doubleValue] longitude:[((NSString*)command.arguments[1]) doubleValue]];
 }
 
+-(void)getUserNotificationSettings:(CDVInvokedUrlCommand*)command{
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+        UIUserNotificationSettings *settings = [[UIApplication sharedApplication] currentUserNotificationSettings];
+        NSString *description = [settings description];
+        [self handleResultWithValue:description command:command];
+    }else{
+        UIRemoteNotificationType type = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
+        NSNumber *number = [NSNumber numberWithInteger:type];
+        [self handleResultWithValue:number command:command];
+    }
+
+}
+
 #pragma mark- 内部方法
 +(void)setLaunchOptions:(NSDictionary *)theLaunchOptions{
     _launchOptions = theLaunchOptions;
