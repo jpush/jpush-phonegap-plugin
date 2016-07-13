@@ -1,8 +1,11 @@
 package cn.jpush.phonegap;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AppOpsManager;
 import android.content.Context;
-import android.support.v4.app.NotificationManagerCompat;
+import android.content.pm.ApplicationInfo;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -14,6 +17,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -138,7 +143,7 @@ public class JPushPlugin extends CordovaPlugin {
     }
 
     private static JSONObject getMessageObject(String message,
-            Map<String, Object> extras) {
+                                               Map<String, Object> extras) {
         JSONObject data = new JSONObject();
         try {
             data.put("message", message);
@@ -172,7 +177,7 @@ public class JPushPlugin extends CordovaPlugin {
     }
 
     private static JSONObject getNotificationObject(String title,
-            String alert, Map<String, Object> extras) {
+                                                    String alert, Map<String, Object> extras) {
         JSONObject data = new JSONObject();
         try {
             data.put("title", title);
@@ -180,7 +185,7 @@ public class JPushPlugin extends CordovaPlugin {
             JSONObject jExtras = new JSONObject();
             for (Entry<String, Object> entry : extras.entrySet()) {
                 if (entry.getKey().equals("cn.jpush.android.EXTRA")) {
-                    JSONObject jo = null;
+                    JSONObject jo;
                     if (TextUtils.isEmpty((String) entry.getValue())) {
                         jo = new JSONObject();
                     } else {
@@ -222,7 +227,7 @@ public class JPushPlugin extends CordovaPlugin {
     }
 
     static void transmitNotificationOpen(String title, String alert,
-            Map<String, Object> extras) {
+                                         Map<String, Object> extras) {
         if (instance == null) {
             return;
         }
@@ -240,7 +245,7 @@ public class JPushPlugin extends CordovaPlugin {
     }
 
     static void transmitNotificationReceive(String title, String alert,
-            Map<String, Object> extras) {
+                                            Map<String, Object> extras) {
         if (instance == null) {
             return;
         }
@@ -259,7 +264,7 @@ public class JPushPlugin extends CordovaPlugin {
 
     @Override
     public boolean execute(final String action, final JSONArray data,
-            final CallbackContext callbackContext) throws JSONException {
+                           final CallbackContext callbackContext) throws JSONException {
         if (!methodList.contains(action)) {
             return false;
         }
@@ -314,13 +319,11 @@ public class JPushPlugin extends CordovaPlugin {
     }
 
     void areNotificationEnabled(JSONArray data, final CallbackContext callback) {
-        NotificationManagerCompat nmc = NotificationManagerCompat.from(
-                cordova.getActivity().getApplicationContext());
         int isEnabled;
-        if (nmc.areNotificationsEnabled()) {
+        if (hasPermission("OP_POST_NOTIFICATION")) {
             isEnabled = 1;
         } else {
-           isEnabled = 0;
+            isEnabled = 0;
         }
         callback.success(isEnabled);
     }
@@ -436,7 +439,7 @@ public class JPushPlugin extends CordovaPlugin {
     }
 
     void setBasicPushNotificationBuilder(JSONArray data,
-            CallbackContext callbackContext) {
+                                         CallbackContext callbackContext) {
         BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(
                 this.cordova.getActivity());
         builder.developerArg0 = "Basic builder 1";
@@ -450,22 +453,16 @@ public class JPushPlugin extends CordovaPlugin {
     }
 
     /**
-    *  自定义推送通知栏样式，需要自己实现具体代码。
-    *  http://docs.jiguang.cn/client/android_tutorials/#_11
-    */
+     * 自定义推送通知栏样式，需要自己实现具体代码。
+     * http://docs.jiguang.cn/client/android_tutorials/#_11
+     */
     void setCustomPushNotificationBuilder(JSONArray data,
-            CallbackContext callbackContext) {
+                                          CallbackContext callbackContext) {
         // CustomPushNotificationBuilder builder = new CustomPushNotificationBuilder(
         //         this.cordova.getActivity(), R.layout.test_notification_layout,
         //         R.id.icon, R.id.title, R.id.text);
-        // builder.developerArg0 = "Custom Builder 1";
         // JPushInterface.setPushNotificationBuilder(2, builder);
-        // JSONObject obj = new JSONObject();
-        // try {
-        //     obj.put("id", 2);
-        // } catch (JSONException e) {
-        //     e.printStackTrace();
-        // }
+        // JPushInterface.setDefaultPushNotificationBuilder(builder);
     }
 
     void clearAllNotification(JSONArray data, CallbackContext callbackContext) {
@@ -599,5 +596,38 @@ public class JPushPlugin extends CordovaPlugin {
             }
         }
     };
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    private boolean hasPermission(String appOpsServiceId) {
+        Context context = cordova.getActivity().getApplicationContext();
+        AppOpsManager mAppOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+        ApplicationInfo appInfo = context.getApplicationInfo();
+
+        String pkg = context.getPackageName();
+        int uid = appInfo.uid;
+        Class appOpsClazz = null;
+
+        try {
+            appOpsClazz = Class.forName(AppOpsManager.class.getName());
+            Method checkOpNoThrowMethod = appOpsClazz.getMethod("checkOpNoThrow",
+                    Integer.TYPE, Integer.TYPE, String.class);
+            Field opValue = appOpsClazz.getDeclaredField(appOpsServiceId);
+            int value = opValue.getInt(Integer.class);
+            Object result = checkOpNoThrowMethod.invoke(mAppOps, value, uid, pkg);
+
+            return Integer.parseInt(result.toString()) == AppOpsManager.MODE_ALLOWED;
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 
 }

@@ -58,8 +58,6 @@
             </feature>
         </config-file>
 
-        <framework src="com.android.support:support-v4:24.0.0" />
-
         <config-file target="AndroidManifest.xml" parent="/manifest">
             <!-- Required  一些系统要求的权限，如访问网络等-->
             <uses-permission android:name="$PACKAGE_NAME.permission.JPUSH_MESSAGE" />
