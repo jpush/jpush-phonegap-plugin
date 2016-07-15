@@ -9,33 +9,30 @@
 支持 iOS, Android 的 Cordova 推送插件。
 > 如需要 IM 功能的插件，可关注 [JMessage PhoneGap Plugin](https://github.com/jpush/jmessage-phonegap-plugin)。
 
-> QQ 交流群：413602425
+> QQ 交流群：413602425。
 
 ## 集成步骤
-集成 JPush PhoneGap Plugin 有两种方法：
 
-### 在线安装
-- 通过 Cordova Plugins 安装，要求 PhoneGap/Cordova CLI 5.0+：
+- 先安装 cordova-plugin-device 插件：
 
-    	cordova plugin add jpush-phonegap-plugin --variable API_KEY=your_jpush_appkey
+        cordova plugin add cordova-plugin-device
 
-- 直接通过 url 安装：
+- 安装本插件
+  - 通过 Cordova Plugins 安装，要求 Cordova CLI 5.0+：
 
-        cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git --variable API_KEY=your_jpush_appkey  
+    	   cordova plugin add jpush-phonegap-plugin --variable API_KEY=your_jpush_appkey
 
-### 本地安装
-使用 git 命令将 JPush PhoneGap 插件下载的本地，目录标记为 $JPUSH_PLUGIN_DIR：
+  - 或者直接通过 url 安装：
 
-    git clone https://github.com/jpush/jpush-phonegap-plugin.git
+          cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git --variable API_KEY=your_jpush_appkey  
 
-    cordova plugin add $JPUSH_PLUGIN_DIR  --variable API_KEY=your_jpush_appkey
+  - 或下载到本地安装：
 
-- [Android 手动安装文档地址](/doc/Android_handle_install.md)。
+          cordova plugin add Your_Plugin_Path  --variable API_KEY=your_jpush_appkey
 
-- [iOS 手动安装文档地址](/doc/iOS_install.md)。
 
 ## Demo
-插件项目中包含一个简单的 Demo。若想参考，可以在 /example 文件夹内找到并拷贝以下文件:
+插件项目中包含一个简单的 Demo。若想参考，可以在 */example* 文件夹内找到并拷贝以下文件:
 
 	src/example/index.html -> www/index.html
 	src/example/css/* -> www/css
@@ -69,16 +66,13 @@
 中的代码，cordova build 可能会导致对 AndroidManifest.xml 的修改。
 Cordova CLI 的具体用法可参考 [Cordova CLI 官方文档](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html)。
 
-### 1. Android
+### Android
 
 - Eclipse 中 import PhoneGap 工程之后出现：*Type CallbackContext cannot be resolved to a type*。
 
   解决方案：Eclipse 中右键单击工程名，Build Path -> Config Build Path -> Projects -> 选中工程名称 -> CordovaLib -> 点击 add。
 
-### 2. iOS
-
-- 收不到推送：
-	请首先按照正确方式再次配置证书、描述文件，具体可参考 [iOS 证书设置指南](http://docs.jpush.io/client/ios_tutorials/#ios_1)。
+### iOS
 
 - 设置 PushConfig.plist：
 	- APP_KEY：应用标识。
@@ -87,8 +81,11 @@ Cordova CLI 的具体用法可参考 [Cordova CLI 官方文档](https://cordova.
 	- IsIDFA：是否使用 IDFA 启动 SDK。
 
 
+- 收不到推送：
+	请首先按照正确方式再次配置证书、描述文件，具体可参考 [iOS 证书设置指南](http://docs.jpush.io/client/ios_tutorials/#ios_1)。
+
 
 ## 更多
-- QQ 群：413602425。
-- [JPush 官网文档](http://docs.jpush.io/)。
+- QQ 群：413602425；
+- [JPush 官网文档](http://docs.jpush.io/)；
 - 如有问题可访问[极光社区](http://community.jpush.cn/)。
