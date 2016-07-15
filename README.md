@@ -24,11 +24,11 @@
 
   - 或者直接通过 url 安装：
 
-         cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git --variable API_KEY=your_jpush_appkey  
+          cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git --variable API_KEY=your_jpush_appkey  
 
   - 或下载到本地安装：
 
-         cordova plugin add Your_Plugin_Path  --variable API_KEY=your_jpush_appkey
+          cordova plugin add Your_Plugin_Path  --variable API_KEY=your_jpush_appkey
 
 
 ## Demo
