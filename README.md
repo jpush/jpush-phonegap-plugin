@@ -9,6 +9,8 @@
 支持 iOS, Android 的 Cordova 推送插件。
 > 如需要 IM 功能的插件，可关注 [JMessage PhoneGap Plugin](https://github.com/jpush/jmessage-phonegap-plugin)。
 
+> 如需要短信验证码功能的插件，可关注 [JSMS Cordova Plugin](https://github.com/jpush/cordova-plugin-jsms).
+
 > QQ 交流群：413602425。
 
 ## 集成步骤
@@ -88,4 +90,4 @@ Cordova CLI 的具体用法可参考 [Cordova CLI 官方文档](https://cordova.
 ## 更多
 - QQ 群：413602425；
 - [JPush 官网文档](http://docs.jpush.io/)；
-- 如有问题可访问[极光社区](http://community.jpush.cn/)。
+- 如有问题可访问[极光社区](http://community.jiguang.cn/)。
