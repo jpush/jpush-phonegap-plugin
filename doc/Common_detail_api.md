@@ -226,7 +226,7 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 
         var alertContent;
         if(device.platform == "Android") {
-            alertContent = window.plugins.jPushPlugin.openNotification.alert;
+            alertContent = event.alert;
         } else {
             alertContent = event.aps.alert;
         }
@@ -280,7 +280,7 @@ ps：点击通知后传递的 json object 保存在 window.plugins.jPushPlugin.o
 
 	    var alertContent;
 	    if(device.platform == "Android") {
-	        alertContent = window.plugins.jPushPlugin.receiveNotification.alert;
+	        alertContent = event.alert;
 	    } else {
 	        alertContent = event.aps.alert;
 	    }
@@ -339,7 +339,7 @@ ps：点击通知后传递的 json object 保存在 window.plugins.jPushPlugin.r
             try{
                 var message
                 if(device.platform == "Android") {
-              		 message = window.plugins.jPushPlugin.receiveMessage.message;
+              		 message = event.message;
                 } else {
                      message = event.content;
                 }          

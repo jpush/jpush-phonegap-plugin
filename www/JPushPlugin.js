@@ -245,11 +245,10 @@ JPushPlugin.prototype.setCustomPushNotificationBuilder = function () {
 
 JPushPlugin.prototype.receiveMessageInAndroidCallback = function (data) {
   try {
-    console.log('JPushPlugin:receiveMessageInAndroidCallback')
     data = JSON.stringify(data)
-    var bToObj = JSON.parse(data)
-    this.receiveMessage = bToObj
-    cordova.fireDocumentEvent('jpush.receiveMessage', null)
+    console.log('JPushPlugin:receiveMessageInAndroidCallback: ' + data)
+    this.receiveMessage = JSON.parse(data)
+    cordova.fireDocumentEvent('jpush.receiveMessage', this.receiveMessage)
   } catch(exception) {
     console.log('JPushPlugin:pushCallback ' + exception)
   }
@@ -257,11 +256,10 @@ JPushPlugin.prototype.receiveMessageInAndroidCallback = function (data) {
 
 JPushPlugin.prototype.openNotificationInAndroidCallback = function (data) {
   try {
-    console.log('JPushPlugin:openNotificationInAndroidCallback')
     data = JSON.stringify(data)
-    var bToObj = JSON.parse(data)
-    this.openNotification = bToObj
-    cordova.fireDocumentEvent('jpush.openNotification', null)
+    console.log('JPushPlugin:openNotificationInAndroidCallback: ' + data)
+    this.openNotification = JSON.parse(data)
+    cordova.fireDocumentEvent('jpush.openNotification', this.openNotification)
   } catch(exception) {
     console.log(exception)
   }
@@ -269,11 +267,10 @@ JPushPlugin.prototype.openNotificationInAndroidCallback = function (data) {
 
 JPushPlugin.prototype.receiveNotificationInAndroidCallback = function (data) {
   try {
-    console.log('JPushPlugin:receiveNotificationInAndroidCallback')
     data = JSON.stringify(data)
-    var bToObj = JSON.parse(data)
-    this.receiveNotification = bToObj
-    cordova.fireDocumentEvent('jpush.receiveNotification', null)
+    console.log('JPushPlugin:receiveNotificationInAndroidCallback: ' + data)
+    this.receiveNotification = JSON.parse(data)
+    cordova.fireDocumentEvent('jpush.receiveNotification', this.receiveNotification)
   } catch(exception) {
     console.log(exception)
   }

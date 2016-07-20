@@ -47,7 +47,7 @@
             try {
                 var alertContent;
                 if (device.platform == "Android") {
-                    alertContent = window.plugins.jPushPlugin.openNotification.alert;
+                    alertContent = event.alert;
                 } else {
                     alertContent = event.aps.alert;
                 }
@@ -61,7 +61,7 @@
             try {
                 var alertContent;
                 if (device.platform == "Android") {
-                    alertContent = window.plugins.jPushPlugin.receiveNotification.alert;
+                    alertContent = event.alert;
                 } else {
                     alertContent = event.aps.alert;
                 }
@@ -75,7 +75,7 @@
             try {
                 var message;
                 if (device.platform == "Android") {
-                    message = window.plugins.jPushPlugin.receiveMessage.message;
+                    message = event.message;
                 } else {
                     message = event.content;
                 }
