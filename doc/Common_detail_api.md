@@ -86,14 +86,13 @@ JPush SDK 会恢复正常的默认行为。（因为保存在本地的状态数�
 
 #### 代码示例
 
-	window.plugins.jPushPlugin.resumePush(callback)
-	var onCallback = function(data) {
-		if(data > 0) {
-		    // 关闭
-		} else {
+	window.plugins.jPushPlugin.isPushStopped(function (result) {
+		if (result == 0) {
 		    // 开启
+		} else {
+		    // 关闭
 		}
-	}
+  })
 
 
 ## 获取 RegistrationID
