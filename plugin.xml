@@ -16,6 +16,9 @@
         <engine name="cordova" version=">=3.0" />
     </engines>
 
+    <!-- dependencies -->
+    <dependency id="cordova-plugin-device" />
+
     <js-module src="www/JPushPlugin.js" name="JPushPlugin">
         <clobbers target="JPush" />
     </js-module>
