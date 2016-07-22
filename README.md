@@ -17,7 +17,7 @@
 
 - 通过 Cordova Plugins 安装，要求 Cordova CLI 5.0+：
 
-  	   cordova plugin add jpush-phonegap-plugin --variable API_KEY=your_jpush_appkey
+  	    cordova plugin add jpush-phonegap-plugin --variable API_KEY=your_jpush_appkey
 
 - 或者直接通过 url 安装：
 
