@@ -30,8 +30,8 @@
   "peerDependencies": {
     "cordova-plugin-device": ">=1.0.0"
   },
-  "author": "jpush",
-  "license": "Apache 2.0 License",
+  "author": "JiGuang",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/jpush/jpush-phonegap-plugin/issues"
   },

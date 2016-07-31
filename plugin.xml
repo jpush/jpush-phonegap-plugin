@@ -8,7 +8,7 @@
     <description>JPush for cordova plugin</description>
     <author>JPush</author>
     <keywords>JPush,push</keywords>
-    <license>Apache 2.0 License</license>
+    <license>MIT License</license>
 
     <preference name="API_KEY" />
 
