@@ -399,7 +399,7 @@ static NSDictionary *_launchOptions = nil;
         case UIApplicationStateBackground:{
             //后台收到
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.backgoundNotification',%@)",jsonString]];
+                [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.backgroundNotification',%@)",jsonString]];
             });
             break;
         }
