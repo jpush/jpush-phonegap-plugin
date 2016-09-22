@@ -9,6 +9,9 @@
 #import <Cordova/CDV.h>
 
 #define kJPushPluginReceiveNotification @"JPushPluginReceiveNofication"
+#define kJPushPluginiOS10ForegroundReceiveNotification @"kJPushPluginiOS10ForegroundReceiveNotification"
+#define kJPushPluginiOS10ClickNotification @"kJPushPluginiOS10ClickNotification"
+
 
 @interface JPushPlugin : CDVPlugin{
 
@@ -67,7 +70,7 @@
  *  jpush.setTagsWithAlias      设置标签、别名完成
  *  jpush.receiveMessage        收到自定义消息
  *  jpush.receiveNotification   前台收到推送
- *  jpush.backgoundNotification 后台收到推送
+ *  jpush.backgroundNotification 后台收到推送
  */
 
 @end

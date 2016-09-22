@@ -2,13 +2,13 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="2.2.4">
+  version="2.2.5">
 
     <name>JPush Plugin</name>
     <description>JPush for cordova plugin</description>
     <author>JPush</author>
     <keywords>JPush,push</keywords>
-    <license>Apache 2.0 License</license>
+    <license>MIT License</license>
 
     <preference name="API_KEY" />
 
@@ -34,7 +34,7 @@
         <source-file src="src/ios/Plugins/JPushPlugin.m" />
 
         <header-file src="src/ios/lib/JPUSHService.h" />
-        <source-file src="src/ios/lib/jpush-ios-2.1.8.a" framework="true" />
+        <source-file src="src/ios/lib/jpush-ios-2.1.9.a" framework="true" />
         <header-file src="src/ios/Plugins/AppDelegate+JPush.h" />
         <source-file src="src/ios/Plugins/AppDelegate+JPush.m" />
         <resource-file src="src/ios/PushConfig.plist" />
@@ -48,6 +48,8 @@
         <framework src="Security.framework" weak="true" />
         <framework src="libz.tbd" weak="true" />
         <framework src="AdSupport.framework" weak="true" />
+        <framework src="UserNotifications.framework" weak="true" />
+
 
         <config-file target="*PushConfig.plist" parent="APP_KEY">
             <string>$API_KEY</string>
@@ -166,12 +168,12 @@
             <meta-data android:name="JPUSH_APPKEY" android:value="$API_KEY" />
         </config-file>
 
-        <source-file src="src/android/jpush-android-2.1.7.jar" target-dir="libs" />
-        <source-file src="src/android/armeabi/libjpush217.so" target-dir="libs/armeabi" />
-        <source-file src="src/android/armeabi-v7a/libjpush217.so" target-dir="libs/armeabi-v7a" />
-        <source-file src="src/android/arm64-v8a/libjpush217.so" target-dir="libs/arm64-v8a" />
-        <source-file src="src/android/x86/libjpush217.so" target-dir="libs/x86" />
-        <source-file src="src/android/x86_64/libjpush217.so" target-dir="libs/x86_64" />
+        <source-file src="src/android/jpush-android-2.1.9.jar" target-dir="libs" />
+        <source-file src="src/android/armeabi/libjpush219.so" target-dir="libs/armeabi" />
+        <source-file src="src/android/armeabi-v7a/libjpush219.so" target-dir="libs/armeabi-v7a" />
+        <source-file src="src/android/arm64-v8a/libjpush219.so" target-dir="libs/arm64-v8a" />
+        <source-file src="src/android/x86/libjpush219.so" target-dir="libs/x86" />
+        <source-file src="src/android/x86_64/libjpush219.so" target-dir="libs/x86_64" />
 
         <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap" />

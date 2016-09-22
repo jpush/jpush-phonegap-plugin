@@ -7,7 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import <UserNotifications/UserNotifications.h>
+#import "JPUSHService.h"
 
-@interface AppDelegate (JPush)
-
+@interface AppDelegate (JPush) <JPUSHRegisterDelegate>
+-(void)registerForIos10RemoteNotification;
 @end

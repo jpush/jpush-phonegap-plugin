@@ -89,10 +89,10 @@ public class JPushPlugin extends CordovaPlugin {
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-        super.initialize(cordova, webView);
+        Log.i(TAG, "JPush initialize.");
 
-        Log.i(TAG, "---------------- initialize" + "-" + openNotificationAlert
-                + "-" + notificationAlert);
+        super.initialize(cordova, webView);
+        JPushInterface.init(cordova.getActivity().getApplicationContext());
 
         cordovaActivity = cordova.getActivity();
 
