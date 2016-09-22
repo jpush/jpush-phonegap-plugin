@@ -10,6 +10,8 @@
 #import "JPUSHService.h"
 #import <UIKit/UIKit.h>
 #import <AdSupport/AdSupport.h>
+#import <UserNotifications/UserNotifications.h>
+#import "AppDelegate+JPush.h"
 
 static NSString *const JP_APP_KEY = @"APP_KEY";
 static NSString *const JP_APP_CHANNEL = @"CHANNEL";
@@ -17,6 +19,30 @@ static NSString *const JP_APP_ISPRODUCTION = @"IsProduction";
 static NSString *const JP_APP_ISIDFA = @"IsIDFA";
 static NSString *const JPushConfigFileName = @"PushConfig";
 static NSDictionary *_launchOptions = nil;
+
+#define WEAK_SELF(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+
+@implementation NSDictionary (JPush)
+-(NSString*)toJsonString{
+    NSError  *error;
+    NSData   *data       = [NSJSONSerialization dataWithJSONObject:self options:0 error:&error];
+    NSString *jsonString = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    return jsonString;
+}
+@end
+
+@implementation NSString (JPush)
+-(NSDictionary*)toDictionary{
+    NSError      *error;
+    NSData       *jsonData = [self dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *dict     = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+    return dict;
+}
+@end
+
+@interface JPushPlugin()
+
+@end
 
 @implementation JPushPlugin
 
@@ -27,22 +53,6 @@ static NSDictionary *_launchOptions = nil;
 
 -(void)resumePush:(CDVInvokedUrlCommand*)command{
     [JPushPlugin registerForRemoteNotification];
-}
-
-+(void)registerForRemoteNotification{
-    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
-        //可以添加自定义categories
-        [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
-                                                          UIUserNotificationTypeSound |
-                                                          UIUserNotificationTypeAlert)
-                                              categories:nil];
-    } else {
-        //categories 必须为nil
-        [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-                                                          UIRemoteNotificationTypeSound |
-                                                          UIRemoteNotificationTypeAlert)
-                                              categories:nil];
-    }
 }
 
 -(void)isPushStopped:(CDVInvokedUrlCommand*)command{
@@ -92,19 +102,23 @@ static NSDictionary *_launchOptions = nil;
                           name:kJPushPluginReceiveNotification
                         object:nil];
 
-    if (_launchOptions) {
-        NSDictionary *userInfo = [_launchOptions
-                                  valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-        if ([userInfo count] >0) {
-            NSError  *error;
-            NSData   *jsonData   = [NSJSONSerialization dataWithJSONObject:userInfo options:0 error:&error];
-            NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-            if (!error) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.openNotification',%@)",jsonString]];
-                });
+    [defaultCenter addObserver:self
+                      selector:@selector(networkDidReceiveNotification:)
+                          name:kJPushPluginiOS10ForegroundReceiveNotification
+                        object:nil];
 
-            }
+    [defaultCenter addObserver:self
+                      selector:@selector(networkDidReceiveNotification:)
+                          name:kJPushPluginiOS10ClickNotification
+                        object:nil];
+
+
+    if (_launchOptions) {
+        NSDictionary *userInfo = [_launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        if ([userInfo count] >0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.openNotification',%@)",[userInfo toJsonString]]];
+            });
         }
 
     }
@@ -248,7 +262,14 @@ static NSDictionary *_launchOptions = nil;
 }
 
 -(void)deleteLocalNotificationWithIdentifierKey:(CDVInvokedUrlCommand*)command{
-    [JPUSHService deleteLocalNotificationWithIdentifierKey:(NSString*)command.arguments[0]];
+    NSString *identifier = [command argumentAtIndex:0];
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 10.0) {
+        JPushNotificationIdentifier *jpid = [JPushNotificationIdentifier new];
+        jpid.identifiers = @[identifier];
+        [JPUSHService removeNotification:jpid];
+    }else{
+        [JPUSHService deleteLocalNotificationWithIdentifierKey:identifier];
+    }
 }
 
 -(void)clearAllLocalNotifications:(CDVInvokedUrlCommand*)command{
@@ -260,7 +281,22 @@ static NSDictionary *_launchOptions = nil;
 }
 
 -(void)getUserNotificationSettings:(CDVInvokedUrlCommand*)command{
-    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        WEAK_SELF(weakSelf);
+        [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+            NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+            dict[@"authorizationStatus"]       = @(settings.authorizationStatus);
+            dict[@"soundSetting"]              = @(settings.soundSetting);
+            dict[@"badgeSetting"]              = @(settings.badgeSetting);
+            dict[@"alertSetting"]              = @(settings.alertSetting);
+            dict[@"notificationCenterSetting"] = @(settings.notificationCenterSetting);
+            dict[@"lockScreenSetting"]         = @(settings.lockScreenSetting);
+            dict[@"carPlaySetting"]            = @(settings.carPlaySetting);
+            dict[@"alertStyle"]                = @(settings.alertStyle);
+            [weakSelf handleResultWithValue:dict command:command];
+        }];
+    }else if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
         UIUserNotificationSettings *settings = [[UIApplication sharedApplication] currentUserNotificationSettings];
         UIUserNotificationType type = settings.types;
         NSNumber *number = [NSNumber numberWithInteger:type];
@@ -270,10 +306,9 @@ static NSDictionary *_launchOptions = nil;
         NSNumber *number = [NSNumber numberWithInteger:type];
         [self handleResultWithValue:number command:command];
     }
-
 }
 
-#pragma mark- 内部方法
+#pragma mark - 内部方法
 +(void)setLaunchOptions:(NSDictionary *)theLaunchOptions{
     _launchOptions = theLaunchOptions;
 
@@ -294,11 +329,6 @@ static NSDictionary *_launchOptions = nil;
     NSNumber * isProduction = [plistData valueForKey:JP_APP_ISPRODUCTION];
     NSNumber *isIDFA        = [plistData valueForKey:JP_APP_ISIDFA];
 
-    if (!appkey || appkey.length == 0) {
-        NSLog(@"error: app key not found in PushConfig.plist ");
-        assert(0);
-    }
-
     NSString *advertisingId = nil;
     if(isIDFA){
         advertisingId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
@@ -309,6 +339,24 @@ static NSDictionary *_launchOptions = nil;
                  apsForProduction:[isProduction boolValue]
             advertisingIdentifier:advertisingId];
 
+}
+
++(void)registerForRemoteNotification{
+    [(AppDelegate*)[UIApplication sharedApplication].delegate registerForIos10RemoteNotification];
+
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+        //可以添加自定义categories
+        [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+                                                          UIUserNotificationTypeSound |
+                                                          UIUserNotificationTypeAlert)
+                                              categories:nil];
+    } else if([[UIDevice currentDevice].systemVersion floatValue] < 8.0){
+        //categories 必须为nil
+        [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                          UIRemoteNotificationTypeSound |
+                                                          UIRemoteNotificationTypeAlert)
+                                              categories:nil];
+    }
 }
 
 #pragma mark 将参数返回给js
@@ -337,50 +385,35 @@ static NSDictionary *_launchOptions = nil;
 
 #pragma mark 设置标签及别名回调
 -(void)tagsWithAliasCallback:(int)resultCode tags:(NSSet *)tags alias:(NSString *)alias{
-
     NSDictionary *dict = @{@"resultCode":[NSNumber numberWithInt:resultCode],
                            @"tags"      :tags  == nil ? [NSNull null] : [tags allObjects],
                            @"alias"     :alias == nil ? [NSNull null] : alias
                            };
-    NSError  *error;
-    NSData   *jsonData   = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
-    NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.setTagsWithAlias',%@)",jsonString]];
+        [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.setTagsWithAlias',%@)",[dict toJsonString]]];
     });
-
 }
-
 
 - (void)networkDidReceiveMessage:(NSNotification *)notification {
     if (notification) {
-        NSDictionary *userInfo = [notification userInfo];
-        //NSLog(@"%@",userInfo);
-
-        NSError  *error;
-        NSData   *jsonData   = [NSJSONSerialization dataWithJSONObject:userInfo options:0 error:&error];
-        NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-
-        //NSLog(@"%@",jsonString);
-
         dispatch_async(dispatch_get_main_queue(), ^{
 
-            [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.receiveMessage',%@)",jsonString]];
+            [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.receiveMessage',%@)",[notification.userInfo toJsonString]]];
 
-            [self.commandDelegate evalJs:[NSString stringWithFormat:@"window.plugins.jPushPlugin.receiveMessageIniOSCallback('%@')",jsonString]];
+            [self.commandDelegate evalJs:[NSString stringWithFormat:@"window.plugins.jPushPlugin.receiveMessageIniOSCallback('%@')",[notification.userInfo toJsonString]]];
 
         });
     }
 }
 
--(void)networkDidReceiveNotification:(id)notification{
+-(void)networkDidReceiveNotification:(NSNotification *)notification{
 
     NSError  *error;
     NSDictionary *userInfo = [notification object];
 
     NSData   *jsonData   = [NSJSONSerialization dataWithJSONObject:userInfo options:0 error:&error];
     NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+
     switch ([UIApplication sharedApplication].applicationState) {
         case UIApplicationStateActive:{
             //前台收到
@@ -399,15 +432,15 @@ static NSDictionary *_launchOptions = nil;
         case UIApplicationStateBackground:{
             //后台收到
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.backgroundNotification',%@)",jsonString]];
+                [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.backgoundNotification',%@)",jsonString]];
             });
             break;
         }
         default:
-        //do nothing
-        break;
+            //do nothing
+            break;
     }
-
+    
 }
 
 @end
