@@ -201,7 +201,7 @@
 当用户需要定制默认的通知栏样式时，则可调用此方法。
 需要用户去自定义 ../JPushPlugin.java 中的同名方法代码，然后再在 js 端 调用该方法。
 
-具体用法可参考[官方文档](http://docs.jpush.io/client/android_tutorials/#_11)。
+具体用法可参考[官方文档](http://docs.jiguang.cn/jpush/client/Android/android_api/#api_6)。
 
 JPush SDK 提供了 2 个用于定制通知栏样式的构建类：
 
