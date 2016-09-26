@@ -438,6 +438,9 @@ public class JPushPlugin extends CordovaPlugin {
         }
     }
 
+    /**
+     *   自定义通知行为，声音、震动、呼吸灯等。
+     */
     void setBasicPushNotificationBuilder(JSONArray data,
                                          CallbackContext callbackContext) {
         BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(
