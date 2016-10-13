@@ -308,6 +308,44 @@ static NSDictionary *_launchOptions = nil;
     }
 }
 
+#pragma mark - ios 10 APIs
+
+-(void)addDismissActions:(CDVInvokedUrlCommand*)command{
+    [self addActions:command dismiss:YES];
+}
+
+-(void)addNotificationActions:(CDVInvokedUrlCommand*)command{
+    [self addActions:command dismiss:NO];
+}
+
+-(void)addActions:(CDVInvokedUrlCommand*)command dismiss:(BOOL)dimiss{
+    NSArray *actionsData     = [command argumentAtIndex:0];
+    NSString *categoryId     = [command argumentAtIndex:1];
+    NSMutableArray *actions  = [NSMutableArray array];
+    for (NSDictionary *dict in actionsData) {
+        NSString *title      = dict[@"title"];
+        NSString *identifier = dict[@"identifier"];
+        NSString *option     = dict[@"option"];
+        NSString *type       = dict[@"type"];
+        if ([type isEqualToString:@"textInput"]) {
+            NSString *textInputButtonTitle = dict[@"textInputButtonTitle"];
+            NSString *textInputPlaceholder = dict[@"textInputPlaceholder"];
+            UNTextInputNotificationAction *inputAction = [UNTextInputNotificationAction actionWithIdentifier:identifier title:title options:option.integerValue textInputButtonTitle:textInputButtonTitle textInputPlaceholder:textInputPlaceholder];
+            [actions addObject:inputAction];
+        }else{
+            UNNotificationAction *action = [UNNotificationAction actionWithIdentifier:title title:title options:option.integerValue];
+            [actions addObject:action];
+        }
+    }
+    UNNotificationCategory *category;
+    if (dimiss) {
+        category = [UNNotificationCategory categoryWithIdentifier:categoryId actions:actions intentIdentifiers:@[] options:UNNotificationCategoryOptionCustomDismissAction];
+    }else{
+        category = [UNNotificationCategory categoryWithIdentifier:categoryId actions:actions intentIdentifiers:@[] options:UNNotificationCategoryOptionNone];
+    }
+    [[UNUserNotificationCenter currentNotificationCenter] setNotificationCategories:[NSSet setWithObject:category]];
+}
+
 #pragma mark - 内部方法
 +(void)setLaunchOptions:(NSDictionary *)theLaunchOptions{
     _launchOptions = theLaunchOptions;
