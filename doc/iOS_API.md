@@ -645,7 +645,7 @@ window.plugins.jPushPlugin.prototype.addNotificationActions(actions, categoryId)
 
 （iOS 10）在手机锁屏界面和通知中心界面的推送条目、应用菜单界面的推送横幅上，展示图片、gif、audio、video 等富媒体。效果如下图所示：
 
- ![MediaAttachments_00](res/MediaAttachments_00.PNG)
+ ![MediaAttachments_00](res/MediaAttachments_00.gif)
 
 #### 配置方法
 
