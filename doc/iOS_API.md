@@ -14,7 +14,7 @@
 - [日志等级设置](#日志等级设置)
 - [地理位置上报](#地理位置上报)
 - [设备平台判断](#设备平台判断)
-- [进阶推送特性](#进阶推送特性)
+- [iOS 10 进阶推送特性](#iOS 10 进阶推送特性)
 - [获取用户推送设置](#获取用户推送设置)
 
 ## 开始与停止推送服务
@@ -574,11 +574,11 @@ value 取值范围：[0,99999]。
 
 
 
-## 进阶推送特性
+## iOS 10 进阶推送特性
 
 ### API - addDismissActions
 
-添加通知操作，是展示在锁屏推送侧滑界面、通知中心推送侧滑界面、推送横幅下拉界面的按钮操作。
+添加通知操作，是展示在锁屏推送侧滑界面、通知中心推送侧滑界面、推送横幅下拉界面（iPhone 6s before）的按钮操作。
 
 一条推送最多只能展示 2 个操作（在锁屏推送侧滑界面、通知中心推送侧滑界面会额外自动展示一个「清除」操作），超出的操作不会被展示。
 
@@ -612,7 +612,7 @@ window.plugins.jPushPlugin.prototype.addDismissActions(actions, categoryId);
 #### 代码示例
 
 ```
-window.plugins.jPushPlugin.prototype.addDismissActions([{"title":"t1", "identifier":"id1", "option":"0"}, {"title":"t2", "identifier":"id2", "option":"3", "type":"textInput", "textInputButtonTitle":"回复", "textInputPlaceholder":"点此输入回复内容"}], "categoryId_t1_t2");
+window.plugins.jPushPlugin.addDismissActions([{"title":"t1", "identifier":"id1", "option":"0"}, {"title":"t2", "identifier":"id2", "option":"3", "type":"textInput", "textInputButtonTitle":"回复", "textInputPlaceholder":"点此输入回复内容"}], "categoryId_t1_t2");
 ```
 
 ### API - addNotificationActions
@@ -716,6 +716,6 @@ window.plugins.jPushPlugin.prototype.getUserNotificationSettings(callback);
     - UNNotificationSettingEnabled = 2, The notification setting is turned on.
   - 字段 alertStyle，取值如下：
     -  UNAlertStyleNone = 0
-    - UNAlertStyleBanner = 1
-    - UNAlertStyleAlert = 2
+    -  UNAlertStyleBanner = 1
+    -  UNAlertStyleAlert = 2
 
