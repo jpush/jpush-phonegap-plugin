@@ -58,9 +58,15 @@
 - IsProduction：是否生产环境。
 - IsIDFA：是否使用 IDFA 启动 SDK。
 
-#### 收不到推送了。
+#### 刚继承完插件收不到推送怎么办？
 请首先按照正确方式再次配置证书、描述文件，具体可参考 [iOS 证书设置指南](http://docs.jpush.io/client/ios_tutorials/#ios_1)。
 
+#### iOS 集成插件打包报错无法找到需要引入的文件或白屏或无法启动插件?
+按照以下步骤逐个尝试：
+
+- 升级至 Xcode 8
+- 先删除插件、再重装插件
+- 先使用 `cordova platform add ios`，后使用 `cordova plugin add`
 
 ## Support
 - QQ 群：413602425
