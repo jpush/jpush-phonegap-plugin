@@ -4,9 +4,9 @@
 - [获取 RegistrationID](#获取-registrationid)
 - [别名与标签](#别名与标签)
 - [获取 APNS 推送内容](#获取-apns-推送内容)
-	- [点击推送通知](#点击推送通知)
-	- [前台收到推送](#前台收到推送)
-	- [后台收到推送](#后台收到推送)
+  - [点击推送通知](#点击推送通知)
+  - [前台收到推送](#前台收到推送)
+  - [后台收到推送](#后台收到推送)
 - [获取自定义消息内容](#获取自定义消息内容)
 - [设置Badge](#设置badge)
 - [本地通知](#本地通知)
@@ -14,6 +14,8 @@
 - [日志等级设置](#日志等级设置)
 - [地理位置上报](#地理位置上报)
 - [设备平台判断](#设备平台判断)
+- [iOS 10 进阶推送特性](#ios-10-进阶推送特性)
+- [获取用户推送设置](#获取用户推送设置)
 
 ## 开始与停止推送服务
 
@@ -147,50 +149,50 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 
 #### 参数说明
 * tags:
-	* 参数类型为数组。
-	* nil 此次调用不设置此值。
-	* 空集合表示取消之前的设置。
-	* 每次调用至少设置一个 tag，覆盖之前的设置，不是新增。
-	* 有效的标签组成：字母（区分大小写）、数字、下划线、汉字。
-	* 限制：每个 tag 命名长度限制为 40 字节，最多支持设置 100 个 tag，但总长度不得超过1K字节（判断长度需采用UTF-8编码）。
-	* 单个设备最多支持设置 100 个 tag，App 全局 tag 数量无限制。
+  * 参数类型为数组。
+  * nil 此次调用不设置此值。
+  * 空集合表示取消之前的设置。
+  * 每次调用至少设置一个 tag，覆盖之前的设置，不是新增。
+  * 有效的标签组成：字母（区分大小写）、数字、下划线、汉字。
+  * 限制：每个 tag 命名长度限制为 40 字节，最多支持设置 100 个 tag，但总长度不得超过1K字节（判断长度需采用UTF-8编码）。
+  * 单个设备最多支持设置 100 个 tag，App 全局 tag 数量无限制。
 * alias:
-	* 参数类型为字符串。
-	* nil 此次调用不设置此值。
-	* 空字符串 （""）表示取消之前的设置。
-	* 有效的别名组成：字母（区分大小写）、数字、下划线、汉字。
-	* 限制：alias 命名长度限制为 40 字节（判断长度需采用 UTF-8 编码）。
+  * 参数类型为字符串。
+  * nil 此次调用不设置此值。
+  * 空字符串 （""）表示取消之前的设置。
+  * 有效的别名组成：字母（区分大小写）、数字、下划线、汉字。
+  * 限制：alias 命名长度限制为 40 字节（判断长度需采用 UTF-8 编码）。
 
 #### 返回值说明
 
 函数本身无返回值，但需要注册 `jpush.setTagsWithAlias` 事件来监听设置结果。
 
 	document.addEventListener("jpush.setTagsWithAlias", onTagsWithAlias, false);
-    var onTagsWithAlias = function(event) {
-        try {
-           console.log("onTagsWithAlias");    
-           var result = "result code:"+event.resultCode + " ";
-           result += "tags:" + event.tags + " ";
-           result += "alias:" + event.alias + " ";
-           $("#tagAliasResult").html(result);
-        } catch(exception) {
-           console.log(exception)
-        }
+	var onTagsWithAlias = function(event) {
+	    try {
+	       console.log("onTagsWithAlias");    
+	       var result = "result code:"+event.resultCode + " ";
+	       result += "tags:" + event.tags + " ";
+	       result += "alias:" + event.alias + " ";
+	       $("#tagAliasResult").html(result);
+	    } catch(exception) {
+	       console.log(exception)
+	    }
    	}
 
 #### 错误码定义
 
-|Code|描述                   		       |详细解释 |
-|----|:----------------------------------------|:--------|
-|6001|无效的设置，tag/alias 不应参数都为 null  |   	 |
-|6002|设置超时			       	       |建议重试。|
-|6003|alias 字符串不合法	               |有效的别名、标签组成：字母（区分大小写）、数字、下划线、汉字。|
-|6004|alias超长			       |最多 40个字节	中文 UTF-8 是 3 个字节。|
-|6005|某一个 tag 字符串不合法		       |有效的别名、标签组成：字母（区分大小写）、数字、下划线、汉字。|
-|6006|某一个 tag 超长			       |一个 tag 最多 40个字节	中文 UTF-8 是 3 个字节。|
-|6007|tags 数量超出限制(最多 100 个)	       |这是一台设备的限制。一个应用全局的标签数量无限制。|
-|6008|tag/alias 超出总长度限制	       	       |总长度最多 1K 字节。|
-|6011|10s内设置tag或alias大于3次	       |短时间内操作过于频繁。|
+| Code | 描述                          | 详细解释                              |
+| ---- | :-------------------------- | :-------------------------------- |
+| 6001 | 无效的设置，tag/alias 不应参数都为 null |                                   |
+| 6002 | 设置超时                        | 建议重试。                             |
+| 6003 | alias 字符串不合法                | 有效的别名、标签组成：字母（区分大小写）、数字、下划线、汉字。   |
+| 6004 | alias超长                     | 最多 40个字节	中文 UTF-8 是 3 个字节。        |
+| 6005 | 某一个 tag 字符串不合法              | 有效的别名、标签组成：字母（区分大小写）、数字、下划线、汉字。   |
+| 6006 | 某一个 tag 超长                  | 一个 tag 最多 40个字节	中文 UTF-8 是 3 个字节。 |
+| 6007 | tags 数量超出限制(最多 100 个)       | 这是一台设备的限制。一个应用全局的标签数量无限制。         |
+| 6008 | tag/alias 超出总长度限制           | 总长度最多 1K 字节。                      |
+| 6011 | 10s内设置tag或alias大于3次         | 短时间内操作过于频繁。                       |
 
 
 ## 获取 APNS 推送内容
@@ -205,28 +207,28 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 
 - 在你需要接收通知的的 js 文件中加入:
 
-		document.addEventListener("jpush.openNotification", onOpenNotification, false);
+  	document.addEventListener("jpush.openNotification", onOpenNotification, false);
 
 - onOpenNotification 需要这样写：
 
-		var onOpenNotification = function(event) {
-			var alertContent;
-			alertContent = event.aps.alert;
-			alert("open Notificaiton:" + alertContent);
-		}
+  	var onOpenNotification = function(event) {
+  		var alertContent;
+  		alertContent = event.aps.alert;
+  		alert("open Notificaiton:" + alertContent);
+  	}
 
 - event 举例:
 
-		{
-			"aps":{
-				  "badge":1,
-				  "sound":"default",
-				  "alert":"今天去哪儿"
-			},
-			"key1":"value1",
-			"key2":"value2",
-			"_j_msgid":154604475
-		}
+  	{
+  		"aps":{
+  			  "badge":1,
+  			  "sound":"default",
+  			  "alert":"今天去哪儿"
+  		},
+  		"key1":"value1",
+  		"key2":"value2",
+  		"_j_msgid":154604475
+  	}
 
 ### 前台收到推送
 
@@ -238,28 +240,28 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 
 - 在你需要接收通知的的 js 文件中加入:
 
-		document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
+  	document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
 
 - onReceiveNotification 需要这样写：
 
-		var onReceiveNotification = function(event) {
-			var alertContent;
-			alertContent = event.aps.alert;
-			alert("open Notificaiton:" + alertContent);
-		}
+  	var onReceiveNotification = function(event) {
+  		var alertContent;
+  		alertContent = event.aps.alert;
+  		alert("open Notificaiton:" + alertContent);
+  	}
 
 - event 举例
 
-		{
-			"aps":{
-				  "badge":1,
-				  "sound":"default",
-				  "alert":"今天去哪儿"
-			},
-			"key1":"value1",
-			"key2":"value2",
-			"_j_msgid":154604475
-		}
+  	{
+  		"aps":{
+  			  "badge":1,
+  			  "sound":"default",
+  			  "alert":"今天去哪儿"
+  		},
+  		"key1":"value1",
+  		"key2":"value2",
+  		"_j_msgid":154604475
+  	}
 
 ### 后台收到推送
 
@@ -271,28 +273,28 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 
 - 在你需要接收通知的的 js 文件中加入:
 
-		document.addEventListener("jpush.backgroundNotification", onBackgroundNotification, false);
+  	document.addEventListener("jpush.backgroundNotification", onBackgroundNotification, false);
 
 - onBackgroundNotification 需要这样写：
 
-		var onBackgroundNotification = function(event) {
-			var alertContent;
-			alertContent = event.aps.alert;
-			alert("open Notificaiton:" + alertContent);
-		}
+  	var onBackgroundNotification = function(event) {
+  		var alertContent;
+  		alertContent = event.aps.alert;
+  		alert("open Notificaiton:" + alertContent);
+  	}
 
 + event 举例
 
-		{
-			"aps":{
-				  "badge":1,
-				  "sound":"default",
-				  "alert":"今天去哪儿"
-			},
-			"key1":"value1",
-			"key2":"value2",
-			"_j_msgid":154604475
-		}
+  	{
+  		"aps":{
+  			  "badge":1,
+  			  "sound":"default",
+  			  "alert":"今天去哪儿"
+  		},
+  		"key1":"value1",
+  		"key2":"value2",
+  		"_j_msgid":154604475
+  	}
 
 #### API - receiveMessageIniOSCallback
 
@@ -307,7 +309,7 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 
 - data: 是一个 js 字符串使用如下代码解析，js 具体 key 根据应用内消息来确定:
 
-	var bToObj = JSON.parse(data);
+  var bToObj = JSON.parse(data);
 
 
 ## 获取自定义消息内容
@@ -322,30 +324,30 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 
 - 在你需要接收通知的的 js 文件中加入:
 
-		document.addEventListener("jpush.receiveMessage", onReceiveMessage, false);
+  	document.addEventListener("jpush.receiveMessage", onReceiveMessage, false);
 
 - onReceiveMessage 需要这样写：
 
-		var onReceiveMessage = function(event) {
-			try{
-				var message;
-				message = event.content;      
-				$("#messageResult").html(message);
-			}catch(exception) {
-				console.log("JPushPlugin:onReceiveMessage-->" + exception);
-			}
-		}
+  	var onReceiveMessage = function(event) {
+  		try{
+  			var message;
+  			message = event.content;      
+  			$("#messageResult").html(message);
+  		}catch(exception) {
+  			console.log("JPushPlugin:onReceiveMessage-->" + exception);
+  		}
+  	}
 
 
 - event 举例:
 
-		{
-			"content":"今天去哪儿",
-			"extras":
-			{
-				"key":"不填写没有"
-			}
-		}
+  	{
+  		"content":"今天去哪儿",
+  		"extras":
+  		{
+  			"key":"不填写没有"
+  		}
+  	}
 
 ## 设置Badge
 ### API - setBadge, resetBadge
@@ -569,3 +571,151 @@ value 取值范围：[0,99999]。
 	} else {
 		// Android
 	}
+
+
+
+## iOS 10 进阶推送特性
+
+### API - addDismissActions
+
+添加通知操作，是展示在锁屏推送侧滑界面、通知中心推送侧滑界面、推送横幅下拉界面（iPhone 6s before）的按钮操作。
+
+一条推送最多只能展示 2 个操作（在锁屏推送侧滑界面、通知中心推送侧滑界面会额外自动展示一个「清除」操作），超出的操作不会被展示。
+
+建议在 App 初次启动时立刻调用本 API。
+
+效果如下图所示：
+
+ ![DismissActions_00](res/DismissActions_00.PNG)
+
+#### 接口定义
+
+```
+window.plugins.jPushPlugin.prototype.addDismissActions(actions, categoryId);
+```
+
+#### 参数说明
+
+- actions：包含最多 2 个字典的数组，多余的字典无效，所有字段均为字符串，字段如下：
+  - title：必填，标题。
+  - identifier：必填，标识，获取 APNS 推送内容的时候可以通过该字段判断点击的是推送条目还是某项操作。
+  - option：必填，取值如下：
+    - UNNotificationActionOptionNone = 0
+    - UNNotificationActionOptionAuthenticationRequired = (1 << 0), Whether this action should require unlocking before being performed.
+    - UNNotificationActionOptionDestructive = (1 << 1), Whether this action should be indicated as destructive.
+    - UNNotificationActionOptionForeground = (1 << 2), Whether this action should cause the application to launch in the foreground.
+  - type：可选，值为 "textInput" 时，会创建一个可快速回复的操作。
+  - textInputButtonTitle：可选，快捷回复的回复按键标题。
+  - textInputPlaceholder：可选，快捷回复输入框占位符。
+- categoryId：category id，用于标记这一组操作，推送时的 `payload` 添加 `category` 字段（在极光控制台 - 发送通知 - 可选设置 - category ），即可展示相应的这一组操作。例：id1 对应 [操作A，操作B]，id2 对应 [操作A, 操作C]。
+
+#### 代码示例
+
+```
+window.plugins.jPushPlugin.addDismissActions([{"title":"t1", "identifier":"id1", "option":"0"}, {"title":"t2", "identifier":"id2", "option":"3", "type":"textInput", "textInputButtonTitle":"回复", "textInputPlaceholder":"点此输入回复内容"}], "categoryId_t1_t2");
+```
+
+### API - addNotificationActions
+
+轻触推送横幅，展示的更多操作。
+
+iPhone 6s 及以后设备且 iOS 9 以后系统支持 3d-touch。
+
+建议在 App 初次启动时立刻调用本 API。
+
+效果如下图所示：
+
+ ![NotificationActions_00](res/NotificationActions_00.png)
+
+#### 接口定义
+
+```
+window.plugins.jPushPlugin.prototype.addNotificationActions(actions, categoryId);
+```
+
+#### 参数说明
+
+参数同 API - addDismissActions
+
+#### 代码示例
+
+代码示例同 API - addDismissActions
+
+### Media Attachments
+
+（iOS 10）在手机锁屏界面和通知中心界面的推送条目、应用菜单界面的推送横幅上，展示图片、gif、audio、video 等富媒体。效果如下图所示：
+
+ ![MediaAttachments_00](res/MediaAttachments_00.gif)
+
+#### 配置方法
+
+1. 首先配置好 iOS 项目的证书。如下图所示没有任何异常警告：
+
+   ![](res/MediaAttachments_01.png)
+
+2. 打开 iOS Xcode Project - File - New - Target - iOS - Notification Service Extension - Next - Product Name 填写 `jpushNotificationService` - Finish，如下图所示： ![](res/MediaAttachments_02.png)
+
+   ![MediaAttachments_03](res/MediaAttachments_03.png)
+
+   ![MediaAttachments_04](res/MediaAttachments_04.png)
+
+3. 在 Xcode 工程目录左侧系统自动创建了 jpushNotificationService 文件夹及三个文件，下载本插件目录 `jpush-phonegap-plugin/src/ios/notificationService/` 下的 `NotificationService.h`、`NotificationService.m` 文件，全部复制替换对应文件内代码。
+
+4. 在 Xcode 中拖拽图片、gif、audio、video 等资源文件至 `jpushNotificationService` 文件夹目录下，弹出菜单选择如下： ![MediaAttachments_06](res/MediaAttachments_06.png)
+
+5. 在极光控制台 - 发送通知 - 可选设置 - mutable-content 打勾。
+
+6. 添加附加字段， key 为 `JPushPluginAttachment` ，value 为资源名称如 `aPic.png`，该资源必须在第 4 步中已经添加至工程，且文件名和拓展名完全对应。5、6 如下图所示：
+
+    ![MediaAttachments_05](res/MediaAttachments_05.png)
+
+   另，5、6 亦可通过服务端自定义的 payload 实现，如下所示：
+
+   ```json
+   {
+   	aps:{
+   		alert:{...},
+   		mutable-content:1 //必须
+   	}
+   	JPushPluginAttachment:aPic.png //必须
+   }
+   ```
+
+7. 立即发送。
+
+
+
+## 获取用户推送设置
+
+### API - getUserNotificationSettings
+
+获取用户对本 App 的推送设置情况。
+
+#### 接口定义
+
+```
+window.plugins.jPushPlugin.prototype.getUserNotificationSettings(callback);
+```
+
+#### 返回值
+
+- iOS 10 before
+  - UIRemoteNotificationTypeNone    = 0
+  - UIRemoteNotificationTypeBadge   = 1 << 0
+  - UIRemoteNotificationTypeSound   = 1 << 1
+  - UIRemoteNotificationTypeAlert   = 1 << 2
+  - UIRemoteNotificationTypeNewsstandContentAvailability = 1 << 3
+- iOS 10 after
+  - 字段 authorizationStatus，取值如下：
+    - UNAuthorizationStatusNotDetermined = 0, The user has not yet made a choice regarding whether the application may post user notifications.
+    - UNAuthorizationStatusDenied = 1, The application is not authorized to post user notifications.
+    - UNAuthorizationStatusAuthorized = 2, The application is authorized to post user notifications.
+  - 字段 soundSetting、badgeSetting、alertSetting、notificationCenterSetting、lockScreenSetting、carPlaySetting，取值如下：
+    - UNNotificationSettingNotSupported = 0, The application does not support this notification type.
+    - UNNotificationSettingDisabled = 1, The notification setting is turned off.
+    - UNNotificationSettingEnabled = 2, The notification setting is turned on.
+  - 字段 alertStyle，取值如下：
+    -  UNAlertStyleNone = 0
+    -  UNAlertStyleBanner = 1
+    -  UNAlertStyleAlert = 2
+

@@ -222,6 +222,14 @@ JPushPlugin.prototype.getUserNotificationSettings = function (callback) {
   }
 }
 
+JPushPlugin.prototype.addDismissActions = function (actions, categoryId) {
+    this.call_native('addDismissActions', [actions, categoryId])
+}
+
+JPushPlugin.prototype.addNotificationActions = function (actions, categoryId) {
+    this.call_native('addNotificationActions', [actions, categoryId])
+}
+
 // Android methods
 JPushPlugin.prototype.setDebugMode = function (mode) {
   if (device.platform == 'Android') {

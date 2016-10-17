@@ -79,9 +79,12 @@
 
 -(void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler{
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:response.notification.request.content.userInfo];
+    @try {
+        [userInfo setValue:[response valueForKey:@"userText"] forKey:@"userText"];
+    } @catch (NSException *exception) { }
+    [userInfo setValue:response.actionIdentifier forKey:@"actionIdentifier"];
     [userInfo setValue:kJPushPluginiOS10ClickNotification forKey:@"JPushNotificationType"];
     [[NSNotificationCenter defaultCenter] postNotificationName:kJPushPluginiOS10ClickNotification object:userInfo];
-
     completionHandler();
 }
 
