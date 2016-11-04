@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="2.2.6">
+  version="2.2.7">
 
     <name>JPush Plugin</name>
     <description>JPush for cordova plugin</description>
@@ -81,7 +81,9 @@
         </config-file>
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <!-- Required SDK核心功能-->
-            <activity android:name="cn.jpush.android.ui.PushActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:configChanges="orientation|keyboardHidden">
+            <activity android:name="cn.jpush.android.ui.PushActivity"
+                android:theme="@android:style/Theme.Translucent.NoTitleBar"
+                android:configChanges="orientation|keyboardHidden">
                 <intent-filter>
                     <action android:name="cn.jpush.android.ui.PushActivity" />
                     <category android:name="android.intent.category.DEFAULT" />
@@ -90,7 +92,9 @@
             </activity>
 
             <!-- Rich push 核心功能 since 2.0.6-->
-            <activity android:name="cn.jpush.android.ui.PopWinActivity" android:theme="@style/MyDialogStyle" android:exported="false">
+            <activity android:name="cn.jpush.android.ui.PopWinActivity"
+                android:theme="@style/MyDialogStyle"
+                android:exported="false">
             </activity>
 
             <!-- Required  SDK核心功能-->
@@ -168,25 +172,26 @@
             <meta-data android:name="JPUSH_APPKEY" android:value="$API_KEY" />
         </config-file>
 
-        <source-file src="src/android/jpush-android-2.1.9.jar" target-dir="libs" />
-        <source-file src="src/android/armeabi/libjpush219.so" target-dir="libs/armeabi" />
-        <source-file src="src/android/armeabi-v7a/libjpush219.so" target-dir="libs/armeabi-v7a" />
-        <source-file src="src/android/arm64-v8a/libjpush219.so" target-dir="libs/arm64-v8a" />
-        <source-file src="src/android/x86/libjpush219.so" target-dir="libs/x86" />
-        <source-file src="src/android/x86_64/libjpush219.so" target-dir="libs/x86_64" />
+        <source-file src="src/android/libs/jpush-android-2.2.0.jar" target-dir="libs" />
+        <source-file src="src/android/libs/armeabi/libjpush220.so" target-dir="libs/armeabi" />
+        <source-file src="src/android/libs/armeabi-v7a/libjpush220.so" target-dir="libs/armeabi-v7a" />
+        <source-file src="src/android/libs/arm64-v8a/libjpush220.so" target-dir="libs/arm64-v8a" />
+        <source-file src="src/android/libs/x86/libjpush220.so" target-dir="libs/x86" />
+        <source-file src="src/android/libs/x86_64/libjpush220.so" target-dir="libs/x86_64" />
 
         <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap" />
-        <source-file src="src/android/test_notification_layout.xml" target-dir="res/layout" />
-        <source-file src="src/android/jpush_notification_icon.png" target-dir="res/drawable" />
 
-        <!-- Rich Push resources  -->
-        <source-file src="src/android/ic_richpush_actionbar_back.png" target-dir="res/drawable" />
-        <source-file src="src/android/ic_richpush_actionbar_divider.png" target-dir="res/drawable" />
-        <source-file src="src/android/richpush_btn_selector.xml" target-dir="res/drawable" />
-        <source-file src="src/android/jpush_popwin_layout.xml" target-dir="res/layout" />
-        <source-file src="src/android/jpush_webview_layout.xml" target-dir="res/layout" />
-        <source-file src="src/android/jpush_style.xml" target-dir="res/values" />
+        <source-file src="src/android/res/drawable-hdpi/jpush_richpush_btn_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable-hdpi/jpush_richpush_progressbar.xml" target-dir="res/drawable" />
 
+        <source-file src="src/android/res/drawable-hdpi/jpush_ic_richpush_actionbar_back.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/jpush_ic_richpush_actionbar_divider.png" target-dir="res/drawable-hdpi" />
+
+        <source-file src="src/android/res/layout/jpush_popwin_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/jpush_webview_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/test_notification_layout.xml" target-dir="res/layout" />
+
+        <source-file src="src/android/res/values/jpush_style.xml" target-dir="res/values" />
     </platform>
 </plugin>
