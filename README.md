@@ -59,7 +59,7 @@
 - IsIDFA：是否使用 IDFA 启动 SDK。
 
 #### 刚集成完插件收不到推送怎么办？
-请首先按照正确方式再次配置证书、描述文件，具体可参考 [iOS 证书设置指南](http://docs.jpush.io/client/ios_tutorials/#ios_1)。
+请首先按照正确方式再次配置证书、描述文件，具体可参考 [iOS 证书设置指南](https://docs.jiguang.cn/jpush/client/iOS/ios_cer_guide/)。
 
 #### iOS 集成插件白屏、或无法启动插件、或打包报错无法找到需要引入的文件怎么办?
 按照以下步骤逐个尝试：
@@ -70,7 +70,7 @@
 
 ## Support
 - QQ 群：413602425
-- [JPush 官网文档](http://docs.jpush.io/)
+- [JPush 官网文档](https://docs.jiguang.cn/jpush/guideline/intro/)
 - [极光社区](http://community.jiguang.cn/)
 
 ## Contribute
