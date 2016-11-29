@@ -2,9 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>APP_KEY</key>
+	<key>Appkey</key>
 	<string></string>
-	<key>CHANNEL</key>
+	<key>Channel</key>
 	<string>Subscription</string>
 	<key>IsProduction</key>
 	<false/>

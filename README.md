@@ -53,8 +53,8 @@
 
 ### iOS
 #### PushConfig.plist 文件中的字段都是什么意思？
-- APP_KEY：应用标识。
-- CHANNEL：渠道标识。
+- Appkey：应用标识。
+- Channel：渠道标识。
 - IsProduction：是否生产环境。
 - IsIDFA：是否使用 IDFA 启动 SDK。
 

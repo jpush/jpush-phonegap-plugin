@@ -2,22 +2,15 @@
 //  PushTalkPlugin.h
 //  PushTalk
 //
-//  Created by zhangqinghe on 13-12-13.
+//  Created by pikacode@qq.com on 13-12-13.
 //
 //
 
 #import <Cordova/CDV.h>
 
-#define kJPushPluginReceiveNotification @"JPushPluginReceiveNofication"
-#define kJPushPluginiOS10ForegroundReceiveNotification @"kJPushPluginiOS10ForegroundReceiveNotification"
-#define kJPushPluginiOS10ClickNotification @"kJPushPluginiOS10ClickNotification"
-
-
 @interface JPushPlugin : CDVPlugin{
 
 }
-
-+(void)setLaunchOptions:(NSDictionary *)theLaunchOptions;
 
 //以下为js中可调用接口
 //设置标签、别名
@@ -77,4 +70,22 @@
  *  jpush.backgroundNotification 后台收到推送
  */
 
+# pragma mark - private
+
+-(void)jpushFireDocumentEvent:(NSString*)eventName jsString:(NSString*)jsString;
+
++(void)setupJPushSDK:(NSDictionary*)userInfo;
+
 @end
+
+static JPushPlugin *SharedJPushPlugin;
+
+@interface NSDictionary (JPush)
+-(NSString*)toJsonString;
+@end
+
+@interface NSString (JPush)
+-(NSDictionary*)toDictionary;
+@end
+
+

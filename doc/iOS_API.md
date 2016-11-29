@@ -267,7 +267,7 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 
 #### event - jpush.backgroundNotification
 
-应用程序处于后台时收到推送会触发该事件，可以在后台执行一段代码。具体配置参考 [iOS 7 Background Remote Notification](http://docs.jpush.io/client/ios_tutorials/#ios-7-background-remote-notification)
+应用程序处于后台时收到推送会触发该事件，可以在后台执行一段代码。具体配置参考 [iOS 7 Background Remote Notification](https://docs.jiguang.cn/jpush/client/iOS/ios_new_fetures/#ios-7-background-remote-notification)
 
 #### 代码示例
 
@@ -296,20 +296,6 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
   		"_j_msgid":154604475
   	}
 
-#### API - receiveMessageIniOSCallback
-
-用于 iOS 收到应用内消息的回调函数(请注意和通知的区别)，该函数不需要主动调用
-不推荐使用回调函数
-
-##### 接口定义
-
-	JPushPlugin.prototype.receiveMessageIniOSCallback(data)
-
-##### 参数说明
-
-- data: 是一个 js 字符串使用如下代码解析，js 具体 key 根据应用内消息来确定:
-
-  var bToObj = JSON.parse(data);
 
 
 ## 获取自定义消息内容

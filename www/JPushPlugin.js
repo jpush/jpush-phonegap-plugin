@@ -165,17 +165,6 @@ JPushPlugin.prototype.setLocation = function (latitude, longitude) {
   }
 }
 
-JPushPlugin.prototype.receiveMessageIniOSCallback = function (data) {
-  try {
-    console.log('JPushPlugin:receiveMessageIniOSCallback--data:' + data)
-    var bToObj = JSON.parse(data)
-    var content = bToObj.content
-    console.log(content)
-  } catch(exception) {
-    console.log('JPushPlugin:receiveMessageIniOSCallback' + exception)
-  }
-}
-
 JPushPlugin.prototype.startLogPageView = function (pageName) {
   if (this.isPlatformIOS()) {
     this.call_native('startLogPageView', [pageName], null)

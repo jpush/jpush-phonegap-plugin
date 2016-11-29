@@ -2,7 +2,7 @@
 //  AppDelegate+JPush.h
 //  delegateExtention
 //
-//  Created by 张庆贺 on 15/8/3.
+//  Created by pikacode@qq.com on 15/8/3.
 //  Copyright (c) 2015年 JPush. All rights reserved.
 //
 
@@ -11,5 +11,5 @@
 #import "JPUSHService.h"
 
 @interface AppDelegate (JPush) <JPUSHRegisterDelegate>
--(void)registerForIos10RemoteNotification;
+-(void)registerForRemoteNotification;
 @end
