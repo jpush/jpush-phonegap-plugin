@@ -17,11 +17,9 @@
 
 本功能是一个完全本地的状态操作，也就是说：停止推送服务的状态不会保存到服务器上。
 
-如果停止推送服务后，开发者 App 被重新安装，或者被清除数据，
-JPush SDK 会恢复正常的默认行为。（因为保存在本地的状态数据被清除掉了）。
+如果停止推送服务后，开发者 App 被重新安装，或者被清除数据，JPush SDK 会恢复正常的默认行为（因为保存在本地的状态数据被清除掉了）。
 
-本功能其行为类似于网络中断的效果，即：推送服务停止期间推送的消息，
-恢复推送服务后，如果推送的消息还在保留的时长范围内，则客户端是会收到离线消息。
+本功能其行为类似于网络中断的效果，即：推送服务停止期间推送的消息，恢复推送服务后，如果推送的消息还在保留的时长范围内，则客户端是会收到离线消息。
 
 #### 接口定义
 
@@ -41,8 +39,7 @@ JPush SDK 会恢复正常的默认行为。（因为保存在本地的状态数�
 
 + iOS 平台:
 
-	+ 不推荐调用，因为这个 API 只是让你的 DeviceToken 失效，在 设置－通知 中您的应用程序没有任何变化。
-    + 推荐：设置一个 UI 界面， 提醒用户在 设置－通知 中关闭推送服务。
+	+ 不推荐调用，因为这个 API 只是让你的 DeviceToken 失效，在 设置－通知 中您的应用程序没有任何变化。**建议设置一个 UI 界面， 提醒用户在 设置－通知 中关闭推送服务**。
 
 #### 接口定义
 
@@ -59,7 +56,7 @@ JPush SDK 会恢复正常的默认行为。（因为保存在本地的状态数�
 
 + iOS 平台:
 
-	+ 重新去APNS注册。
+	+ 重新去 APNS 注册。
 
 #### 接口定义
 
@@ -78,7 +75,7 @@ JPush SDK 会恢复正常的默认行为。（因为保存在本地的状态数�
 
 #### 接口定义
 
-	    window.plugins.jPushPlugin.isPushStopped(callback)
+    window.plugins.jPushPlugin.isPushStopped(callback)
 
 #### 参数说明
 
@@ -116,9 +113,9 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 
 #### 代码示例
 
- 	  window.plugins.jPushPlugin.getRegistrationID(function(data) {
-      console.log("JPushPlugin:registrationID is " + data)
-    })
+     window.plugins.jPushPlugin.getRegistrationID(function(data) {
+       console.log("JPushPlugin:registrationID is " + data)
+     })
 
 ## 设置别名与标签
 
@@ -138,7 +135,7 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 
 系统不限定一个别名只能指定一个用户。如果一个别名被指定到了多个用户，当给指定这个别名发消息时，服务器端 API 会同时给这多个用户发送消息。
 
-举例：在一个用户要登录的游戏中，可能设置别名为 userid。游戏运营时，发现该用户 3 天没有玩游戏了，则根据 userid 调用服务器端 API 发通知到客户端提醒用户。
+举例：在一个用户要登录的游戏中，可能设置别名为 userId。游戏运营时，发现该用户 3 天没有玩游戏了，则根据 userId 调用服务器端 API 发通知到客户端提醒用户。
 
 **标签 Tag**:
 
@@ -177,12 +174,12 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 函数本身无返回值，但需要注册 `jpush.setTagsWithAlias` 事件来监听设置结果:
 
 	document.addEventListener("jpush.setTagsWithAlias", function(event) {
-    console.log("onTagsWithAlias");    
-    var result = "result code:" + event.resultCode + " ";
-    result += "tags:" + event.tags + " ";
-    result += "alias:" + event.alias + " ";
-    $("#tagAliasResult").html(result);
-   }, false);
+      console.log("onTagsWithAlias")
+      var result = "result code:" + event.resultCode + " "
+      result += "tags:" + event.tags + " "
+      result += "alias:" + event.alias + " "
+      $("#tagAliasResult").html(result)
+    }, false)
 
 #### 错误码定义
 
@@ -209,19 +206,16 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 
 - 在你需要接收通知的的 js 文件中加入:
 
-		document.addEventListener("jpush.openNotification", onOpenNotification, false);
+        document.addEventListener("jpush.openNotification", function (event) {
+	      var alertContent
+          if(device.platform == "Android") {
+            alertContent = event.alert
+          } else {
+            lertContent = event.aps.alert
+          }
+	    }, false)
 
-- onOpenNotification 需要这样写：
-
-        var alertContent;
-        if(device.platform == "Android") {
-            alertContent = event.alert;
-        } else {
-            alertContent = event.aps.alert;
-        }
-        alert("open Notificaiton:" + alertContent);
-
-ps：点击通知后传递的 json object 保存在 window.plugins.jPushPlugin.openNotification，直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意。
+> ps：点击通知后传递的 json object 保存在 window.plugins.jPushPlugin.openNotification，直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意。
 
 + Android:
 
@@ -263,19 +257,18 @@ ps：点击通知后传递的 json object 保存在 window.plugins.jPushPlugin.o
 
 - 在你需要接收通知的的 js 文件中加入:
 
-		document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
+		  document.addEventListener("jpush.receiveNotification", function (event) {
+		    var alertContent
+	        if(device.platform == "Android") {
+	          alertContent = event.alert
+	        } else {
+	          alertContent = event.aps.alert
+	        }
+	        alert("open Notificaiton:" + alertContent)
+		  }, false)
+	    
 
-- onReceiveNotification 需要这样写：
-
-	    var alertContent;
-	    if(device.platform == "Android") {
-	        alertContent = event.alert;
-	    } else {
-	        alertContent = event.aps.alert;
-	    }
-	    alert("open Notificaiton:" + alertContent);
-
-ps：点击通知后传递的 json object 保存在 window.plugins.jPushPlugin.receiveNotification，直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意。
+> ps：点击通知后传递的 json object 保存在 window.plugins.jPushPlugin.receiveNotification，直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意。
 
 + Android:
 
@@ -320,26 +313,16 @@ ps：点击通知后传递的 json object 保存在 window.plugins.jPushPlugin.r
 
 - 在你需要接收通知的的 js 文件中加入:
 
-		document.addEventListener("jpush.receiveMessage", onReceiveMessage, false);
+	    document.addEventListener("jpush.receiveMessage", function (event) {
+	      var message
+          if(device.platform == "Android") {
+            message = event.message;
+          } else {
+            message = event.content;
+          }      
+	    }, false)
 
-- onReceiveMessage 需要这样写：
-
-        var onReceiveMessage = function(event) {
-            try{
-                var message
-                if(device.platform == "Android") {
-              		 message = event.message;
-                } else {
-                     message = event.content;
-                }          
-                 $("#messageResult").html(message);
-            } catch(exception) {
-                console.log("JPushPlugin:onReceiveMessage-->" + exception);
-            }
-        }
-
-ps：点击通知后传递的 json object 保存在 window.plugins.jPushPlugin.receiveMessage，
-直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意。
+> ps：点击通知后传递的 json object 保存在 window.plugins.jPushPlugin.receiveMessage，直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意。
 
 + Android:
 
@@ -359,7 +342,6 @@ ps：点击通知后传递的 json object 保存在 window.plugins.jPushPlugin.r
 			 "content":"今天去哪儿",
 			 "extras":{"key":"不填写没有"}
 		}
-
 
 ## 判断系统设置中是否允许当前应用推送
 ### API - getUserNotificationSettings
