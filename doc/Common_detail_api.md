@@ -116,14 +116,9 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 
 #### 代码示例
 
- 	window.plugins.jPushPlugin.getRegistrationID(onGetRegistradionID);
-	var onGetRegistradionID = function(data) {
-		try {
-			console.log("JPushPlugin:registrationID is " + data);		
-		} catch(exception) {
-			console.log(exception);
-		}
-	}
+ 	  window.plugins.jPushPlugin.getRegistrationID(function(data) {
+      console.log("JPushPlugin:registrationID is " + data)
+    })
 
 ## 设置别名与标签
 
@@ -181,18 +176,13 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 
 函数本身无返回值，但需要注册 `jpush.setTagsWithAlias` 事件来监听设置结果:
 
-	document.addEventListener("jpush.setTagsWithAlias", onTagsWithAlias, false);
-    var onTagsWithAlias = function(event) {
-    	try {
-        	console.log("onTagsWithAlias");    
-           	var result = "result code:" + event.resultCode + " ";
-           	result += "tags:" + event.tags + " ";
-           	result += "alias:" + event.alias + " ";
-           	$("#tagAliasResult").html(result);
-       	} catch(exception) {
-           console.log(exception);
-       	}
-   	}
+	document.addEventListener("jpush.setTagsWithAlias", function(event) {
+    console.log("onTagsWithAlias");    
+    var result = "result code:" + event.resultCode + " ";
+    result += "tags:" + event.tags + " ";
+    result += "alias:" + event.alias + " ";
+    $("#tagAliasResult").html(result);
+   }, false);
 
 #### 错误码定义
 
@@ -392,5 +382,4 @@ ps：点击通知后传递的 json object 保存在 window.plugins.jPushPlugin.r
 			// 系统设置中已关闭应用推送。
 		} else if(result > 0) {
 			// 系统设置中打开了应用推送。
-		}
-	});
+		})
