@@ -30,9 +30,9 @@
 
 ## Usage
 ### API
-- [公共 API](/doc/Common_detail_api.md)
-- [iOS API](/doc/iOS_API.md)
-- [Android API](/doc/Android_detail_api.md)
+- [Common](/doc/Common_detail_api.md)
+- [iOS](/doc/iOS_API.md)
+- [Android](/doc/Android_detail_api.md)
 
 ### Demo
 插件项目中包含一个简单的 Demo。若想参考，可以在 */example* 文件夹内找到并拷贝以下文件:
