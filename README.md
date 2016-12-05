@@ -30,9 +30,9 @@
 
 ## Usage
 ### API
-- [公共 API](/doc/Common_detail_api.md)
-- [iOS API](/doc/iOS_API.md)
-- [Android API](/doc/Android_detail_api.md)
+- [Common](/doc/Common_detail_api.md)
+- [iOS](/doc/iOS_API.md)
+- [Android](/doc/Android_detail_api.md)
 
 ### Demo
 插件项目中包含一个简单的 Demo。若想参考，可以在 */example* 文件夹内找到并拷贝以下文件:
@@ -53,8 +53,8 @@
 
 ### iOS
 #### PushConfig.plist 文件中的字段都是什么意思？
-- APP_KEY：应用标识。
-- CHANNEL：渠道标识。
+- Appkey：应用标识。
+- Channel：渠道标识。
 - IsProduction：是否生产环境。
 - IsIDFA：是否使用 IDFA 启动 SDK。
 

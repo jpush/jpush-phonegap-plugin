@@ -2,7 +2,7 @@
 //  PushTalkPlugin.m
 //  PushTalk
 //
-//  Created by zhangqinghe on 13-12-13.
+//  Created by pikacode@qq.com on 13-12-13.
 //
 //
 
@@ -12,15 +12,7 @@
 #import <AdSupport/AdSupport.h>
 #import <UserNotifications/UserNotifications.h>
 #import "AppDelegate+JPush.h"
-
-static NSString *const JP_APP_KEY = @"APP_KEY";
-static NSString *const JP_APP_CHANNEL = @"CHANNEL";
-static NSString *const JP_APP_ISPRODUCTION = @"IsProduction";
-static NSString *const JP_APP_ISIDFA = @"IsIDFA";
-static NSString *const JPushConfigFileName = @"PushConfig";
-static NSDictionary *_launchOptions = nil;
-
-#define WEAK_SELF(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+#import "JPushDefine.h"
 
 @implementation NSDictionary (JPush)
 -(NSString*)toJsonString{
@@ -52,16 +44,11 @@ static NSDictionary *_launchOptions = nil;
 }
 
 -(void)resumePush:(CDVInvokedUrlCommand*)command{
-    [JPushPlugin registerForRemoteNotification];
+    [(AppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotification];
 }
 
 -(void)isPushStopped:(CDVInvokedUrlCommand*)command{
-    NSNumber *result;
-    if ([[UIApplication sharedApplication] isRegisteredForRemoteNotifications]) {
-        result = @(0);
-    }else{
-        result = @(1);
-    }
+    NSNumber *result = [[UIApplication sharedApplication] isRegisteredForRemoteNotifications] ? @(0) : @(1);
     [self handleResultWithValue:result command:command];
 }
 
@@ -69,12 +56,11 @@ static NSDictionary *_launchOptions = nil;
     //do nithng,because Cordova plugin use lazy load mode.
 }
 
-
 #ifdef __CORDOVA_4_0_0
 
 - (void)pluginInitialize {
     NSLog(@"### pluginInitialize ");
-    [self initNotifications];
+    SharedJPushPlugin = self;
 }
 
 #else
@@ -82,62 +68,21 @@ static NSDictionary *_launchOptions = nil;
 - (CDVPlugin*)initWithWebView:(UIWebView*)theWebView{
     NSLog(@"### initWithWebView ");
     if (self=[super initWithWebView:theWebView]) {
-        [self initNotifications];
     }
     return self;
 }
 
-
 #endif
 
--(void)initNotifications {
-    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-    [defaultCenter addObserver:self
-                      selector:@selector(networkDidReceiveMessage:)
-                          name:kJPFNetworkDidReceiveMessageNotification
-                        object:nil];
-
-    [defaultCenter addObserver:self
-                      selector:@selector(networkDidReceiveNotification:)
-                          name:kJPushPluginReceiveNotification
-                        object:nil];
-
-    [defaultCenter addObserver:self
-                      selector:@selector(networkDidReceiveNotification:)
-                          name:kJPushPluginiOS10ForegroundReceiveNotification
-                        object:nil];
-
-    [defaultCenter addObserver:self
-                      selector:@selector(networkDidReceiveNotification:)
-                          name:kJPushPluginiOS10ClickNotification
-                        object:nil];
-
-
-    if (_launchOptions) {
-        NSDictionary *userInfo = [_launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-        if ([userInfo count] >0) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.openNotification',%@)",[userInfo toJsonString]]];
-            });
-        }
-
-    }
+-(void)jpushFireDocumentEvent:(NSString*)eventName jsString:(NSString*)jsString{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.%@',%@)", eventName, jsString]];
+    });
 }
 
 -(void)setTagsWithAlias:(CDVInvokedUrlCommand*)command{
-    NSArray  *arguments = command.arguments;
-    NSString *alias;
-    NSArray  *tags;
-    if (!arguments || [arguments count] < 2) {
-        NSLog(@"#### setTagsWithAlias param is less");
-        return ;
-    }else{
-        alias = arguments[0];
-        tags  = arguments[1];
-    }
-
-    NSLog(@"#### setTagsWithAlias alias is %@, tags is %@",alias,tags);
-
+    NSString *alias = [command argumentAtIndex:0];
+    NSArray  *tags  = [command argumentAtIndex:1];
     [JPUSHService setTags:[NSSet setWithArray:tags]
                     alias:alias
          callbackSelector:@selector(tagsWithAliasCallback:tags:alias:)
@@ -145,77 +90,43 @@ static NSDictionary *_launchOptions = nil;
 }
 
 -(void)setTags:(CDVInvokedUrlCommand *)command{
-
     NSArray *tags = command.arguments;
-
-    NSLog(@"#### setTags %@",tags);
-
     [JPUSHService setTags:[NSSet setWithArray:tags]
          callbackSelector:@selector(tagsWithAliasCallback:tags:alias:)
                    object:self];
-
 }
 
 -(void)setAlias:(CDVInvokedUrlCommand *)command{
-
-    NSLog(@"#### setAlias %@",command.arguments);
-    [JPUSHService setAlias:command.arguments[0]
+    NSString *alias = [command argumentAtIndex:0];
+    [JPUSHService setAlias:alias
           callbackSelector:@selector(tagsWithAliasCallback:tags:alias:)
                     object:self];
 }
 
 -(void)getRegistrationID:(CDVInvokedUrlCommand*)command{
     NSString* registrationID = [JPUSHService registrationID];
-    NSLog(@"### getRegistrationID %@",registrationID);
     [self handleResultWithValue:registrationID command:command];
 }
 
 -(void)startLogPageView:(CDVInvokedUrlCommand*)command{
-    NSArray *arguments = command.arguments;
-    if (!arguments || [arguments count] < 1) {
-        NSLog(@"startLogPageView argument  error");
-        return ;
-    }
-    NSString * pageName = arguments[0];
-    if (pageName) {
-        [JPUSHService startLogPageView:pageName];
-    }
+    NSString * pageName = [command argumentAtIndex:0];
+    [JPUSHService startLogPageView:pageName];
 }
 
 -(void)stopLogPageView:(CDVInvokedUrlCommand*)command{
-    NSArray *arguments = command.arguments;
-    if (!arguments || [arguments count] < 1) {
-        NSLog(@"stopLogPageView argument  error");
-        return ;
-    }
-    NSString * pageName = arguments[0];
-    if (pageName) {
-        [JPUSHService stopLogPageView:pageName];
-    }
-
+    NSString * pageName = [command argumentAtIndex:0];
+    [JPUSHService stopLogPageView:pageName];
 }
 
 -(void)beginLogPageView:(CDVInvokedUrlCommand*)command{
-    NSArray *arguments = command.arguments;
-    if (!arguments || [arguments count] < 2) {
-        NSLog(@"beginLogPageView argument  error");
-        return ;
-    }
-    NSString * pageName = arguments[0];
-    int duration = [arguments[0] intValue];
-    if (pageName) {
-        [JPUSHService beginLogPageView:pageName duration:duration];
-    }
+    NSString *pageName = [command argumentAtIndex:0];
+    NSNumber *duration = [command argumentAtIndex:1];
+    [JPUSHService beginLogPageView:pageName duration:duration.intValue];
 }
 
 -(void)setBadge:(CDVInvokedUrlCommand*)command{
-    NSArray *argument = command.arguments;
-    if ([argument count] < 1) {
-        NSLog(@"setBadge argument error!");
-        return;
-    }
-    NSNumber *badge = argument[0];
-    [JPUSHService setBadge:[badge intValue]];
+    NSNumber *badge = [command argumentAtIndex:0];
+    [JPUSHService setBadge:badge.intValue];
 }
 
 -(void)resetBadge:(CDVInvokedUrlCommand*)command{
@@ -223,14 +134,8 @@ static NSDictionary *_launchOptions = nil;
 }
 
 -(void)setApplicationIconBadgeNumber:(CDVInvokedUrlCommand *)command{
-    //
-    NSArray *argument = command.arguments;
-    if ([argument count] < 1) {
-        NSLog(@"setBadge argument error!");
-        return;
-    }
-    NSNumber *badge = [argument objectAtIndex:0];
-    [UIApplication sharedApplication].applicationIconBadgeNumber = [badge intValue];
+    NSNumber *badge = [command argumentAtIndex:0];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = badge.intValue;
 }
 
 -(void)getApplicationIconBadgeNumber:(CDVInvokedUrlCommand *)command {
@@ -252,32 +157,31 @@ static NSDictionary *_launchOptions = nil;
 }
 
 -(void)setLocalNotification:(CDVInvokedUrlCommand*)command{
-    NSArray      *arguments = command.arguments;
-    NSDate       *date      = arguments[0] == [NSNull null] ? nil : [NSDate dateWithTimeIntervalSinceNow:[((NSString*)arguments[0]) intValue]];
-    NSString     *alertBody = arguments[1] == [NSNull null] ? nil : (NSString*)arguments[1];
-    int           badge     = arguments[2] == [NSNull null] ? 0   : [(NSString*)arguments[2] intValue];
-    NSString     *idKey     = arguments[3] == [NSNull null] ? nil : (NSString*)arguments[3];
-    NSDictionary *dict      = arguments[4] == [NSNull null] ? nil : (NSDictionary*)arguments[4];
-    [JPUSHService setLocalNotification:date alertBody:alertBody badge:badge alertAction:nil identifierKey:idKey userInfo:dict soundName:nil];
+    NSLog(@"ios 10 after please use UNNotificationRequest to set local notification, see apple doc to learn more");
+
+    NSDate       *date  = [NSDate dateWithTimeIntervalSinceNow:[[command argumentAtIndex:0] intValue]];
+    NSString     *alert = [command argumentAtIndex:1];
+    NSNumber     *badge = [command argumentAtIndex:2];
+    NSString     *idKey = [command argumentAtIndex:3];
+    NSDictionary *dict  = [command argumentAtIndex:4];
+    [JPUSHService setLocalNotification:date alertBody:alert badge:badge alertAction:nil identifierKey:idKey userInfo:dict soundName:nil];
 }
 
 -(void)deleteLocalNotificationWithIdentifierKey:(CDVInvokedUrlCommand*)command{
     NSString *identifier = [command argumentAtIndex:0];
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 10.0) {
-        JPushNotificationIdentifier *jpid = [JPushNotificationIdentifier new];
-        jpid.identifiers = @[identifier];
-        [JPUSHService removeNotification:jpid];
-    }else{
-        [JPUSHService deleteLocalNotificationWithIdentifierKey:identifier];
-    }
+    JPushNotificationIdentifier *jpid = [JPushNotificationIdentifier new];
+    jpid.identifiers = @[identifier];
+    [JPUSHService removeNotification:jpid];
 }
 
 -(void)clearAllLocalNotifications:(CDVInvokedUrlCommand*)command{
-    [JPUSHService clearAllLocalNotifications];
+    [JPUSHService removeNotification:nil];
 }
 
 -(void)setLocation:(CDVInvokedUrlCommand*)command{
-    [JPUSHService setLatitude:[((NSString*)command.arguments[0]) doubleValue] longitude:[((NSString*)command.arguments[1]) doubleValue]];
+    NSNumber *latitude  = [command argumentAtIndex:0];
+    NSNumber *longitude = [command argumentAtIndex:1];
+    [JPUSHService setLatitude:latitude.doubleValue longitude:longitude.doubleValue];
 }
 
 -(void)getUserNotificationSettings:(CDVInvokedUrlCommand*)command{
@@ -347,54 +251,29 @@ static NSDictionary *_launchOptions = nil;
 }
 
 #pragma mark - 内部方法
-+(void)setLaunchOptions:(NSDictionary *)theLaunchOptions{
-    _launchOptions = theLaunchOptions;
 
-    [JPUSHService setDebugMode];
-
-    [JPushPlugin registerForRemoteNotification];
-
-    //read appkey and channel from PushConfig.plist
-    NSString *plistPath = [[NSBundle mainBundle] pathForResource:JPushConfigFileName ofType:@"plist"];
++(void)setupJPushSDK:(NSDictionary*)userInfo{
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:JPushConfig_FileName ofType:@"plist"];
     if (plistPath == nil) {
         NSLog(@"error: PushConfig.plist not found");
         assert(0);
     }
 
     NSMutableDictionary *plistData = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
-    NSString * appkey       = [plistData valueForKey:JP_APP_KEY];
-    NSString * channel      = [plistData valueForKey:JP_APP_CHANNEL];
-    NSNumber * isProduction = [plistData valueForKey:JP_APP_ISPRODUCTION];
-    NSNumber *isIDFA        = [plistData valueForKey:JP_APP_ISIDFA];
+    NSString *appkey       = [plistData valueForKey:JPushConfig_Appkey];
+    NSString *channel      = [plistData valueForKey:JPushConfig_Channel];
+    NSNumber *isProduction = [plistData valueForKey:JPushConfig_IsProduction];
+    NSNumber *isIDFA       = [plistData valueForKey:JPushConfig_IsIDFA];
 
     NSString *advertisingId = nil;
     if(isIDFA){
         advertisingId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
     }
-    [JPUSHService setupWithOption:_launchOptions
+    [JPUSHService setupWithOption:userInfo
                            appKey:appkey
                           channel:channel
                  apsForProduction:[isProduction boolValue]
             advertisingIdentifier:advertisingId];
-
-}
-
-+(void)registerForRemoteNotification{
-    [(AppDelegate*)[UIApplication sharedApplication].delegate registerForIos10RemoteNotification];
-
-    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
-        //可以添加自定义categories
-        [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
-                                                          UIUserNotificationTypeSound |
-                                                          UIUserNotificationTypeAlert)
-                                              categories:nil];
-    } else if([[UIDevice currentDevice].systemVersion floatValue] < 8.0){
-        //categories 必须为nil
-        [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-                                                          UIRemoteNotificationTypeSound |
-                                                          UIRemoteNotificationTypeAlert)
-                                              categories:nil];
-    }
 }
 
 #pragma mark 将参数返回给js
@@ -427,58 +306,13 @@ static NSDictionary *_launchOptions = nil;
                            @"tags"      :tags  == nil ? [NSNull null] : [tags allObjects],
                            @"alias"     :alias == nil ? [NSNull null] : alias
                            };
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.setTagsWithAlias',%@)",[dict toJsonString]]];
-    });
+    [self jpushFireDocumentEvent:JPushDocumentEvent_SetTagsWithAlias jsString:[dict toJsonString]];
 }
 
 - (void)networkDidReceiveMessage:(NSNotification *)notification {
-    if (notification) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-
-            [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.receiveMessage',%@)",[notification.userInfo toJsonString]]];
-
-            [self.commandDelegate evalJs:[NSString stringWithFormat:@"window.plugins.jPushPlugin.receiveMessageIniOSCallback('%@')",[notification.userInfo toJsonString]]];
-
-        });
+    if (notification && notification.userInfo) {
+        [self jpushFireDocumentEvent:JPushDocumentEvent_ReceiveMessage jsString:[notification.userInfo  toJsonString]];
     }
-}
-
--(void)networkDidReceiveNotification:(NSNotification *)notification{
-
-    NSError  *error;
-    NSDictionary *userInfo = [notification object];
-
-    NSData   *jsonData   = [NSJSONSerialization dataWithJSONObject:userInfo options:0 error:&error];
-    NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-
-    switch ([UIApplication sharedApplication].applicationState) {
-        case UIApplicationStateActive:{
-            //前台收到
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.receiveNotification',%@)",jsonString]];
-            });
-            break;
-        }
-        case UIApplicationStateInactive:{
-            //后台点击
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.openNotification',%@)",jsonString]];
-            });
-            break;
-        }
-        case UIApplicationStateBackground:{
-            //后台收到
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.backgoundNotification',%@)",jsonString]];
-            });
-            break;
-        }
-        default:
-            //do nothing
-            break;
-    }
-    
 }
 
 @end

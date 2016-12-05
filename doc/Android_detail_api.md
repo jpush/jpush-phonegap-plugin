@@ -157,6 +157,19 @@
 
 	window.plugins.jPushPlugin.clearAllNotification()
 
+### API - clearNotificationById
+根据通知 Id 清除通知（包括本地通知）。
+
+#### 接口定义
+
+    window.plugins.jPushPlugin.clearNotificationById(notificationId)
+
+#### 参数说明
+- notificationId：int，通知的 id。
+
+#### 代码示例
+
+    window.plugins.jPushPlugin.clearNotificationById(1)
 
 ## 设置允许推送时间
 

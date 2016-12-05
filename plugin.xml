@@ -32,11 +32,11 @@
 
         <header-file src="src/ios/Plugins/JPushPlugin.h" />
         <source-file src="src/ios/Plugins/JPushPlugin.m" />
-
-        <header-file src="src/ios/lib/JPUSHService.h" />
-        <source-file src="src/ios/lib/jpush-ios-2.1.9.a" framework="true" />
+        <header-file src="src/ios/Plugins/JPushDefine.h" />
         <header-file src="src/ios/Plugins/AppDelegate+JPush.h" />
         <source-file src="src/ios/Plugins/AppDelegate+JPush.m" />
+        <header-file src="src/ios/lib/JPUSHService.h" />
+        <source-file src="src/ios/lib/jpush-ios-2.2.0.a" framework="true" />
         <resource-file src="src/ios/PushConfig.plist" />
         <framework src="CFNetwork.framework" weak="true" />
         <framework src="CoreFoundation.framework" weak="true" />
@@ -49,9 +49,10 @@
         <framework src="libz.tbd" weak="true" />
         <framework src="AdSupport.framework" weak="true" />
         <framework src="UserNotifications.framework" weak="true" />
+        <framework src="libresolv.tbd" weak="true" />
 
 
-        <config-file target="*PushConfig.plist" parent="APP_KEY">
+        <config-file target="*PushConfig.plist" parent="Appkey">
             <string>$API_KEY</string>
         </config-file>
     </platform>
