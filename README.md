@@ -48,8 +48,21 @@
 > 如果遇到了疑问，请优先参考 Demo 和 API 文档。若还无法解决，可访问[极光社区](http://community.jiguang.cn/)或 [Issues](https://github.com/jpush/jpush-phonegap-plugin/issues) 提问。
 
 ### Android
-#### 在 Eclipse 中 import 工程之后出现：*Type CallbackContext cannot be resolved to a type*。
+#### 在 Eclipse 中 import 工程之后出现：*Type CallbackContext cannot be resolved to a type*
 右键单击工程名 -> Build Path -> Config Build Path -> Projects -> 选中工程名称 -> CordovaLib -> 点击 add。
+
+#### 关闭 App 后收不到通知
+Android 的推送通过长连接的方式实现，只有在连接保持的情况下才能收到通知。而有的第三方 ROM 会限制一般应用服务的自启动，也就是
+在退出应用后，应用的所有服务均被杀死，且无法自启动，所以就会收不到通知。
+
+目前 JPush 是做了应用互相拉起机制的，也就是当用户打开其他集成了 JPush 的应用时，你的应用也能同时收到推送消息。
+
+如果你的应用希望随时都能收到推送，官方推荐是通过文案的方式引导用户在设置中允许你的应用能够自启动，常见机型的设置方法可以参考[这里](https://docs.jiguang.cn/jpush/client/Android/android_faq/#_2)。
+
+或者自己实现应用保活，网上有很多相关文章（不推荐）。
+
+> 为什么 QQ、微信之类的应用退出后还能够收到通知？因为这些大厂应用，手机厂商默认都会加入自启动白名单中，也不会在应用退出后杀死它们的相关服务。
+如果你多加留意，就会发现非大厂的应用如果你一段时间不用都是收不到推送的。
 
 ### iOS
 #### PushConfig.plist 文件中的字段都是什么意思？
