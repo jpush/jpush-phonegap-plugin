@@ -2,7 +2,7 @@
 //  ConstantDef.h
 //  jmessage
 //
-//  Created by pikacode@qq.com on 16/1/19.
+//  Created by ljg on 16/1/19.
 //
 //
 
@@ -21,11 +21,12 @@ static NSString *const JPushConfig_IsProduction = @"IsProduction";
 static NSString *const JPushConfig_IsIDFA       = @"IsIDFA";
 static NSString *const JPushConfig_FileName     = @"PushConfig";
 
-static NSString *const JPushDocumentEvent_ReceiveNotification   = @"receiveNotification";
-static NSString *const JPushDocumentEvent_OpenNotification      = @"openNotification";
-static NSString *const JPushDocumentEvent_BackgoundNotification = @"backgoundNotification";
-static NSString *const JPushDocumentEvent_SetTagsWithAlias      = @"setTagsWithAlias";
-static NSString *const JPushDocumentEvent_ReceiveMessage        = @"receiveMessage";
-static NSString *const JPushDocumentEvent_OpenLocalNotification        = @"openLocalNotification";
+static NSString *const JPushDocumentEvent_ReceiveNotification       = @"receiveNotification";
+static NSString *const JPushDocumentEvent_OpenNotification          = @"openNotification";
+static NSString *const JPushDocumentEvent_BackgroundNotification    = @"backgroundNotification";
+static NSString *const JPushDocumentEvent_SetTagsWithAlias          = @"setTagsWithAlias";
+static NSString *const JPushDocumentEvent_ReceiveMessage            = @"receiveMessage";
+static NSString *const JPushDocumentEvent_StartLocalNotification    = @"startLocalNotification";
+static NSString *const JPushDocumentEvent_ReceiveLocalNotification  = @"receiveLocalNotification";
 
 
