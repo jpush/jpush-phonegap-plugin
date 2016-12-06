@@ -88,7 +88,7 @@
         var initiateUI = function() {
             try {
                 window.plugins.jPushPlugin.init();
-                getRegistrationID();
+                window.setTimeout(getRegistrationID, 1000);
                 if (device.platform != "Android") {
                     window.plugins.jPushPlugin.setDebugModeFromIos();
                     window.plugins.jPushPlugin.setApplicationIconBadgeNumber(0);
