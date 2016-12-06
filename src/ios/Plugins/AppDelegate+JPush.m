@@ -2,7 +2,7 @@
 //  AppDelegate+JPush.m
 //  delegateExtention
 //
-//  Created by pikacode@qq.com on 15/8/3.
+//  Created by 张庆贺 on 15/8/3.
 //  Copyright (c) 2015年 JPush. All rights reserved.
 //
 
@@ -28,8 +28,6 @@
     return [self init_plus];
 }
 
-
-
 -(void)applicationDidLaunch:(NSNotification *)notification{
     if (notification) {
         if (notification.userInfo) {
@@ -39,7 +37,7 @@
             }
             NSDictionary *userInfo2 = [notification.userInfo valueForKey:UIApplicationLaunchOptionsLocalNotificationKey];
             if (userInfo2.count > 0) {
-                [SharedJPushPlugin jpushFireDocumentEvent:JPushDocumentEvent_OpenLocalNotification jsString:[userInfo1 toJsonString]];
+                [SharedJPushPlugin jpushFireDocumentEvent:JPushDocumentEvent_StartLocalNotification jsString:[userInfo1 toJsonString]];
             }
         }
         [JPUSHService setDebugMode];
@@ -91,7 +89,7 @@
             eventName = JPushDocumentEvent_ReceiveNotification;
             break;
         case UIApplicationStateBackground:
-            eventName = JPushDocumentEvent_BackgoundNotification;
+            eventName = JPushDocumentEvent_BackgroundNotification;
             break;
         default:
             break;
@@ -117,7 +115,7 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-    //    [[NSNotificationCenter defaultCenter] postNotificationName:kJPushPluginReceiveLocalNotification object:notification.userInfo];
+    [[NSNotificationCenter defaultCenter] postNotificationName:JPushDocumentEvent_ReceiveLocalNotification object:notification.userInfo];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {

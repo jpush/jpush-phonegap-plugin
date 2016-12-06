@@ -2,7 +2,7 @@
 //  PushTalkPlugin.h
 //  PushTalk
 //
-//  Created by pikacode@qq.com on 13-12-13.
+//  Created by zhangqinghe on 13-12-13.
 //
 //
 

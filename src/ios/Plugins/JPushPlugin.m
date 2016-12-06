@@ -2,7 +2,7 @@
 //  PushTalkPlugin.m
 //  PushTalk
 //
-//  Created by pikacode@qq.com on 13-12-13.
+//  Created by zhangqinghe on 13-12-13.
 //
 //
 
@@ -164,7 +164,7 @@
     NSNumber     *badge = [command argumentAtIndex:2];
     NSString     *idKey = [command argumentAtIndex:3];
     NSDictionary *dict  = [command argumentAtIndex:4];
-    [JPUSHService setLocalNotification:date alertBody:alert badge:badge alertAction:nil identifierKey:idKey userInfo:dict soundName:nil];
+    [JPUSHService setLocalNotification:date alertBody:alert badge:badge.intValue alertAction:nil identifierKey:idKey userInfo:dict soundName:nil];
 }
 
 -(void)deleteLocalNotificationWithIdentifierKey:(CDVInvokedUrlCommand*)command{
@@ -266,7 +266,7 @@
     NSNumber *isIDFA       = [plistData valueForKey:JPushConfig_IsIDFA];
 
     NSString *advertisingId = nil;
-    if(isIDFA){
+    if(isIDFA.boolValue){
         advertisingId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
     }
     [JPUSHService setupWithOption:userInfo

@@ -30,14 +30,17 @@
             </feature>
         </config-file>
 
+        <header-file src="src/ios/Plugins/JPushDefine.h" />
         <header-file src="src/ios/Plugins/JPushPlugin.h" />
         <source-file src="src/ios/Plugins/JPushPlugin.m" />
-        <header-file src="src/ios/Plugins/JPushDefine.h" />
         <header-file src="src/ios/Plugins/AppDelegate+JPush.h" />
         <source-file src="src/ios/Plugins/AppDelegate+JPush.m" />
+
         <header-file src="src/ios/lib/JPUSHService.h" />
-        <source-file src="src/ios/lib/jpush-ios-2.2.0.a" framework="true" />
+        <source-file src="src/ios/lib/jpush-ios-3.0.0.a" framework="true" />
+        <source-file src="src/ios/lib/jcore-ios-1.0.0.a" framework="true" />
         <resource-file src="src/ios/PushConfig.plist" />
+
         <framework src="CFNetwork.framework" weak="true" />
         <framework src="CoreFoundation.framework" weak="true" />
         <framework src="CoreTelephony.framework" weak="true" />
