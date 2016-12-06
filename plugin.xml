@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="2.2.7">
+  version="3.0.1">
 
     <name>JPush Plugin</name>
     <description>JPush for cordova plugin</description>
@@ -176,12 +176,13 @@
             <meta-data android:name="JPUSH_APPKEY" android:value="$API_KEY" />
         </config-file>
 
-        <source-file src="src/android/libs/jpush-android-2.2.0.jar" target-dir="libs" />
-        <source-file src="src/android/libs/armeabi/libjpush220.so" target-dir="libs/armeabi" />
-        <source-file src="src/android/libs/armeabi-v7a/libjpush220.so" target-dir="libs/armeabi-v7a" />
-        <source-file src="src/android/libs/arm64-v8a/libjpush220.so" target-dir="libs/arm64-v8a" />
-        <source-file src="src/android/libs/x86/libjpush220.so" target-dir="libs/x86" />
-        <source-file src="src/android/libs/x86_64/libjpush220.so" target-dir="libs/x86_64" />
+        <source-file src="src/android/libs/jpush-android_v3.0.0.jar" target-dir="libs" />
+        <source-file src="src/android/libs/jcore-android_v1.0.0.jar" target-dir="libs" />
+        <source-file src="src/android/libs/armeabi/libjcore100.so" target-dir="libs/armeabi" />
+        <source-file src="src/android/libs/armeabi-v7a/libjcore100.so" target-dir="libs/armeabi-v7a" />
+        <source-file src="src/android/libs/arm64-v8a/libjcore100.so" target-dir="libs/arm64-v8a" />
+        <source-file src="src/android/libs/x86/libjcore100.so" target-dir="libs/x86" />
+        <source-file src="src/android/libs/x86_64/libjcore100.so" target-dir="libs/x86_64" />
 
         <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap" />
