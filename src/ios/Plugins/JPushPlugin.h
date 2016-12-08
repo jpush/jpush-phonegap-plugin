@@ -78,7 +78,7 @@
 
 @end
 
-static JPushPlugin *SharedJPushPlugin;
+JPushPlugin *SharedJPushPlugin;
 
 @interface NSDictionary (JPush)
 -(NSString*)toJsonString;
