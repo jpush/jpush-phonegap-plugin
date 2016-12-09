@@ -54,6 +54,7 @@
 
 -(void)initial:(CDVInvokedUrlCommand*)command{
     //do nithng,because Cordova plugin use lazy load mode.
+    SharedJPushPlugin = self;
 }
 
 #ifdef __CORDOVA_4_0_0
@@ -69,6 +70,7 @@
     NSLog(@"### initWithWebView ");
     if (self=[super initWithWebView:theWebView]) {
     }
+    SharedJPushPlugin = self;
     return self;
 }
 
