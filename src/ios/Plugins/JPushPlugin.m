@@ -1,3 +1,4 @@
+
 //
 //  PushTalkPlugin.m
 //  PushTalk
@@ -55,6 +56,10 @@
 -(void)initial:(CDVInvokedUrlCommand*)command{
     //do nithng,because Cordova plugin use lazy load mode.
     SharedJPushPlugin = self;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                      selector:@selector(networkDidReceiveMessage:)
+                          name:kJPFNetworkDidReceiveMessageNotification
+                        object:nil];
 }
 
 #ifdef __CORDOVA_4_0_0
