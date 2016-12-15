@@ -39,6 +39,10 @@
 
 @implementation JPushPlugin
 
+-(void)startJPushSDK:(CDVInvokedUrlCommand*)command{
+    [(AppDelegate*)[UIApplication sharedApplication].delegate startJPushSDK];
+}
+
 #pragma mark- 外部接口
 -(void)stopPush:(CDVInvokedUrlCommand*)command{
     [[UIApplication sharedApplication]unregisterForRemoteNotifications];
@@ -55,18 +59,13 @@
 
 -(void)initial:(CDVInvokedUrlCommand*)command{
     //do nithng,because Cordova plugin use lazy load mode.
-    SharedJPushPlugin = self;
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                      selector:@selector(networkDidReceiveMessage:)
-                          name:kJPFNetworkDidReceiveMessageNotification
-                        object:nil];
 }
 
 #ifdef __CORDOVA_4_0_0
 
 - (void)pluginInitialize {
     NSLog(@"### pluginInitialize ");
-    SharedJPushPlugin = self;
+    [self initPlugin];
 }
 
 #else
@@ -75,11 +74,21 @@
     NSLog(@"### initWithWebView ");
     if (self=[super initWithWebView:theWebView]) {
     }
-    SharedJPushPlugin = self;
+    [self initPlugin];
     return self;
 }
 
 #endif
+
+-(void)initPlugin{
+    if (!SharedJPushPlugin) {
+        SharedJPushPlugin = self;
+    }
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(networkDidReceiveMessage:)
+                                                 name:kJPFNetworkDidReceiveMessageNotification
+                                               object:nil];
+}
 
 -(void)jpushFireDocumentEvent:(NSString*)eventName jsString:(NSString*)jsString{
     dispatch_async(dispatch_get_main_queue(), ^{

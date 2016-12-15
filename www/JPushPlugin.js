@@ -49,6 +49,11 @@ JPushPlugin.prototype.isPushStopped = function (callback) {
 }
 
 // iOS methods
+
+JPushPlugin.prototype.startJPushSDK = function () {
+  this.call_native('startJPushSDK', [] , null)
+}
+
 JPushPlugin.prototype.setTagsWithAlias = function (tags, alias) {
   if (tags == null) {
     this.setAlias(alias)

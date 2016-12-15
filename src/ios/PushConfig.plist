@@ -3,12 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>Appkey</key>
-	<string></string>
+	<string>1c29cb5814072b5b1f8ef829</string>
 	<key>Channel</key>
 	<string>Subscription</string>
 	<key>IsProduction</key>
 	<false/>
 	<key>IsIDFA</key>
+	<false/>
+	<key>Delay</key>
 	<false/>
 </dict>
 </plist>

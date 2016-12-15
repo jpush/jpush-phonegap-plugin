@@ -12,4 +12,5 @@
 
 @interface AppDelegate (JPush) <JPUSHRegisterDelegate>
 -(void)registerForRemoteNotification;
+-(void)startJPushSDK;
 @end
