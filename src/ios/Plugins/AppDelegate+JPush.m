@@ -28,6 +28,8 @@
     return [self init_plus];
 }
 
+NSDictionary *_launchOptions;
+
 -(void)applicationDidLaunch:(NSNotification *)notification{
     if (notification) {
         if (notification.userInfo) {
@@ -41,9 +43,23 @@
             }
         }
         [JPUSHService setDebugMode];
-        [self registerForRemoteNotification];
-        [JPushPlugin setupJPushSDK:notification.userInfo];
+
+        NSString *plistPath = [[NSBundle mainBundle] pathForResource:JPushConfig_FileName ofType:@"plist"];
+        NSMutableDictionary *plistData = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
+        NSNumber *delay       = [plistData valueForKey:JPushConfig_Delay];
+
+        _launchOptions = notification.userInfo;
+
+        if (![delay boolValue]) {
+            [self startJPushSDK];
+        }
+
     }
+}
+
+-(void)startJPushSDK{
+    [self registerForRemoteNotification];
+    [JPushPlugin setupJPushSDK:_launchOptions];
 }
 
 -(void)registerForRemoteNotification{
@@ -100,11 +116,18 @@
 
 -(void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler{
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:notification.request.content.userInfo];
+
+    if ([SharedJPushPlugin respondsToSelector:@selector(jpushFireDocumentEvent:jsString:)]) {
+        
+    }
     [SharedJPushPlugin jpushFireDocumentEvent:JPushDocumentEvent_ReceiveNotification jsString:[userInfo toJsonString]];
     completionHandler(UNNotificationPresentationOptionBadge|UNNotificationPresentationOptionSound|UNNotificationPresentationOptionAlert);
 }
 
 -(void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler{
+    if ([SharedJPushPlugin respondsToSelector:@selector(jpushFireDocumentEvent:jsString:)]) {
+
+    }
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:response.notification.request.content.userInfo];
     @try {
         [userInfo setValue:[response valueForKey:@"userText"] forKey:@"userText"];

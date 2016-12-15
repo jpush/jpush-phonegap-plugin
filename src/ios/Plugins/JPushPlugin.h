@@ -12,6 +12,9 @@
 
 }
 
+//注册通知服务并启动 SDK
+-(void)startJPushSDK:(CDVInvokedUrlCommand*)command;
+
 //以下为js中可调用接口
 //设置标签、别名
 -(void)setTagsWithAlias:(CDVInvokedUrlCommand*)command;
