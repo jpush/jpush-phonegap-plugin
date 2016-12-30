@@ -31,15 +31,26 @@
 NSDictionary *_launchOptions;
 
 -(void)applicationDidLaunch:(NSNotification *)notification{
+
     if (notification) {
         if (notification.userInfo) {
             NSDictionary *userInfo1 = [notification.userInfo valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
             if (userInfo1.count > 0) {
-                [SharedJPushPlugin jpushFireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[userInfo1 toJsonString]];
+                [NSTimer scheduledTimerWithTimeInterval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+                    if (SharedJPushPlugin) {
+                        [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[userInfo1 toJsonString]];
+                        [timer invalidate];
+                    }
+                }];
             }
             NSDictionary *userInfo2 = [notification.userInfo valueForKey:UIApplicationLaunchOptionsLocalNotificationKey];
             if (userInfo2.count > 0) {
-                [SharedJPushPlugin jpushFireDocumentEvent:JPushDocumentEvent_StartLocalNotification jsString:[userInfo1 toJsonString]];
+                [NSTimer scheduledTimerWithTimeInterval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+                    if (SharedJPushPlugin) {
+                        [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[userInfo2 toJsonString]];
+                        [timer invalidate];
+                    }
+                }];
             }
         }
         [JPUSHService setDebugMode];
@@ -91,7 +102,7 @@ NSDictionary *_launchOptions;
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
     [JPUSHService handleRemoteNotification:userInfo];
 
-    [SharedJPushPlugin jpushFireDocumentEvent:JPushDocumentEvent_ReceiveNotification jsString:[userInfo toJsonString]];
+    [JPushPlugin fireDocumentEvent:JPushDocumentEvent_ReceiveNotification jsString:[userInfo toJsonString]];
 }
 
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
@@ -110,30 +121,23 @@ NSDictionary *_launchOptions;
         default:
             break;
     }
-    [SharedJPushPlugin jpushFireDocumentEvent:eventName jsString:[userInfo toJsonString]];
+    [JPushPlugin fireDocumentEvent:eventName jsString:[userInfo toJsonString]];
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
 -(void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler{
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:notification.request.content.userInfo];
-
-    if ([SharedJPushPlugin respondsToSelector:@selector(jpushFireDocumentEvent:jsString:)]) {
-        
-    }
-    [SharedJPushPlugin jpushFireDocumentEvent:JPushDocumentEvent_ReceiveNotification jsString:[userInfo toJsonString]];
+    [JPushPlugin fireDocumentEvent:JPushDocumentEvent_ReceiveNotification jsString:[userInfo toJsonString]];
     completionHandler(UNNotificationPresentationOptionBadge|UNNotificationPresentationOptionSound|UNNotificationPresentationOptionAlert);
 }
 
 -(void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler{
-    if ([SharedJPushPlugin respondsToSelector:@selector(jpushFireDocumentEvent:jsString:)]) {
-
-    }
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:response.notification.request.content.userInfo];
     @try {
         [userInfo setValue:[response valueForKey:@"userText"] forKey:@"userText"];
     } @catch (NSException *exception) { }
     [userInfo setValue:response.actionIdentifier forKey:@"actionIdentifier"];
-    [SharedJPushPlugin jpushFireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[userInfo toJsonString]];
+    [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[userInfo toJsonString]];
     completionHandler();
 }
 

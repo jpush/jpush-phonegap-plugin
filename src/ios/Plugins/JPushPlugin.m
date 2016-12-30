@@ -90,10 +90,8 @@
                                                object:nil];
 }
 
--(void)jpushFireDocumentEvent:(NSString*)eventName jsString:(NSString*)jsString{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.%@',%@)", eventName, jsString]];
-    });
++(void)fireDocumentEvent:(NSString*)eventName jsString:(NSString*)jsString{
+     [SharedJPushPlugin.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.%@',%@)", eventName, jsString]];
 }
 
 -(void)setTagsWithAlias:(CDVInvokedUrlCommand*)command{
@@ -322,12 +320,12 @@
                            @"tags"      :tags  == nil ? [NSNull null] : [tags allObjects],
                            @"alias"     :alias == nil ? [NSNull null] : alias
                            };
-    [self jpushFireDocumentEvent:JPushDocumentEvent_SetTagsWithAlias jsString:[dict toJsonString]];
+    [JPushPlugin fireDocumentEvent:JPushDocumentEvent_SetTagsWithAlias jsString:[dict toJsonString]];
 }
 
 - (void)networkDidReceiveMessage:(NSNotification *)notification {
     if (notification && notification.userInfo) {
-        [self jpushFireDocumentEvent:JPushDocumentEvent_ReceiveMessage jsString:[notification.userInfo  toJsonString]];
+        [JPushPlugin fireDocumentEvent:JPushDocumentEvent_ReceiveMessage jsString:[notification.userInfo  toJsonString]];
     }
 }
 

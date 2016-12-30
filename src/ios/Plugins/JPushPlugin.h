@@ -75,7 +75,7 @@
 
 # pragma mark - private
 
--(void)jpushFireDocumentEvent:(NSString*)eventName jsString:(NSString*)jsString;
++(void)fireDocumentEvent:(NSString*)eventName jsString:(NSString*)jsString;
 
 +(void)setupJPushSDK:(NSDictionary*)userInfo;
 
