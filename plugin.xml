@@ -55,7 +55,7 @@
         <framework src="libresolv.tbd" weak="true" />
 
 
-        <config-file target="*PushConfig.plist" parent="Appkey">
+        <config-file target="*JPushConfig.plist" parent="Appkey">
             <string>$API_KEY</string>
         </config-file>
     </platform>
