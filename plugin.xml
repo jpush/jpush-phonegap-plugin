@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.0.2">
+  version="3.0.3">
 
     <name>JPush Plugin</name>
     <description>JPush for cordova plugin</description>
@@ -10,7 +10,7 @@
     <keywords>JPush,push</keywords>
     <license>MIT License</license>
 
-    <preference name="API_KEY" />
+    <preference name="APP_KEY" />
 
     <engines>
         <engine name="cordova" version=">=3.0" />
@@ -54,9 +54,8 @@
         <framework src="UserNotifications.framework" weak="true" />
         <framework src="libresolv.tbd" weak="true" />
 
-
         <config-file target="*JPushConfig.plist" parent="Appkey">
-            <string>$API_KEY</string>
+            <string>$APP_KEY</string>
         </config-file>
     </platform>
 
@@ -81,8 +80,10 @@
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
             <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
             <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-            <permission android:name="$PACKAGE_NAME.permission.JPUSH_MESSAGE" android:protectionLevel="signature" />
+            <permission android:name="$PACKAGE_NAME.permission.JPUSH_MESSAGE"
+               android:protectionLevel="signature" />
         </config-file>
+
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <!-- Required SDK核心功能-->
             <activity android:name="cn.jpush.android.ui.PushActivity"
@@ -140,7 +141,9 @@
 
             <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
             <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
-            <service android:name="cn.jpush.android.service.DaemonService" android:enabled="true" android:exported="true">
+            <service android:name="cn.jpush.android.service.DaemonService"
+               android:enabled="true"
+               android:exported="true">
                 <intent-filter>
                     <action android:name="cn.jpush.android.intent.DaemonService" />
                     <category android:name="$PACKAGE_NAME" />
@@ -173,16 +176,16 @@
             <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
             <!-- Required. Enable it you can get statistics data with channel -->
             <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default" />
-            <meta-data android:name="JPUSH_APPKEY" android:value="$API_KEY" />
+            <meta-data android:name="JPUSH_APPKEY" android:value="$APP_KEY" />
         </config-file>
 
-        <source-file src="src/android/libs/jpush-android_v3.0.0.jar" target-dir="libs" />
-        <source-file src="src/android/libs/jcore-android_v1.0.0.jar" target-dir="libs" />
-        <source-file src="src/android/libs/armeabi/libjcore100.so" target-dir="libs/armeabi" />
-        <source-file src="src/android/libs/armeabi-v7a/libjcore100.so" target-dir="libs/armeabi-v7a" />
-        <source-file src="src/android/libs/arm64-v8a/libjcore100.so" target-dir="libs/arm64-v8a" />
-        <source-file src="src/android/libs/x86/libjcore100.so" target-dir="libs/x86" />
-        <source-file src="src/android/libs/x86_64/libjcore100.so" target-dir="libs/x86_64" />
+        <source-file src="src/android/libs/jpush-android_v3.0.1.jar" target-dir="libs" />
+        <source-file src="src/android/libs/jcore-android_v1.1.0.jar" target-dir="libs" />
+        <source-file src="src/android/libs/armeabi/libjcore110.so" target-dir="libs/armeabi" />
+        <source-file src="src/android/libs/armeabi-v7a/libjcore110.so" target-dir="libs/armeabi-v7a" />
+        <source-file src="src/android/libs/arm64-v8a/libjcore110.so" target-dir="libs/arm64-v8a" />
+        <source-file src="src/android/libs/x86/libjcore110.so" target-dir="libs/x86" />
+        <source-file src="src/android/libs/x86_64/libjcore110.so" target-dir="libs/x86_64" />
 
         <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap" />
