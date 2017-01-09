@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>Appkey</key>
-	<string>1c29cb5814072b5b1f8ef829</string>
+	<string></string>
 	<key>Channel</key>
-	<string>Subscription</string>
+	<string>channel name</string>
 	<key>IsProduction</key>
 	<false/>
 	<key>IsIDFA</key>

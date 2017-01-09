@@ -15,7 +15,7 @@
 
 #define WEAK_SELF(weakSelf)  __weak __typeof(&*self)weakSelf = self;
 
-static NSString *const JPushConfig_FileName     = @"PushConfig";
+static NSString *const JPushConfig_FileName     = @"JPushConfig";
 static NSString *const JPushConfig_Appkey       = @"Appkey";
 static NSString *const JPushConfig_Channel      = @"Channel";
 static NSString *const JPushConfig_IsProduction = @"IsProduction";
