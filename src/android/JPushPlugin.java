@@ -479,6 +479,7 @@ public class JPushPlugin extends CordovaPlugin {
         } catch (JSONException e) {
             e.printStackTrace();
             callbackContext.error("error reading id json");
+            return;
         }
         if (notificationId != -1) {
             JPushInterface.clearNotificationById(this.cordova.getActivity(), notificationId);
@@ -617,7 +618,6 @@ public class JPushPlugin extends CordovaPlugin {
             Field opValue = appOpsClazz.getDeclaredField(appOpsServiceId);
             int value = opValue.getInt(Integer.class);
             Object result = checkOpNoThrowMethod.invoke(mAppOps, value, uid, pkg);
-
             return Integer.parseInt(result.toString()) == AppOpsManager.MODE_ALLOWED;
         } catch (InvocationTargetException e) {
             e.printStackTrace();
@@ -632,5 +632,4 @@ public class JPushPlugin extends CordovaPlugin {
         }
         return true;
     }
-
 }

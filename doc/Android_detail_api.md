@@ -3,7 +3,7 @@
 - [接收通知时获得通知的内容](#接收通知时获得通知的内容)
 - [打开通知时获得通知的内容](#打开通知时获得通知的内容)
 - [收到自定义消息时获取消息的内容](#收到自定义消息时获取消息的内容)
-- [获取集成日志](#获取集成日志)
+- [获取集成日志（适用于 iOS）](#获取集成日志（适用于 iOS）)
 - [接收消息和点击通知事件](#接收消息和点击通知事件)
 - [统计分析](#统计分析)
 - [清除通知](#清除通知)
@@ -39,7 +39,7 @@
 - 附加字段:
     window.plugins.jPushPlugin.receiveMessage.extras.yourKey
 
-## 获取集成日志
+## 获取集成日志（适用于 iOS）
 
 ### API - setDebugMode
 
@@ -250,21 +250,20 @@ JPush SDK 提供了 2 个用于定制通知栏样式的构建类：
 
 ##  本地通知
 ### API - addLocalNotification, removeLocalNotification, clearLocalNotifications
-
 本地通知 API 不依赖于网络，无网条件下依旧可以触发。
 
 本地通知与网络推送的通知是相互独立的，不受保留最近通知条数上限的限制。
 
 本地通知的定时时间是自发送时算起的，不受中间关机等操作的影响。
 
-三个接口的功能分别为：添加一个本地通知，删除一个本地通知，删除所有的本地通知。
+三个接口的功能分别为：添加一个本地通知，清除一个本地通知，清除所有的本地通知。
 
-#####接口定义
+#### 接口定义
 
 	window.plugins.jPushPlugin.addLocalNotification(builderId, content, title,
          notificaitonID, broadcastTime, extras)
 	window.plugins.jPushPlugin.removeLocalNotification(notificationID)
-	window.plugins.jPushPlugin.clearLocalNotifications()
+	window.plugins.jPushPlugin.clearLocalNotifications() // 同时适用于 iOS
 
 #### 参数说明
 
