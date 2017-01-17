@@ -37,8 +37,8 @@
         <source-file src="src/ios/Plugins/AppDelegate+JPush.m" />
 
         <header-file src="src/ios/lib/JPUSHService.h" />
-        <source-file src="src/ios/lib/jpush-ios-3.0.0.a" framework="true" />
-        <source-file src="src/ios/lib/jcore-ios-1.0.0.a" framework="true" />
+        <source-file src="src/ios/lib/jpush-ios-3.0.1.a" framework="true" />
+        <source-file src="src/ios/lib/jcore-ios-1.1.0.a" framework="true" />
         <resource-file src="src/ios/JPushConfig.plist" />
 
         <framework src="CFNetwork.framework" weak="true" />
