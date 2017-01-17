@@ -91,7 +91,9 @@
 }
 
 +(void)fireDocumentEvent:(NSString*)eventName jsString:(NSString*)jsString{
-     [SharedJPushPlugin.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.%@',%@)", eventName, jsString]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SharedJPushPlugin.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.%@',%@)", eventName, jsString]];
+    });
 }
 
 -(void)setTagsWithAlias:(CDVInvokedUrlCommand*)command{
