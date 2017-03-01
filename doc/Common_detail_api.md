@@ -1,4 +1,4 @@
-# 通用 API 说明
+# 通用 API 说明（同时适用于 Android 和 iOS 系统）
 
 - [停止与恢复推送服务](#停止与恢复推送服务)
 - [获取 RegistrationID](#获取-registrationid)
@@ -45,7 +45,6 @@
 
     window.plugins.jPushPlugin.stopPush()
 
-
 ### API - resumePush
 
 恢复推送服务。调用了此 API 后:
@@ -72,7 +71,6 @@
 
 	+ 平台检查推送服务是否注册。
 
-
 #### 接口定义
 
     window.plugins.jPushPlugin.isPushStopped(callback)
@@ -91,6 +89,20 @@
 		 }
     })
 
+## 开启 Debug 模式
+### API - setDebugMode
+用于开启 Debug 模式，显示更多的日志信息。
+
+#### 接口定义
+
+		JPushPlugin.prototype.setDebugMode(isOpen)
+
+#### 参数说明
+- isOpen: true，开启 Debug 模式；false，关闭 Debug 模式，不显示错误信息之外的日志信息。
+
+#### 代码示例
+
+		window.plugins.jPushPlugin.setDebugMode(true)
 
 ## 获取 RegistrationID
 
@@ -266,7 +278,7 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 	        }
 	        alert("open Notificaiton:" + alertContent)
 		  }, false)
-	    
+
 
 > ps：点击通知后传递的 json object 保存在 window.plugins.jPushPlugin.receiveNotification，直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意。
 
