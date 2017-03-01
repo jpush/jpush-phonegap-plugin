@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.0.3">
+  version="3.1.0">
 
     <name>JPush Plugin</name>
     <description>JPush for cordova plugin</description>
@@ -18,6 +18,7 @@
 
     <!-- dependencies -->
     <dependency id="cordova-plugin-device" />
+    <dependency id="cordova-plugin-jcore" />
 
     <js-module src="www/JPushPlugin.js" name="JPushPlugin">
         <clobbers target="JPush" />
@@ -180,12 +181,6 @@
         </config-file>
 
         <source-file src="src/android/libs/jpush-android_v3.0.1.jar" target-dir="libs" />
-        <source-file src="src/android/libs/jcore-android_v1.1.0.jar" target-dir="libs" />
-        <source-file src="src/android/libs/armeabi/libjcore110.so" target-dir="libs/armeabi" />
-        <source-file src="src/android/libs/armeabi-v7a/libjcore110.so" target-dir="libs/armeabi-v7a" />
-        <source-file src="src/android/libs/arm64-v8a/libjcore110.so" target-dir="libs/arm64-v8a" />
-        <source-file src="src/android/libs/x86/libjcore110.so" target-dir="libs/x86" />
-        <source-file src="src/android/libs/x86_64/libjcore110.so" target-dir="libs/x86_64" />
 
         <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap" />
