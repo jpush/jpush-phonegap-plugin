@@ -111,7 +111,8 @@
             <!-- Required SDK 核心功能-->
             <service android:name="cn.jpush.android.service.PushService"
               android:enabled="true"
-              android:exported="false">
+              android:exported="false"
+              android:process=":remote">
                 <intent-filter>
                     <action android:name="cn.jpush.android.intent.REGISTER" />
                     <action android:name="cn.jpush.android.intent.REPORT" />
@@ -122,7 +123,8 @@
 
             <!-- Required SDK核心功能-->
             <receiver android:name="cn.jpush.android.service.PushReceiver"
-              android:enabled="true">
+              android:enabled="true"
+              android:exported="false">
                 <intent-filter android:priority="1000">
                     <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
                     <!--Required  显示通知栏 -->
@@ -136,6 +138,7 @@
                 <intent-filter>
                     <action android:name="android.intent.action.PACKAGE_ADDED" />
                     <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                    <data android:scheme="package"/>
                 </intent-filter>
             </receiver>
 
@@ -172,8 +175,12 @@
                     <category android:name="$PACKAGE_NAME" />
                 </intent-filter>
             </receiver>
+
             <!-- Required SDK核心功能-->
-            <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
+            <receiver
+              android:name="cn.jpush.android.service.AlarmReceiver"
+              android:exported="false" />
+
             <!-- Required. Enable it you can get statistics data with channel -->
             <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default" />
             <meta-data android:name="JPUSH_APPKEY" android:value="$APP_KEY" />
