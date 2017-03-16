@@ -262,6 +262,26 @@ public class JPushPlugin extends CordovaPlugin {
         JPushPlugin.notificationAlert = null;
     }
 
+    static void transmitReceiveRegistrationId(String rId) {
+        if (instance == null) {
+            return;
+        }
+        JSONObject data = new JSONObject();
+        try {
+            data.put("registrationId", rId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String format = "window.plugins.jPushPlugin.receiveRegistrationIdInAndroidCallback(%s);";
+        final String js = String.format(format, data.toString());
+        cordovaActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                instance.webView.loadUrl("javascript:" + js);
+            }
+        });
+    }
+
     @Override
     public boolean execute(final String action, final JSONArray data,
                            final CallbackContext callbackContext) throws JSONException {

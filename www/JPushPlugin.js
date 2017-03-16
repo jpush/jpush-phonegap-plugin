@@ -217,6 +217,14 @@ JPushPlugin.prototype.setCustomPushNotificationBuilder = function () {
   }
 }
 
+JPushPlugin.prototype.receiveRegistrationIdInAndroidCallback = function (data) {
+   if (device.platform === 'Android') {
+     data = JSON.stringify(data)
+     var event = JSON.parse(data)
+     cordova.fireDocumentEvent('jpush.receiveRegistrationId', event);
+   }
+ }
+
 JPushPlugin.prototype.receiveMessageInAndroidCallback = function (data) {
   data = JSON.stringify(data)
   console.log('JPushPlugin:receiveMessageInAndroidCallback: ' + data)
