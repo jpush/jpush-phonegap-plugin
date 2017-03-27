@@ -28,29 +28,27 @@
     return [self init_plus];
 }
 
-NSDictionary *_launchOptions;
+-(void)fireOpenNotification:(NSTimer*)timer{
+    if (SharedJPushPlugin) {
+        [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[timer.userInfo toJsonString]];
+        [timer invalidate];
+    }
+}
 
+NSDictionary *_launchOptions;
 -(void)applicationDidLaunch:(NSNotification *)notification{
+
 
     if (notification) {
         if (notification.userInfo) {
             NSDictionary *userInfo1 = [notification.userInfo valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
             if (userInfo1.count > 0) {
-                [NSTimer scheduledTimerWithTimeInterval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
-                    if (SharedJPushPlugin) {
-                        [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[userInfo1 toJsonString]];
-                        [timer invalidate];
-                    }
-                }];
+                [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(fireOpenNotification:) userInfo:userInfo1 repeats:YES];
             }
+
             NSDictionary *userInfo2 = [notification.userInfo valueForKey:UIApplicationLaunchOptionsLocalNotificationKey];
             if (userInfo2.count > 0) {
-                [NSTimer scheduledTimerWithTimeInterval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
-                    if (SharedJPushPlugin) {
-                        [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[userInfo2 toJsonString]];
-                        [timer invalidate];
-                    }
-                }];
+                [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(fireOpenNotification:) userInfo:userInfo2 repeats:YES];
             }
         }
         [JPUSHService setDebugMode];
@@ -64,7 +62,6 @@ NSDictionary *_launchOptions;
         if (![delay boolValue]) {
             [self startJPushSDK];
         }
-
     }
 }
 

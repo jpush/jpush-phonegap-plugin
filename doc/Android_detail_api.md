@@ -14,6 +14,18 @@
 - [本地通知](#本地通知)
 - [富媒体页面 JavaScript 回调 API](#富媒体页面-javascript-回调-api)
 
+## 注册成功事件
+### jpush.receiveRegistrationId
+集成了 JPush SDK 的应用程序在第一次成功注册到 JPush 服务器时，JPush 服务器会给客户端返回一个唯一的该设备的标识 - RegistrationID。
+就会触发这个事件（注意只有第一次会触发该事件，之后如果想要取到 registrationId，可以直接调用 *getRegistrationID* 方法）。
+
+#### 代码示例
+```Javascript
+document.addEventListener('jpush.receiveRegistrationId', function (event) {
+    console.log(event.registrationId)
+}, false)
+```
+
 ## 接收通知时获得通知的内容
 
 - 内容:
@@ -55,7 +67,6 @@
 	- true  显示集成日志。
 	- false 不显示集成日志。
 
-
 ##  接收消息和点击通知事件
 ### API - receiveMessageInAndroidCallback
 
@@ -81,7 +92,6 @@
 #### 参数说明
 
 - data: js 字符串。
-
 
 ##  统计分析
 
