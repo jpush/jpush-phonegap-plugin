@@ -27,7 +27,7 @@
     }],
     "peerDependencies": {
         "cordova-plugin-device": ">=1.0.0",
-        "jcore-cordova-plugin": ">=1.1.1"
+        "cordova-plugin-jcore": "1.1.1"
     },
     "author": "JiGuang",
     "license": "MIT",
