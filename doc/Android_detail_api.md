@@ -1,9 +1,10 @@
-# Android API简介
+# Android API 简介
 
+- [注册成功事件](#注册成功事件)
 - [接收通知时获得通知的内容](#接收通知时获得通知的内容)
 - [打开通知时获得通知的内容](#打开通知时获得通知的内容)
 - [收到自定义消息时获取消息的内容](#收到自定义消息时获取消息的内容)
-- [获取集成日志（适用于 iOS）](#获取集成日志（适用于 iOS）)
+- [获取集成日志（同时适用于 iOS）](#获取集成日志同时适用于-ios)
 - [接收消息和点击通知事件](#接收消息和点击通知事件)
 - [统计分析](#统计分析)
 - [清除通知](#清除通知)
@@ -51,7 +52,7 @@ document.addEventListener('jpush.receiveRegistrationId', function (event) {
 - 附加字段:
     window.plugins.jPushPlugin.receiveMessage.extras.yourKey
 
-## 获取集成日志（适用于 iOS）
+## 获取集成日志（同时适用于 iOS）
 
 ### API - setDebugMode
 
@@ -280,7 +281,7 @@ JPush SDK 提供了 2 个用于定制通知栏样式的构建类：
 - builderId: 设置本地通知样式。
 - content: 设置本地通知的 content。
 - title: 设置本地通知的 title。
-- notificaitonID: 设置本地通知的 ID。
+- notificaitonID: 设置本地通知的 ID（不要为 0）。
 - broadcastTime: 设置本地通知触发时间，为距离当前时间的数值，单位是毫秒。
 - extras: 设置额外的数据信息 extras 为 json 字符串。
 
