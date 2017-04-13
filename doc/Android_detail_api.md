@@ -1,9 +1,10 @@
-# Android API简介
+# Android API 简介
 
+- [注册成功事件](#注册成功事件)
 - [接收通知时获得通知的内容](#接收通知时获得通知的内容)
 - [打开通知时获得通知的内容](#打开通知时获得通知的内容)
 - [收到自定义消息时获取消息的内容](#收到自定义消息时获取消息的内容)
-- [获取集成日志（适用于 iOS）](#获取集成日志（适用于 iOS）)
+- [获取集成日志（同时适用于 iOS）](#获取集成日志同时适用于-ios)
 - [接收消息和点击通知事件](#接收消息和点击通知事件)
 - [统计分析](#统计分析)
 - [清除通知](#清除通知)
@@ -51,7 +52,7 @@ document.addEventListener('jpush.receiveRegistrationId', function (event) {
 - 附加字段:
     window.plugins.jPushPlugin.receiveMessage.extras.yourKey
 
-## 获取集成日志（适用于 iOS）
+## 获取集成日志（同时适用于 iOS）
 
 ### API - setDebugMode
 
