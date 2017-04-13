@@ -280,7 +280,7 @@ JPush SDK 提供了 2 个用于定制通知栏样式的构建类：
 - builderId: 设置本地通知样式。
 - content: 设置本地通知的 content。
 - title: 设置本地通知的 title。
-- notificaitonID: 设置本地通知的 ID。
+- notificaitonID: 设置本地通知的 ID（不要为 0）。
 - broadcastTime: 设置本地通知触发时间，为距离当前时间的数值，单位是毫秒。
 - extras: 设置额外的数据信息 extras 为 json 字符串。
 
