@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.1.3">
+  version="3.1.4">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -186,7 +186,7 @@
             <meta-data android:name="JPUSH_APPKEY" android:value="$APP_KEY" />
         </config-file>
 
-        <source-file src="src/android/libs/jpush-android_v3.0.3.jar" target-dir="libs" />
+        <source-file src="src/android/libs/jpush-android_v3.0.5.jar" target-dir="libs" />
 
         <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap" />
