@@ -188,14 +188,18 @@
 
         <source-file src="src/android/libs/jpush-android_v3.0.6.jar" target-dir="libs" />
 
-        <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jiguang/push/phonegap" />
-        <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/push/phonegap" />
+        <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jiguang/cordova/push" />
+        <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/cordova/push" />
 
-        <source-file src="src/android/res/drawable-hdpi/jpush_richpush_btn_selector.xml" target-dir="res/drawable" />
-        <source-file src="src/android/res/drawable-hdpi/jpush_richpush_progressbar.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable-hdpi/jpush_richpush_btn_selector.xml"
+          target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable-hdpi/jpush_richpush_progressbar.xml"
+          target-dir="res/drawable" />
 
-        <source-file src="src/android/res/drawable-hdpi/jpush_ic_richpush_actionbar_back.png" target-dir="res/drawable-hdpi" />
-        <source-file src="src/android/res/drawable-hdpi/jpush_ic_richpush_actionbar_divider.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/jpush_ic_richpush_actionbar_back.png"
+          target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/jpush_ic_richpush_actionbar_divider.png"
+          target-dir="res/drawable-hdpi" />
 
         <source-file src="src/android/res/layout/jpush_popwin_layout.xml" target-dir="res/layout" />
         <source-file src="src/android/res/layout/jpush_webview_layout.xml" target-dir="res/layout" />
