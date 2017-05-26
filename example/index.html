@@ -116,7 +116,10 @@
                     if (tag3 != "") {
                         tags.push(tag3);
                     }
-                    window.plugins.jPushPlugin.setTagsWithAlias(tags, alias);
+                    window.plugins.jPushPlugin.setTagsWithAlias(tags, alias, function () {
+                      // Success callback
+                      console.log(tags + ' - ' + alias)
+                    });
                 } catch (exception) {
                     console.log(exception);
                 }
