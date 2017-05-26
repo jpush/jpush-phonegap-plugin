@@ -161,9 +161,11 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 
 #### 接口定义
 
-	JPushPlugin.prototype.setTagsWithAlias(tags, alias)
-	JPushPlugin.prototype.setTags(tags)
-	JPushPlugin.prototype.setAlias(alias)
+```js
+JPushPlugin.prototype.setTagsWithAlias(tags, alias, successCallback, errorCallback)
+JPushPlugin.prototype.setTags(tags, successCallback, errorCallback)
+JPushPlugin.prototype.setAlias(alias, successCallback, errorCallback)
+```
 
 #### 参数说明
 * tags:
@@ -181,17 +183,15 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 	* 有效的别名组成：字母（区分大小写）、数字、下划线、汉字。
 	* 限制：alias 命名长度限制为 40 字节（判断长度需采用 UTF-8 编码）。
 
-#### 返回值说明
+#### 代码示例
 
-函数本身无返回值，但需要注册 `jpush.setTagsWithAlias` 事件来监听设置结果:
-
-	document.addEventListener("jpush.setTagsWithAlias", function(event) {
-      console.log("onTagsWithAlias")
-      var result = "result code:" + event.resultCode + " "
-      result += "tags:" + event.tags + " "
-      result += "alias:" + event.alias + " "
-      $("#tagAliasResult").html(result)
-    }, false)
+```js
+window.plugins.jPushPlugin.setTagsWithAlias([tag1, tag2], alias1, function () {
+  // success callback.
+}, function (errorMsg) {
+  // errorMsg 格式为 'errorCode: error message'.
+})
+```
 
 #### 错误码定义
 

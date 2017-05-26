@@ -17,8 +17,12 @@ JPushPlugin.prototype.errorCallback = function (msg) {
   console.log('JPush Callback Error: ' + msg)
 }
 
-JPushPlugin.prototype.callNative = function (name, args, successCallback) {
-  cordova.exec(successCallback, this.errorCallback, 'JPushPlugin', name, args)
+JPushPlugin.prototype.callNative = function (name, args, successCallback, errorCallback) {
+  if (errorCallback) {
+    cordova.exec(successCallback, errorCallback, 'JPushPlugin', name, args)
+  } else {
+    cordova.exec(successCallback, this.errorCallback, 'JPushPlugin', name, args)
+  }
 }
 
 // Common methods
@@ -66,7 +70,7 @@ JPushPlugin.prototype.clearLocalNotifications = function () {
   }
 }
 
-JPushPlugin.prototype.setTagsWithAlias = function (tags, alias) {
+JPushPlugin.prototype.setTagsWithAlias = function (tags, alias, successCallback, errorCallback) {
   if (tags == null) {
     this.setAlias(alias)
     return
@@ -77,15 +81,15 @@ JPushPlugin.prototype.setTagsWithAlias = function (tags, alias) {
   }
   var arrayTagWithAlias = [tags]
   arrayTagWithAlias.unshift(alias)
-  this.callNative('setTagsWithAlias', arrayTagWithAlias, null)
+  this.callNative('setTagsWithAlias', arrayTagWithAlias, successCallback, errorCallback)
 }
 
-JPushPlugin.prototype.setTags = function (tags) {
-  this.callNative('setTags', tags, null)
+JPushPlugin.prototype.setTags = function (tags, successCallback, errorCallback) {
+  this.callNative('setTags', tags, successCallback, errorCallback)
 }
 
-JPushPlugin.prototype.setAlias = function (alias) {
-  this.callNative('setAlias', [alias], null)
+JPushPlugin.prototype.setAlias = function (alias, successCallback, errorCallback) {
+  this.callNative('setAlias', [alias], successCallback, errorCallback)
 }
 
 // 判断系统设置中是否对本应用启用通知。
@@ -205,13 +209,13 @@ JPushPlugin.prototype.addNotificationActions = function (actions, categoryId) {
 
 // Android methods
 JPushPlugin.prototype.setBasicPushNotificationBuilder = function () {
-  if (device.platform == 'Android') {
+  if (device.platform === 'Android') {
     this.callNative('setBasicPushNotificationBuilder', [], null)
   }
 }
 
 JPushPlugin.prototype.setCustomPushNotificationBuilder = function () {
-  if (device.platform == 'Android') {
+  if (device.platform === 'Android') {
     this.callNative('setCustomPushNotificationBuilder', [], null)
   }
 }
@@ -258,14 +262,14 @@ JPushPlugin.prototype.clearNotificationById = function (id) {
 }
 
 JPushPlugin.prototype.setLatestNotificationNum = function (num) {
-  if (device.platform == 'Android') {
+  if (device.platform === 'Android') {
     this.callNative('setLatestNotificationNum', [num], null)
   }
 }
 
 JPushPlugin.prototype.addLocalNotification = function (builderId, content, title,
   notificationID, broadcastTime, extras) {
-  if (device.platform == 'Android') {
+  if (device.platform === 'Android') {
     this.callNative('addLocalNotification',
       [builderId, content, title, notificationID, broadcastTime, extras], null)
   }
