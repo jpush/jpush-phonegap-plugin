@@ -99,24 +99,45 @@
 -(void)setTagsWithAlias:(CDVInvokedUrlCommand*)command{
     NSString *alias = [command argumentAtIndex:0];
     NSArray  *tags  = [command argumentAtIndex:1];
+
     [JPUSHService setTags:[NSSet setWithArray:tags]
                     alias:alias
-         callbackSelector:@selector(tagsWithAliasCallback:tags:alias:)
-                   object:self];
+    fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
+        CDVPluginResult *result;
+        if (iResCode == 0) {
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:nil];
+        } else {
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:nil];
+        }
+    }];
 }
 
--(void)setTags:(CDVInvokedUrlCommand *)command{
+-(void)setTags:(CDVInvokedUrlCommand*)command{
     NSArray *tags = command.arguments;
     [JPUSHService setTags:[NSSet setWithArray:tags]
-         callbackSelector:@selector(tagsWithAliasCallback:tags:alias:)
-                   object:self];
+                    alias:nil
+    fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
+        CDVPluginResult *result;
+        if (iResCode == 0) {
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:nil];
+        } else {
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:nil];
+        }
+    }];
 }
 
--(void)setAlias:(CDVInvokedUrlCommand *)command{
+-(void)setAlias:(CDVInvokedUrlCommand*)command{
     NSString *alias = [command argumentAtIndex:0];
-    [JPUSHService setAlias:alias
-          callbackSelector:@selector(tagsWithAliasCallback:tags:alias:)
-                    object:self];
+    [JPUSHService setTags:nil
+                    alias:alias
+    fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
+        CDVPluginResult *result;
+        if (iResCode == 0) {
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:nil];
+        } else {
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:nil];
+        }
+    }];
 }
 
 -(void)getRegistrationID:(CDVInvokedUrlCommand*)command{
@@ -149,12 +170,12 @@
     [JPUSHService resetBadge];
 }
 
--(void)setApplicationIconBadgeNumber:(CDVInvokedUrlCommand *)command{
+-(void)setApplicationIconBadgeNumber:(CDVInvokedUrlCommand*)command{
     NSNumber *badge = [command argumentAtIndex:0];
     [UIApplication sharedApplication].applicationIconBadgeNumber = badge.intValue;
 }
 
--(void)getApplicationIconBadgeNumber:(CDVInvokedUrlCommand *)command {
+-(void)getApplicationIconBadgeNumber:(CDVInvokedUrlCommand*)command {
     NSInteger num = [UIApplication sharedApplication].applicationIconBadgeNumber;
     NSNumber *number = [NSNumber numberWithInteger:num];
     [self handleResultWithValue:number command:command];
@@ -252,16 +273,22 @@
             NSString *textInputPlaceholder = dict[@"textInputPlaceholder"];
             UNTextInputNotificationAction *inputAction = [UNTextInputNotificationAction actionWithIdentifier:identifier title:title options:option.integerValue textInputButtonTitle:textInputButtonTitle textInputPlaceholder:textInputPlaceholder];
             [actions addObject:inputAction];
-        }else{
+        } else {
             UNNotificationAction *action = [UNNotificationAction actionWithIdentifier:title title:title options:option.integerValue];
             [actions addObject:action];
         }
     }
     UNNotificationCategory *category;
     if (dimiss) {
-        category = [UNNotificationCategory categoryWithIdentifier:categoryId actions:actions intentIdentifiers:@[] options:UNNotificationCategoryOptionCustomDismissAction];
-    }else{
-        category = [UNNotificationCategory categoryWithIdentifier:categoryId actions:actions intentIdentifiers:@[] options:UNNotificationCategoryOptionNone];
+        category = [UNNotificationCategory categoryWithIdentifier:categoryId
+                                                          actions:actions
+                                                intentIdentifiers:@[]
+                                                          options:UNNotificationCategoryOptionCustomDismissAction];
+    } else {
+        category = [UNNotificationCategory categoryWithIdentifier:categoryId
+                                                          actions:actions
+                                                intentIdentifiers:@[]
+                                                          options:UNNotificationCategoryOptionNone];
     }
     [[UNUserNotificationCenter currentNotificationCenter] setNotificationCategories:[NSSet setWithObject:category]];
 }
@@ -282,7 +309,7 @@
     NSNumber *isIDFA       = [plistData valueForKey:JPushConfig_IsIDFA];
 
     NSString *advertisingId = nil;
-    if(isIDFA.boolValue){
+    if(isIDFA.boolValue) {
         advertisingId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
     }
     [JPUSHService setupWithOption:userInfo
@@ -293,7 +320,7 @@
 }
 
 #pragma mark 将参数返回给js
--(void)handleResultWithValue:(id)value command:(CDVInvokedUrlCommand*)command{
+-(void)handleResultWithValue:(id)value command:(CDVInvokedUrlCommand*)command {
     CDVPluginResult *result = nil;
     CDVCommandStatus status = CDVCommandStatus_OK;
 
@@ -317,17 +344,18 @@
 }
 
 #pragma mark 设置标签及别名回调
--(void)tagsWithAliasCallback:(int)resultCode tags:(NSSet *)tags alias:(NSString *)alias{
-    NSDictionary *dict = @{@"resultCode":[NSNumber numberWithInt:resultCode],
-                           @"tags"      :tags  == nil ? [NSNull null] : [tags allObjects],
-                           @"alias"     :alias == nil ? [NSNull null] : alias
-                           };
-    [JPushPlugin fireDocumentEvent:JPushDocumentEvent_SetTagsWithAlias jsString:[dict toJsonString]];
+-(void)tagsWithAliasCallback:(int)resultCode tags:(NSSet *)tags alias:(NSString *)alias {
+    if (resultCode == 0) {  // Success
+
+    } else {
+
+    }
 }
 
 - (void)networkDidReceiveMessage:(NSNotification *)notification {
     if (notification && notification.userInfo) {
-        [JPushPlugin fireDocumentEvent:JPushDocumentEvent_ReceiveMessage jsString:[notification.userInfo  toJsonString]];
+        [JPushPlugin fireDocumentEvent:JPushDocumentEvent_ReceiveMessage
+                              jsString:[notification.userInfo toJsonString]];
     }
 }
 
