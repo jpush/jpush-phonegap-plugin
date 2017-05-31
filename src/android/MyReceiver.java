@@ -1,4 +1,4 @@
-package cn.jpush.phonegap;
+package cn.jiguang.cordova.push;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
