@@ -154,7 +154,9 @@
             </service>
 
             <!-- User defined.  For test only  用户自定义的广播接收器 -->
-            <receiver android:name="cn.jpush.phonegap.MyReceiver" android:enabled="true">
+            <receiver
+              android:name="cn.jiguang.cordova.push.MyReceiver" 
+              android:enabled="true">
                 <intent-filter android:priority="1000">
                     <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
                     <!-- Required  显示通知栏 -->

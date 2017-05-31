@@ -1,4 +1,4 @@
-package cn.jpush.phonegap;
+package cn.jiguang.cordova.push;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
