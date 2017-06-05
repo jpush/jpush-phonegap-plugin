@@ -96,7 +96,7 @@ cordova platform update ios
 ## Support
 - QQ 群：413602425
 - [JPush 官网文档](https://docs.jiguang.cn/jpush/guideline/intro/)
-- [极光社区](http://community.jiguang.cn/)
+<!-- - [极光社区](http://community.jiguang.cn/) -->
 
 ## Contribute
 Please contribute! [Look at the issues](https://github.com/jpush/jpush-phonegap-plugin/issues).
