@@ -7,8 +7,6 @@ const fs = require('fs');
 const path = require('path');
 let commonFuncs = require('./common');
 
-console.log(__filename + " : " + __dirname);
-
 /**
  * add APNS env to cordova project Entitlements-Debug.plist and Entitlements-Release.plist
  * This two file will work when xcode archive app
