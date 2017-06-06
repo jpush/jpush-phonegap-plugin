@@ -45,7 +45,7 @@
 该项目基于 Cordova 实现，目前无法使用 PhoneGap build 云服务进行打包，建议使用本地环境进行打包。
 
 ## FAQ
-> 如果遇到了疑问，请优先参考 Demo 和 API 文档。若还无法解决，可访问[极光社区](http://community.jiguang.cn/)或 [Issues](https://github.com/jpush/jpush-phonegap-plugin/issues) 提问。
+> 如果遇到了疑问，请优先参考 Demo 和 API 文档。若还无法解决，可到 [Issues](https://github.com/jpush/jpush-phonegap-plugin/issues) 提问。
 
 ### Android
 #### 在 Eclipse 中 import 工程之后出现：*Type CallbackContext cannot be resolved to a type*
