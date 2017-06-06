@@ -154,7 +154,7 @@ try { // try to read ios developmentTeam from build.json
     console.log("Do not detected 'build.json' to get ios developent team. \n" +
             "Will not enable XCode Push Notification Capability. \n" +
             "Will only enable Push Notification for CI by add config to '" + basePath + xcodeprojName + "/Entitlements-Debug.plist' and '" + basePath + xcodeprojName + "/Entitlements-Release.plist' \n" +
-            "Please add 'build.json' to cordova project root folder to make after hook fullly functional. \n" +
+            "Please add 'build.json' to cordova project root folder to make after hook fully functional. \n" +
             "Reference [1]https://cordova.apache.org/docs/en/latest/reference/cordova-cli/#cordova-build-command \n" +
             "Reference [2]https://cordova.apache.org/docs/en/latest/guide/platforms/ios/#signing-an-app");
     willEnablePushNotificationForXCode = false;
