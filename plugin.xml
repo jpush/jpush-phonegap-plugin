@@ -57,6 +57,10 @@
         <config-file target="*JPushConfig.plist" parent="Appkey">
             <string>$APP_KEY</string>
         </config-file>
+
+        <hook type="after_platform_add" src="hooks/iosEnablePush.js" />
+        <hook type="after_plugin_install" src="hooks/iosEnablePush.js" />
+        <hook type="before_plugin_uninstall" src="hooks/iosDisablePush.js" />
     </platform>
 
     <platform name="android">
@@ -155,7 +159,7 @@
 
             <!-- User defined.  For test only  用户自定义的广播接收器 -->
             <receiver
-              android:name="cn.jiguang.cordova.push.MyReceiver" 
+              android:name="cn.jiguang.cordova.push.MyReceiver"
               android:enabled="true">
                 <intent-filter android:priority="1000">
                     <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
