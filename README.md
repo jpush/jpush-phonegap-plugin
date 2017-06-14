@@ -17,16 +17,23 @@
 
 - 通过 Cordova Plugins 安装，要求 Cordova CLI 5.0+：
 
-  	    cordova plugin add jpush-phonegap-plugin --variable APP_KEY=your_jpush_appkey
+	```
+	cordova plugin add jpush-phonegap-plugin --variable APP_KEY=your_jpush_appkey
+	```
 
 - 或直接通过 url 安装：
 
-        cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git --variable APP_KEY=your_jpush_appkey  
+	```
+	cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git --variable APP_KEY=your_jpush_appkey  
+	```
 
 - 或下载到本地安装：
 
-        cordova plugin add Your_Plugin_Path  --variable APP_KEY=your_jpush_appkey
+	```
+	cordova plugin add Your_Plugin_Path  --variable APP_KEY=your_jpush_appkey
+	```
 
+> 如果你的 Cordova 版本 >= v7.0.0，在安装插件和添加 platform 时，在命令行最后加上 --nofetch，否则极大可能会报错。
 
 ## Usage
 ### API
