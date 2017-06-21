@@ -223,7 +223,7 @@ window.plugins.jPushPlugin.setTagsWithAlias([tag1, tag2], alias1, function () {
           if(device.platform == "Android") {
             alertContent = event.alert
           } else {
-            lertContent = event.aps.alert
+            alertContent = event.aps.alert
           }
 	    }, false)
 
