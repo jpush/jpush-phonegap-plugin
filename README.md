@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jpush/jpush-phonegap-plugin.svg?branch=master)](https://travis-ci.org/jpush/jpush-phonegap-plugin)
 [![QQ Group](https://img.shields.io/badge/QQ%20Group-413602425-red.svg)]()
-[![release](https://img.shields.io/badge/release-3.1.7-blue.svg)](https://github.com/jpush/jpush-phonegap-plugin/releases)
+[![release](https://img.shields.io/badge/release-3.1.8-blue.svg)](https://github.com/jpush/jpush-phonegap-plugin/releases)
 [![platforms](https://img.shields.io/badge/platforms-iOS%7CAndroid-lightgrey.svg)](https://github.com/jpush/jpush-phonegap-plugin)
 [![weibo](https://img.shields.io/badge/weibo-JPush-blue.svg)](http://weibo.com/jpush?refer_flag=1001030101_&is_all=1)
 
@@ -103,7 +103,7 @@ cordova platform update ios
 ## Support
 - QQ 群：413602425
 - [JPush 官网文档](https://docs.jiguang.cn/jpush/guideline/intro/)
-<!-- - [极光社区](http://community.jiguang.cn/) -->
+ - [极光社区](http://community.jiguang.cn/) 
 
 ## Contribute
 Please contribute! [Look at the issues](https://github.com/jpush/jpush-phonegap-plugin/issues).
