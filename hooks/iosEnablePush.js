@@ -139,29 +139,31 @@ let enablePushNotificationForXCode = (entitlementsPath, pbxprojPath, cordovaBuil
     });
 }
 
-let basePath = './platforms/ios/';
-let buildType = 'dev';
-let xcodeprojName = commonFuncs.getXcodeProjName(basePath);
-let pbxprojPath = basePath + xcodeprojName + '.xcodeproj/project.pbxproj';
-let entitlementsPath = basePath + xcodeprojName + '/' + xcodeprojName + '.entitlements';
+module.exports = (context) => {
+    let basePath = './platforms/ios/';
+    let buildType = 'dev';
+    let xcodeprojName = commonFuncs.getXcodeProjName(basePath);
+    let pbxprojPath = basePath + xcodeprojName + '.xcodeproj/project.pbxproj';
+    let entitlementsPath = basePath + xcodeprojName + '/' + xcodeprojName + '.entitlements';
 
-let cordovaBuildConfigPath = './build.json'
-let cordovaBuildConfig = null;
-let willEnablePushNotificationForXCode = true;
-try { // try to read ios developmentTeam from build.json
-    cordovaBuildConfig = JSON.parse(fs.readFileSync(cordovaBuildConfigPath, "utf8"));
-} catch(e) {
-    console.log("Do not detected 'build.json' to get ios developent team. \n" +
-            "Will not enable XCode Push Notification Capability. \n" +
-            "Will only enable Push Notification for CI by add config to '" + basePath + xcodeprojName + "/Entitlements-Debug.plist' and '" + basePath + xcodeprojName + "/Entitlements-Release.plist' \n" +
-            "Please add 'build.json' to cordova project root folder to make after hook fullly functional. \n" +
-            "Reference [1]https://cordova.apache.org/docs/en/latest/reference/cordova-cli/#cordova-build-command \n" +
-            "Reference [2]https://cordova.apache.org/docs/en/latest/guide/platforms/ios/#signing-an-app");
-    willEnablePushNotificationForXCode = false;
-}
+    let cordovaBuildConfigPath = './build.json'
+    let cordovaBuildConfig = null;
+    let willEnablePushNotificationForXCode = true;
+    try { // try to read ios developmentTeam from build.json
+        cordovaBuildConfig = JSON.parse(fs.readFileSync(cordovaBuildConfigPath, "utf8"));
+    } catch(e) {
+        console.log("Do not detected 'build.json' to get ios developent team. \n" +
+                "Will not enable XCode Push Notification Capability. \n" +
+                "Will only enable Push Notification for CI by add config to '" + basePath + xcodeprojName + "/Entitlements-Debug.plist' and '" + basePath + xcodeprojName + "/Entitlements-Release.plist' \n" +
+                "Please add 'build.json' to cordova project root folder to make after hook fully functional. \n" +
+                "Reference [1]https://cordova.apache.org/docs/en/latest/reference/cordova-cli/#cordova-build-command \n" +
+                "Reference [2]https://cordova.apache.org/docs/en/latest/guide/platforms/ios/#signing-an-app");
+        willEnablePushNotificationForXCode = false;
+    }
 
-enablePushNotificationForCI(basePath, xcodeprojName);
+    enablePushNotificationForCI(basePath, xcodeprojName);
 
-if(willEnablePushNotificationForXCode) {
-    enablePushNotificationForXCode(entitlementsPath, pbxprojPath, cordovaBuildConfig);
+    if(willEnablePushNotificationForXCode) {
+        enablePushNotificationForXCode(entitlementsPath, pbxprojPath, cordovaBuildConfig);
+    }
 }
