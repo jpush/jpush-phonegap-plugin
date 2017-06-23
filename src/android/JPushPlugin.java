@@ -458,6 +458,11 @@ public class JPushPlugin extends CordovaPlugin {
         }
     }
 
+    void getConnectionState(JSONArray data, CallbackContext callback) {
+        boolean isConnected = JPushInterface.getConnectionState(cordovaActivity.getApplicationContext());
+        callback.success(String.valueOf(isConnected));
+    }
+
     /**
      *   自定义通知行为，声音、震动、呼吸灯等。
      */

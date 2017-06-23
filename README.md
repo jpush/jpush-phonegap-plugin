@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jpush/jpush-phonegap-plugin.svg?branch=master)](https://travis-ci.org/jpush/jpush-phonegap-plugin)
 [![QQ Group](https://img.shields.io/badge/QQ%20Group-413602425-red.svg)]()
-[![release](https://img.shields.io/badge/release-3.1.7-blue.svg)](https://github.com/jpush/jpush-phonegap-plugin/releases)
+[![release](https://img.shields.io/badge/release-3.1.8-blue.svg)](https://github.com/jpush/jpush-phonegap-plugin/releases)
 [![platforms](https://img.shields.io/badge/platforms-iOS%7CAndroid-lightgrey.svg)](https://github.com/jpush/jpush-phonegap-plugin)
 [![weibo](https://img.shields.io/badge/weibo-JPush-blue.svg)](http://weibo.com/jpush?refer_flag=1001030101_&is_all=1)
 
@@ -17,16 +17,23 @@
 
 - 通过 Cordova Plugins 安装，要求 Cordova CLI 5.0+：
 
-  	    cordova plugin add jpush-phonegap-plugin --variable APP_KEY=your_jpush_appkey
+	```
+	cordova plugin add jpush-phonegap-plugin --variable APP_KEY=your_jpush_appkey
+	```
 
 - 或直接通过 url 安装：
 
-        cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git --variable APP_KEY=your_jpush_appkey  
+	```
+	cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git --variable APP_KEY=your_jpush_appkey  
+	```
 
 - 或下载到本地安装：
 
-        cordova plugin add Your_Plugin_Path  --variable APP_KEY=your_jpush_appkey
+	```
+	cordova plugin add Your_Plugin_Path  --variable APP_KEY=your_jpush_appkey
+	```
 
+> 如果你的 Cordova 版本 >= v7.0.0，在安装插件和添加 platform 时，在命令行最后加上 --nofetch，否则极大可能会报错。
 
 ## Usage
 ### API
@@ -96,7 +103,7 @@ cordova platform update ios
 ## Support
 - QQ 群：413602425
 - [JPush 官网文档](https://docs.jiguang.cn/jpush/guideline/intro/)
-<!-- - [极光社区](http://community.jiguang.cn/) -->
+ - [极光社区](http://community.jiguang.cn/) 
 
 ## Contribute
 Please contribute! [Look at the issues](https://github.com/jpush/jpush-phonegap-plugin/issues).

@@ -208,6 +208,12 @@ JPushPlugin.prototype.addNotificationActions = function (actions, categoryId) {
 }
 
 // Android methods
+JPushPlugin.prototype.getConnectionState = function (successCallback) {
+  if (device.platform === 'Android') {
+    this.callNative('getConnectionState', [], successCallback)
+  }
+}
+
 JPushPlugin.prototype.setBasicPushNotificationBuilder = function () {
   if (device.platform === 'Android') {
     this.callNative('setBasicPushNotificationBuilder', [], null)
