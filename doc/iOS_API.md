@@ -406,7 +406,7 @@ JPush 封装 badge 功能，允许应用上传 badge 值至 JPush 服务器，�
 
 ```js
 window.plugins.jPushPlugin.prototype.setBadge(value)
-window.plugins.jPushPlugin.prototype.reSetBadge()
+window.plugins.jPushPlugin.prototype.resetBadge()
 ```
 
 resetBadge 相当于 setBadge(0)。
@@ -423,7 +423,7 @@ value 取值范围：[0,99999]。
 
 ```js
 window.plugins.jPushPlugin.setBadge(5)
-window.plugins.jPushPlugin.reSetBadge()
+window.plugins.jPushPlugin.resetBadge()
 ```
 
 ### API - setApplicationIconBadgeNumber
@@ -882,4 +882,3 @@ window.plugins.jPushPlugin.prototype.getUserNotificationSettings(callback)
 ##### jpush.receiveLocalNotification
 
 > [iOS 10 before 收到本地通知](#ios-10-before-收到本地通知)
-
