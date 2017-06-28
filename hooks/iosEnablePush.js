@@ -151,8 +151,11 @@ module.exports = (context) => {
     let willEnablePushNotificationForXCode = true;
     try { // try to read ios developmentTeam from build.json
         cordovaBuildConfig = JSON.parse(fs.readFileSync(cordovaBuildConfigPath, "utf8"));
+        if(cordovaBuildConfig.ios.release.developmentTeam === null && cordovaBuildConfig.ios.release.developmentTeam === undefined) {
+            throw 'no valid developmentTeam found in build.json';
+        }
     } catch(e) {
-        console.log("Do not detected 'build.json' to get ios developent team. \n" +
+        console.log("Do not detected 'build.json' or ios.release.developmentTeam not avaliable in 'build.json' \n" +
                 "Will not enable XCode Push Notification Capability. \n" +
                 "Will only enable Push Notification for CI by add config to '" + basePath + xcodeprojName + "/Entitlements-Debug.plist' and '" + basePath + xcodeprojName + "/Entitlements-Release.plist' \n" +
                 "Please add 'build.json' to cordova project root folder to make after hook fully functional. \n" +
