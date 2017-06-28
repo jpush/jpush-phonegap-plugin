@@ -21,7 +21,6 @@
 - [监听事件统一说明](#监听事件统一说明)
 
 
-
 ## 延迟注册和启动推送通知服务
 
 本插件默认在 App 启动完成之后，立即「注册苹果通知服务」+「启动 JPush SDK」，其中：
@@ -43,7 +42,6 @@
 ```
 window.plugins.jPushPlugin.startJPushSDK()
 ```
-
 
 
 ## 开始与停止推送服务
@@ -86,8 +84,6 @@ window.plugins.jPushPlugin.init()
 ```
 window.plugins.jPushPlugin.resumePush()
 ```
-
-
 
 ### API - isPushStopped
 
@@ -406,7 +402,7 @@ JPush 封装 badge 功能，允许应用上传 badge 值至 JPush 服务器，�
 
 ```js
 window.plugins.jPushPlugin.prototype.setBadge(value)
-window.plugins.jPushPlugin.prototype.reSetBadge()
+window.plugins.jPushPlugin.prototype.resetBadge()
 ```
 
 resetBadge 相当于 setBadge(0)。
@@ -423,7 +419,7 @@ value 取值范围：[0,99999]。
 
 ```js
 window.plugins.jPushPlugin.setBadge(5)
-window.plugins.jPushPlugin.reSetBadge()
+window.plugins.jPushPlugin.resetBadge()
 ```
 
 ### API - setApplicationIconBadgeNumber
@@ -438,7 +434,7 @@ window.plugins.jPushPlugin.prototype.setApplicationIconBadgeNumber(badge)
 
 #### 参数说明
 
-- badge: 整形，例如 0，1，2（当 badge 为 0 时，角标被清除）。
+- badge: 整型，例如 0，1，2（当 badge 为 0 时，角标被清除）。
 
 #### 代码示例
 
@@ -882,4 +878,3 @@ window.plugins.jPushPlugin.prototype.getUserNotificationSettings(callback)
 ##### jpush.receiveLocalNotification
 
 > [iOS 10 before 收到本地通知](#ios-10-before-收到本地通知)
-
