@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.1.9">
+  version="3.2.0">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -58,9 +58,9 @@
             <string>$APP_KEY</string>
         </config-file>
 
-        <hook type="after_platform_add" src="hooks/iosEnablePush.js" />
+        <!-- <hook type="after_platform_add" src="hooks/iosEnablePush.js" />
         <hook type="after_plugin_install" src="hooks/iosEnablePush.js" />
-        <hook type="before_plugin_uninstall" src="hooks/iosDisablePush.js" />
+        <hook type="before_plugin_uninstall" src="hooks/iosDisablePush.js" /> -->
     </platform>
 
     <platform name="android">
