@@ -1,4 +1,4 @@
-/* 
+/*
  * Author: Derek Chia <snipking@gmail.com>
  * Cordova plugin after hook to disable `Push Notification` capability for XCode 8
  */
@@ -27,7 +27,7 @@ let disablePushNotificationForXCode = (entitlementsPath, pbxprojPath) => {
     if( fs.existsSync(entitlementsPath) ) {
         commonFuncs.removeAPNSinEntitlements(entitlementsPath);
     }
-    
+
     /**
      * disable Push Notification capability in .pbxproj file
      * equally disable "Push Notification" switch in xcode
@@ -37,19 +37,21 @@ let disablePushNotificationForXCode = (entitlementsPath, pbxprojPath) => {
             throw err;
         }
         console.log("Reading pbxproj file asynchronously");
-        
+
         // turn off Push Notification Capability
         let re4rep = new RegExp('isa = PBXProject;(.|[\r\n])*TargetAttributes(.|[\r\n])*SystemCapabilities(.|[\r\n])*com\.apple\.Push = {(.|[\r\n])*enabled = [01]');
         let parts = re4rep.exec(data);
-        result = data.replace(re4rep, parts[0].substr(0, parts[0].length - 1) + '0');
+        if(parts !== null && parts !== undefined && parts.length > 0) {
+            result = data.replace(re4rep, parts[0].substr(0, parts[0].length - 1) + '0');
         
-        // write result to project.pbxproj
-        fs.writeFile(pbxprojPath, result, {"encoding": 'utf8'}, function(err) {
-            if (err) {
-                throw err;
-            }
-            console.log(pbxprojPath + " written successfully");
-        });
+            // write result to project.pbxproj
+            fs.writeFile(pbxprojPath, result, {"encoding": 'utf8'}, function(err) {
+                if (err) {
+                    throw err;
+                }
+                console.log(pbxprojPath + " written successfully");
+            });
+        }
     });
 }
 
