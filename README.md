@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jpush/jpush-phonegap-plugin.svg?branch=master)](https://travis-ci.org/jpush/jpush-phonegap-plugin)
 [![QQ Group](https://img.shields.io/badge/QQ%20Group-413602425-red.svg)]()
-[![release](https://img.shields.io/badge/release-3.1.9-blue.svg)](https://github.com/jpush/jpush-phonegap-plugin/releases)
+[![release](https://img.shields.io/badge/release-3.2.0-blue.svg)](https://github.com/jpush/jpush-phonegap-plugin/releases)
 [![platforms](https://img.shields.io/badge/platforms-iOS%7CAndroid-lightgrey.svg)](https://github.com/jpush/jpush-phonegap-plugin)
 [![weibo](https://img.shields.io/badge/weibo-JPush-blue.svg)](http://weibo.com/jpush?refer_flag=1001030101_&is_all=1)
 
@@ -33,7 +33,7 @@
 	cordova plugin add Your_Plugin_Path  --variable APP_KEY=your_jpush_appkey
 	```
 
-> 如果你的 Cordova 版本 >= v7.0.0，在安装插件和添加 platform 时，在命令行最后加上 --nofetch，否则极大可能会报错。
+> 在使用 Xcode 8 调试 iOS 项目时，需要先在项目配置界面的 Capabilities 中打开 Push Notifications 开关。 
 
 ## Usage
 ### API
