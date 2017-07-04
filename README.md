@@ -1,17 +1,13 @@
 # JPush PhoneGap / Cordova Plugin
 
 [![Build Status](https://travis-ci.org/jpush/jpush-phonegap-plugin.svg?branch=master)](https://travis-ci.org/jpush/jpush-phonegap-plugin)
-[![QQ Group](https://img.shields.io/badge/QQ%20Group-413602425-red.svg)]()
 [![release](https://img.shields.io/badge/release-3.2.0-blue.svg)](https://github.com/jpush/jpush-phonegap-plugin/releases)
 [![platforms](https://img.shields.io/badge/platforms-iOS%7CAndroid-lightgrey.svg)](https://github.com/jpush/jpush-phonegap-plugin)
 [![weibo](https://img.shields.io/badge/weibo-JPush-blue.svg)](http://weibo.com/jpush?refer_flag=1001030101_&is_all=1)
 
 支持 iOS, Android 的 Cordova 推送插件。
-> 如需要 IM 功能的插件，可关注 [JMessage PhoneGap Plugin](https://github.com/jpush/jmessage-phonegap-plugin)。
-
+> 如需要 IM 功能的插件，可关注 [JMessage Cordova Plugin](https://github.com/jpush/jmessage-phonegap-plugin)。
 > 如需要短信验证码功能的插件，可关注 [JSMS Cordova Plugin](https://github.com/jpush/cordova-plugin-jsms)。
-
-> QQ 交流群：413602425。
 
 ## Install
 
@@ -33,7 +29,7 @@
 	cordova plugin add Your_Plugin_Path  --variable APP_KEY=your_jpush_appkey
 	```
 
-> 在使用 Xcode 8 调试 iOS 项目时，需要先在项目配置界面的 Capabilities 中打开 Push Notifications 开关。 
+> 在使用 Xcode 8 调试 iOS 项目时，需要先在项目配置界面的 Capabilities 中打开 Push Notifications 开关。
 
 ## Usage
 ### API
@@ -57,6 +53,10 @@
 ### Android
 #### 在 Eclipse 中 import 工程之后出现：*Type CallbackContext cannot be resolved to a type*
 右键单击工程名 -> Build Path -> Config Build Path -> Projects -> 选中工程名称 -> CordovaLib -> 点击 add。
+
+#### 如何自定义通知声音？
+Android 因为各 Rom 的高度定制化，不像 iOS 一样能有一个统一的管理，如果在 Android 中想自定义通知铃声，推荐通过 JPush 推送自定义
+消息，之后在 `jpush.receiveMessage` 事件监听中通过 [Cordova Local-Notification Plugin]() 触发通知，再配合 [Cordova Background Plugin](https://github.com/katzer/cordova-plugin-background-mode) 插件保证应用的后台运行。
 
 #### 关闭 App 后收不到通知
 Android 的推送通过长连接的方式实现，只有在连接保持的情况下才能收到通知。而有的第三方 ROM 会限制一般应用服务的自启动，也就是
@@ -97,11 +97,10 @@ cordova platform update ios
 按照以下步骤逐个尝试：
 
 - 升级至 Xcode 8
-- 先删除插件、再重装插件
-- 先使用 `cordova platform add ios`，后使用 `cordova plugin add`
+- 先删除插件、再重装插件（先使用 `cordova platform add ios`，后使用 `cordova plugin add`）
 
 ## Support
-- QQ 群：413602425
+- QQ 群：413602425 / 524248013
 - [JPush 官网文档](https://docs.jiguang.cn/jpush/guideline/intro/)
 - [极光社区](http://community.jiguang.cn/)
 
