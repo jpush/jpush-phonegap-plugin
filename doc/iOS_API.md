@@ -175,9 +175,9 @@ window.plugins.jPushPlugin.getRegistrationID(function(data) {
 #### 接口定义
 
 ```
-JPushPlugin.prototype.setTagsWithAlias(tags, alias)
-JPushPlugin.prototype.setTags(tags)
-JPushPlugin.prototype.setAlias(alias)
+JPushPlugin.prototype.setTagsWithAlias(tags, alias, successCallback, errorCallback)
+JPushPlugin.prototype.setTags(tags, successCallback)
+JPushPlugin.prototype.setAlias(alias, errorCallback)
 ```
 
 #### 参数说明
@@ -196,21 +196,6 @@ JPushPlugin.prototype.setAlias(alias)
   - 空字符串 （""）表示取消之前的设置。
   - 有效的别名组成：字母（区分大小写）、数字、下划线、汉字。
   - 限制：alias 命名长度限制为 40 字节（判断长度需采用 UTF-8 编码）。
-
-#### 返回值说明
-
-函数本身无返回值，但需要注册 `jpush.setTagsWithAlias` 事件来监听设置结果。
-
-```js
-var onTagsWithAlias = function(event) {
-    console.log("onTagsWithAlias")
-    var result = "result code:"+event.resultCode + " "
-    result += "tags:" + event.tags + " "
-    result += "alias:" + event.alias + " "
-    $("#tagAliasResult").html(result)
-}
-document.addEventListener("jpush.setTagsWithAlias", onTagsWithAlias, false)
-```
 
 #### 错误码定义
 
