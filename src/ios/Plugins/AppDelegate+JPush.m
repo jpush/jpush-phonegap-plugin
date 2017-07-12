@@ -119,7 +119,9 @@ NSDictionary *_launchOptions;
             break;
     }
     [JPushPlugin fireDocumentEvent:eventName jsString:[userInfo toJsonString]];
-    completionHandler(UIBackgroundFetchResultNewData);
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+      completionHandler(UIBackgroundFetchResultNewData);
+    });
 }
 
 -(void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler{
