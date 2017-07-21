@@ -5,9 +5,11 @@
 [![platforms](https://img.shields.io/badge/platforms-iOS%7CAndroid-lightgrey.svg)](https://github.com/jpush/jpush-phonegap-plugin)
 [![weibo](https://img.shields.io/badge/weibo-JPush-blue.svg)](http://weibo.com/jpush?refer_flag=1001030101_&is_all=1)
 
-支持 iOS, Android 的 Cordova 推送插件。
-> 如需要 IM 功能的插件，可关注 [JMessage Cordova Plugin](https://github.com/jpush/jmessage-phonegap-plugin)。
-> 如需要短信验证码功能的插件，可关注 [JSMS Cordova Plugin](https://github.com/jpush/cordova-plugin-jsms)。
+极光官方支持的 cordova 推送插件。
+
+- 如需要 IM 功能的插件，可关注 [jmessage-phonegap-plugin](https://github.com/jpush/jmessage-phonegap-plugin)
+- 如需要短信验证码功能插件，可关注 [cordova-plugin-jsms](https://github.com/jpush/cordova-plugin-jsms)
+- 如需要统计分析功能插件，可关注 [cordova-plugin-janalytics](https://github.com/jpush/cordova-plugin-janalytics)
 
 ## Install
 
