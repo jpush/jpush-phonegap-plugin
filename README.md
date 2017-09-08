@@ -63,6 +63,10 @@
 
 右键单击工程名 -> Build Path -> Config Build Path -> Projects -> 选中工程名称 -> CordovaLib -> 点击 add。
 
+#### 无法获取到 Registration Id
+
+检查 AppKey 和应用包名是否对应。
+
 #### 如何自定义通知声音？
 
 Android 因为各 Rom 的高度定制化，不像 iOS 一样能有一个统一的管理，如果在 Android 中想自定义通知铃声，推荐通过 JPush 推送自定义
