@@ -84,12 +84,88 @@ JPushPlugin.prototype.setTagsWithAlias = function (tags, alias, successCallback,
   this.callNative('setTagsWithAlias', arrayTagWithAlias, successCallback, errorCallback)
 }
 
-JPushPlugin.prototype.setTags = function (tags, successCallback, errorCallback) {
-  this.callNative('setTags', tags, successCallback, errorCallback)
+/**
+ * 设置标签。
+ * 注意：该接口是覆盖逻辑，而不是增量逻辑。即新的调用会覆盖之前的设置。
+ * 
+ * @param params = { 'sequence': number, 'tags': ['tag1', 'tag2'] }
+ */
+JPushPlugin.prototype.setTags = function (params, successCallback, errorCallback) {
+  this.callNative('setTags', [params], successCallback, errorCallback)
 }
 
-JPushPlugin.prototype.setAlias = function (alias, successCallback, errorCallback) {
-  this.callNative('setAlias', [alias], successCallback, errorCallback)
+/**
+ * 新增标签，新增不代表设置。
+ * 注意：该接口是覆盖逻辑，而不是增量逻辑。即新的调用会覆盖之前的设置。
+ * 
+ * @param params = { 'sequence': number, 'tags': ['tag1', 'tag2'] }
+ */
+JPushPlugin.prototype.addTags = function (params, successCallback, errorCallback) {
+  this.callNative('addTags', [params], successCallback, errorCallback)
+}
+
+/**
+ * 删除指定标签。
+ * 
+ * @param params = { 'sequence': number, 'tags': ['tag1', 'tag2'] }
+ */
+JPushPlugin.prototype.deleteTags = function (params, successCallback, errorCallback) {
+  this.callNative('deleteTags', [params], successCallback, errorCallback)
+}
+
+/**
+ * 清除所有标签。
+ * 
+ * @param params = { 'sequence': number }
+ */
+JPushPlugin.prototype.cleanTags = function (params, successCallback, errorCallback) {
+  this.callNative('cleanTags', [params], successCallback, errorCallback)
+}
+
+/**
+ * 查询所有标签。
+ * 
+ * @param params = { 'sequence': number }
+ */
+JPushPlugin.prototype.getAllTags = function (params, successCallback, errorCallback) {
+  this.callNative('getAllTags', [params], successCallback, errorCallback)
+}
+
+/**
+ * 查询指定标签与当前用户的绑定状态。
+ * 
+ * @param params = { 'sequence': number, 'tag': string }
+ */
+JPushPlugin.prototype.checkTagBindState = function (params, successCallback, errorCallback) {
+  this.callNative('checkTagBindState', [params], successCallback, errorCallback)
+}
+
+/**
+ * 设置别名。
+ * 注意：该接口是覆盖逻辑，而不是增量逻辑。即新的调用会覆盖之前的设置。
+ * 
+ * @param params = { 'sequence': number, 'alias': string }
+ */
+JPushPlugin.prototype.setAlias = function (params, successCallback, errorCallback) {
+  this.callNative('setAlias', [params], successCallback, errorCallback)
+}
+
+/**
+ * 删除别名。
+ * 
+ * @param params = { 'sequence': number, 'alias': string }
+ */
+JPushPlugin.prototype.deleteAlias = function (params, successCallback, errorCallback) {
+  this.callNative('deleteAlias', [params], successCallback, errorCallback)
+}
+
+/**
+ * 查询当前绑定的别名。
+ * 
+ * @param params = { 'sequence': number }
+ */
+JPushPlugin.prototype.getAlias = function (params, successCallback, errorCallback) {
+  this.callNative('getAlias', [params], successCallback, errorCallback)
 }
 
 // 判断系统设置中是否对本应用启用通知。
