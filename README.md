@@ -65,12 +65,16 @@
 
 #### 无法获取到 Registration Id
 
-检查 AppKey 和应用包名是否对应。
+检查 AppKey 和应用包名是否对应、是否调用了 `init` 方法。
 
 #### 如何自定义通知声音？
 
 Android 因为各 Rom 的高度定制化，不像 iOS 一样能有一个统一的管理，如果在 Android 中想自定义通知铃声，推荐通过 JPush 推送自定义
 消息，之后在 `jpush.receiveMessage` 事件监听中通过 [Cordova Local-Notification Plugin](https://github.com/katzer/cordova-plugin-local-notifications) 触发通知，再配合 [Cordova Background Plugin](https://github.com/katzer/cordova-plugin-background-mode) 插件保证应用的后台运行。
+
+#### 如果让通知内容像 iOS 一样换行展示？
+
+[#267](https://github.com/jpush/jpush-phonegap-plugin/issues/267)
 
 #### 关闭 App 后收不到通知
 
