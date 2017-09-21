@@ -92,7 +92,7 @@ public class JPushEventReceiver extends JPushMessageReceiver {
         if (jPushMessage.getErrorCode() == 0) {
             try {
                 resultJson.put("tag", jPushMessage.getCheckTag());
-                resultJson.put("checkResult", jPushMessage.getTagCheckStateResult());
+                resultJson.put("isBind", jPushMessage.getTagCheckStateResult());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
