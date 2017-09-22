@@ -153,7 +153,7 @@ JPushPlugin.prototype.setAlias = function (params, successCallback, errorCallbac
 /**
  * 删除别名。
  * 
- * @param params = { 'sequence': number, 'alias': string }
+ * @param params = { 'sequence': number }
  */
 JPushPlugin.prototype.deleteAlias = function (params, successCallback, errorCallback) {
   this.callNative('deleteAlias', [params], successCallback, errorCallback)

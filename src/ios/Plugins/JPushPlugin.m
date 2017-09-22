@@ -1,12 +1,3 @@
-
-//
-//  PushTalkPlugin.m
-//  PushTalk
-//
-//  Created by zhangqinghe on 13-12-13.
-//
-//
-
 #import "JPushPlugin.h"
 #import "JPUSHService.h"
 #import <UIKit/UIKit.h>
@@ -247,11 +238,76 @@
             [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"errorCode"];
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
         }
+        
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     } seq:[sequence integerValue]];
 }
 
 -(void)setAlias:(CDVInvokedUrlCommand*)command {
+    NSDictionary* params = [command.arguments objectAtIndex:0];
+    NSNumber* sequence = params[@"sequence"];
+    NSString* alias = params[@"alias"];
     
+    [JPUSHService setAlias:alias completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+        [dic setObject:sequence forKey:@"sequence"];
+        
+        CDVPluginResult* result;
+        
+        if (iResCode == 0) {
+            [dic setObject:iAlias forKey:@"alias"];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
+            
+        } else {
+            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"errorCode"];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
+        }
+        
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    } seq:[sequence integerValue]];
+}
+
+-(void)deleteAlias:(CDVInvokedUrlCommand*)command {
+    NSDictionary* params = [command.arguments objectAtIndex:0];
+    NSNumber* sequence = params[@"sequence"];
+    
+    [JPUSHService deleteAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+        [dic setObject:sequence forKey:@"sequence"];
+        
+        CDVPluginResult* result;
+        
+        if (iResCode == 0) {
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
+        } else {
+            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"errorCode"];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
+        }
+        
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    } seq:[sequence integerValue]];
+}
+
+-(void)getAlias:(CDVInvokedUrlCommand*)command {
+    NSDictionary* params = [command.arguments objectAtIndex:0];
+    NSNumber* sequence = params[@"sequence"];
+    
+    [JPUSHService getAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+        [dic setObject:sequence forKey:@"sequence"];
+        
+        CDVPluginResult* result;
+        
+        if (iResCode == 0) {
+            [dic setObject:iAlias forKey:@"alias"];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
+        } else {
+            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"errorCode"];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
+        }
+        
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    } seq:[sequence integerValue]];
 }
 
 -(void)getRegistrationID:(CDVInvokedUrlCommand*)command{
@@ -457,16 +513,7 @@
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
-#pragma mark 设置标签及别名回调
--(void)tagsWithAliasCallback:(int)resultCode tags:(NSSet *)tags alias:(NSString *)alias {
-    if (resultCode == 0) {  // Success
-
-    } else {
-
-    }
-}
-
-- (void)networkDidReceiveMessage:(NSNotification *)notification {
+-(void)networkDidReceiveMessage:(NSNotification *)notification {
     if (notification && notification.userInfo) {
         [JPushPlugin fireDocumentEvent:JPushDocumentEvent_ReceiveMessage
                               jsString:[notification.userInfo toJsonString]];
