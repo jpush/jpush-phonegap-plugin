@@ -121,7 +121,7 @@
                 (result) => {
                   $("#tagsResult").html(result.tags)
                 }, (error) => {
-                  alert(error.errorCode)
+                  alert(error.code)
                 })
             } catch (exception) {
               console.log(exception)
@@ -133,7 +133,7 @@
               (result) => {
                 $("#tagsResult").html(result.tags)
               }, (error) => {
-                alert(error.errorCode)
+                alert(error.code)
               })
           })
 
@@ -143,7 +143,7 @@
                 alert(result.sequence)
                 $("#tagsResult").html("")
               }, (error) => {
-                alert(error.errorCode)
+                alert(error.code)
               })
           })
 
@@ -153,7 +153,7 @@
               (result) => {
                 $("#aliasResult").html(result.alias)
               }, (error) => {
-                alert(error.errorCode)
+                alert(error.code)
               })
           })
 
@@ -162,7 +162,7 @@
               (result) => {
                 alert(JSON.stringify(result));
               }, (error) => {
-                alert(error.errorCode)
+                alert(error.code)
               })
           });
 
@@ -171,7 +171,7 @@
               (result) => {
                 alert(JSON.stringify(result));
               }, (error) => {
-                alert(error.errorCode)
+                alert(error.code)
               })
           });
         };
