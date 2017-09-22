@@ -1,12 +1,3 @@
-
-//
-//  PushTalkPlugin.m
-//  PushTalk
-//
-//  Created by zhangqinghe on 13-12-13.
-//
-//
-
 #import "JPushPlugin.h"
 #import "JPUSHService.h"
 #import <UIKit/UIKit.h>
@@ -113,34 +104,210 @@
     }];
 }
 
--(void)setTags:(CDVInvokedUrlCommand*)command{
-    NSArray *tags = command.arguments;
+-(void)setTags:(CDVInvokedUrlCommand*)command {
+    NSDictionary* params = [command.arguments objectAtIndex:0];
+    NSNumber* sequence = params[@"sequence"];
+    NSArray* tags = params[@"tags"];
+  
     [JPUSHService setTags:[NSSet setWithArray:tags]
-                    alias:nil
-    fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
-        CDVPluginResult *result;
-        if (iResCode == 0) {
-            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:nil];
-        } else {
-            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:nil];
-        }
-        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-    }];
+               completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+                   NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+                   [dic setObject:sequence forKey:@"sequence"];
+                   
+                   CDVPluginResult* result;
+                   
+                   if (iResCode == 0) { 
+                       [dic setObject:[iTags allObjects] forKey:@"tags"];
+                       result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
+                   } else {
+                       [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"code"];
+                       result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
+                   }
+                   
+                   [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+               } seq:[sequence integerValue]];
 }
 
--(void)setAlias:(CDVInvokedUrlCommand*)command{
-    NSString *alias = [command argumentAtIndex:0];
-    [JPUSHService setTags:nil
-                    alias:alias
-    fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
-        CDVPluginResult *result;
+-(void)addTags:(CDVInvokedUrlCommand *)command {
+    NSDictionary* params = [command.arguments objectAtIndex:0];
+    NSNumber* sequence = params[@"sequence"];
+    NSArray* tags = params[@"tags"];
+    
+    [JPUSHService addTags:[NSSet setWithArray:tags]
+               completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+                   NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+                   [dic setObject:sequence forKey:@"sequence"];
+                   
+                   CDVPluginResult* result;
+                   
+                   if (iResCode == 0) { 
+                       [dic setObject:[iTags allObjects] forKey:@"tags"];
+                       result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
+                   } else {
+                       [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"code"];
+                       result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
+                   }
+                   
+                   [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+               } seq:[sequence integerValue]];
+}
+
+-(void)deleteTags:(CDVInvokedUrlCommand *)command {
+    NSDictionary* params = [command.arguments objectAtIndex:0];
+    NSNumber* sequence = params[@"sequence"];
+    NSArray* tags = params[@"tags"];
+    
+    [JPUSHService deleteTags:[NSSet setWithArray:tags]
+               completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+                   NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+                   [dic setObject:sequence forKey:@"sequence"];
+                   
+                   CDVPluginResult* result;
+                   
+                   if (iResCode == 0) { 
+                       [dic setObject:[iTags allObjects] forKey:@"tags"];
+                       result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
+                   } else {
+                       [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"code"];
+                       result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
+                   }
+                   
+                   [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+               } seq:[sequence integerValue]];
+}
+
+-(void)cleanTags:(CDVInvokedUrlCommand *)command {
+    NSDictionary* params = [command.arguments objectAtIndex:0];
+    NSNumber* sequence = params[@"sequence"];
+    
+    [JPUSHService cleanTags:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+        [dic setObject:sequence forKey:@"sequence"];
+        
+        CDVPluginResult* result;
+        
         if (iResCode == 0) {
-            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:nil];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
         } else {
-            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:nil];
+            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"code"];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
         }
+        
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-    }];
+    } seq:[sequence integerValue]];
+}
+
+-(void)getAllTags:(CDVInvokedUrlCommand *)command {
+    NSDictionary* params = [command.arguments objectAtIndex:0];
+    NSNumber* sequence = params[@"sequence"];
+    
+    [JPUSHService getAllTags:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+        [dic setObject:sequence forKey:@"sequence"];
+        
+        CDVPluginResult* result;
+        
+        if (iResCode == 0) { 
+            [dic setObject:[iTags allObjects] forKey:@"tags"];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
+        } else {
+            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"code"];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
+        }
+        
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    } seq:[sequence integerValue]];
+}
+
+-(void)checkTagBindState:(CDVInvokedUrlCommand *)command {
+    NSDictionary* params = [command.arguments objectAtIndex:0];
+    NSNumber* sequence = params[@"sequence"];
+    NSString* tag = params[@"tag"];
+    
+    [JPUSHService validTag:tag completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq, BOOL isBind) {
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+        [dic setObject:sequence forKey:@"sequence"];
+        
+        CDVPluginResult* result;
+        
+        if (iResCode == 0) { 
+            [dic setObject:[iTags allObjects] forKey:@"tags"];
+            [dic setObject:[NSNumber numberWithBool:isBind] forKey:@"isBind"];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
+        } else {
+            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"code"];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
+        }
+        
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    } seq:[sequence integerValue]];
+}
+
+-(void)setAlias:(CDVInvokedUrlCommand*)command {
+    NSDictionary* params = [command.arguments objectAtIndex:0];
+    NSNumber* sequence = params[@"sequence"];
+    NSString* alias = params[@"alias"];
+    
+    [JPUSHService setAlias:alias completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+        [dic setObject:sequence forKey:@"sequence"];
+        
+        CDVPluginResult* result;
+        
+        if (iResCode == 0) {
+            [dic setObject:iAlias forKey:@"alias"];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
+            
+        } else {
+            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"code"];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
+        }
+        
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    } seq:[sequence integerValue]];
+}
+
+-(void)deleteAlias:(CDVInvokedUrlCommand*)command {
+    NSDictionary* params = [command.arguments objectAtIndex:0];
+    NSNumber* sequence = params[@"sequence"];
+    
+    [JPUSHService deleteAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+        [dic setObject:sequence forKey:@"sequence"];
+        
+        CDVPluginResult* result;
+        
+        if (iResCode == 0) {
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
+        } else {
+            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"code"];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
+        }
+        
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    } seq:[sequence integerValue]];
+}
+
+-(void)getAlias:(CDVInvokedUrlCommand*)command {
+    NSDictionary* params = [command.arguments objectAtIndex:0];
+    NSNumber* sequence = params[@"sequence"];
+    
+    [JPUSHService getAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+        [dic setObject:sequence forKey:@"sequence"];
+        
+        CDVPluginResult* result;
+        
+        if (iResCode == 0) {
+            [dic setObject:iAlias forKey:@"alias"];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
+        } else {
+            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"code"];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
+        }
+        
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    } seq:[sequence integerValue]];
 }
 
 -(void)getRegistrationID:(CDVInvokedUrlCommand*)command{
@@ -346,16 +513,7 @@
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
-#pragma mark 设置标签及别名回调
--(void)tagsWithAliasCallback:(int)resultCode tags:(NSSet *)tags alias:(NSString *)alias {
-    if (resultCode == 0) {  // Success
-
-    } else {
-
-    }
-}
-
-- (void)networkDidReceiveMessage:(NSNotification *)notification {
+-(void)networkDidReceiveMessage:(NSNotification *)notification {
     if (notification && notification.userInfo) {
         [JPushPlugin fireDocumentEvent:JPushDocumentEvent_ReceiveMessage
                               jsString:[notification.userInfo toJsonString]];

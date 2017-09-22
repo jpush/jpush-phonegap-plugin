@@ -18,8 +18,17 @@
 //以下为js中可调用接口
 //设置标签、别名
 -(void)setTagsWithAlias:(CDVInvokedUrlCommand*)command;
+
 -(void)setTags:(CDVInvokedUrlCommand*)command;
+-(void)addTags:(CDVInvokedUrlCommand*)command;
+-(void)deleteTags:(CDVInvokedUrlCommand*)command;
+-(void)cleanTags:(CDVInvokedUrlCommand*)command;
+-(void)getAllTags:(CDVInvokedUrlCommand*)command;
+-(void)checkTagBindState:(CDVInvokedUrlCommand*)command;
+
 -(void)setAlias:(CDVInvokedUrlCommand*)command;
+-(void)deleteAlias:(CDVInvokedUrlCommand*)command;
+-(void)getAlias:(CDVInvokedUrlCommand*)command;
 
 //获取 RegistrationID
 -(void)getRegistrationID:(CDVInvokedUrlCommand*)command;
