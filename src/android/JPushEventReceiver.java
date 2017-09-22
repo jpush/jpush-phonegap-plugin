@@ -58,7 +58,7 @@ public class JPushEventReceiver extends JPushMessageReceiver {
 
         } else {
             try {
-                resultJson.put("errorCode", jPushMessage.getErrorCode());
+                resultJson.put("code", jPushMessage.getErrorCode());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -99,7 +99,7 @@ public class JPushEventReceiver extends JPushMessageReceiver {
 
         } else {
             try {
-                resultJson.put("errorCode", jPushMessage.getErrorCode());
+                resultJson.put("code", jPushMessage.getErrorCode());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -143,7 +143,7 @@ public class JPushEventReceiver extends JPushMessageReceiver {
 
         } else {
             try {
-                resultJson.put("errorCode", jPushMessage.getErrorCode());
+                resultJson.put("code", jPushMessage.getErrorCode());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

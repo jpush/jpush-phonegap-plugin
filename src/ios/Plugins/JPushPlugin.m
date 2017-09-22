@@ -116,11 +116,11 @@
                    
                    CDVPluginResult* result;
                    
-                   if (iResCode == 0) { // success
+                   if (iResCode == 0) { 
                        [dic setObject:[iTags allObjects] forKey:@"tags"];
                        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
                    } else {
-                       [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"errorCode"];
+                       [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"code"];
                        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
                    }
                    
@@ -140,11 +140,11 @@
                    
                    CDVPluginResult* result;
                    
-                   if (iResCode == 0) { // success
+                   if (iResCode == 0) { 
                        [dic setObject:[iTags allObjects] forKey:@"tags"];
                        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
                    } else {
-                       [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"errorCode"];
+                       [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"code"];
                        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
                    }
                    
@@ -164,11 +164,11 @@
                    
                    CDVPluginResult* result;
                    
-                   if (iResCode == 0) { // success
+                   if (iResCode == 0) { 
                        [dic setObject:[iTags allObjects] forKey:@"tags"];
                        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
                    } else {
-                       [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"errorCode"];
+                       [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"code"];
                        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
                    }
                    
@@ -189,7 +189,7 @@
         if (iResCode == 0) {
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
         } else {
-            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"errorCode"];
+            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"code"];
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
         }
         
@@ -207,11 +207,11 @@
         
         CDVPluginResult* result;
         
-        if (iResCode == 0) { // success
+        if (iResCode == 0) { 
             [dic setObject:[iTags allObjects] forKey:@"tags"];
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
         } else {
-            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"errorCode"];
+            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"code"];
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
         }
         
@@ -230,12 +230,12 @@
         
         CDVPluginResult* result;
         
-        if (iResCode == 0) { // success
+        if (iResCode == 0) { 
             [dic setObject:[iTags allObjects] forKey:@"tags"];
             [dic setObject:[NSNumber numberWithBool:isBind] forKey:@"isBind"];
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
         } else {
-            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"errorCode"];
+            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"code"];
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
         }
         
@@ -259,7 +259,7 @@
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
             
         } else {
-            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"errorCode"];
+            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"code"];
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
         }
         
@@ -280,7 +280,7 @@
         if (iResCode == 0) {
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
         } else {
-            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"errorCode"];
+            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"code"];
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
         }
         
@@ -302,7 +302,7 @@
             [dic setObject:iAlias forKey:@"alias"];
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
         } else {
-            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"errorCode"];
+            [dic setValue:[NSNumber numberWithUnsignedInteger:iResCode] forKey:@"code"];
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
         }
         

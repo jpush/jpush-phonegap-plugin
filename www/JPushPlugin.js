@@ -95,8 +95,7 @@ JPushPlugin.prototype.setTags = function (params, successCallback, errorCallback
 }
 
 /**
- * 新增标签，新增不代表设置。
- * 注意：该接口是覆盖逻辑，而不是增量逻辑。即新的调用会覆盖之前的设置。
+ * 新增标签。
  * 
  * @param params = { 'sequence': number, 'tags': ['tag1', 'tag2'] }
  */
