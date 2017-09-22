@@ -3,7 +3,6 @@
 - [延迟注册和启动推送通知服务](#延迟注册和启动推送通知服务)
 - [开始与停止推送服务](#开始与停止推送服务)
 - [获取 RegistrationID](#获取-registrationid)
-- [别名与标签](#别名与标签)
 - [获取 APNS 推送内容](#获取-apns-推送内容)
   - [点击推送通知](#点击推送通知)
   - [前台收到推送](#前台收到推送)
@@ -39,7 +38,7 @@
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.startJPushSDK()
+window.JPush.startJPushSDK()
 ```
 
 ## 开始与停止推送服务
@@ -59,7 +58,7 @@ JPush SDK 会恢复正常的默认行为。（因为保存在本地的状态数�
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.init()
+window.JPush.init()
 ```
 
 ### API - stopPush
@@ -70,7 +69,7 @@ window.plugins.jPushPlugin.init()
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.stopPush()
+window.JPush.stopPush()
 ```
 
 ### API - resumePush
@@ -80,7 +79,7 @@ window.plugins.jPushPlugin.stopPush()
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.resumePush()
+window.JPush.resumePush()
 ```
 
 ### API - isPushStopped
@@ -90,7 +89,7 @@ iOS平台，检查推送服务是否停止。
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.isPushStopped(callback)
+window.JPush.isPushStopped(callback)
 ```
 
 #### 参数说明
@@ -100,7 +99,7 @@ window.plugins.jPushPlugin.isPushStopped(callback)
 #### 代码示例
 
 ```js
-window.plugins.jPushPlugin.isPushStopped(function(data) {
+window.JPush.isPushStopped(function(data) {
   if(data > 0) {
   // 已关闭
   } else {
@@ -133,79 +132,10 @@ JPushPlugin.getRegistrationID(callback)
 #### 调用示例
 
 ```js
-window.plugins.jPushPlugin.getRegistrationID(function(data) {
+window.JPush.getRegistrationID(function(data) {
   console.log("JPushPlugin:registrationID is " + data)
 })
 ```
-
-## 别名与标签
-
-### API - setTagsWithAlias, setTags, setAlias
-
-提供几个相关 API 用来设置别名（alias）与标签（tags）。
-
-这几个 API 可以在 App 里任何地方调用。
-
-**别名 Alias**
-
-为安装了应用程序的用户，取个别名来标识。以后给该用户 Push 消息时，就可以用此别名来指定。
-
-每个用户只能指定一个别名。
-
-同一个应用程序内，对不同的用户，建议取不同的别名。这样，尽可能根据别名来唯一确定用户。
-
-系统不限定一个别名只能指定一个用户。如果一个别名被指定到了多个用户，当给指定这个别名发消息时，服务器端 API 会同时给这多个用户发送消息。
-
-举例：在一个用户要登录的游戏中，可能设置别名为 userId。游戏运营时，发现该用户 3 天没有玩游戏了，则根据 userId 调用服务器端 API 发通知到客户端提醒用户。
-
-**标签 Tag**
-
-为安装了应用程序的用户，打上标签。其目的主要是方便开发者根据标签，来批量下发 Push 消息。
-
-可为每个用户打多个标签。
-
-不同应用程序、不同的用户，可以打同样的标签。
-
-举例: game, old_page, women。
-
-#### 接口定义
-
-```js
-window.plugins.jPushPlugin.setTagsWithAlias(tags, alias, successCallback, errorCallback)
-window.plugins.jPushPlugin.setTags(tags, successCallback)
-window.plugins.jPushPlugin.setAlias(alias, errorCallback)
-```
-
-#### 参数说明
-
-- tags:
-  - 参数类型为数组。
-  - nil 此次调用不设置此值。
-  - 空集合表示取消之前的设置。
-  - 每次调用至少设置一个 tag，覆盖之前的设置，不是新增。
-  - 有效的标签组成：字母（区分大小写）、数字、下划线、汉字。
-  - 限制：每个 tag 命名长度限制为 40 字节，最多支持设置 100 个 tag，但总长度不得超过1K字节（判断长度需采用UTF-8编码）。
-  - 单个设备最多支持设置 100 个 tag，App 全局 tag 数量无限制。
-- alias:
-  - 参数类型为字符串。
-  - nil 此次调用不设置此值。
-  - 空字符串 （""）表示取消之前的设置。
-  - 有效的别名组成：字母（区分大小写）、数字、下划线、汉字。
-  - 限制：alias 命名长度限制为 40 字节（判断长度需采用 UTF-8 编码）。
-
-#### 错误码定义
-
-| Code | 描述                          | 详细解释                              |
-| ---- | :-------------------------- | :-------------------------------- |
-| 6001 | 无效的设置，tag/alias 不应参数都为 null |                                   |
-| 6002 | 设置超时                        | 建议重试。                             |
-| 6003 | alias 字符串不合法                | 有效的别名、标签组成：字母（区分大小写）、数字、下划线、汉字。   |
-| 6004 | alias超长                     | 最多 40 个字节（中文 UTF-8 是 3 个字节）。        |
-| 6005 | 某一个 tag 字符串不合法              | 有效的别名、标签组成：字母（区分大小写）、数字、下划线、汉字。   |
-| 6006 | 某一个 tag 超长                  | 一个 tag 最多 40 个字节（中文 UTF-8 是 3 个字节）。 |
-| 6007 | tags 数量超出限制(最多 100 个)       | 这是一台设备的限制。一个应用全局的标签数量无限制。         |
-| 6008 | tag/alias 超出总长度限制           | 总长度最多 1K 字节。                      |
-| 6011 | 10 秒内设置 tag 或 alias 大于 3 次         | 短时间内操作过于频繁。                       |
 
 ## 获取 APNS 推送内容
 
@@ -372,8 +302,8 @@ JPush 封装 badge 功能，允许应用上传 badge 值至 JPush 服务器，�
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.setBadge(value)
-window.plugins.jPushPlugin.resetBadge()
+window.JPush.setBadge(value)
+window.JPush.resetBadge()
 ```
 
 `resetBadge` 相当于 `setBadge(0)`。
@@ -389,8 +319,8 @@ value 取值范围：0 ~ 99999。
 #### 代码示例
 
 ```js
-window.plugins.jPushPlugin.setBadge(5)
-window.plugins.jPushPlugin.resetBadge()
+window.JPush.setBadge(5)
+window.JPush.resetBadge()
 ```
 
 ### API - setApplicationIconBadgeNumber
@@ -400,7 +330,7 @@ window.plugins.jPushPlugin.resetBadge()
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.setApplicationIconBadgeNumber(badge)
+window.JPush.setApplicationIconBadgeNumber(badge)
 ```
 
 #### 参数说明
@@ -410,7 +340,7 @@ window.plugins.jPushPlugin.setApplicationIconBadgeNumber(badge)
 #### 代码示例
 
 ```js
-window.plugins.jPushPlugin.setApplicationIconBadgeNumber(0)
+window.JPush.setApplicationIconBadgeNumber(0)
 ```
 
 ### API - getApplicationIconBadgeNumber
@@ -420,7 +350,7 @@ window.plugins.jPushPlugin.setApplicationIconBadgeNumber(0)
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.getApplicationIconBadgeNumber(callback)
+window.JPush.getApplicationIconBadgeNumber(callback)
 ```
 
 #### 参数说明
@@ -430,7 +360,7 @@ window.plugins.jPushPlugin.getApplicationIconBadgeNumber(callback)
 #### 代码示例
 
 ```js
-window.plugins.jPushPlugin.getApplicationIconBadgeNumber(function(badgeNum) {
+window.JPush.getApplicationIconBadgeNumber(function(badgeNum) {
   console.log(badgeNum)
 })
 ```
@@ -444,7 +374,7 @@ window.plugins.jPushPlugin.getApplicationIconBadgeNumber(function(badgeNum) {
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.addLocalNotificationForIOS(delayTime, content, badge, notificationID, extras)
+window.JPush.addLocalNotificationForIOS(delayTime, content, badge, notificationID, extras)
 ```
 
 #### 参数说明
@@ -458,7 +388,7 @@ window.plugins.jPushPlugin.addLocalNotificationForIOS(delayTime, content, badge,
 #### 代码示例
 
 ```js
-window.plugins.jPushPlugin.addLocalNotificationForIOS(24*60*60, "本地推送内容", 1, "notiId", {"key":"value"});
+window.JPush.addLocalNotificationForIOS(24*60*60, "本地推送内容", 1, "notiId", {"key":"value"});
 ```
 
 ### API - deleteLocalNotificationWithIdentifierKeyInIOS
@@ -468,7 +398,7 @@ window.plugins.jPushPlugin.addLocalNotificationForIOS(24*60*60, "本地推送内
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.deleteLocalNotificationWithIdentifierKeyInIOS(identifierKey)
+window.JPush.deleteLocalNotificationWithIdentifierKeyInIOS(identifierKey)
 ```
 
 #### 参数说明
@@ -478,7 +408,7 @@ window.plugins.jPushPlugin.deleteLocalNotificationWithIdentifierKeyInIOS(identif
 #### 代码示例
 
 ```js
-window.plugins.jPushPlugin.deleteLocalNotificationWithIdentifierKeyInIOS("identifier")
+window.JPush.deleteLocalNotificationWithIdentifierKeyInIOS("identifier")
 ```
 
 ### API - clearAllLocalNotifications
@@ -488,13 +418,13 @@ window.plugins.jPushPlugin.deleteLocalNotificationWithIdentifierKeyInIOS("identi
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.clearAllLocalNotifications()
+window.JPush.clearAllLocalNotifications()
 ```
 
 #### 代码示例
 
 ```js
-window.plugins.jPushPlugin.clearAllLocalNotifications()
+window.JPush.clearAllLocalNotifications()
 ```
 
 ## 获取本地通知内容
@@ -521,9 +451,9 @@ window.plugins.jPushPlugin.clearAllLocalNotifications()
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.startLogPageView(pageName)
-window.plugins.jPushPlugin.stopLogPageView(pageName)
-window.plugins.jPushPlugin.beginLogPageView(pageName, duration)
+window.JPush.startLogPageView(pageName)
+window.JPush.stopLogPageView(pageName)
+window.JPush.beginLogPageView(pageName, duration)
 ```
 
 #### 参数说明
@@ -540,9 +470,9 @@ window.plugins.jPushPlugin.beginLogPageView(pageName, duration)
 #### 代码示例
 
 ```js
-window.plugins.jPushPlugin.beginLogPageView("newPage", 5);
-window.plugins.jPushPlugin.startLogPageView("onePage");
-window.plugins.jPushPlugin.stopLogPageView("onePage");
+window.JPush.beginLogPageView("newPage", 5);
+window.JPush.startLogPageView("onePage");
+window.JPush.stopLogPageView("onePage");
 ```
 
 ## 日志等级设置
@@ -556,7 +486,7 @@ window.plugins.jPushPlugin.stopLogPageView("onePage");
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.setDebugModeFromIos();
+window.JPush.setDebugModeFromIos();
 ```
 
 ### API - setLogOFF
@@ -568,7 +498,7 @@ window.plugins.jPushPlugin.setDebugModeFromIos();
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.setLogOFF();
+window.JPush.setLogOFF();
 ```
 
 ### API - setCrashLogON
@@ -580,7 +510,7 @@ window.plugins.jPushPlugin.setLogOFF();
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.setCrashLogON();
+window.JPush.setCrashLogON();
 ```
 
 ## 地理位置上报
@@ -592,7 +522,7 @@ window.plugins.jPushPlugin.setCrashLogON();
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.prototype.setLocation(latitude, longitude)
+window.JPush.prototype.setLocation(latitude, longitude)
 ```
 
 #### 参数说明
@@ -609,13 +539,13 @@ window.plugins.jPushPlugin.prototype.setLocation(latitude, longitude)
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.isPlatformIOS()
+window.JPush.isPlatformIOS()
 ```
 
 #### 代码示例
 
 ```js
-if(window.plugins.jPushPlugin.isPlatformIOS()) {
+if(window.JPush.isPlatformIOS()) {
   // iOS
 } else {
   // Android
@@ -639,7 +569,7 @@ if(window.plugins.jPushPlugin.isPlatformIOS()) {
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.addDismissActions(actions, categoryId);
+window.JPush.addDismissActions(actions, categoryId);
 ```
 
 #### 参数说明
@@ -660,7 +590,7 @@ window.plugins.jPushPlugin.addDismissActions(actions, categoryId);
 #### 代码示例
 
 ```js
-window.plugins.jPushPlugin.addDismissActions([
+window.JPush.addDismissActions([
   {"title":"t1", "identifier":"id1", "option":"0"},
   {"title":"t2", "identifier":"id2", "option":"3", "type":"textInput", "textInputButtonTitle":"回复", "textInputPlaceholder":"点此输入回复内容"}], "categoryId_t1_t2");
 ```
@@ -680,7 +610,7 @@ iPhone 6s 及以后设备且 iOS 9 以后系统支持 3d-touch。
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.addNotificationActions(actions, categoryId)
+window.JPush.addNotificationActions(actions, categoryId)
 ```
 
 #### 参数说明
@@ -742,7 +672,7 @@ window.plugins.jPushPlugin.addNotificationActions(actions, categoryId)
 #### 接口定义
 
 ```js
-window.plugins.jPushPlugin.getUserNotificationSettings(callback)
+window.JPush.getUserNotificationSettings(callback)
 ```
 
 #### 返回值

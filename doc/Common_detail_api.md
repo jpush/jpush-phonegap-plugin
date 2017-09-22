@@ -28,20 +28,17 @@ window.JPush.init()
 ```
 
 ### API - stopPush
-+ Android 平台:
 
-	+ 开发者 App 可以通过调用停止推送服务 API 来停止极光推送服务，当又需要使用极光推送服务时，则必须要调用恢复推送服务 API。
+- Android:
+  - 开发者 App 可以通过调用停止推送服务 API 来停止极光推送服务，当又需要使用极光推送服务时，则必须要调用恢复推送服务 API。
+  - 调用了本 API 后，JPush 推送服务完全被停止，具体表现为：
+    - JPush Service 不在后台运行。
+    - 收不到推送消息。
+    - 不能通过 `init` 方法恢复，而需要调用 `resumePush` 恢复。
+    - 极光推送其他所有的 API 调用都无效。
 
-	+ 调用了本 API 后，JPush 推送服务完全被停止，具体表现为：
-
-		+ JPush Service 不在后台运行。
-		+ 收不到推送消息。
-		+ 不能通过 JPushInterface.init 恢复，需要调用 resumePush 恢复。
-		+ 极光推送所有的其他 API 调用都无效。
-
-+ iOS 平台:
-
-	+ 不推荐调用，因为这个 API 只是让你的 DeviceToken 失效，在 设置－通知 中您的应用程序没有任何变化。**建议设置一个 UI 界面， 提醒用户在 设置－通知 中关闭推送服务**。
+- iOS:
+  - 不推荐调用，因为这个 API 只是让你的 DeviceToken 失效，在 设置－通知 中您的应用程序没有任何变化。**建议设置一个 UI 界面， 提醒用户在 设置－通知 中关闭推送服务**。
 
 #### 接口定义
 
@@ -53,27 +50,25 @@ window.JPush.stopPush()
 
 恢复推送服务。调用了此 API 后:
 
-+ Android 平台:
+- Android 平台:
+  - 极光推送完全恢复正常工作。
 
-	+ 极光推送完全恢复正常工作。
-
-+ iOS 平台:
-
-	+ 重新去 APNS 注册。
+- iOS 平台:
+  - 重新去 APNS 注册。
 
 #### 接口定义
 
-	window.JPush.resumePush()
+```js
+window.JPush.resumePush()
+```
 
 ### API - isPushStopped
 
-+ Android 平台:
+- Android 平台:
+  - 用来检查 Push Service 是否已经被停止。
 
-	+ 用来检查 Push Service 是否已经被停止。
-
-+ iOS 平台:
-
-	+ 平台检查推送服务是否注册。
+- iOS 平台:
+  - 平台检查推送服务是否注册。
 
 #### 接口定义
 
@@ -123,7 +118,9 @@ JPush SDK 会以广播的形式发送 RegistrationID 到应用程序。
 
 #### 接口定义
 
-	window.JPush.getRegistrationID(callback)
+```js
+window.JPush.getRegistrationID(callback)
+```
 
 #### 返回值
 
@@ -370,46 +367,52 @@ window.JPush.checkTagBindState({ sequence: 1, tag: 'tag1' },
 
 - 在你需要接收通知的的 js 文件中加入:
 
-        document.addEventListener("jpush.openNotification", function (event) {
-	      var alertContent
-          if(device.platform == "Android") {
-            alertContent = event.alert
-          } else {
-            alertContent = event.aps.alert
-          }
-	    }, false)
+```js
+document.addEventListener("jpush.openNotification", function (event) {
+  var alertContent
+  if(device.platform == "Android") {
+    alertContent = event.alert
+  } else {
+    alertContent = event.aps.alert
+  }
+}, false)
+```
 
 > ps：点击通知后传递的 json object 保存在 window.JPush.openNotification，直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意。
 
-+ Android:
+- Android:
 
-		{
-			"title": "title",
-			"alert":"ding",
-			"extras":{
-				"yourKey": "yourValue",
-			    "cn.jpush.android.MSG_ID": "1691785879",
-			    "app": "com.thi.pushtest",
-			    "cn.jpush.android.ALERT": "ding",
-			    "cn.jpush.android.EXTRA": {},
-			    "cn.jpush.android.PUSH_ID": "1691785879",
-			    "cn.jpush.android.NOTIFICATION_ID": 1691785879,
-			    "cn.jpush.android.NOTIFICATION_TYPE": "0"
-			}
-		}
+```json
+{
+  "title": "title",
+  "alert":"ding",
+  "extras":{
+  "yourKey": "yourValue",
+    "cn.jpush.android.MSG_ID": "1691785879",
+    "app": "com.thi.pushtest",
+    "cn.jpush.android.ALERT": "ding",
+    "cn.jpush.android.EXTRA": {},
+    "cn.jpush.android.PUSH_ID": "1691785879",
+    "cn.jpush.android.NOTIFICATION_ID": 1691785879,
+    "cn.jpush.android.NOTIFICATION_TYPE": "0"
+  }
+}
+```
 
-+ iOS:
+- iOS:
 
-		{
-			"aps":{
-			  	"badge": 1,
-			  	"sound": "default",
-			  	"alert": "今天去哪儿"
-			 },
-			"key1": "value1",
-			"key2": "value2",
-			"_j_msgid": 154604475
-		}
+```json
+{
+  "aps": {
+    "badge": 1,
+    "sound": "default",
+    "alert": "今天去哪儿"
+  },
+  "key1": "value1",
+  "key2": "value2",
+  "_j_msgid": 154604475
+}
+```
 
 ## 获取通知内容
 
@@ -421,49 +424,53 @@ window.JPush.checkTagBindState({ sequence: 1, tag: 'tag1' },
 
 - 在你需要接收通知的的 js 文件中加入:
 
-		  document.addEventListener("jpush.receiveNotification", function (event) {
-		    var alertContent
-	        if(device.platform == "Android") {
-	          alertContent = event.alert
-	        } else {
-	          alertContent = event.aps.alert
-	        }
-	        alert("open Notificaiton:" + alertContent)
-		  }, false)
-
+```js
+document.addEventListener("jpush.receiveNotification", function (event) {
+  var alertContent
+  if(device.platform == "Android") {
+    alertContent = event.alert
+  } else {
+    alertContent = event.aps.alert
+  }
+  alert("open Notification:" + alertContent)
+}, false)
+```
 
 > ps：点击通知后传递的 json object 保存在 window.JPush.receiveNotification，直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意。
 
-+ Android:
+- Android:
 
-		{
-			"title": "title",
-			"alert":"ding",
-			"extras":{
-				"yourKey": "yourValue",
-			    "cn.jpush.android.MSG_ID":"1691785879",
-			    "app":"com.thi.pushtest",
-			    "cn.jpush.android.ALERT":"ding",
-			    "cn.jpush.android.EXTRA":{},
-			    "cn.jpush.android.PUSH_ID":"1691785879",
-			    "cn.jpush.android.NOTIFICATION_ID":1691785879,
-			 	"cn.jpush.android.NOTIFICATION_TYPE":"0"
-			}
-		}
+```json
+{
+  "title": "title",
+  "alert":"ding",
+  "extras":{
+    "yourKey": "yourValue",
+    "cn.jpush.android.MSG_ID":"1691785879",
+    "app":"com.thi.pushtest",
+    "cn.jpush.android.ALERT":"ding",
+    "cn.jpush.android.EXTRA":{},
+    "cn.jpush.android.PUSH_ID":"1691785879",
+    "cn.jpush.android.NOTIFICATION_ID":1691785879,
+    "cn.jpush.android.NOTIFICATION_TYPE":"0"
+  }
+}
+```
 
-+ iOS:
+- iOS:
 
-		{
-			"aps":{
-				"badge":1,
-				"sound":"default",
-				"alert":"今天去哪儿"
-			},
-			"key1":"value1",
-			"key2":"value2",
-			"_j_msgid":154604475
-		}
-
+```json
+{
+  "aps":{
+    "badge":1,
+    "sound":"default",
+    "alert":"今天去哪儿"
+  },
+  "key1":"value1",
+  "key2":"value2",
+  "_j_msgid":154604475
+}
+```
 
 ## 获取自定义消息推送内容
 
@@ -471,41 +478,47 @@ window.JPush.checkTagBindState({ sequence: 1, tag: 'tag1' },
 
 收到自定义消息时触发这个事件，推荐使用事件的方式传递。
 
-但同时保留了 receiveMessageIniOSCallback 的回调函数，兼容以前的代码。
+但同时保留了 `receiveMessageIniOSCallback` 的回调函数，兼容以前的代码。
 
 #### 代码示例
 
 - 在你需要接收通知的的 js 文件中加入:
 
-	    document.addEventListener("jpush.receiveMessage", function (event) {
-	      var message
-          if(device.platform == "Android") {
-            message = event.message;
-          } else {
-            message = event.content;
-          }      
-	    }, false)
+```js
+document.addEventListener("jpush.receiveMessage", function (event) {
+  var message
+  if(device.platform == "Android") {
+    message = event.message;
+  } else {
+    message = event.content;
+  }
+}, false)
+```
 
 > ps：点击通知后传递的 json object 保存在 window.JPush.receiveMessage，直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意。
 
-+ Android:
+- Android:
 
-		{
-			"message":"今天去哪儿",
-			"extras"{
-				"yourKey": "yourValue",
-				"cn.jpush.android.MSG_ID":"154378013",
-				"cn.jpush.android.CONTENT_TYPE":"",
-				"cn.jpush.android.EXTRA":{"key":"不添没有"}
-			}
-		}
+```json
+{
+  "message":"今天去哪儿",
+  "extras"{
+    "yourKey": "yourValue",
+    "cn.jpush.android.MSG_ID":"154378013",
+    "cn.jpush.android.CONTENT_TYPE":"",
+    "cn.jpush.android.EXTRA":{ "key":"不添加没有" }
+  }
+}
+```
 
-+ iOS：
+- iOS：
 
-		{
-			 "content":"今天去哪儿",
-			 "extras":{"key":"不填写没有"}
-		}
+```json
+{
+  "content":"今天去哪儿",
+  "extras":{ "key":"不添加没有" }
+}
+```
 
 ## 判断系统设置中是否允许当前应用推送
 ### API - getUserNotificationSettings
@@ -515,17 +528,19 @@ window.JPush.checkTagBindState({ sequence: 1, tag: 'tag1' },
 
 在 iOS 中，返回值为 0 时，代表系统设置中关闭了推送；大于 0 时，代表打开了推送，且能够根据返回值判断具体通知形式：
 
-	UIRemoteNotificationTypeNone    = 0,		// 0
-	UIRemoteNotificationTypeBadge   = 1 << 0,	// 1
-	UIRemoteNotificationTypeSound   = 1 << 1,	// 2
-	UIRemoteNotificationTypeAlert   = 1 << 2,	// 4
-	UIRemoteNotificationTypeNewsstandContentAvailability = 1 << 3	// 8
+UIRemoteNotificationTypeNone    = 0,      // 0
+UIRemoteNotificationTypeBadge   = 1 << 0, // 1
+UIRemoteNotificationTypeSound   = 1 << 1, // 2
+UIRemoteNotificationTypeAlert   = 1 << 2, // 4
+UIRemoteNotificationTypeNewsstandContentAvailability = 1 << 3 // 8
 
 #### 代码示例
 
-	window.JPush.getUserNotificationSettings(function(result) {
-		if(result == 0) {
-			// 系统设置中已关闭应用推送。
-		} else if(result > 0) {
-			// 系统设置中打开了应用推送。
-		})
+```js
+window.JPush.getUserNotificationSettings(function(result) {
+  if(result == 0) {
+    // 系统设置中已关闭应用推送。
+  } else if(result > 0) {
+    // 系统设置中打开了应用推送。
+  })
+ ```
