@@ -528,11 +528,13 @@ document.addEventListener("jpush.receiveMessage", function (event) {
 
 在 iOS 中，返回值为 0 时，代表系统设置中关闭了推送；大于 0 时，代表打开了推送，且能够根据返回值判断具体通知形式：
 
+```js
 UIRemoteNotificationTypeNone    = 0,      // 0
 UIRemoteNotificationTypeBadge   = 1 << 0, // 1
 UIRemoteNotificationTypeSound   = 1 << 1, // 2
 UIRemoteNotificationTypeAlert   = 1 << 2, // 4
 UIRemoteNotificationTypeNewsstandContentAvailability = 1 << 3 // 8
+```
 
 #### 代码示例
 
