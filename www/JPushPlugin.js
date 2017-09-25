@@ -311,21 +311,18 @@ JPushPlugin.prototype.receiveRegistrationIdInAndroidCallback = function (data) {
 
 JPushPlugin.prototype.receiveMessageInAndroidCallback = function (data) {
   data = JSON.stringify(data)
-  console.log('JPushPlugin:receiveMessageInAndroidCallback: ' + data)
   this.receiveMessage = JSON.parse(data)
   cordova.fireDocumentEvent('jpush.receiveMessage', this.receiveMessage)
 }
 
 JPushPlugin.prototype.openNotificationInAndroidCallback = function (data) {
   data = JSON.stringify(data)
-  console.log('JPushPlugin:openNotificationInAndroidCallback: ' + data)
   this.openNotification = JSON.parse(data)
   cordova.fireDocumentEvent('jpush.openNotification', this.openNotification)
 }
 
 JPushPlugin.prototype.receiveNotificationInAndroidCallback = function (data) {
   data = JSON.stringify(data)
-  console.log('JPushPlugin:receiveNotificationInAndroidCallback: ' + data)
   this.receiveNotification = JSON.parse(data)
   cordova.fireDocumentEvent('jpush.receiveNotification', this.receiveNotification)
 }
