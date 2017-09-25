@@ -1,11 +1,7 @@
 # Android API 简介
 
 - [注册成功事件](#注册成功事件)
-- [接收通知时获得通知的内容](#接收通知时获得通知的内容)
-- [打开通知时获得通知的内容](#打开通知时获得通知的内容)
-- [收到自定义消息时获取消息的内容](#收到自定义消息时获取消息的内容)
 - [获取集成日志（同时适用于 iOS）](#获取集成日志同时适用于-ios)
-- [接收消息和点击通知事件](#接收消息和点击通知事件)
 - [统计分析](#统计分析)
 - [清除通知](#清除通知)
 - [设置允许推送时间](#设置允许推送时间)
@@ -26,31 +22,6 @@ document.addEventListener('jpush.receiveRegistrationId', function (event) {
   console.log(event.registrationId)
 }, false)
 ```
-
-## 接收通知时获得通知的内容
-
-- 内容:
-    window.JPush.receiveNotification.alert
-- 标题:
-    window.JPush.receiveNotification.title
-- 附加字段:
-    window.JPush.receiveNotification.extras.yourKey
-
-## 打开通知时获得通知的内容
-
-- 内容:
-    window.JPush.openNotification.alert
-- 标题:
-    window.JPush.openNotification.title
-- 附加字段
-    window.JPush.openNotification.extras.yourKey
-
-## 收到自定义消息时获取消息的内容
-
-- 内容:
-    window.JPush.receiveMessage.message
-- 附加字段:
-    window.JPush.receiveMessage.extras.yourKey
 
 ## 获取集成日志（同时适用于 iOS）
 
@@ -158,6 +129,11 @@ window.JPush.setSilenceTime(startHour, startMinute, endHour, endMinute)
 - endMinute: 整形，静音时段的结束时间 - 分钟（范围：0~59 ）。
 
 ##  通知栏样式定制
+
+目前 REST API 与极光控制台均已支持「大文本通知栏样」、「文本条目通知栏样式」和「大图片通知栏样式」。可直接推送对应样式
+的通知。
+
+此外也能够通过设置 Notification 的 flag 来控制通知提醒方式，具体用法可参考 [后台 REST API](https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/#notification)。
 
 ### API - setBasicPushNotificationBuilder, setCustomPushNotificationBuilder
 
