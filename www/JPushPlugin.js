@@ -366,16 +366,6 @@ JPushPlugin.prototype.reportNotificationOpened = function (msgID) {
 }
 
 /**
- *是否开启统计分析功能，用于“用户使用时长”，“活跃用户”，“用户打开次数”的统计，并上报到服务器上，
- *在 Portal 上展示给开发者。
- */
-JPushPlugin.prototype.setStatisticsOpen = function (mode) {
-  if (device.platform === 'Android') {
-    this.callNative('setStatisticsOpen', [mode], null)
-  }
-}
-
-/**
  * 用于在 Android 6.0 及以上系统，申请一些权限
  * 具体可看：http://docs.jpush.io/client/android_api/#android-60
  */
