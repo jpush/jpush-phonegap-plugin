@@ -39,15 +39,12 @@ import cn.jpush.android.service.JPushMessageReceiver;
 
 public class JPushPlugin extends CordovaPlugin {
 
-    private ExecutorService threadPool = Executors.newFixedThreadPool(1);
-    
+    private static final String TAG = JPushPlugin.class.getSimpleName();
+
     private Context mContext;
-    
+
     private static JPushPlugin instance;
     private static Activity cordovaActivity;
-    private static String TAG = "JPushPlugin";
-
-    private static boolean isStatisticsOpened = false;    // 是否开启统计分析功能
 
     static String notificationTitle;
     static String notificationAlert;
@@ -85,16 +82,7 @@ public class JPushPlugin extends CordovaPlugin {
         }
     }
 
-    public void onPause(boolean multitasking) {
-        if (isStatisticsOpened && multitasking) {
-            JPushInterface.onPause(this.cordova.getActivity());
-        }
-    }
-
     public void onResume(boolean multitasking) {
-        if (isStatisticsOpened && multitasking) {
-            JPushInterface.onResume(this.cordova.getActivity());
-        }
         if (openNotificationAlert != null) {
             notificationAlert = null;
             transmitNotificationOpen(openNotificationTitle, openNotificationAlert,
@@ -252,7 +240,7 @@ public class JPushPlugin extends CordovaPlugin {
     @Override
     public boolean execute(final String action, final JSONArray data,
                            final CallbackContext callbackContext) throws JSONException {
-        threadPool.execute(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -642,17 +630,6 @@ public class JPushPlugin extends CordovaPlugin {
 
     void clearLocalNotifications(JSONArray data, CallbackContext callbackContext) {
         JPushInterface.clearLocalNotifications(this.cordova.getActivity());
-    }
-
-    /**
-     * 决定是否启用统计分析功能。
-     */
-    void setStatisticsOpen(JSONArray data, CallbackContext callbackContext) {
-        try {
-            isStatisticsOpened = data.getBoolean(0);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

@@ -311,21 +311,18 @@ JPushPlugin.prototype.receiveRegistrationIdInAndroidCallback = function (data) {
 
 JPushPlugin.prototype.receiveMessageInAndroidCallback = function (data) {
   data = JSON.stringify(data)
-  console.log('JPushPlugin:receiveMessageInAndroidCallback: ' + data)
   this.receiveMessage = JSON.parse(data)
   cordova.fireDocumentEvent('jpush.receiveMessage', this.receiveMessage)
 }
 
 JPushPlugin.prototype.openNotificationInAndroidCallback = function (data) {
   data = JSON.stringify(data)
-  console.log('JPushPlugin:openNotificationInAndroidCallback: ' + data)
   this.openNotification = JSON.parse(data)
   cordova.fireDocumentEvent('jpush.openNotification', this.openNotification)
 }
 
 JPushPlugin.prototype.receiveNotificationInAndroidCallback = function (data) {
   data = JSON.stringify(data)
-  console.log('JPushPlugin:receiveNotificationInAndroidCallback: ' + data)
   this.receiveNotification = JSON.parse(data)
   cordova.fireDocumentEvent('jpush.receiveNotification', this.receiveNotification)
 }
@@ -365,16 +362,6 @@ JPushPlugin.prototype.removeLocalNotification = function (notificationID) {
 JPushPlugin.prototype.reportNotificationOpened = function (msgID) {
   if (device.platform === 'Android') {
     this.callNative('reportNotificationOpened', [msgID], null)
-  }
-}
-
-/**
- *是否开启统计分析功能，用于“用户使用时长”，“活跃用户”，“用户打开次数”的统计，并上报到服务器上，
- *在 Portal 上展示给开发者。
- */
-JPushPlugin.prototype.setStatisticsOpen = function (mode) {
-  if (device.platform === 'Android') {
-    this.callNative('setStatisticsOpen', [mode], null)
   }
 }
 
