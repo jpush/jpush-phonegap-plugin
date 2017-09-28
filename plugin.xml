@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.2.5">
+  version="3.2.6">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -194,6 +194,13 @@
                 android:authorities="$PACKAGE_NAME.DataProvider"
                 android:name="cn.jpush.android.service.DataProvider"
                 android:exported="true" />
+
+            <receiver android:name="cn.jiguang.cordova.push.JPushEventReceiver">
+                <intent-filter>
+                    <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+                    <category android:name="$PACKAGE_NAME"></category>
+                </intent-filter>
+            </receiver>
 
             <!-- Required. Enable it you can get statistics data with channel -->
             <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default" />
