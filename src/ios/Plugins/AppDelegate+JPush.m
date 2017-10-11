@@ -42,16 +42,24 @@ NSDictionary *_launchOptions;
   
     if (notification) {
         if (notification.userInfo) {
-            NSDictionary *userInfo1 = [notification.userInfo valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-            if (userInfo1.count > 0) {
-                [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(fireOpenNotification:) userInfo:userInfo1 repeats:YES];
-            }
-
-            NSDictionary *userInfo2 = [notification.userInfo valueForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-            if (userInfo2.count > 0) {
-                [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(fireOpenNotification:) userInfo:userInfo2 repeats:YES];
-            }
+          
+          if ([notification.userInfo valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey]) {
+            [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(fireOpenNotification:)
+                                           userInfo:[notification.userInfo
+                                                     valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey] repeats:YES];
+          }
+          
+          if ([notification.userInfo valueForKey:UIApplicationLaunchOptionsLocalNotificationKey]) {
+            UILocalNotification *localNotification = [notification.userInfo valueForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+            
+            NSDictionary* localNotificationEvent = @{@"content":localNotification.alertBody,
+                                                     @"badge": @(localNotification.applicationIconBadgeNumber),
+                                                     @"extras":localNotification.userInfo,
+                                                     };
+            [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(fireOpenNotification:) userInfo:localNotificationEvent repeats:YES];
+          }
         }
+      
         [JPUSHService setDebugMode];
 
         NSString *plistPath = [[NSBundle mainBundle] pathForResource:JPushConfig_FileName ofType:@"plist"];
