@@ -30,4 +30,4 @@ static NSString *const JPushDocumentEvent_ReceiveMessage            = @"receiveM
 static NSString *const JPushDocumentEvent_StartLocalNotification    = @"startLocalNotification";
 static NSString *const JPushDocumentEvent_ReceiveLocalNotification  = @"receiveLocalNotification";
 
-
+static NSString *const JPushDocumentEvent_receiveRegistrationId     = @"receiveRegistrationId";

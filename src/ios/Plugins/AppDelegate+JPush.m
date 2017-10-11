@@ -38,7 +38,8 @@
 NSDictionary *_launchOptions;
 -(void)applicationDidLaunch:(NSNotification *)notification{
 
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jpushSDKDidLoginNotification) name:kJPFNetworkDidLoginNotification object:nil];
+  
     if (notification) {
         if (notification.userInfo) {
             NSDictionary *userInfo1 = [notification.userInfo valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
@@ -68,6 +69,11 @@ NSDictionary *_launchOptions;
 -(void)startJPushSDK{
     [self registerForRemoteNotification];
     [JPushPlugin setupJPushSDK:_launchOptions];
+}
+
+- (void)jpushSDKDidLoginNotification {
+  NSDictionary *event = @{@"registrationId": JPUSHService.registrationID};
+  [JPushPlugin fireDocumentEvent:JPushDocumentEvent_receiveRegistrationId jsString:[event toJsonString]];
 }
 
 -(void)registerForRemoteNotification{
