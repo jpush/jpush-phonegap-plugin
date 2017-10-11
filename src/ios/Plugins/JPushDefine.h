@@ -27,7 +27,6 @@ static NSString *const JPushDocumentEvent_OpenNotification          = @"openNoti
 static NSString *const JPushDocumentEvent_BackgroundNotification    = @"backgroundNotification";
 static NSString *const JPushDocumentEvent_SetTagsWithAlias          = @"setTagsWithAlias";
 static NSString *const JPushDocumentEvent_ReceiveMessage            = @"receiveMessage";
-static NSString *const JPushDocumentEvent_StartLocalNotification    = @"startLocalNotification";
 static NSString *const JPushDocumentEvent_ReceiveLocalNotification  = @"receiveLocalNotification";
 
-
+static NSString *const JPushDocumentEvent_receiveRegistrationId     = @"receiveRegistrationId";
