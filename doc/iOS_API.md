@@ -724,10 +724,6 @@ window.JPush.getUserNotificationSettings(callback)
 
 [获取自定义消息内容](#获取自定义消息内容)
 
-### jpush.startLocalNotification
-
-[点击本地通知横幅启动 App](#点击本地通知横幅启动-app)
-
 ### jpush.receiveLocalNotification
 
 [iOS 10 before 收到本地通知](#ios-10-before-收到本地通知)
