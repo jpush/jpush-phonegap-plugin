@@ -437,9 +437,7 @@ window.JPush.clearAllLocalNotifications()
 
 监听 [jpush.receiveNotification](#前台收到推送)、[jpush.openNotification](点击推送通知)，获取推送内容后，通过获取到的 `__JPUSHNotificationKey` 字段（[本地通知](#本地通知) 设置的 `notificationID`）来判断是本地通知，并处理。
 
-### 点击本地通知横幅启动 App
 
-监听 `jpush.startLocalNotification` 事件。
 
 ## 页面的统计
 
