@@ -716,10 +716,6 @@ window.JPush.getUserNotificationSettings(callback)
 
 [iOS 7 以后后台收到远程通知](#后台收到推送)
 
-### jpush.setTagsWithAlias
-
-[设置标签别名回调](#返回值说明)
-
 ### jpush.receiveMessage
 
 [获取自定义消息内容](#获取自定义消息内容)
