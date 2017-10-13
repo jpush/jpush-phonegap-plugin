@@ -70,20 +70,6 @@ JPushPlugin.prototype.clearLocalNotifications = function () {
   }
 }
 
-JPushPlugin.prototype.setTagsWithAlias = function (tags, alias, successCallback, errorCallback) {
-  if (tags == null) {
-    this.setAlias(alias)
-    return
-  }
-  if (alias == null) {
-    this.setTags(tags)
-    return
-  }
-  var arrayTagWithAlias = [tags]
-  arrayTagWithAlias.unshift(alias)
-  this.callNative('setTagsWithAlias', arrayTagWithAlias, successCallback, errorCallback)
-}
-
 /**
  * 设置标签。
  * 注意：该接口是覆盖逻辑，而不是增量逻辑。即新的调用会覆盖之前的设置。
