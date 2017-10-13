@@ -87,23 +87,6 @@
     });
 }
 
--(void)setTagsWithAlias:(CDVInvokedUrlCommand*)command{
-    NSString *alias = [command argumentAtIndex:0];
-    NSArray  *tags  = [command argumentAtIndex:1];
-
-    [JPUSHService setTags:[NSSet setWithArray:tags]
-                    alias:alias
-    fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
-        CDVPluginResult *result;
-        if (iResCode == 0) {
-            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:nil];
-        } else {
-            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:nil];
-        }
-        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-    }];
-}
-
 -(void)setTags:(CDVInvokedUrlCommand*)command {
     NSDictionary* params = [command.arguments objectAtIndex:0];
     NSNumber* sequence = params[@"sequence"];

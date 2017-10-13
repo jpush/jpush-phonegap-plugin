@@ -527,24 +527,6 @@ public class JPushPlugin extends CordovaPlugin {
         eventCallbackMap.put(sequence, callbackContext);
     }
 
-    void setTagsWithAlias(JSONArray data, CallbackContext callbackContext) {
-        HashSet<String> tags = new HashSet<String>();
-        String alias;
-        try {
-            alias = data.getString(0);
-            JSONArray tagsArray = data.getJSONArray(1);
-            for (int i = 0; i < tagsArray.length(); i++) {
-                tags.add(tagsArray.getString(i));
-            }
-            JPushInterface.setAliasAndTags(mContext,
-                    alias, tags, mTagWithAliasCallback);
-            callbackContext.success();
-        } catch (JSONException e) {
-            e.printStackTrace();
-            callbackContext.error("Error reading tagAlias JSON");
-        }
-    }
-
     void getConnectionState(JSONArray data, CallbackContext callback) {
         boolean isConnected = JPushInterface.getConnectionState(cordovaActivity.getApplicationContext());
         callback.success(String.valueOf(isConnected));
@@ -553,8 +535,7 @@ public class JPushPlugin extends CordovaPlugin {
     /**
      *   自定义通知行为，声音、震动、呼吸灯等。
      */
-    void setBasicPushNotificationBuilder(JSONArray data,
-                                         CallbackContext callbackContext) {
+    void setBasicPushNotificationBuilder(JSONArray data, CallbackContext callbackContext) {
         BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(
                 this.cordova.getActivity());
         builder.developerArg0 = "Basic builder 1";
