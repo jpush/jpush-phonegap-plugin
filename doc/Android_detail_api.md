@@ -9,19 +9,6 @@
 - [设置保留最近通知条数](#设置保留最近通知条数)
 - [本地通知](#本地通知)
 
-## 注册成功事件
-### jpush.receiveRegistrationId
-集成了 JPush SDK 的应用程序在第一次成功注册到 JPush 服务器时，JPush 服务器会给客户端返回一个唯一的该设备的标识 - RegistrationID。
-就会触发这个事件（注意只有第一次会触发该事件，之后如果想要取到 registrationId，可以直接调用 *getRegistrationID* 方法）。
-
-#### 代码示例
-
-```js
-document.addEventListener('jpush.receiveRegistrationId', function (event) {
-  console.log(event.registrationId)
-}, false)
-```
-
 ## 获取集成日志（同时适用于 iOS）
 
 ### API - setDebugMode
@@ -103,7 +90,7 @@ window.JPush.setPushTime(days, startHour, endHour)
 #### 参数说明
 
 - days: 数组，0 表示星期天，1 表示星期一，以此类推（7天制，数组中值的范围为 0 到 6 ）。
-数组的值为 null, 表示任何时间都可以收到消息和通知，数组的 size 为 0，则表示任何时间都收不到消息和通知。
+  数组的值为 null, 表示任何时间都可以收到消息和通知，数组的 size 为 0，则表示任何时间都收不到消息和通知。
 - startHour: 整形，允许推送的开始时间 （24 小时制：startHour 的范围为 0 到 23）。
 - endHour: 整形，允许推送的结束时间 （24 小时制：endHour 的范围为 0 到 23）。
 
