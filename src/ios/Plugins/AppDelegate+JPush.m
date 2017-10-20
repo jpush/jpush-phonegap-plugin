@@ -155,7 +155,12 @@ NSDictionary *_launchOptions;
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-    [[NSNotificationCenter defaultCenter] postNotificationName:JPushDocumentEvent_ReceiveLocalNotification object:notification.userInfo];
+  NSDictionary* localNotificationEvent = @{@"content":notification.alertBody,
+                                           @"badge": @(notification.applicationIconBadgeNumber),
+                                           @"extras":notification.userInfo,
+                                           };
+  
+    [[NSNotificationCenter defaultCenter] postNotificationName:JPushDocumentEvent_ReceiveLocalNotification object:localNotificationEvent];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {

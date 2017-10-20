@@ -1,5 +1,6 @@
 # 通用 API 说明（同时适用于 Android 和 iOS 系统）
 
+- [注册成功事件](#注册成功事件)
 - [停止与恢复推送服务](#停止与恢复推送服务)
 - [获取 RegistrationID](#获取-registrationid)
 - [设置别名与标签](#设置别名与标签)
@@ -8,7 +9,23 @@
 - [获取自定义消息推送内容](#获取自定义消息推送内容)
 - [判断系统设置中是否允许当前应用推送](#判断系统设置中是否允许当前应用推送)
 
+## 注册成功事件
+
+### jpush.receiveRegistrationId
+
+集成了 JPush SDK 的应用程序在第一次成功注册到 JPush 服务器时，JPush 服务器会给客户端返回一个唯一的该设备的标识 - RegistrationID。
+就会触发这个事件（注意只有第一次会触发该事件，之后如果想要取到 registrationId，可以直接调用 *getRegistrationID* 方法）。
+
+#### 代码示例
+
+```js
+document.addEventListener('jpush.receiveRegistrationId', function (event) {
+  console.log(event.registrationId)
+}, false)
+```
+
 ## 停止与恢复推送服务
+
 ### API - init
 
 调用此 API，用来开启 JPush SDK 提供的推送服务。
@@ -545,4 +562,4 @@ window.JPush.getUserNotificationSettings(function(result) {
   } else if(result > 0) {
     // 系统设置中打开了应用推送。
   })
- ```
+```
