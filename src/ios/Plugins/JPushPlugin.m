@@ -79,6 +79,10 @@
                                              selector:@selector(networkDidReceiveMessage:)
                                                  name:kJPFNetworkDidReceiveMessageNotification
                                                object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(receiveLocalNotification:)
+                                               name:JPushDocumentEvent_ReceiveLocalNotification
+                                             object:nil];
 }
 
 +(void)fireDocumentEvent:(NSString*)eventName jsString:(NSString*)jsString{
@@ -347,14 +351,50 @@
 }
 
 -(void)setLocalNotification:(CDVInvokedUrlCommand*)command{
-    NSLog(@"ios 10 after please use UNNotificationRequest to set local notification, see apple doc to learn more");
-
-    NSDate       *date  = [NSDate dateWithTimeIntervalSinceNow:[[command argumentAtIndex:0] intValue]];
-    NSString     *alert = [command argumentAtIndex:1];
-    NSNumber     *badge = [command argumentAtIndex:2];
-    NSString     *idKey = [command argumentAtIndex:3];
-    NSDictionary *dict  = [command argumentAtIndex:4];
-    [JPUSHService setLocalNotification:date alertBody:alert badge:badge.intValue alertAction:nil identifierKey:idKey userInfo:dict soundName:nil];
+  NSNumber     *delay = [command argumentAtIndex:0];
+  NSString     *alert = [command argumentAtIndex:1];
+  NSNumber     *badge = [command argumentAtIndex:2];
+  NSString     *idKey = [command argumentAtIndex:3];
+  NSDictionary *userInfo  = [command argumentAtIndex:4];
+  
+  JPushNotificationContent *content = [[JPushNotificationContent alloc] init];
+  
+  if (alert) {
+    content.body = alert;
+  }
+  
+  if (badge) {
+    content.badge = badge;
+  }
+  
+  if (userInfo) {
+    content.userInfo = userInfo;
+  }
+  
+  JPushNotificationTrigger *trigger = [[JPushNotificationTrigger alloc] init];
+  if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0) {
+    if (delay) {
+      trigger.timeInterval = [delay doubleValue];
+    }
+  } else {
+    if (delay) {
+      trigger.fireDate = [NSDate dateWithTimeIntervalSinceNow:[[command argumentAtIndex:0] intValue]];
+    }
+  }
+  
+  JPushNotificationRequest *request = [[JPushNotificationRequest alloc] init];
+  request.content = content;
+  request.trigger = trigger;
+  
+  if (idKey) {
+    request.requestIdentifier = idKey;
+  }
+  
+  request.completionHandler = ^(id result) {
+    NSLog(@"result");
+  };
+  
+  [JPUSHService addNotification:request];
 }
 
 -(void)deleteLocalNotificationWithIdentifierKey:(CDVInvokedUrlCommand*)command{
@@ -503,4 +543,10 @@
     }
 }
 
+-(void)receiveLocalNotification:(NSNotification *)notification {
+  if (notification && notification.object) {
+    [JPushPlugin fireDocumentEvent:JPushDocumentEvent_ReceiveLocalNotification
+                          jsString:[notification.object toJsonString]];
+  }
+}
 @end
