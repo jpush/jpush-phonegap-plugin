@@ -38,6 +38,10 @@
 NSDictionary *_launchOptions;
 -(void)applicationDidLaunch:(NSNotification *)notification{
 
+    if (!_jpushEventCache) {
+        _jpushEventCache = @{}.mutableCopy;
+    }
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jpushSDKDidLoginNotification) name:kJPFNetworkDidLoginNotification object:nil];
   
     if (notification) {
