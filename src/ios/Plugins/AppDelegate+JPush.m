@@ -28,29 +28,20 @@
     return [self init_plus];
 }
 
--(void)fireOpenNotification:(NSTimer*)timer{
-    if (SharedJPushPlugin) {
-        [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[timer.userInfo toJsonString]];
-        [timer invalidate];
-    }
-}
-
 NSDictionary *_launchOptions;
 -(void)applicationDidLaunch:(NSNotification *)notification{
 
     if (!_jpushEventCache) {
         _jpushEventCache = @{}.mutableCopy;
     }
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jpushSDKDidLoginNotification) name:kJPFNetworkDidLoginNotification object:nil];
   
     if (notification) {
         if (notification.userInfo) {
           
           if ([notification.userInfo valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey]) {
-            [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(fireOpenNotification:)
-                                           userInfo:[notification.userInfo
-                                                     valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey] repeats:YES];
+            [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[notification.userInfo toJsonString]];
           }
           
           if ([notification.userInfo valueForKey:UIApplicationLaunchOptionsLocalNotificationKey]) {
@@ -60,7 +51,7 @@ NSDictionary *_launchOptions;
                                                      @"badge": @(localNotification.applicationIconBadgeNumber),
                                                      @"extras":localNotification.userInfo,
                                                      };
-            [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(fireOpenNotification:) userInfo:localNotificationEvent repeats:YES];
+            [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[localNotificationEvent toJsonString]];
           }
         }
       
