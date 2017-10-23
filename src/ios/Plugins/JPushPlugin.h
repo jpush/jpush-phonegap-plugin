@@ -8,6 +8,8 @@
 
 #import <Cordova/CDV.h>
 
+NSMutableDictionary *_jpushEventCache;
+
 @interface JPushPlugin : CDVPlugin{
 
 }

@@ -83,12 +83,31 @@
                                            selector:@selector(receiveLocalNotification:)
                                                name:JPushDocumentEvent_ReceiveLocalNotification
                                              object:nil];
+  [self dispatchJPushCacheEvent];
+}
+
+- (void)dispatchJPushCacheEvent {
+  for (NSString* key in _jpushEventCache) {
+    NSArray *evenList = _jpushEventCache[key];
+    for (NSString *event in evenList) {
+        [JPushPlugin fireDocumentEvent:key jsString:event];
+    }
+  }
 }
 
 +(void)fireDocumentEvent:(NSString*)eventName jsString:(NSString*)jsString{
+  if (SharedJPushPlugin) {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [SharedJPushPlugin.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.%@',%@)", eventName, jsString]];
+      [SharedJPushPlugin.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('jpush.%@',%@)", eventName, jsString]];
     });
+    return;
+  }
+  
+  if (!_jpushEventCache[eventName]) {
+    _jpushEventCache[eventName] = @[].mutableCopy;
+  }
+  
+  [_jpushEventCache[eventName] addObject: jsString];
 }
 
 -(void)setTags:(CDVInvokedUrlCommand*)command {
