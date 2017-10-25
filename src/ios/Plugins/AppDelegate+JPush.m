@@ -35,7 +35,10 @@ NSDictionary *_launchOptions;
         _jpushEventCache = @{}.mutableCopy;
     }
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jpushSDKDidLoginNotification) name:kJPFNetworkDidLoginNotification object:nil];
+    [JPUSHService registrationIDCompletionHandler:^(int resCode, NSString *registrationID) {
+      NSDictionary *event = @{@"registrationId": registrationID?:@""};
+      [JPushPlugin fireDocumentEvent:JPushDocumentEvent_receiveRegistrationId jsString:[event toJsonString]];
+    }];
   
     if (notification) {
         if (notification.userInfo) {
