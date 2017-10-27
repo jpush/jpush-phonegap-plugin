@@ -1,20 +1,40 @@
 # 通用 API 说明（同时适用于 Android 和 iOS 系统）
 
 - [注册成功事件](#注册成功事件)
-- [停止与恢复推送服务](#停止与恢复推送服务)
+  - [jpush.receiveRegistrationId](#jpushreceiveregistrationid)
+- [初始化、停止与恢复推送服务](#初始化停止与恢复推送服务)
+  - [init](#init)
+  - [stopPush](#stoppush)
+  - [resumePush](#resumepush)
+  - [isPushStopped](#ispushstopped)
+- [开启 Debug 模式](#开启-debug-模式)
+  - [setDebugMode](#setdebugmode)
 - [获取 RegistrationID](#获取-registrationid)
+  - [getRegistrationID](#getregistrationid)
 - [设置别名与标签](#设置别名与标签)
+  - [setAlias](#setalias)
+  - [deleteAlias](#deletealias)
+  - [getAlias](#getalias)
+  - [setTags](#settags)
+  - [addTags](#addtags)
+  - [deleteTags](#deletetags)
+  - [cleanTags](#cleantags)
+  - [getAllTags](#getalltags)
+  - [checkTagBindState](#checktagbindstate)
 - [获取点击通知内容](#获取点击通知内容)
+  - [event - jpush.openNotification](#event---jpushopennotification)
 - [获取通知内容](#获取通知内容)
+  - [event - jpush.receiveNotification](#event---jpushreceivenotification)
 - [获取自定义消息推送内容](#获取自定义消息推送内容)
+  - [event - jpush.receiveMessage](#event---jpushreceivemessage)
 - [判断系统设置中是否允许当前应用推送](#判断系统设置中是否允许当前应用推送)
 
 ## 注册成功事件
 
 ### jpush.receiveRegistrationId
 
-集成了 JPush SDK 的应用程序在第一次成功注册到 JPush 服务器时，JPush 服务器会给客户端返回一个唯一的该设备的标识 - RegistrationID。
-就会触发这个事件（注意只有第一次会触发该事件，之后如果想要取到 registrationId，可以直接调用 *getRegistrationID* 方法）。
+集成了 JPush SDK 的应用程序在第一次成功注册到 JPush 服务器时，JPush 服务器会给客户端返回一个唯一的该设备的标识 - Registration ID。
+此时就会触发这个事件（注意只有第一次会触发该事件，之后如果想要取到 Registration Id，可以直接调用 `getRegistrationID` 方法）。
 
 #### 代码示例
 
@@ -24,9 +44,9 @@ document.addEventListener('jpush.receiveRegistrationId', function (event) {
 }, false)
 ```
 
-## 停止与恢复推送服务
+## 初始化、停止与恢复推送服务
 
-### API - init
+### init
 
 调用此 API，用来开启 JPush SDK 提供的推送服务。
 
@@ -44,7 +64,7 @@ document.addEventListener('jpush.receiveRegistrationId', function (event) {
 window.JPush.init()
 ```
 
-### API - stopPush
+### stopPush
 
 - Android:
   - 开发者 App 可以通过调用停止推送服务 API 来停止极光推送服务，当又需要使用极光推送服务时，则必须要调用恢复推送服务 API。
@@ -63,7 +83,7 @@ window.JPush.init()
 window.JPush.stopPush()
 ```
 
-### API - resumePush
+### resumePush
 
 恢复推送服务。调用了此 API 后:
 
@@ -79,7 +99,7 @@ window.JPush.stopPush()
 window.JPush.resumePush()
 ```
 
-### API - isPushStopped
+### isPushStopped
 
 - Android 平台:
   - 用来检查 Push Service 是否已经被停止。
@@ -110,7 +130,7 @@ window.JPush.isPushStopped(function (result) {
 ```
 
 ## 开启 Debug 模式
-### API - setDebugMode
+### setDebugMode
 用于开启 Debug 模式，显示更多的日志信息。
 
 #### 代码示例
@@ -120,11 +140,13 @@ window.JPush.setDebugMode(true)
 ```
 
 #### 参数说明
-- isOpen: true，开启 Debug 模式；false，关闭 Debug 模式，不显示错误信息之外的日志信息。
+
+- true: 开启 Debug 模式；
+- false: 关闭 Debug 模式，不显示错误信息之外的日志信息。
 
 ## 获取 RegistrationID
 
-### API - getRegistrationID
+### getRegistrationID
 
 RegistrationID 定义:
 

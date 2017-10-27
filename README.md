@@ -28,7 +28,7 @@
 - 或下载到本地安装：
 
   ```shell
-  cordova plugin add Your_Plugin_Path  --variable APP_KEY=your_jpush_appkey
+  cordova plugin add Your_Plugin_Path --variable APP_KEY=your_jpush_appkey
   ```
 
 > 在使用 Xcode 8 调试 iOS 项目时，需要先在项目配置界面的 Capabilities 中打开 Push Notifications 开关。
