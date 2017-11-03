@@ -400,7 +400,7 @@ window.JPush.checkTagBindState({ sequence: 1, tag: 'tag1' },
 
 ### event - jpush.openNotification
 
-点击通知进入应用程序时会出发改事件。
+点击通知进入应用程序时触发。
 
 #### 代码示例
 
@@ -416,8 +416,6 @@ document.addEventListener("jpush.openNotification", function (event) {
   }
 }, false)
 ```
-
-> ps：点击通知后传递的 json object 保存在 window.JPush.openNotification，直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意。
 
 - Android:
 
@@ -457,7 +455,7 @@ document.addEventListener("jpush.openNotification", function (event) {
 
 ### event - jpush.receiveNotification
 
-收到通知时会触发该事件。
+收到通知时触发。
 
 #### 代码示例
 
@@ -474,8 +472,6 @@ document.addEventListener("jpush.receiveNotification", function (event) {
   alert("open Notification:" + alertContent)
 }, false)
 ```
-
-> ps：点击通知后传递的 json object 保存在 window.JPush.receiveNotification，直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意。
 
 - Android:
 
@@ -515,7 +511,7 @@ document.addEventListener("jpush.receiveNotification", function (event) {
 
 ### event - jpush.receiveMessage
 
-收到自定义消息时触发这个事件，推荐使用事件的方式传递。
+收到自定义消息时触发，推荐使用事件的方式传递。
 
 但同时保留了 `receiveMessageIniOSCallback` 的回调函数，兼容以前的代码。
 
@@ -533,8 +529,6 @@ document.addEventListener("jpush.receiveMessage", function (event) {
   }
 }, false)
 ```
-
-> ps：点击通知后传递的 json object 保存在 window.JPush.receiveMessage，直接访问即可，字段示例，根据实际推送情况，可能略有差别，请注意。
 
 - Android:
 
