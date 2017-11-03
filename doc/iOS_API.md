@@ -143,7 +143,7 @@ window.JPush.getRegistrationID(function(data) {
 
 #### event - jpush.openNotification
 
-点击通知启动或唤醒应用程序时会出发该事件
+点击通知启动或唤醒应用程序时会触发该事件
 
 #### 代码示例
 

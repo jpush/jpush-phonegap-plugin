@@ -8,7 +8,7 @@
 
 #import <Cordova/CDV.h>
 
-NSMutableDictionary *_jpushEventCache;
+static NSMutableDictionary *_jpushEventCache;
 
 @interface JPushPlugin : CDVPlugin{
 
@@ -89,7 +89,7 @@ NSMutableDictionary *_jpushEventCache;
 
 @end
 
-JPushPlugin *SharedJPushPlugin;
+static JPushPlugin *SharedJPushPlugin;
 
 @interface NSDictionary (JPush)
 -(NSString*)toJsonString;
