@@ -103,6 +103,10 @@
     return;
   }
   
+  if (!_jpushEventCache) {
+    _jpushEventCache = @{}.mutableCopy;
+  }
+  
   if (!_jpushEventCache[eventName]) {
     _jpushEventCache[eventName] = @[].mutableCopy;
   }
