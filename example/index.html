@@ -10,6 +10,12 @@
       <script type="text/javascript" src="cordova.js"></script>
       <script type="text/javascript">
         var onDeviceReady = function() {
+
+          document.addEventListener("jpush.receiveRegistrationId", function (event) {
+                alert("receiveRegistrationId" + JSON.stringify(event));
+                $("#registrationId").html(event.registrationId);
+            }, false)
+
           initiateUI();
         };
       
@@ -118,9 +124,9 @@
               }
 
               window.JPush.setTags({ sequence: 1, tags: tags },
-                (result) => {
+                function (result) {
                   $("#tagsResult").html(result.tags)
-                }, (error) => {
+                }, function (error) {
                   alert(error.code)
                 })
             } catch (exception) {
@@ -130,19 +136,19 @@
 
           $("#getAllTags").click(function (event) {
             window.JPush.getAllTags({ sequence: 2 },
-              (result) => {
+              function (result) {
                 $("#tagsResult").html(result.tags)
-              }, (error) => {
+              }, function (error) {
                 alert(error.code)
               })
           })
 
           $("#cleanTags").click(function (event) {
             window.JPush.cleanTags({ sequence: 2 },
-              (result) => {
+              function (result) {
                 alert(result.sequence)
                 $("#tagsResult").html("")
-              }, (error) => {
+              }, function (error) {
                 alert(error.code)
               })
           })
@@ -150,27 +156,27 @@
           $("#setAlias").click(function (event) {
             var alias = $("#aliasText").val()
             window.JPush.setAlias({ sequence: 1, alias: alias },
-              (result) => {
+              function (result) {
                 $("#aliasResult").html(result.alias)
-              }, (error) => {
+              }, function (error){
                 alert(error.code)
               })
           })
 
           $("#getAlias").click(function (event) {
             window.JPush.getAlias({ sequence: 2 },
-              (result) => {
+              function (result) {
                 alert(JSON.stringify(result));
-              }, (error) => {
+              }, function (error) {
                 alert(error.code)
               })
           });
 
           $("#deleteAlias").click(function (event) {
             window.JPush.deleteAlias({ sequence: 3 },
-              (result) => {
+              function (result) {
                 alert(JSON.stringify(result));
-              }, (error) => {
+              }, function (error) {
                 alert(error.code)
               })
           });
