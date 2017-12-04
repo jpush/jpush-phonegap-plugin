@@ -9,8 +9,8 @@
       <script type="text/javascript" src="js/jquery.mobile-1.1.1.js"></script>
       <script type="text/javascript" src="cordova.js"></script>
       <script type="text/javascript">
-        var onDeviceReady = function() {
 
+        var onDeviceReady = function() {
           document.addEventListener("jpush.receiveRegistrationId", function (event) {
                 alert("receiveRegistrationId" + JSON.stringify(event));
                 $("#registrationId").html(event.registrationId);
@@ -94,13 +94,11 @@
         var initiateUI = function() {
           try {
             window.JPush.init();
+            window.JPush.setDebugMode(true);
             window.setTimeout(getRegistrationID, 1000);
+
             if (device.platform != "Android") {
-              window.JPush.setDebugModeFromIos();
               window.JPush.setApplicationIconBadgeNumber(0);
-            } else {
-              window.JPush.setDebugMode(true);
-              window.JPush.setStatisticsOpen(true);
             }
           } catch (exception) {
             console.log(exception);
