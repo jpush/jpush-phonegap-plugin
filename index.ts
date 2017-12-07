@@ -1,6 +1,16 @@
 import { Plugin, Cordova, IonicNativePlugin } from '@ionic-native/core';
 import { Injectable } from '@angular/core';
 
+export interface TagOptions {
+  sequence: number;
+  tags?: Array<string>;
+}
+
+export interface AliasOptions {
+  sequence: number;
+  alias?: string;
+}
+
 @Plugin({
   pluginName: 'JPush',
   plugin: 'jpush-phonegap-plugin',
@@ -13,77 +23,53 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class JPush extends IonicNativePlugin {
 
-  @Cordova
+  @Cordova()
   init(): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   setDebugMode(enable: boolean): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   getRegistrationID(): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   stopPush(): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   resumePush(): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   isPushStopped(): Promise<any> { return; }
 
-  /**
-   * @param params { sequence: number, tags: [string, string] }
-   */
-  @Cordova
-  setTags(params: object): Promise<any> { return; }
+  @Cordova()
+  setTags(params: TagOptions): Promise<any> { return; }
 
-  /**
-   * @param params { sequence: number, tags: [string, string] }
-   */
-  @Cordova
-  addTags(params: object): Promise<any> { return; }
+  @Cordova()
+  addTags(params: TagOptions): Promise<any> { return; }
 
-  /**
-   * @param params { sequence: number, tags: [string, string] }
-   */
-  @Cordova
-  deleteTags(params: object): Promise<any> { return; }
+  @Cordova()
+  deleteTags(params: TagOptions): Promise<any> { return; }
 
-  /**
-   * @param params { sequence: number }
-   */
-  @Cordova
-  cleanTags(params: object): Promise<any> { return; }
+  @Cordova()
+  cleanTags(params: TagOptions): Promise<any> { return; }
 
-  /**
-   * @param params { sequence: number }
-   */
-  @Cordova
-  getAllTags(params: object): Promise<any> { return; }
+  @Cordova()
+  getAllTags(params: TagOptions): Promise<any> { return; }
 
   /**
    * @param params { sequence: number, tag: string }
    */
-  @Cordova
+  @Cordova()
   checkTagBindState(params: object): Promise<any> { return; }
 
-  /**
-   * @param params { sequence: number, alias: string }
-   */
-  @Cordova
-  setAlias(params: object): Promise<any> { return; }
+  @Cordova()
+  setAlias(params: AliasOptions): Promise<any> { return; }
 
-  /**
-   * @param params { sequence: number }
-   */
-  @Cordova
-  deleteAlias(params: object): Promise<any> { return; }
+  @Cordova()
+  deleteAlias(params: AliasOptions): Promise<any> { return; }
 
-  /**
-   * @param params { sequence: number }
-   */
-  @Cordova
-  getAlias(params: object): Promise<any> { return; }
+  @Cordova()
+  getAlias(params: AliasOptions): Promise<any> { return; }
 
   /**
    * Determinate whether the application notification has been opened.
@@ -97,88 +83,88 @@ export class JPush extends IonicNativePlugin {
    * 
    * Android: 0: closed; 1: opened.
    */
-  @Cordova
+  @Cordova()
   getUserNotificationSettings(): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   clearLocalNotifications(): Promise<any> { return; }
 
   // iOS API - start
 
-  @Cordova
+  @Cordova()
   setBadge(badge: number): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   resetBadge(): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   setApplicationIconBadgeNumber(badge: number): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   getApplicationIconBadgeNumber(): Promise<any> { return; }
 
-  @Cordova
-  addLocalNotificationForIOS(delayTime: number, content: string, badge: number, notificationId: number, extras: string): Promise<any> { return; }
+  @Cordova()
+  addLocalNotificationForIOS(delayTime: number, content: string, badge: number, notificationId: number, extras?: string): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   deleteLocalNotificationWithIdentifierKeyInIOS(identifierKey: string): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   addDismissActions(actions: Array<object>, categoryId: string): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   addNotificationActions(actions: Array<object>, categoryId: string): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   setLocation(latitude: number, longitude: number): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   startLogPageView(pageName: string): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   stopLogPageView(pageName: string): Promise<any> { return; }
 
-  @Cordova
-  beginLogPageView(pageName: string, duration: number): Promise<any> { return; } 
+  @Cordova()
+  beginLogPageView(pageName: string, duration: number): Promise<any> { return; }
 
   // iOS API - end
 
   // Android API - start
 
-  @Cordova
+  @Cordova()
   getConnectionState(): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   setBasicPushNotificationBuilder(): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   setCustomPushNotificationBuilder(): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   clearAllNotification(): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   clearNotificationById(id: number): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   setLatestNotificationNum(num: number): Promise<any> { return; }
 
-  @Cordova
-  addLocalNotification(builderId: number, content: string, title: string, notificationId: number, broadcastTime: number, extras: string): Promise<any> { return; }
+  @Cordova()
+  addLocalNotification(builderId: number, content: string, title: string, notificationId: number, broadcastTime: number, extras?: string): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   removeLocalNotification(notificationId: number): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   reportNotificationOpened(msgId: number): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   requestPermission(): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   setSilenceTime(startHour: number, startMinute: number, endHour: number, endMinute: number): Promise<any> { return; }
 
-  @Cordova
+  @Cordova()
   setPushTime(weekdays: Array<string>, startHour: number, endHour: number): Promise<any> { return; }
 
   // Android API - end
