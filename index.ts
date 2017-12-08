@@ -14,7 +14,7 @@ export interface AliasOptions {
 @Plugin({
   pluginName: 'JPush',
   plugin: 'jpush-phonegap-plugin',
-  pluginRef: 'jPush',
+  pluginRef: 'plugins.jPushPlugin',
   repo: 'https://github.com/jpush/jpush-phonegap-plugin',
   install: 'ionic cordova plugin add jpush-phonegap-plugin --variable APP_KEY=your_app_key',
   installVariables: ['APP_KEY'],
@@ -104,7 +104,7 @@ export class JPush extends IonicNativePlugin {
   getApplicationIconBadgeNumber(): Promise<any> { return; }
 
   @Cordova()
-  addLocalNotificationForIOS(delayTime: number, content: string, badge: number, notificationId: number, extras?: string): Promise<any> { return; }
+  addLocalNotificationForIOS(delayTime: number, content: string, badge: number, identifierKey: string, extras?: string): Promise<any> { return; }
 
   @Cordova()
   deleteLocalNotificationWithIdentifierKeyInIOS(identifierKey: string): Promise<any> { return; }
