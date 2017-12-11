@@ -96,6 +96,7 @@ public class JPushEventReceiver extends JPushMessageReceiver {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            callback.success(resultJson);
 
         } else {
             try {
@@ -103,7 +104,6 @@ public class JPushEventReceiver extends JPushMessageReceiver {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             callback.error(resultJson);
         }
 
