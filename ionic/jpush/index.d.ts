@@ -44,7 +44,7 @@ export declare class JPush extends IonicNativePlugin {
     resetBadge(): Promise<any>;
     setApplicationIconBadgeNumber(badge: number): Promise<any>;
     getApplicationIconBadgeNumber(): Promise<any>;
-    addLocalNotificationForIOS(delayTime: number, content: string, badge: number, notificationId: number, extras?: string): Promise<any>;
+    addLocalNotificationForIOS(delayTime: number, content: string, badge: number, identifierKey: string, extras?: string): Promise<any>;
     deleteLocalNotificationWithIdentifierKeyInIOS(identifierKey: string): Promise<any>;
     addDismissActions(actions: Array<object>, categoryId: string): Promise<any>;
     addNotificationActions(actions: Array<object>, categoryId: string): Promise<any>;
