@@ -30,41 +30,17 @@ var JPush = (function (_super) {
     JPush.prototype.stopPush = function () { return; };
     JPush.prototype.resumePush = function () { return; };
     JPush.prototype.isPushStopped = function () { return; };
-    /**
-     * @param params { sequence: number, tags: [string, string] }
-     */
     JPush.prototype.setTags = function (params) { return; };
-    /**
-     * @param params { sequence: number, tags: [string, string] }
-     */
     JPush.prototype.addTags = function (params) { return; };
-    /**
-     * @param params { sequence: number, tags: [string, string] }
-     */
     JPush.prototype.deleteTags = function (params) { return; };
-    /**
-     * @param params { sequence: number }
-     */
     JPush.prototype.cleanTags = function (params) { return; };
-    /**
-     * @param params { sequence: number }
-     */
     JPush.prototype.getAllTags = function (params) { return; };
     /**
      * @param params { sequence: number, tag: string }
      */
     JPush.prototype.checkTagBindState = function (params) { return; };
-    /**
-     * @param params { sequence: number, alias: string }
-     */
     JPush.prototype.setAlias = function (params) { return; };
-    /**
-     * @param params { sequence: number }
-     */
     JPush.prototype.deleteAlias = function (params) { return; };
-    /**
-     * @param params { sequence: number }
-     */
     JPush.prototype.getAlias = function (params) { return; };
     /**
      * Determinate whether the application notification has been opened.
@@ -363,7 +339,7 @@ var JPush = (function (_super) {
         Plugin({
             pluginName: 'JPush',
             plugin: 'jpush-phonegap-plugin',
-            pluginRef: 'jPush',
+            pluginRef: 'plugins.jPushPlugin',
             repo: 'https://github.com/jpush/jpush-phonegap-plugin',
             install: 'ionic cordova plugin add jpush-phonegap-plugin --variable APP_KEY=your_app_key',
             installVariables: ['APP_KEY'],

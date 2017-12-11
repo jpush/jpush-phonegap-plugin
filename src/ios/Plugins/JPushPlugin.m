@@ -241,7 +241,7 @@
         CDVPluginResult* result;
         
         if (iResCode == 0) { 
-            [dic setObject:[iTags allObjects] forKey:@"tags"];
+            dic[@"tag"] = tag;
             [dic setObject:[NSNumber numberWithBool:isBind] forKey:@"isBind"];
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
         } else {

@@ -379,7 +379,7 @@ window.JPush.addLocalNotificationForIOS(delayTime, content, badge, notificationI
 
 #### 参数说明
 
-- delayTime: 本地推送延迟多长时间后显示，数值类型或纯数字的字符型均可。
+- delayTime: 本地推送延迟多长时间后显示，数值类型或纯数字的字符型均可，单位为秒。
 - content: 本地推送需要显示的内容。
 - badge: 角标的数字。如果不需要改变角标传-1。数值类型或纯数字的字符型均可。
 - notificationID: 本地推送标识符,字符串。
