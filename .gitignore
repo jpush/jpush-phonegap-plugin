@@ -37,13 +37,33 @@ Temporary Items
 .apdisk
 
 # Ionic example
-./ionic/example/node_modules
-./ionic/example/plugins
-./ionic/example/config.xml
-./ionic/example/ionic.config.json
-./ionic/example/package-lock.json
-./ionic/example/package.json
-./ionic/example/tsconfig.json
-./ionic/example/tslint.json
+ionic/example/.sourcemaps/*
+ionic/example/node_modules/*
+ionic/example/plugins/*
+ionic/example/config.xml
+ionic/example/ionic.config.json
+ionic/example/package-lock.json
+ionic/example/package.json
+ionic/example/tsconfig.json
+ionic/example/tslint.json
+ionic/example/resources/README\.md
+ionic/example/www/*
+ionic/example/src/assets/*
+ionic/example/src/theme
+ionic/example/platforms
+
+ionic/example/src/manifest\.json
+
+ionic/example/resources/android/splash/
+
+ionic/example/resources/
+
+ionic/example/src/service-worker\.js
+
+ionic/example/src/index\.html
+
+ionic/example/src/app/app\.scss
+
+ionic/example/src/app/main\.ts
 
 # End of https://www.gitignore.io/api/macos,apachecordova
