@@ -36,4 +36,14 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# Ionic example
+./ionic/example/node_modules
+./ionic/example/plugins
+./ionic/example/config.xml
+./ionic/example/ionic.config.json
+./ionic/example/package-lock.json
+./ionic/example/package.json
+./ionic/example/tsconfig.json
+./ionic/example/tslint.json
+
 # End of https://www.gitignore.io/api/macos,apachecordova
