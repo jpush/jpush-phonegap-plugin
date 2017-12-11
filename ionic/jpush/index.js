@@ -61,7 +61,7 @@ var JPush = (function (_super) {
     JPush.prototype.resetBadge = function () { return; };
     JPush.prototype.setApplicationIconBadgeNumber = function (badge) { return; };
     JPush.prototype.getApplicationIconBadgeNumber = function () { return; };
-    JPush.prototype.addLocalNotificationForIOS = function (delayTime, content, badge, notificationId, extras) { return; };
+    JPush.prototype.addLocalNotificationForIOS = function (delayTime, content, badge, identifierKey, extras) { return; };
     JPush.prototype.deleteLocalNotificationWithIdentifierKeyInIOS = function (identifierKey) { return; };
     JPush.prototype.addDismissActions = function (actions, categoryId) { return; };
     JPush.prototype.addNotificationActions = function (actions, categoryId) { return; };
@@ -218,7 +218,7 @@ var JPush = (function (_super) {
     __decorate([
         Cordova(),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", [Number, String, Number, Number, String]),
+        __metadata("design:paramtypes", [Number, String, Number, String, String]),
         __metadata("design:returntype", Promise)
     ], JPush.prototype, "addLocalNotificationForIOS", null);
     __decorate([
