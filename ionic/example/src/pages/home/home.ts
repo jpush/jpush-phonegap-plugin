@@ -55,6 +55,16 @@ export class HomePage {
       } 
       alert('Open notification: ' + content);
     }, false);
+
+    document.addEventListener('jpush.receiveLocalNotification', (event: any) => {
+      // iOS(*,9) Only , iOS(10,*) 将在 jpush.openNotification 和 jpush.receiveNotification 中触发。
+      var content;
+      if (this.devicePlatform == 'Android') {
+      } else {
+        content = event.content;
+      } 
+      alert('receive local notification: ' + JSON.stringify(event));
+    }, false);
   }
 
   getRegistrationID() {
