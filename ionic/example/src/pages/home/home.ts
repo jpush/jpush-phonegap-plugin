@@ -43,7 +43,7 @@ export class HomePage {
       } else {
         content = event.aps.alert;
       }
-      console.log('Receive notification: ' + content);
+      alert('Receive notification: ' + JSON.stringify(event));
     }, false);
 
     document.addEventListener('jpush.openNotification', (event: any) => {
@@ -53,7 +53,8 @@ export class HomePage {
       } else {
         content = event.aps.alert;
       } 
-      alert('Open notification: ' + content);
+      // alert('Open notification: ' + content);
+      alert('open notification: ' + JSON.stringify(event));
     }, false);
 
     document.addEventListener('jpush.receiveLocalNotification', (event: any) => {
