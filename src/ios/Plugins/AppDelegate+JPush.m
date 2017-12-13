@@ -143,10 +143,11 @@ NSDictionary *_launchOptions;
     userInfo = [NSMutableDictionary dictionaryWithDictionary:notification.request.content.userInfo];
   } else {
     UNNotificationContent *content = notification.request.content;
-    userInfo = @{@"content": content.body,
-                 @"badge": content.badge,
-                 @"extras": content.userInfo
-                 };
+    userInfo = [NSMutableDictionary dictionaryWithDictionary:@{@"content": content.body,
+                                                               @"badge": content.badge,
+                                                               @"extras": content.userInfo
+                                                               }];
+    userInfo[@"identifier"] = notification.request.identifier;
   }
   
   [JPushPlugin fireDocumentEvent:JPushDocumentEvent_ReceiveNotification jsString:[userInfo toJsonString]];
@@ -165,6 +166,7 @@ NSDictionary *_launchOptions;
                                                                @"badge": content.badge,
                                                                @"extras": content.userInfo
                                                                }];
+    userInfo[@"identifier"] = notification.request.identifier;
   }
   userInfo[@"actionIdentifier"] = response.actionIdentifier;
   [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[userInfo toJsonString]];
