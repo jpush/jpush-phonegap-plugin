@@ -40,7 +40,7 @@ export class HomePage {
       var content;
       if (this.devicePlatform == 'Android') {
         content = event.alert;
-      } else {
+      } else { 
         content = event.aps.alert;
       }
       alert('Receive notification: ' + JSON.stringify(event));
@@ -50,10 +50,13 @@ export class HomePage {
       var content;
       if (this.devicePlatform == 'Android') {
         content = event.alert;
-      } else {
-        content = event.aps.alert;
+      } else {  // iOS
+        if (event.aps == undefined) { // 本地通知
+          content = event.content;
+        } else {  // APNS
+          content = event.aps.alert;
+        }
       } 
-      // alert('Open notification: ' + content);
       alert('open notification: ' + JSON.stringify(event));
     }, false);
 
@@ -137,7 +140,7 @@ export class HomePage {
     if (this.devicePlatform == 'Android') {
       this.jpush.addLocalNotification(0, 'Hello JPush', 'JPush', 1, 5000);
     } else {
-      this.jpush.addLocalNotificationForIOS(5, 'Hello JPush', 1, 'noti1');
+      this.jpush.addLocalNotificationForIOS(5, 'Hello JPush', 1, 'localNoti1');
     }
   }
 }
