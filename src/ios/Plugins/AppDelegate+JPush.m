@@ -168,7 +168,7 @@ NSDictionary *_launchOptions;
                                                                }];
     userInfo[@"identifier"] = notification.request.identifier;
   }
-  userInfo[@"actionIdentifier"] = response.actionIdentifier;
+  
   [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[userInfo toJsonString]];
   completionHandler();
 }
