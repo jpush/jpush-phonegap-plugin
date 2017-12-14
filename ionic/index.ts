@@ -104,7 +104,7 @@ export class JPush extends IonicNativePlugin {
   getApplicationIconBadgeNumber(): Promise<any> { return; }
 
   @Cordova()
-  addLocalNotificationForIOS(delayTime: number, content: string, badge: number, identifierKey: string, extras?: string): Promise<any> { return; }
+  addLocalNotificationForIOS(delayTime: number, content: string, badge: number, identifierKey: string, extras?: object): Promise<any> { return; }
 
   @Cordova()
   deleteLocalNotificationWithIdentifierKeyInIOS(identifierKey: string): Promise<any> { return; }

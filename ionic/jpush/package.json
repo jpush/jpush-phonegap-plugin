@@ -1,6 +1,6 @@
 {
   "name": "@jiguang-ionic/jpush",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "JPush support for ionic-native",
   "module": "index.js",
   "typings": "index.d.ts",

@@ -218,7 +218,7 @@ var JPush = (function (_super) {
     __decorate([
         Cordova(),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", [Number, String, Number, String, String]),
+        __metadata("design:paramtypes", [Number, String, Number, String, Object]),
         __metadata("design:returntype", Promise)
     ], JPush.prototype, "addLocalNotificationForIOS", null);
     __decorate([
