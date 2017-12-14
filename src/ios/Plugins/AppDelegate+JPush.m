@@ -44,7 +44,8 @@ NSDictionary *_launchOptions;
         if (notification.userInfo) {
           
           if ([notification.userInfo valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey]) {
-            [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[notification.userInfo toJsonString]];
+            [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification
+                                  jsString:[[self jpushFormatAPNSDic: notification.userInfo[UIApplicationLaunchOptionsRemoteNotificationKey]] toJsonString]];
           }
           
           if ([notification.userInfo valueForKey:UIApplicationLaunchOptionsLocalNotificationKey]) {
@@ -80,6 +81,23 @@ NSDictionary *_launchOptions;
 - (void)jpushSDKDidLoginNotification {
   NSDictionary *event = @{@"registrationId": JPUSHService.registrationID};
   [JPushPlugin fireDocumentEvent:JPushDocumentEvent_receiveRegistrationId jsString:[event toJsonString]];
+}
+
+- (NSMutableDictionary *)jpushFormatAPNSDic:(NSDictionary *)dic {
+  NSMutableDictionary *extras = @{}.mutableCopy;
+  for (NSString *key in dic) {
+    if([key isEqualToString:@"_j_business"]      ||
+       [key isEqualToString:@"_j_msgid"]         ||
+       [key isEqualToString:@"_j_uid"]           ||
+       [key isEqualToString:@"actionIdentifier"] ||
+       [key isEqualToString:@"aps"]) {
+      continue;
+    }
+    extras[key] = dic[key];
+  }
+  NSMutableDictionary *formatDic = dic.mutableCopy;
+  formatDic[@"extras"] = extras;
+  return formatDic;
 }
 
 -(void)registerForRemoteNotification{
@@ -130,7 +148,8 @@ NSDictionary *_launchOptions;
         default:
             break;
     }
-    [JPushPlugin fireDocumentEvent:eventName jsString:[userInfo toJsonString]];
+
+    [JPushPlugin fireDocumentEvent:eventName jsString:[[self jpushFormatAPNSDic:userInfo] toJsonString]];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
       completionHandler(UIBackgroundFetchResultNewData);
     });
@@ -140,7 +159,7 @@ NSDictionary *_launchOptions;
   NSMutableDictionary *userInfo = @[].mutableCopy;
   
   if ([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-    userInfo = [NSMutableDictionary dictionaryWithDictionary:notification.request.content.userInfo];
+    userInfo = [self jpushFormatAPNSDic:notification.request.content.userInfo];
   } else {
     UNNotificationContent *content = notification.request.content;
     userInfo = [NSMutableDictionary dictionaryWithDictionary:@{@"content": content.body,
@@ -159,7 +178,7 @@ NSDictionary *_launchOptions;
   NSMutableDictionary *userInfo = nil;
   
   if ([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-    userInfo = [NSMutableDictionary dictionaryWithDictionary:notification.request.content.userInfo];
+    userInfo = [self jpushFormatAPNSDic:notification.request.content.userInfo];
   } else {
     UNNotificationContent *content = notification.request.content;
     userInfo = [NSMutableDictionary dictionaryWithDictionary:@{@"content": content.body,
