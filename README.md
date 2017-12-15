@@ -31,6 +31,28 @@
   cordova plugin add Your_Plugin_Path --variable APP_KEY=your_jpush_appkey
   ```
 
+### Ionic
+
+如果使用了 Ionic，可以再安装 @jiguang-ionic/jpush 包，适配 ionic-native：
+
+```shell
+npm install --save @jiguang-ionic/jpush
+```
+
+然后在 *app.module.ts* 中增加：
+
+```js
+import { JPush } from '@jiguang-ionic/jpush';
+...
+  providers: [
+    ...
+    JPush,
+    ...
+  ]
+```
+
+具体可参考 ./ionic/example 中的文件。
+
 > 在使用 Xcode 8 调试 iOS 项目时，需要先在项目配置界面的 Capabilities 中打开 Push Notifications 开关。
 
 ## Usage

@@ -1,0 +1,18 @@
+{
+  "name": "@jiguang-ionic/jpush",
+  "version": "1.0.2",
+  "description": "JPush support for ionic-native",
+  "module": "index.js",
+  "typings": "index.d.ts",
+  "author": "hevin",
+  "license": "MIT",
+  "peerDependencies": {
+    "@ionic-native/core": "^4.2.0",
+    "@angular/core": "*",
+    "rxjs": "^5.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jpush/jpush-phonegap-plugin"
+  }
+}

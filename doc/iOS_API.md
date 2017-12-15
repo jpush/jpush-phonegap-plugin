@@ -143,7 +143,7 @@ window.JPush.getRegistrationID(function(data) {
 
 #### event - jpush.openNotification
 
-点击通知启动或唤醒应用程序时会触发该事件
+点击通知（包括 localNotification 和 remoteNotification）启动或唤醒应用程序时会触发该事件
 
 #### 代码示例
 
@@ -379,7 +379,7 @@ window.JPush.addLocalNotificationForIOS(delayTime, content, badge, notificationI
 
 #### 参数说明
 
-- delayTime: 本地推送延迟多长时间后显示，数值类型或纯数字的字符型均可。
+- delayTime: 本地推送延迟多长时间后显示，数值类型或纯数字的字符型均可，单位为秒。
 - content: 本地推送需要显示的内容。
 - badge: 角标的数字。如果不需要改变角标传-1。数值类型或纯数字的字符型均可。
 - notificationID: 本地推送标识符,字符串。
@@ -432,6 +432,34 @@ window.JPush.clearAllLocalNotifications()
 ### iOS 10 before 收到本地通知
 
 监听 `jpush.receiveLocalNotification` 事件获取，「App 在后台时点击通知横幅」或「App 在前台时收到」均会触发该事件。
+
+#### 代码示例
+
+- 在你需要接收通知的的 js 文件中加入:
+
+```js
+document.addEventListener("jpush.receiveLocalNotification", onLocalNotification, false)
+```
+
+- onLocalNotification 需要这样写：
+
+```js
+var onLocalNotification = function(event) {
+  alert("receive Local Notification:" + JSON.stringify(event))
+}
+```
+
+- event 举例
+
+```json
+{
+    badge = 1;
+    content = "Hello JPush";
+    extras =     {
+        "__JPUSHNotificationKey" = notificationIdentify_1;
+    };
+}
+```
 
 ### iOS 10 收到本地通知
 

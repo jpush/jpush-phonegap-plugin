@@ -44,7 +44,8 @@ NSDictionary *_launchOptions;
         if (notification.userInfo) {
           
           if ([notification.userInfo valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey]) {
-            [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[notification.userInfo toJsonString]];
+            [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification
+                                  jsString:[[self jpushFormatAPNSDic: notification.userInfo[UIApplicationLaunchOptionsRemoteNotificationKey]] toJsonString]];
           }
           
           if ([notification.userInfo valueForKey:UIApplicationLaunchOptionsLocalNotificationKey]) {
@@ -80,6 +81,23 @@ NSDictionary *_launchOptions;
 - (void)jpushSDKDidLoginNotification {
   NSDictionary *event = @{@"registrationId": JPUSHService.registrationID};
   [JPushPlugin fireDocumentEvent:JPushDocumentEvent_receiveRegistrationId jsString:[event toJsonString]];
+}
+
+- (NSMutableDictionary *)jpushFormatAPNSDic:(NSDictionary *)dic {
+  NSMutableDictionary *extras = @{}.mutableCopy;
+  for (NSString *key in dic) {
+    if([key isEqualToString:@"_j_business"]      ||
+       [key isEqualToString:@"_j_msgid"]         ||
+       [key isEqualToString:@"_j_uid"]           ||
+       [key isEqualToString:@"actionIdentifier"] ||
+       [key isEqualToString:@"aps"]) {
+      continue;
+    }
+    extras[key] = dic[key];
+  }
+  NSMutableDictionary *formatDic = dic.mutableCopy;
+  formatDic[@"extras"] = extras;
+  return formatDic;
 }
 
 -(void)registerForRemoteNotification{
@@ -130,26 +148,48 @@ NSDictionary *_launchOptions;
         default:
             break;
     }
-    [JPushPlugin fireDocumentEvent:eventName jsString:[userInfo toJsonString]];
+
+    [JPushPlugin fireDocumentEvent:eventName jsString:[[self jpushFormatAPNSDic:userInfo] toJsonString]];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
       completionHandler(UIBackgroundFetchResultNewData);
     });
 }
 
 -(void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler{
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:notification.request.content.userInfo];
-    [JPushPlugin fireDocumentEvent:JPushDocumentEvent_ReceiveNotification jsString:[userInfo toJsonString]];
-    completionHandler(UNNotificationPresentationOptionBadge|UNNotificationPresentationOptionSound|UNNotificationPresentationOptionAlert);
+  NSMutableDictionary *userInfo = @[].mutableCopy;
+  
+  if ([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+    userInfo = [self jpushFormatAPNSDic:notification.request.content.userInfo];
+  } else {
+    UNNotificationContent *content = notification.request.content;
+    userInfo = [NSMutableDictionary dictionaryWithDictionary:@{@"content": content.body,
+                                                               @"badge": content.badge,
+                                                               @"extras": content.userInfo
+                                                               }];
+    userInfo[@"identifier"] = notification.request.identifier;
+  }
+  
+  [JPushPlugin fireDocumentEvent:JPushDocumentEvent_ReceiveNotification jsString:[userInfo toJsonString]];
+  completionHandler(UNNotificationPresentationOptionBadge|UNNotificationPresentationOptionSound|UNNotificationPresentationOptionAlert);
 }
 
 -(void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler{
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:response.notification.request.content.userInfo];
-    @try {
-        [userInfo setValue:[response valueForKey:@"userText"] forKey:@"userText"];
-    } @catch (NSException *exception) { }
-    [userInfo setValue:response.actionIdentifier forKey:@"actionIdentifier"];
-    [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[userInfo toJsonString]];
-    completionHandler();
+  UNNotification *notification = response.notification;
+  NSMutableDictionary *userInfo = nil;
+  
+  if ([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+    userInfo = [self jpushFormatAPNSDic:notification.request.content.userInfo];
+  } else {
+    UNNotificationContent *content = notification.request.content;
+    userInfo = [NSMutableDictionary dictionaryWithDictionary:@{@"content": content.body,
+                                                               @"badge": content.badge,
+                                                               @"extras": content.userInfo
+                                                               }];
+    userInfo[@"identifier"] = notification.request.identifier;
+  }
+  
+  [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[userInfo toJsonString]];
+  completionHandler();
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
