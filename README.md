@@ -39,7 +39,7 @@
 npm install @jiguang-ionic/jpush --save
 ```
 
-然后在 *app.module.ts* 中增加
+然后在 *app.module.ts* 中增加：
 
 ```js
 import { JPush } from '@jiguang-ionic/jpush';
