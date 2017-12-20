@@ -13,6 +13,8 @@
 
 ## Install
 
+注意应用的包名一定要和 APP_KEY 对应应用的包名一致，否则极光推送服务无法注册成功。
+
 - 通过 Cordova Plugins 安装，要求 Cordova CLI 5.0+：
 
   ```shell
