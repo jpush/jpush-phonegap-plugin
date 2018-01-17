@@ -11,9 +11,14 @@
 - 如需要短信验证码功能插件，可关注 [cordova-plugin-jsms](https://github.com/jpush/cordova-plugin-jsms)
 - 如需要统计分析功能插件，可关注 [cordova-plugin-janalytics](https://github.com/jpush/cordova-plugin-janalytics)
 
+注意：目前插件暂未支持 cordova-android 7.0.0，因此在添加 android platform 时，请指定 7.0.0 以下版本，例如 6.4.0。
+
 ## Install
 
-注意应用的包名一定要和 APP_KEY 对应应用的包名一致，否则极光推送服务无法注册成功。
+> 注意：
+>
+> - 应用的包名一定要和 APP_KEY 对应应用的包名一致，否则极光推送服务无法注册成功。
+> - 在使用 8 或以上版本的 Xcode 调试 iOS 项目时，需要先在项目配置界面的 Capabilities 中打开 Push Notifications 开关。
 
 - 通过 Cordova Plugins 安装，要求 Cordova CLI 5.0+：
 
@@ -55,7 +60,6 @@ import { JPush } from '@jiguang-ionic/jpush';
 
 具体可参考 ./ionic/example 中的文件。
 
-> 在使用 Xcode 8 或以上调试 iOS 项目时，需要先在项目配置界面的 Capabilities 中打开 Push Notifications 开关。
 
 ## Usage
 
