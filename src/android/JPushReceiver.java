@@ -11,7 +11,7 @@ import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
 
-public class MyReceiver extends BroadcastReceiver {
+public class JPushReceiver extends BroadcastReceiver {
 
     private static final List<String> IGNORED_EXTRAS_KEYS =
             Arrays.asList(
@@ -56,17 +56,14 @@ public class MyReceiver extends BroadcastReceiver {
 
         Intent launch = context.getPackageManager().getLaunchIntentForPackage(
                 context.getPackageName());
-        launch.addCategory(Intent.CATEGORY_LAUNCHER);
-        launch.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        context.startActivity(launch);
+        if (launch != null) {
+            launch.addCategory(Intent.CATEGORY_LAUNCHER);
+            launch.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            context.startActivity(launch);
+        }
     }
 
     private void handlingNotificationReceive(Context context, Intent intent) {
-        Intent launch = context.getPackageManager().getLaunchIntentForPackage(
-                context.getPackageName());
-        launch.addCategory(Intent.CATEGORY_LAUNCHER);
-        launch.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
         String title = intent.getStringExtra(JPushInterface.EXTRA_NOTIFICATION_TITLE);
         JPushPlugin.notificationTitle = title;
 
