@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.2.13">
+  version="3.3.0">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -161,25 +161,14 @@
 
             <!-- User defined.  For test only  用户自定义的广播接收器 -->
             <receiver
-              android:name="cn.jiguang.cordova.push.MyReceiver"
+              android:name="cn.jiguang.cordova.push.JPushReceiver"
               android:enabled="true">
-                <intent-filter android:priority="1000">
-                    <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
-                    <!-- Required  显示通知栏 -->
-                    <category android:name="$PACKAGE_NAME" />
-                </intent-filter>
                 <intent-filter>
                     <action android:name="cn.jpush.android.intent.REGISTRATION" />
-                    <!-- Required  用户注册SDK的intent -->
-                    <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
                     <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
-                    <!-- Required  用户接收SDK消息的intent -->
                     <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
-                    <!-- Required  用户接收SDK通知栏信息的intent -->
                     <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
-                    <!-- Required  用户打开自定义通知栏的intent -->
-                    <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
-                    <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
+                    <action android:name="cn.jpush.android.intent.CONNECTION" />
                     <category android:name="$PACKAGE_NAME" />
                 </intent-filter>
             </receiver>
@@ -198,7 +187,7 @@
             <receiver android:name="cn.jiguang.cordova.push.JPushEventReceiver">
                 <intent-filter>
                     <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
-                    <category android:name="$PACKAGE_NAME"></category>
+                    <category android:name="$PACKAGE_NAME" />
                 </intent-filter>
             </receiver>
 
@@ -207,9 +196,9 @@
             <meta-data android:name="JPUSH_APPKEY" android:value="$APP_KEY" />
         </config-file>
 
-        <source-file src="src/android/libs/jpush-android-3.1.0.jar" target-dir="libs" />
+        <source-file src="src/android/libs/jpush-android-3.1.1.jar" target-dir="libs" />
 
-        <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jiguang/cordova/push" />
+        <source-file src="src/android/JPushReceiver.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushEventReceiver.java" target-dir="src/cn/jiguang/cordova/push" />
 
