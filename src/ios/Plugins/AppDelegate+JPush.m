@@ -156,7 +156,7 @@ NSDictionary *_launchOptions;
 }
 
 -(void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler{
-  NSMutableDictionary *userInfo = @[].mutableCopy;
+  NSMutableDictionary *userInfo = @{}.mutableCopy;
   
   if ([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
     userInfo = [self jpushFormatAPNSDic:notification.request.content.userInfo];
@@ -167,6 +167,10 @@ NSDictionary *_launchOptions;
                                                                @"extras": content.userInfo
                                                                }];
     userInfo[@"identifier"] = notification.request.identifier;
+  }
+  
+  if ([userInfo[@"aps"][@"content-available"] isEqualToNumber:@(1)]) {// content-available 当用户开启后台推送是，防止触发两次事件
+    return;
   }
   
   [JPushPlugin fireDocumentEvent:JPushDocumentEvent_ReceiveNotification jsString:[userInfo toJsonString]];
