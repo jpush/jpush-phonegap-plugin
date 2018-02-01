@@ -169,12 +169,14 @@ NSDictionary *_launchOptions;
     userInfo[@"identifier"] = notification.request.identifier;
   }
   
+  completionHandler(UNNotificationPresentationOptionBadge|UNNotificationPresentationOptionSound|UNNotificationPresentationOptionAlert);
+  
   if ([userInfo[@"aps"][@"content-available"] isEqualToNumber:@(1)]) {// content-available 当用户开启后台推送是，防止触发两次事件
     return;
   }
   
   [JPushPlugin fireDocumentEvent:JPushDocumentEvent_ReceiveNotification jsString:[userInfo toJsonString]];
-  completionHandler(UNNotificationPresentationOptionBadge|UNNotificationPresentationOptionSound|UNNotificationPresentationOptionAlert);
+  
 }
 
 -(void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler{
