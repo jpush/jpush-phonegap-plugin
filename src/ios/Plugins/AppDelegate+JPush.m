@@ -59,19 +59,19 @@ NSDictionary *_launchOptions;
             [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[localNotificationEvent toJsonString]];
           }
         }
-      
-        [JPUSHService setDebugMode];
-
-        NSString *plistPath = [[NSBundle mainBundle] pathForResource:JPushConfig_FileName ofType:@"plist"];
-        NSMutableDictionary *plistData = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
-        NSNumber *delay       = [plistData valueForKey:JPushConfig_Delay];
-
-        _launchOptions = notification.userInfo;
-
-        if (![delay boolValue]) {
-            [self startJPushSDK];
-        }
     }
+  
+  [JPUSHService setDebugMode];
+  
+  NSString *plistPath = [[NSBundle mainBundle] pathForResource:JPushConfig_FileName ofType:@"plist"];
+  NSMutableDictionary *plistData = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
+  NSNumber *delay       = [plistData valueForKey:JPushConfig_Delay];
+  
+  _launchOptions = notification.userInfo;
+  
+  if (![delay boolValue]) {
+    [self startJPushSDK];
+  }
 }
 
 -(void)startJPushSDK{
@@ -137,14 +137,12 @@ NSDictionary *_launchOptions;
     [JPUSHService handleRemoteNotification:userInfo];
     NSString *eventName;
     switch ([UIApplication sharedApplication].applicationState) {
-        case UIApplicationStateActive:
-            eventName = JPushDocumentEvent_ReceiveNotification;
-            break;
-        case UIApplicationStateBackground:
-            eventName = JPushDocumentEvent_BackgroundNotification;
-            break;
-        default:
-            break;
+      case UIApplicationStateBackground:
+        eventName = JPushDocumentEvent_BackgroundNotification;
+        break;
+      default:
+        eventName = JPushDocumentEvent_ReceiveNotification;
+        break;
     }
 
     [JPushPlugin fireDocumentEvent:eventName jsString:[[self jpushFormatAPNSDic:userInfo] toJsonString]];
