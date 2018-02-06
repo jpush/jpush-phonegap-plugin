@@ -40,7 +40,8 @@ NSDictionary *_launchOptions;
       [JPushPlugin fireDocumentEvent:JPushDocumentEvent_receiveRegistrationId jsString:[event toJsonString]];
     }];
   
-    if (notification) {
+  if (notification != nil &&
+      [[UIDevice currentDevice].systemVersion floatValue] < 10.0) {// iOS 10 以后通过 openNotification 这个回调触发事件。
         if (notification.userInfo) {
           
           if ([notification.userInfo valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey]) {
@@ -136,9 +137,6 @@ NSDictionary *_launchOptions;
     [JPUSHService handleRemoteNotification:userInfo];
     NSString *eventName;
     switch ([UIApplication sharedApplication].applicationState) {
-        case UIApplicationStateInactive:
-            eventName = JPushDocumentEvent_OpenNotification;
-            break;
         case UIApplicationStateActive:
             eventName = JPushDocumentEvent_ReceiveNotification;
             break;
