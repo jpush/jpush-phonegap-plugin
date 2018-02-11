@@ -46,6 +46,16 @@ export class HomePage {
       alert('Receive notification: ' + JSON.stringify(event));
     }, false);
 
+    document.addEventListener('jpush.receiveMessage', (event: any) => {
+      var content;
+      if (this.devicePlatform == 'Android') {
+        content = event.message;
+      } else {
+        content = event.content;
+      }
+      alert('Receive message: ' + JSON.stringify(event));
+    }, false);
+    
     document.addEventListener('jpush.openNotification', (event: any) => {
       var content;
       if (this.devicePlatform == 'Android') {
