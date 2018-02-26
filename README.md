@@ -16,9 +16,8 @@
 ## Install
 
 > 注意：
->
-> -应用的包名一定要和 APP_KEY 对应应用的包名一致，否则极光推送服务无法注册成功。
-> -在使用 8 或以上版本的 Xcode 调试 iOS 项目时，需要先在项目配置界面的 Capabilities 中打开 Push Notifications 开关。
+> - 应用的包名一定要和 APP_KEY 对应应用的包名一致，否则极光推送服务无法注册成功。
+> - 在使用 8 或以上版本的 Xcode 调试 iOS 项目时，需要先在项目配置界面的 Capabilities 中打开 Push Notifications 开关。
 
 - 通过 Cordova Plugins 安装，要求 Cordova CLI 5.0+：
 
