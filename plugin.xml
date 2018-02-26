@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.3.0">
+  version="3.4.0">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -57,10 +57,6 @@
         <config-file target="*JPushConfig.plist" parent="Appkey">
             <string>$APP_KEY</string>
         </config-file>
-
-        <!-- <hook type="after_platform_add" src="hooks/iosEnablePush.js" />
-        <hook type="after_plugin_install" src="hooks/iosEnablePush.js" />
-        <hook type="before_plugin_uninstall" src="hooks/iosDisablePush.js" /> -->
     </platform>
 
     <platform name="android">
@@ -70,8 +66,8 @@
             </feature>
         </config-file>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest">
-            <!-- Required  一些系统要求的权限，如访问网络等-->
+        <config-file target="AndroidManifest.xml" parent="/manifest" mode="merge">
+            <!-- Required  一些系统要求的权限，如访问网络等 -->
             <permission android:name="$PACKAGE_NAME.permission.JPUSH_MESSAGE"
                android:protectionLevel="signature" />
 
@@ -90,8 +86,8 @@
             <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
         </config-file>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <!-- Required SDK核心功能-->
+        <config-file target="AndroidManifest.xml" parent="/manifest/application" mode="merge">
+            <!-- Required SDK核心功能 -->
             <activity android:name="cn.jpush.android.ui.PushActivity"
                 android:theme="@android:style/Theme.Translucent.NoTitleBar"
                 android:configChanges="orientation|keyboardHidden">
@@ -102,13 +98,13 @@
                 </intent-filter>
             </activity>
 
-            <!-- Rich push 核心功能 since 2.0.6-->
+            <!-- Rich push 核心功能 since 2.0.6 -->
             <activity android:name="cn.jpush.android.ui.PopWinActivity"
                 android:theme="@style/MyDialogStyle"
                 android:exported="false">
             </activity>
 
-            <!-- Required  SDK核心功能-->
+            <!-- Required SDK 核心功能 -->
             <service android:name="cn.jpush.android.service.DownloadService"
                android:enabled="true"
                android:exported="false">
@@ -148,7 +144,7 @@
                 </intent-filter>
             </receiver>
 
-            <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
+            <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的 JPush 服务相互拉起的功能。 -->
             <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
             <service android:name="cn.jpush.android.service.DaemonService"
                android:enabled="true"
@@ -159,7 +155,7 @@
                 </intent-filter>
             </service>
 
-            <!-- User defined.  For test only  用户自定义的广播接收器 -->
+            <!-- 通知广播接收器 -->
             <receiver
               android:name="cn.jiguang.cordova.push.JPushReceiver"
               android:enabled="true">
@@ -196,26 +192,30 @@
             <meta-data android:name="JPUSH_APPKEY" android:value="$APP_KEY" />
         </config-file>
 
-        <source-file src="src/android/libs/jpush-android-3.1.1.jar" target-dir="libs" />
+        <lib-file src="src/android/libs/jpush-android-3.1.1.jar" />
 
-        <source-file src="src/android/JPushReceiver.java" target-dir="src/cn/jiguang/cordova/push" />
-        <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/cordova/push" />
-        <source-file src="src/android/JPushEventReceiver.java" target-dir="src/cn/jiguang/cordova/push" />
+        <source-file src="src/android/JPushReceiver.java" target-dir="app/src/main/java/cn/jiguang/cordova/push" />
+        <source-file src="src/android/JPushPlugin.java" target-dir="app/src/main/java/cn/jiguang/cordova/push" />
+        <source-file src="src/android/JPushEventReceiver.java" target-dir="app/src/main/java/cn/jiguang/cordova/push" />
 
-        <source-file src="src/android/res/drawable-hdpi/jpush_richpush_btn_selector.xml"
-          target-dir="res/drawable" />
-        <source-file src="src/android/res/drawable-hdpi/jpush_richpush_progressbar.xml"
-          target-dir="res/drawable" />
+        <resource-file src="src/android/res/drawable-hdpi/jpush_richpush_btn_selector.xml"
+          target="res/drawable/jpush_richpush_btn_selector.xml" />
+        <resource-file src="src/android/res/drawable-hdpi/jpush_richpush_progressbar.xml"
+          target="res/drawable/jpush_richpush_progressbar.xml" />
 
-        <source-file src="src/android/res/drawable-hdpi/jpush_ic_richpush_actionbar_back.png"
-          target-dir="res/drawable-hdpi" />
-        <source-file src="src/android/res/drawable-hdpi/jpush_ic_richpush_actionbar_divider.png"
-          target-dir="res/drawable-hdpi" />
+        <resource-file src="src/android/res/drawable-hdpi/jpush_ic_richpush_actionbar_back.png"
+          target="res/drawable-hdpi/jpush_ic_richpush_actionbar_back.png" />
+        <resource-file src="src/android/res/drawable-hdpi/jpush_ic_richpush_actionbar_divider.png"
+          target="res/drawable-hdpi/jpush_ic_richpush_actionbar_divider.png" />
 
-        <source-file src="src/android/res/layout/jpush_popwin_layout.xml" target-dir="res/layout" />
-        <source-file src="src/android/res/layout/jpush_webview_layout.xml" target-dir="res/layout" />
-        <source-file src="src/android/res/layout/test_notification_layout.xml" target-dir="res/layout" />
+        <resource-file src="src/android/res/layout/jpush_popwin_layout.xml" 
+          target="res/layout/jpush_popwin_layout.xml" />
+        <resource-file src="src/android/res/layout/jpush_webview_layout.xml" 
+          target="res/layout/jpush_webview_layout.xml" />
+        <resource-file src="src/android/res/layout/test_notification_layout.xml" 
+          target="res/layout/test_notification_layout.xml" />
 
-        <source-file src="src/android/res/values/jpush_style.xml" target-dir="res/values" />
+        <resource-file src="src/android/res/values/jpush_style.xml"
+          target="res/values/jpush_style.xml" />
     </platform>
 </plugin>
