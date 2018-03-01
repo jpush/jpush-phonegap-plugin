@@ -1,7 +1,7 @@
 # JPush PhoneGap / Cordova Plugin
 
 [![Build Status](https://travis-ci.org/jpush/jpush-phonegap-plugin.svg?branch=master)](https://travis-ci.org/jpush/jpush-phonegap-plugin)
-[![release](https://img.shields.io/badge/release-3.4.0-blue.svg)](https://github.com/jpush/jpush-phonegap-plugin/releases)
+[![release](https://img.shields.io/badge/release-3.4.1-blue.svg)](https://github.com/jpush/jpush-phonegap-plugin/releases)
 [![platforms](https://img.shields.io/badge/platforms-iOS%7CAndroid-lightgrey.svg)](https://github.com/jpush/jpush-phonegap-plugin)
 [![weibo](https://img.shields.io/badge/weibo-JPush-blue.svg)](http://weibo.com/jpush?refer_flag=1001030101_&is_all=1)
 
@@ -11,7 +11,7 @@
 - 如需要短信验证码功能插件，可关注 [cordova-plugin-jsms](https://github.com/jpush/cordova-plugin-jsms)
 - 如需要统计分析功能插件，可关注 [cordova-plugin-janalytics](https://github.com/jpush/cordova-plugin-janalytics)
 
-**注意**：插件从 v3.4.0 开始支持 cordova-android 7.0.0，因为 cordova-android 7.0.0 修改了 Android 项目结构，因此不兼容之前的版本，升级前请务必注意。如果需要安装之前版本的插件，请先安装 v1.2.0 以下版本的 cordova-plugin-jcore，再安装插件。
+**注意**：插件从 v3.4.0 开始支持 cordova-android 7.0.0，因为 cordova-android 7.0.0 修改了 Android 项目结构，因此不兼容之前的版本，升级前请务必注意。如果需要安装之前版本的插件，请先安装 v1.2.0 以下版本的 cordova-plugin-jcore，再安装插件，否则运行会报错。
 
 ## Install
 
