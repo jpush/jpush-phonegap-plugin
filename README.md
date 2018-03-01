@@ -13,9 +13,7 @@
 
 >注意：插件从 v3.4.0 开始支持 cordova-android 7.0.0，因 cordova-android 7.0.0 修改了 Android 项目结构，因此不兼容之前的版本，升级前请务必注意。
 >
->如果 cordova-android 版本为 7.0.0 以下，可安装 jpush-phonegap-plugin@3.3.4 版本，无需担心 jcore 匹配的问题。
->
->如果需要安装之前版本的插件，请先自行安装 v1.2.0 以下版本的 cordova-plugin-jcore，再安装插件，否则运行会报错。
+>如果需要安装之前版本的插件，请先安装 v1.2.0 以下版本（建议安装 v1.1.12）的 cordova-plugin-jcore，再安装插件，否则运行会报错。
 
 ## Install
 
