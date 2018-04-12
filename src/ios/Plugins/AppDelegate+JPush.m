@@ -158,10 +158,10 @@ NSDictionary *_launchOptions;
     userInfo = [self jpushFormatAPNSDic:notification.request.content.userInfo];
   } else {
     UNNotificationContent *content = notification.request.content;
-    userInfo = [NSMutableDictionary dictionaryWithDictionary:@{@"content": content.body,
-                                                               @"badge": content.badge,
-                                                               @"extras": content.userInfo
-                                                               }];
+    userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:content.body,@"content",
+                                                               content.badge,@"badge",
+                                                               content.userInfo,@"extras",
+                                                               nil];
     userInfo[@"identifier"] = notification.request.identifier;
   }
   
