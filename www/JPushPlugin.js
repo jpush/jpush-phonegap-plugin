@@ -353,7 +353,7 @@ JPushPlugin.prototype.reportNotificationOpened = function (msgID) {
 
 /**
  * 用于在 Android 6.0 及以上系统，申请一些权限
- * 具体可看：http://docs.jpush.io/client/android_api/#android-60
+ * 具体可看：https://docs.jiguang.cn/jpush/client/Android/android_api/#android-60
  */
 JPushPlugin.prototype.requestPermission = function () {
   if (device.platform === 'Android') {

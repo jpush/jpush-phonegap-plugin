@@ -51,11 +51,11 @@ NSDictionary *_launchOptions;
           
           if ([notification.userInfo valueForKey:UIApplicationLaunchOptionsLocalNotificationKey]) {
             UILocalNotification *localNotification = [notification.userInfo valueForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-            
-            NSDictionary* localNotificationEvent = @{@"content":localNotification.alertBody,
-                                                     @"badge": @(localNotification.applicationIconBadgeNumber),
-                                                     @"extras":localNotification.userInfo,
-                                                     };
+            NSMutableDictionary *localNotificationEvent = @{}.mutableCopy;
+            localNotificationEvent[@"content"] = localNotification.alertBody;
+            localNotificationEvent[@"badge"] = @(localNotification.applicationIconBadgeNumber);
+            localNotificationEvent[@"extras"] = localNotification.userInfo;
+
             [JPushPlugin fireDocumentEvent:JPushDocumentEvent_OpenNotification jsString:[localNotificationEvent toJsonString]];
           }
         }
@@ -158,10 +158,9 @@ NSDictionary *_launchOptions;
     userInfo = [self jpushFormatAPNSDic:notification.request.content.userInfo];
   } else {
     UNNotificationContent *content = notification.request.content;
-    userInfo = [NSMutableDictionary dictionaryWithDictionary:@{@"content": content.body,
-                                                               @"badge": content.badge,
-                                                               @"extras": content.userInfo
-                                                               }];
+    userInfo[@"content"] = content.body;
+    userInfo[@"badge"] = content.badge;
+    userInfo[@"extras"] = content.userInfo;
     userInfo[@"identifier"] = notification.request.identifier;
   }
   
@@ -177,16 +176,15 @@ NSDictionary *_launchOptions;
 
 -(void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler{
   UNNotification *notification = response.notification;
-  NSMutableDictionary *userInfo = nil;
+  NSMutableDictionary *userInfo = @{}.mutableCopy;
   
   if ([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
     userInfo = [self jpushFormatAPNSDic:notification.request.content.userInfo];
   } else {
     UNNotificationContent *content = notification.request.content;
-    userInfo = [NSMutableDictionary dictionaryWithDictionary:@{@"content": content.body,
-                                                               @"badge": content.badge,
-                                                               @"extras": content.userInfo
-                                                               }];
+    userInfo[@"content"] = content.body;
+    userInfo[@"badge"] = content.badge;
+    userInfo[@"extras"] = content.userInfo;
     userInfo[@"identifier"] = notification.request.identifier;
   }
   
@@ -195,12 +193,12 @@ NSDictionary *_launchOptions;
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-  NSDictionary* localNotificationEvent = @{@"content":notification.alertBody,
-                                           @"badge": @(notification.applicationIconBadgeNumber),
-                                           @"extras":notification.userInfo,
-                                           };
+  NSMutableDictionary *localNotificationEvent = @{}.mutableCopy;
+  localNotificationEvent[@"content"] = notification.alertBody;
+  localNotificationEvent[@"badge"] = @(notification.applicationIconBadgeNumber);
+  localNotificationEvent[@"extras"] = notification.userInfo;
   
-    [[NSNotificationCenter defaultCenter] postNotificationName:JPushDocumentEvent_ReceiveLocalNotification object:localNotificationEvent];
+  [[NSNotificationCenter defaultCenter] postNotificationName:JPushDocumentEvent_ReceiveLocalNotification object:localNotificationEvent];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
