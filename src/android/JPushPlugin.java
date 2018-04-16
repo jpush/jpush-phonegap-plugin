@@ -615,7 +615,7 @@ public class JPushPlugin extends CordovaPlugin {
 
     /**
      * 设置通知静默时间
-     * http://docs.jpush.io/client/android_api/#api_5
+     * https://docs.jiguang.cn/jpush/client/Android/android_api/
      */
     void setSilenceTime(JSONArray data, CallbackContext callbackContext) {
         try {
