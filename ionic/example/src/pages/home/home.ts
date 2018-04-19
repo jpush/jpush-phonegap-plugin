@@ -36,6 +36,12 @@ export class HomePage {
 
     this.devicePlatform = device.platform;
 
+    document.addEventListener('jpush.openNotification', (event: any) => {
+      alert('jpush.openNotification' + JSON.stringify(event));
+      this.jpush.setBadge(0);
+      this.jpush.setApplicationIconBadgeNumber(0);
+    })
+
     document.addEventListener('jpush.receiveNotification', (event: any) => {
       var content;
       if (this.devicePlatform == 'Android') {
@@ -44,6 +50,9 @@ export class HomePage {
         content = event.aps.alert;
       }
       alert('Receive notification: ' + JSON.stringify(event));
+
+      this.jpush.setBadge(0);
+      this.jpush.setApplicationIconBadgeNumber(0);
     }, false);
 
     document.addEventListener('jpush.openNotification', (event: any) => {
