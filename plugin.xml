@@ -30,7 +30,12 @@
                 <param name="ios-package" value="JPushPlugin" />
             </feature>
         </config-file>
-
+        <config-file target="*-Debug.plist" parent="aps-environment">
+            <string>development</string>
+        </config-file>
+        <config-file target="*-Release.plist" parent="aps-environment">
+            <string>production</string>
+        </config-file>
         <header-file src="src/ios/Plugins/JPushDefine.h" />
         <header-file src="src/ios/Plugins/JPushPlugin.h" />
         <source-file src="src/ios/Plugins/JPushPlugin.m" />
