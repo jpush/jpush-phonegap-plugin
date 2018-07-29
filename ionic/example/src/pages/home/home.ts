@@ -55,6 +55,16 @@ export class HomePage {
       this.jpush.setApplicationIconBadgeNumber(0);
     }, false);
 
+    document.addEventListener('jpush.receiveMessage', (event: any) => {
+      var content;
+      if (this.devicePlatform == 'Android') {
+        content = event.message;
+      } else {
+        content = event.content;
+      }
+      alert('Receive message: ' + JSON.stringify(event));
+    }, false);
+    
     document.addEventListener('jpush.openNotification', (event: any) => {
       var content;
       if (this.devicePlatform == 'Android') {
