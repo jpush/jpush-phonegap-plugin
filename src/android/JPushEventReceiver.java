@@ -14,7 +14,6 @@ import java.util.Set;
 import cn.jpush.android.api.JPushMessage;
 import cn.jpush.android.service.JPushMessageReceiver;
 
-
 public class JPushEventReceiver extends JPushMessageReceiver {
 
     private static final String TAG = JPushEventReceiver.class.getSimpleName();
