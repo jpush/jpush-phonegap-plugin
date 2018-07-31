@@ -9,7 +9,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen HXHG. All rights reserved.
  */
 
-#define JPUSH_VERSION_NUMBER 3.0.7
+#define JPUSH_VERSION_NUMBER 3.1.0
 
 #import <Foundation/Foundation.h>
 
@@ -304,23 +304,26 @@ typedef NS_OPTIONS(NSUInteger, JPAuthorizationOptions) {
  * @abstract 开始记录页面停留
  *
  * @param pageName 页面名称
+ * @discussion JCore 1.1.8 版本后，如需统计页面流，请使用 JAnalytics
  */
-+ (void)startLogPageView:(NSString *)pageName;
++ (void)startLogPageView:(NSString *)pageName __attribute__((deprecated("JCore 1.1.8 版本已过期")));
 
 /*!
  * @abstract 停止记录页面停留
  *
  * @param pageName 页面
+ * @discussion JCore 1.1.8 版本后，如需统计页面流，请使用 JAnalytics
  */
-+ (void)stopLogPageView:(NSString *)pageName;
++ (void)stopLogPageView:(NSString *)pageName __attribute__((deprecated("JCore 1.1.8 版本已过期")));
 
 /*!
  * @abstract 直接上报在页面的停留时间
  *
  * @param pageName 页面
  * @param seconds 停留的秒数
+ * @discussion JCore 1.1.8 版本后，如需统计页面流，请使用 JAnalytics
  */
-+ (void)beginLogPageView:(NSString *)pageName duration:(int)seconds;
++ (void)beginLogPageView:(NSString *)pageName duration:(int)seconds __attribute__((deprecated("JCore 1.1.8 版本已过期")));
 
 /*!
  * @abstract 开启Crash日志收集
@@ -375,7 +378,7 @@ typedef NS_OPTIONS(NSUInteger, JPAuthorizationOptions) {
  * @abstract 查找推送 (支持iOS10，并兼容iOS10以下版本)
  *
  * JPush 2.1.9新接口
- * @param identifier JPushNotificationIdentifier类型，iOS10以上可以通过设置identifier.delivered和identifier.identifiers来查找相应在通知中心显示推送或待推送请求，identifier.identifiers如果设置为nil或空数组则返回相应标志下所有在通知中心显示推送或待推送请求；iOS10以下identifier.delivered属性无效，identifier.identifiers如果设置nil或空数组则返回所有推送。须要设置identifier.findCompletionHandler回调才能得到查找结果，通过(NSArray *results)返回相应对象数组。
+ * @param identifier JPushNotificationIdentifier类型，iOS10以上可以通过设置identifier.delivered和identifier.identifiers来查找相应在通知中心显示推送或待推送请求，identifier.identifiers如果设置为nil或空数组则返回相应标志下所有在通知中心显示推送或待推送请求；iOS10以下identifier.delivered属性无效，identifier.identifiers如果设置nil或空数组则返回所有未触发的推送。须要设置identifier.findCompletionHandler回调才能得到查找结果，通过(NSArray *results)返回相应对象数组。
  * @discussion 旧的查找推送接口被废弃，使用此接口可以替换
  *
  */
@@ -493,6 +496,20 @@ typedef NS_OPTIONS(NSUInteger, JPAuthorizationOptions) {
  */
 + (void)resetBadge;
 
+///----------------------------------------------------
+/// @name Other Feature 其他功能
+///----------------------------------------------------
+
+/*!
+ * @abstract 设置手机号码(到服务器)
+ *
+ * @param mobileNumber 手机号码. 会与用户信息一一对应。可为空，为空则清除号码
+ * @param completion 响应回调。成功则error为空，失败则error带有错误码及错误信息
+ *
+ * @discussion 设置手机号码后，可实现“推送不到短信到”的通知方式，提高推送达到率。结果信息通过completion异步返回，也可将completion设置为nil不处理结果信息。
+ *
+ */
++ (void)setMobileNumber:(NSString *)mobileNumber completion:(void (^)(NSError *error))completion;
 
 ///----------------------------------------------------
 /// @name Logs and others 日志与其他
@@ -535,7 +552,6 @@ typedef NS_OPTIONS(NSUInteger, JPAuthorizationOptions) {
  * 建议在发布的版本里, 调用此接口, 关闭掉日志打印.
  */
 + (void)setLogOFF;
-
 
 ///----------------------------------------------------
 ///********************下列方法已过期********************

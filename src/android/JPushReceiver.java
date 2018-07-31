@@ -13,13 +13,8 @@ import cn.jpush.android.api.JPushInterface;
 
 public class JPushReceiver extends BroadcastReceiver {
 
-    private static final List<String> IGNORED_EXTRAS_KEYS =
-            Arrays.asList(
-                    "cn.jpush.android.TITLE",
-                    "cn.jpush.android.MESSAGE",
-                    "cn.jpush.android.APPKEY",
-                    "cn.jpush.android.NOTIFICATION_CONTENT_TITLE"
-            );
+    private static final List<String> IGNORED_EXTRAS_KEYS = Arrays.asList("cn.jpush.android.TITLE",
+            "cn.jpush.android.MESSAGE", "cn.jpush.android.APPKEY", "cn.jpush.android.NOTIFICATION_CONTENT_TITLE");
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -54,8 +49,7 @@ public class JPushReceiver extends BroadcastReceiver {
 
         JPushPlugin.transmitNotificationOpen(title, alert, extras);
 
-        Intent launch = context.getPackageManager().getLaunchIntentForPackage(
-                context.getPackageName());
+        Intent launch = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
         if (launch != null) {
             launch.addCategory(Intent.CATEGORY_LAUNCHER);
             launch.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);

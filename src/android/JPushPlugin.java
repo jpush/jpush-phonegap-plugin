@@ -64,33 +64,29 @@ public class JPushPlugin extends CordovaPlugin {
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
         mContext = cordova.getActivity().getApplicationContext();
-        
+
         JPushInterface.init(mContext);
 
         cordovaActivity = cordova.getActivity();
 
-        //如果同时缓存了打开事件 openNotificationAlert 和 消息事件 notificationAlert，只向 UI 发打开事件。
-        //这样做是为了和 iOS 统一。
+        // 如果同时缓存了打开事件 openNotificationAlert 和 消息事件 notificationAlert，只向 UI 发打开事件。
+        // 这样做是为了和 iOS 统一。
         if (openNotificationAlert != null) {
             notificationAlert = null;
-            transmitNotificationOpen(openNotificationTitle, openNotificationAlert,
-                    openNotificationExtras);
+            transmitNotificationOpen(openNotificationTitle, openNotificationAlert, openNotificationExtras);
         }
         if (notificationAlert != null) {
-            transmitNotificationReceive(notificationTitle, notificationAlert,
-                    notificationExtras);
+            transmitNotificationReceive(notificationTitle, notificationAlert, notificationExtras);
         }
     }
 
     public void onResume(boolean multitasking) {
         if (openNotificationAlert != null) {
             notificationAlert = null;
-            transmitNotificationOpen(openNotificationTitle, openNotificationAlert,
-                    openNotificationExtras);
+            transmitNotificationOpen(openNotificationTitle, openNotificationAlert, openNotificationExtras);
         }
         if (notificationAlert != null) {
-            transmitNotificationReceive(notificationTitle, notificationAlert,
-                    notificationExtras);
+            transmitNotificationReceive(notificationTitle, notificationAlert, notificationExtras);
         }
     }
 
@@ -238,14 +234,13 @@ public class JPushPlugin extends CordovaPlugin {
     }
 
     @Override
-    public boolean execute(final String action, final JSONArray data,
-                           final CallbackContext callbackContext) throws JSONException {
+    public boolean execute(final String action, final JSONArray data, final CallbackContext callbackContext)
+            throws JSONException {
         cordova.getThreadPool().execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Method method = JPushPlugin.class.getDeclaredMethod(action,
-                            JSONArray.class, CallbackContext.class);
+                    Method method = JPushPlugin.class.getDeclaredMethod(action, JSONArray.class, CallbackContext.class);
                     method.invoke(JPushPlugin.this, data, callbackContext);
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
@@ -308,8 +303,7 @@ public class JPushPlugin extends CordovaPlugin {
             callbackContext.error("error reading num json");
         }
         if (num != -1) {
-            JPushInterface.setLatestNotificationNumber(
-                    mContext, num);
+            JPushInterface.setLatestNotificationNumber(mContext, num);
         } else {
             callbackContext.error("error num");
         }
@@ -533,11 +527,10 @@ public class JPushPlugin extends CordovaPlugin {
     }
 
     /**
-     *   自定义通知行为，声音、震动、呼吸灯等。
+     * 自定义通知行为，声音、震动、呼吸灯等。
      */
     void setBasicPushNotificationBuilder(JSONArray data, CallbackContext callbackContext) {
-        BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(
-                this.cordova.getActivity());
+        BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(this.cordova.getActivity());
         builder.developerArg0 = "Basic builder 1";
         JPushInterface.setPushNotificationBuilder(1, builder);
         JSONObject obj = new JSONObject();
@@ -549,14 +542,12 @@ public class JPushPlugin extends CordovaPlugin {
     }
 
     /**
-     * 自定义推送通知栏样式，需要自己实现具体代码。
-     * http://docs.jiguang.cn/client/android_tutorials/#_11
+     * 自定义推送通知栏样式，需要自己实现具体代码。 http://docs.jiguang.cn/client/android_tutorials/#_11
      */
-    void setCustomPushNotificationBuilder(JSONArray data,
-                                          CallbackContext callbackContext) {
+    void setCustomPushNotificationBuilder(JSONArray data, CallbackContext callbackContext) {
         // CustomPushNotificationBuilder builder = new CustomPushNotificationBuilder(
-        //         this.cordova.getActivity(), R.layout.test_notification_layout,
-        //         R.id.icon, R.id.title, R.id.text);
+        // this.cordova.getActivity(), R.layout.test_notification_layout,
+        // R.id.icon, R.id.title, R.id.text);
         // JPushInterface.setPushNotificationBuilder(2, builder);
         // JPushInterface.setDefaultPushNotificationBuilder(builder);
     }
@@ -614,8 +605,7 @@ public class JPushPlugin extends CordovaPlugin {
     }
 
     /**
-     * 设置通知静默时间
-     * https://docs.jiguang.cn/jpush/client/Android/android_api/
+     * 设置通知静默时间 http://docs.jpush.io/client/android_api/#api_5
      */
     void setSilenceTime(JSONArray data, CallbackContext callbackContext) {
         try {
@@ -631,8 +621,7 @@ public class JPushPlugin extends CordovaPlugin {
                 callbackContext.error("结束时间数值错误");
                 return;
             }
-            JPushInterface.setSilenceTime(this.cordova.getActivity(), startHour, startMinute,
-                    endHour, endMinute);
+            JPushInterface.setSilenceTime(this.cordova.getActivity(), startHour, startMinute, endHour, endMinute);
         } catch (JSONException e) {
             e.printStackTrace();
             callbackContext.error("error: reading json data.");
@@ -666,8 +655,7 @@ public class JPushPlugin extends CordovaPlugin {
                 data.put("resultCode", code);
                 data.put("tags", tags);
                 data.put("alias", alias);
-                final String jsEvent = String.format(
-                        "cordova.fireDocumentEvent('jpush.setTagsWithAlias',%s)",
+                final String jsEvent = String.format("cordova.fireDocumentEvent('jpush.setTagsWithAlias',%s)",
                         data.toString());
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -693,8 +681,8 @@ public class JPushPlugin extends CordovaPlugin {
 
         try {
             appOpsClazz = Class.forName(AppOpsManager.class.getName());
-            Method checkOpNoThrowMethod = appOpsClazz.getMethod("checkOpNoThrow",
-                    Integer.TYPE, Integer.TYPE, String.class);
+            Method checkOpNoThrowMethod = appOpsClazz.getMethod("checkOpNoThrow", Integer.TYPE, Integer.TYPE,
+                    String.class);
             Field opValue = appOpsClazz.getDeclaredField(appOpsServiceId);
             int value = opValue.getInt(Integer.class);
             Object result = checkOpNoThrowMethod.invoke(mAppOps, value, uid, pkg);
