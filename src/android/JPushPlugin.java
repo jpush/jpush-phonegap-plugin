@@ -523,7 +523,11 @@ public class JPushPlugin extends CordovaPlugin {
 
     void getConnectionState(JSONArray data, CallbackContext callback) {
         boolean isConnected = JPushInterface.getConnectionState(cordovaActivity.getApplicationContext());
-        callback.success(String.valueOf(isConnected));
+        if (isConnected) {
+            callback.success(1);
+        } else {
+            callback.success(0);
+        }
     }
 
     /**
