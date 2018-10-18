@@ -6,6 +6,8 @@
 - [通知栏样式定制](#通知栏样式定制)
 - [设置保留最近通知条数](#设置保留最近通知条数)
 - [本地通知](#本地通知)
+- [获取推送连接状态](#获取推送连接状态)
+
 
 ## 获取集成日志（同时适用于 iOS）
 
@@ -186,3 +188,31 @@ window.JPush.clearLocalNotifications() // 同时适用于 iOS
 - notificationID: 设置本地通知的 ID（不要为 0）。
 - broadcastTime: 设置本地通知触发时间，为距离当前时间的数值，单位是毫秒。
 - extras: 设置额外的数据信息 extras 为 json 字符串。
+
+## 获取推送连接状态
+
+### API - getConnectionState
+
+开发者可以使用此功能获取当前 Push 服务的连接状态
+
+#### 接口定义
+
+```js
+window.JPush.getConnectionState(callback)
+```
+
+#### 参数说明
+
+- callback: 回调函数，用来通知 JPush 的推送服务是否开启。
+
+#### 代码示例
+
+```js
+window.JPush.getConnectionState(function (result) {
+  if (result == 0) {
+    // 链接状态
+  } else {
+    // 断开状态
+  }
+})
+```
