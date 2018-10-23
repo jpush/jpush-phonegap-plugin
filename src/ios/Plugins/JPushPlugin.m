@@ -395,13 +395,14 @@
   }
   
   JPushNotificationTrigger *trigger = [[JPushNotificationTrigger alloc] init];
+  // 由于 不支持 0 作为传入参数，在传入参数基础上添加一个极小的时间于 android 端保持一致。
   if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0) {
     if (delay) {
-      trigger.timeInterval = [delay doubleValue];
+      trigger.timeInterval = [delay doubleValue] + 0.000001;
     }
   } else {
     if (delay) {
-      trigger.fireDate = [NSDate dateWithTimeIntervalSinceNow:[[command argumentAtIndex:0] intValue]];
+      trigger.fireDate = [NSDate dateWithTimeIntervalSinceNow:[[command argumentAtIndex:0] doubleValue] + 0.001];
     }
   }
   
