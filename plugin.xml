@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.4.7">
+  version="3.5.0">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -85,40 +85,20 @@
 
             <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
             <uses-permission android:name="android.permission.INTERNET" />
-            <uses-permission android:name="android.permission.WAKE_LOCK" />
             <uses-permission android:name="android.permission.READ_PHONE_STATE" />
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-            <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-            <uses-permission android:name="android.permission.VIBRATE" />
             <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.WRITE_SETTINGS" />
             <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+            <uses-permission android:name="android.permission.VIBRATE" />
+            <uses-permission android:name="android.permission.WAKE_LOCK" />
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application" mode="merge">
-            <!-- Required SDK核心功能 -->
-            <activity android:name="cn.jpush.android.ui.PushActivity"
-                android:theme="@android:style/Theme.Translucent.NoTitleBar"
-                android:configChanges="orientation|keyboardHidden">
-                <intent-filter>
-                    <action android:name="cn.jpush.android.ui.PushActivity" />
-                    <category android:name="android.intent.category.DEFAULT" />
-                    <category android:name="$PACKAGE_NAME" />
-                </intent-filter>
-            </activity>
 
-            <!-- Rich push 核心功能 since 2.0.6 -->
-            <activity android:name="cn.jpush.android.ui.PopWinActivity"
-                android:theme="@style/MyDialogStyle"
-                android:exported="false">
-            </activity>
-
-            <!-- Required SDK 核心功能 -->
-            <service android:name="cn.jpush.android.service.DownloadService"
-               android:enabled="true"
-               android:exported="false">
-            </service>
 
             <!-- Required SDK 核心功能-->
             <service android:name="cn.jpush.android.service.PushService"
@@ -133,10 +113,33 @@
                 </intent-filter>
             </service>
 
+            <!-- since 3.0.9 Required SDK 核心功能-->
+            <provider
+                android:authorities="$PACKAGE_NAME.DataProvider"
+                android:name="cn.jpush.android.service.DataProvider"
+                android:exported="true" />
+
+            <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的 JPush 服务相互拉起的功能。 -->
+            <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
+            <service android:name="cn.jpush.android.service.DaemonService"
+               android:enabled="true"
+               android:exported="true">
+                <intent-filter>
+                    <action android:name="cn.jpush.android.intent.DaemonService" />
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+            </service>
+
+            <!-- since 3.1.0 Required SDK 核心功能-->
+            <provider
+                android:authorities="$PACKAGE_NAME.DownloadProvider"
+                android:name="cn.jpush.android.service.DownloadProvider"
+                android:exported="true"
+            />
+
             <!-- Required SDK核心功能-->
             <receiver android:name="cn.jpush.android.service.PushReceiver"
-              android:enabled="true"
-              android:exported="false">
+              android:enabled="true">
                 <intent-filter android:priority="1000">
                     <!--Required  显示通知栏 -->
                     <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
@@ -154,18 +157,46 @@
                 </intent-filter>
             </receiver>
 
-            <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的 JPush 服务相互拉起的功能。 -->
-            <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
-            <service android:name="cn.jpush.android.service.DaemonService"
-               android:enabled="true"
-               android:exported="true">
+            <!-- Required SDK核心功能 -->
+            <activity android:name="cn.jpush.android.ui.PushActivity"
+                android:theme="@android:style/Theme.Translucent.NoTitleBar"
+                android:configChanges="orientation|keyboardHidden"
+                android:exported="false" >
                 <intent-filter>
-                    <action android:name="cn.jpush.android.intent.DaemonService" />
+                    <action android:name="cn.jpush.android.ui.PushActivity" />
+                    <category android:name="android.intent.category.DEFAULT" />
                     <category android:name="$PACKAGE_NAME" />
                 </intent-filter>
-            </service>
+            </activity>
 
-            <!-- 通知广播接收器 -->
+            <!-- SDK 核心功能-->
+            <activity
+                android:name="cn.jpush.android.ui.PopWinActivity"
+                android:configChanges="orientation|keyboardHidden"
+                android:exported="false"
+                android:theme="@style/MyDialogStyle">
+                <intent-filter>
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+            </activity>
+
+            <!-- Required SDK 核心功能 -->
+            <service android:name="cn.jpush.android.service.DownloadService"
+               android:enabled="true"
+               android:exported="false">
+            </service>
+            <!-- Required SDK核心功能-->
+             <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
+
+            <receiver android:name="cn.jiguang.cordova.push.JPushEventReceiver">
+                <intent-filter>
+                    <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+            </receiver>
+
+            <!-- 插件通知广播接收器 -->
             <receiver
               android:name="cn.jiguang.cordova.push.JPushReceiver"
               android:enabled="true">
@@ -179,34 +210,17 @@
                 </intent-filter>
             </receiver>
 
-            <!-- Required SDK核心功能-->
-            <receiver
-              android:name="cn.jpush.android.service.AlarmReceiver"
-              android:exported="false" />
-
-            <!-- since 3.0.9 Required SDK 核心功能-->
-            <provider
-                android:authorities="$PACKAGE_NAME.DataProvider"
-                android:name="cn.jpush.android.service.DataProvider"
-                android:exported="true" />
-
-            <receiver android:name="cn.jiguang.cordova.push.JPushEventReceiver">
-                <intent-filter>
-                    <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
-                    <category android:name="$PACKAGE_NAME" />
-                </intent-filter>
-            </receiver>
 
             <!-- Required. Enable it you can get statistics data with channel -->
             <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default" />
             <meta-data android:name="JPUSH_APPKEY" android:value="$APP_KEY" />
         </config-file>
 
-        <lib-file src="src/android/libs/jpush-android-3.1.6.jar" />
+        <lib-file src="src/android/libs/jpush-android-3.1.7.jar" />
 
-        <source-file src="src/android/JPushReceiver.java" target-dir="app/src/main/java/cn/jiguang/cordova/push" />
-        <source-file src="src/android/JPushPlugin.java" target-dir="app/src/main/java/cn/jiguang/cordova/push" />
-        <source-file src="src/android/JPushEventReceiver.java" target-dir="app/src/main/java/cn/jiguang/cordova/push" />
+        <source-file src="src/android/JPushReceiver.java" target-dir="src/cn/jiguang/cordova/push" />
+        <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/cordova/push" />
+        <source-file src="src/android/JPushEventReceiver.java" target-dir="src/cn/jiguang/cordova/push" />
 
         <resource-file src="src/android/res/drawable-hdpi/jpush_richpush_btn_selector.xml"
           target="res/drawable/jpush_richpush_btn_selector.xml" />
