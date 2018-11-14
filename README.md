@@ -123,6 +123,10 @@ Android 的推送通过长连接的方式实现，只有在保持连接的情况
 
 ### iOS
 
+#### XCode 10 收不到推送怎么办？
+
+打开 xcode -> file -> WorkSpace Settings… -> Build System 改成 Legacy Build System 然后卸载 App 重新运行。
+
 #### 打包时遇到 i386 打包失败怎么办？
 
 ```shell
