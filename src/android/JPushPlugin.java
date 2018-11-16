@@ -1,8 +1,8 @@
 package cn.jiguang.cordova.push;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AppOpsManager;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
@@ -20,22 +20,17 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import cn.jpush.android.data.JPushLocalNotification;
-import cn.jpush.android.service.JPushMessageReceiver;
 
 public class JPushPlugin extends CordovaPlugin {
 
@@ -673,35 +668,42 @@ public class JPushPlugin extends CordovaPlugin {
         }
     };
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     private boolean hasPermission(String appOpsServiceId) {
+
         Context context = cordova.getActivity().getApplicationContext();
-        AppOpsManager mAppOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
-        ApplicationInfo appInfo = context.getApplicationInfo();
+        if (Build.VERSION.SDK_INT >= 24) {
+            NotificationManager mNotificationManager = (NotificationManager) context
+                    .getSystemService(Context.NOTIFICATION_SERVICE);
+            return mNotificationManager.areNotificationsEnabled();
+        } else {
+            AppOpsManager mAppOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+            ApplicationInfo appInfo = context.getApplicationInfo();
 
-        String pkg = context.getPackageName();
-        int uid = appInfo.uid;
-        Class appOpsClazz;
+            String pkg = context.getPackageName();
+            int uid = appInfo.uid;
+            Class appOpsClazz;
 
-        try {
-            appOpsClazz = Class.forName(AppOpsManager.class.getName());
-            Method checkOpNoThrowMethod = appOpsClazz.getMethod("checkOpNoThrow", Integer.TYPE, Integer.TYPE,
-                    String.class);
-            Field opValue = appOpsClazz.getDeclaredField(appOpsServiceId);
-            int value = opValue.getInt(Integer.class);
-            Object result = checkOpNoThrowMethod.invoke(mAppOps, value, uid, pkg);
-            return Integer.parseInt(result.toString()) == AppOpsManager.MODE_ALLOWED;
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            try {
+                appOpsClazz = Class.forName(AppOpsManager.class.getName());
+                Method checkOpNoThrowMethod = appOpsClazz.getMethod("checkOpNoThrow", Integer.TYPE, Integer.TYPE,
+                        String.class);
+                Field opValue = appOpsClazz.getDeclaredField(appOpsServiceId);
+                int value = opValue.getInt(Integer.class);
+                Object result = checkOpNoThrowMethod.invoke(mAppOps, value, uid, pkg);
+                return Integer.parseInt(result.toString()) == AppOpsManager.MODE_ALLOWED;
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
-        return true;
+
+        return false;
     }
 }
