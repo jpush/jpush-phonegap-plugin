@@ -41,6 +41,13 @@
   ```shell
   cordova plugin add Your_Plugin_Path --variable APP_KEY=your_jpush_appkey
   ```
+  
+- 需要同时动态配置 Android 的 JPUSH_CHANNEL 参数(v3.6.0+)：
+
+  ```shell
+   cordova plugin add jpush-phonegap-plugin --variable APP_KEY=your_jpush_appkey --variable CHANNEL=your_channel
+  ```
+  
 
 ### Ionic
 

@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.5.1">
+  version="3.6.0">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -11,6 +11,7 @@
     <license>MIT License</license>
 
     <preference name="APP_KEY" />
+    <preference name="CHANNEL" default="developer-default" />
 
     <engines>
         <engine name="cordova" version=">=3.0" />
@@ -212,11 +213,11 @@
 
 
             <!-- Required. Enable it you can get statistics data with channel -->
-            <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default" />
+            <meta-data android:name="JPUSH_CHANNEL" android:value="$CHANNEL" />
             <meta-data android:name="JPUSH_APPKEY" android:value="$APP_KEY" />
         </config-file>
 
-        <lib-file src="src/android/libs/jpush-android-3.1.7.jar" />
+        <lib-file src="src/android/libs/jpush-android-3.1.8.jar" />
 
         <source-file src="src/android/JPushReceiver.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/cordova/push" />
