@@ -627,6 +627,16 @@ public class JPushPlugin extends CordovaPlugin {
         }
     }
 
+    void setGeofenceInterval(JSONArray data, CallbackContext callbackContext) throws JSONException {
+        long interval = data.getLong(0);
+        JPushInterface.setGeofenceInterval(this.cordova.getActivity(), interval);
+    }
+
+    void setMaxGeofenceNumber(JSONArray data, CallbackContext callbackContext) throws JSONException {
+        int maxNumber = data.getInt(0);
+        JPushInterface.setMaxGeofenceNumber(mContext, maxNumber);
+    }
+
     private boolean isValidHour(int hour) {
         return !(hour < 0 || hour > 23);
     }
@@ -706,4 +716,5 @@ public class JPushPlugin extends CordovaPlugin {
 
         return false;
     }
+
 }
