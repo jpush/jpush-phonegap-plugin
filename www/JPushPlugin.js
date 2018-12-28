@@ -463,6 +463,18 @@ JPushPlugin.prototype.setPushTime = function(weekdays, startHour, endHour) {
   }
 };
 
+JPushPlugin.prototype.setGeofenceInterval = function(interval) {
+  if (device.platform === "Android") {
+    this.callNative("setGeofenceInterval", [interval], null);
+  }
+};
+
+JPushPlugin.prototype.setMaxGeofenceNumber = function(maxNumber) {
+  if (device.platform === "Android") {
+    this.callNative("setMaxGeofenceNumber", [maxNumber], null);
+  }
+};
+
 if (!window.plugins) {
   window.plugins = {};
 }

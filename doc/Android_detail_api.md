@@ -7,7 +7,7 @@
 - [设置保留最近通知条数](#设置保留最近通知条数)
 - [本地通知](#本地通知)
 - [获取推送连接状态](#获取推送连接状态)
-
+- [地理围栏](#地理围栏)
 
 ## 获取集成日志（同时适用于 iOS）
 
@@ -216,3 +216,33 @@ window.JPush.getConnectionState(function (result) {
   }
 })
 ```
+
+## 地理围栏
+
+### API - setGeofenceInterval
+
+设置地理围栏监控周期，最小3分钟，最大1天。默认为15分钟，当距离地理围栏边界小于1000米周期自动调整为3分钟。设置成功后一直使用设置周期，不会进行调整。
+
+#### 接口定义
+
+```js
+window.JPush.setGeofenceInterval(interval)
+```
+
+#### 参数说明
+
+- interval: 监控周期，单位是毫秒。
+
+### API - setMaxGeofenceNumber
+
+设置最多允许保存的地理围栏数量，超过最大限制后，如果继续创建先删除最早创建的地理围栏。默认数量为10个，允许设置最小1个，最大100个。
+
+#### 接口定义
+
+```js
+window.JPush.setMaxGeofenceNumber(maxNumber)
+```
+
+#### 参数说明
+
+- maxNumber: 最多允许保存的地理围栏个数
