@@ -23,11 +23,17 @@ export interface AliasOptions {
 @Injectable()
 export class JPush extends IonicNativePlugin {
 
-  @Cordova()
-  init(): Promise<any> { return; }
+  @Cordova({
+    sync: true,
+    platforms: ['iOS', 'Android']
+   })
+  init(): void {  }
 
-  @Cordova()
-  setDebugMode(enable: boolean): Promise<any> { return; }
+  @Cordova({
+    sync: true,
+    platforms: ['iOS', 'Android']
+   })
+  setDebugMode(enable: boolean): void {  }
 
   @Cordova()
   getRegistrationID(): Promise<any> { return; }
@@ -91,41 +97,74 @@ export class JPush extends IonicNativePlugin {
 
   // iOS API - start
 
-  @Cordova()
-  setBadge(badge: number): Promise<any> { return; }
+  @Cordova({
+    sync: true,
+    platforms: ['iOS']
+   })
+  setBadge(badge: number): void {  }
 
-  @Cordova()
-  resetBadge(): Promise<any> { return; }
+  @Cordova({
+    sync: true,
+    platforms: ['iOS']
+   })
+  resetBadge(): void {  }
 
-  @Cordova()
-  setApplicationIconBadgeNumber(badge: number): Promise<any> { return; }
+  @Cordova({
+    sync: true,
+    platforms: ['iOS']
+   })
+  setApplicationIconBadgeNumber(badge: number): void {  }
 
   @Cordova()
   getApplicationIconBadgeNumber(): Promise<any> { return; }
 
-  @Cordova()
-  addLocalNotificationForIOS(delayTime: number, content: string, badge: number, identifierKey: string, extras?: object): Promise<any> { return; }
+  @Cordova({
+    sync: true,
+    platforms: ['iOS']
+   })
+  addLocalNotificationForIOS(delayTime: number, content: string, badge: number, identifierKey: string, extras?: object): void {  }
 
-  @Cordova()
-  deleteLocalNotificationWithIdentifierKeyInIOS(identifierKey: string): Promise<any> { return; }
+  @Cordova({
+    sync: true,
+    platforms: ['iOS']
+   })
+  deleteLocalNotificationWithIdentifierKeyInIOS(identifierKey: string): void {  }
 
-  @Cordova()
-  addDismissActions(actions: Array<object>, categoryId: string): Promise<any> { return; }
+  @Cordova({
+    sync: true,
+    platforms: ['iOS']
+   })
+  addDismissActions(actions: Array<object>, categoryId: string): void {  }
 
-  @Cordova()
-  addNotificationActions(actions: Array<object>, categoryId: string): Promise<any> { return; }
+  @Cordova({
+    sync: true,
+    platforms: ['iOS']
+   })
+  addNotificationActions(actions: Array<object>, categoryId: string): void {  }
 
-  @Cordova()
-  setLocation(latitude: number, longitude: number): Promise<any> { return; }
+  @Cordova({
+    sync: true,
+    platforms: ['iOS']
+   })
+  setLocation(latitude: number, longitude: number): void {  }
 
-  @Cordova()
-  startLogPageView(pageName: string): Promise<any> { return; }
+  @Cordova({
+    sync: true,
+    platforms: ['iOS']
+   })
+  startLogPageView(pageName: string): void { return; }
 
-  @Cordova()
-  stopLogPageView(pageName: string): Promise<any> { return; }
+  @Cordova({
+    sync: true,
+    platforms: ['iOS']
+   })
+  stopLogPageView(pageName: string): void { return; }
 
-  @Cordova()
-  beginLogPageView(pageName: string, duration: number): Promise<any> { return; }
+  @Cordova({
+    sync: true,
+    platforms: ['iOS']
+   })
+  beginLogPageView(pageName: string, duration: number): void { return; }
 
   // iOS API - end
 
