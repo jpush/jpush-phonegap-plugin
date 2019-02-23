@@ -28,7 +28,7 @@ export interface AliasOptions {
  *
  * ```
  */
-export declare class JPushOriginal extends IonicNativePlugin {
+export declare class JPush extends IonicNativePlugin {
     /**
      * This function does something
      * @param arg1 {string} Some param to configure something
@@ -93,5 +93,3 @@ export declare class JPushOriginal extends IonicNativePlugin {
     setSilenceTime(startHour: number, startMinute: number, endHour: number, endMinute: number): Promise<any>;
     setPushTime(weekdays: Array<string>, startHour: number, endHour: number): Promise<any>;
 }
-
-export declare const JPush: JPushOriginal;

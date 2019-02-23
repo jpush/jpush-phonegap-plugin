@@ -1,15 +1,15 @@
 {
   "name": "@jiguang-ionic/jpush",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "JPush support for ionic-native",
   "module": "index.js",
   "typings": "index.d.ts",
   "author": "hevin",
   "license": "MIT",
   "peerDependencies": {
-    "@ionic-native/core": "^4.2.0",
+    "@ionic-native/core": "^5.1.0",
     "@angular/core": "*",
-    "rxjs": "^5.0.1"
+    "rxjs": "^6.3.0"
   },
   "repository": {
     "type": "git",
