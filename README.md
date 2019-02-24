@@ -74,7 +74,11 @@ npm install --save @jiguang-ionic/jpush
 然后在 *app.module.ts* 中增加：
 
 ```js
+// @jiguang-ionic/jpush@1.0.0+
 import { JPush } from '@jiguang-ionic/jpush';
+
+// @jiguang-ionic/jpush@2.0.0+
+import { JPush } from '@jiguang-ionic/jpush/ngx';
 ...
   providers: [
     ...
