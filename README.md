@@ -69,6 +69,8 @@
 
 ```shell
 npm install --save @jiguang-ionic/jpush
+
+# npm install --save @jiguang-ionic/jpush@2.0.0 for ionic4+
 ```
 
 然后在 *app.module.ts* 中增加：
