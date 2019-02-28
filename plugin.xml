@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.6.2">
+  version="3.6.3">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -190,7 +190,9 @@
             <!-- Required SDK核心功能-->
              <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
 
-            <receiver android:name="cn.jiguang.cordova.push.JPushEventReceiver">
+            <receiver android:name="cn.jiguang.cordova.push.JPushEventReceiver"
+               android:enabled="true"
+               android:exported="false">
                 <intent-filter>
                     <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
                     <category android:name="$PACKAGE_NAME" />
@@ -200,7 +202,8 @@
             <!-- 插件通知广播接收器 -->
             <receiver
               android:name="cn.jiguang.cordova.push.JPushReceiver"
-              android:enabled="true">
+              android:enabled="true"
+              android:exported="false">
                 <intent-filter>
                     <action android:name="cn.jpush.android.intent.REGISTRATION" />
                     <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
