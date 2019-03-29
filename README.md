@@ -68,7 +68,7 @@
 如果使用了 Ionic，可以再安装 @jiguang-ionic/jpush 包，适配 ionic-native：
 
 ```shell
-npm install --save @jiguang-ionic/jpush
+npm install --save @jiguang-ionic/jpush@1.0.2
 
 # npm install --save @jiguang-ionic/jpush@2.0.0 for ionic4+
 ```
