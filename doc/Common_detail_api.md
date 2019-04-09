@@ -577,5 +577,6 @@ window.JPush.getUserNotificationSettings(function(result) {
     // 系统设置中已关闭应用推送。
   } else if(result > 0) {
     // 系统设置中打开了应用推送。
-  })
+  }
+ })
 ```
