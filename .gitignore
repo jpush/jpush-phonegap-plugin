@@ -1,5 +1,5 @@
 # Created by https://www.gitignore.io/api/macos,apachecordova
-
+.idea
 ### ApacheCordova ###
 # Apache Cordova generated files and directories
 bin/*
