@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  
+
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
       <title>JPush Phonegap Simple Demo</title>
@@ -18,15 +18,15 @@
 
           initiateUI();
         };
-      
+
         var getRegistrationID = function() {
           window.JPush.getRegistrationID(onGetRegistrationID);
         };
-      
+
         var onGetRegistrationID = function(data) {
           try {
             console.log("JPushPlugin:registrationID is " + data);
-            
+
             if (data.length == 0) {
               var t1 = window.setTimeout(getRegistrationID, 1000);
             }
@@ -36,7 +36,7 @@
             console.log(exception);
           }
         };
-      
+
         var onTagsWithAlias = function(event) {
           try {
             console.log("onTagsWithAlias");
@@ -48,7 +48,7 @@
             console.log(exception)
           }
         };
-      
+
         var onOpenNotification = function(event) {
           try {
             var alertContent;
@@ -62,7 +62,7 @@
             console.log("JPushPlugin:onOpenNotification" + exception);
           }
         };
-        
+
         var onReceiveNotification = function(event) {
           try {
             var alertContent;
@@ -76,7 +76,7 @@
             console.log(exception)
           }
         };
-      
+
         var onReceiveMessage = function(event) {
           try {
             var message;
@@ -90,7 +90,7 @@
             console.log("JPushPlugin:onReceiveMessage-->" + exception);
           }
         };
-      
+
         var initiateUI = function() {
           try {
             window.JPush.init();
@@ -110,7 +110,7 @@
               var tag2 = $("#tagText2").val()
               var tag3 = $("#tagText3").val()
               var tags = []
-                                            
+
               if (tag1) {
                 tags.push(tag1)
               }
@@ -123,7 +123,7 @@
 
               window.JPush.setTags({ sequence: 1, tags: tags },
                 function (result) {
-                  $("#tagsResult").html(result.tags)
+                  $("#tagsResult").html(JSON.stringify(result.tags))
                 }, function (error) {
                   alert(error.code)
                 })
@@ -135,7 +135,7 @@
           $("#getAllTags").click(function (event) {
             window.JPush.getAllTags({ sequence: 2 },
               function (result) {
-                $("#tagsResult").html(result.tags)
+                $("#tagsResult").html(JSON.stringify(result.tags))
               }, function (error) {
                 alert(error.code)
               })
@@ -179,14 +179,14 @@
               })
           });
         };
-      
+
         document.addEventListener("deviceready", onDeviceReady, false);
         document.addEventListener("jpush.openNotification", onOpenNotification, false);
         document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
         document.addEventListener("jpush.receiveMessage", onReceiveMessage, false);
       </script>
   </head>
-  
+
   <body>
     <div data-role="page" id="page">
       <div data-role="content">
@@ -235,7 +235,7 @@
               <input type="button" id="getAllTags" value="Get all tags" />
               <input type="button" id="cleanTags" value="Clean tags" />
             </div>
-              
+
             <div data-role="fieldcontain">
               <input type="button" id="setAlias" value="Set alias" />
               <input type="button" id="getAlias" value="Get alias" />
