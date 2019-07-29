@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.7.0">
+  version="3.7.1">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -146,7 +146,7 @@
 
             <!-- since 3.0.9 Required SDK 核心功能-->
             <provider
-                    android:authorities="应用的包名.DataProvider"
+                    android:authorities="$PACKAGE_NAME.DataProvider"
                     android:name="cn.jpush.android.service.DataProvider"
                     android:process=":pushcore"
                     android:exported="false"
