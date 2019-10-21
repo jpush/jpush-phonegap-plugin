@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.7.2">
+  version="3.7.3">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -49,7 +49,7 @@
         <source-file src="src/ios/Plugins/AppDelegate+JPush.m" />
 
         <header-file src="src/ios/lib/JPUSHService.h" />
-        <source-file src="src/ios/lib/jpush-ios-3.2.1.a" framework="true" />
+        <source-file src="src/ios/lib/jpush-ios-3.2.6.a" framework="true" />
         <resource-file src="src/ios/JPushConfig.plist" />
 
         <framework src="CFNetwork.framework" weak="true" />
@@ -249,7 +249,7 @@
 
         </config-file>
 
-        <lib-file src="src/android/libs/jpush-android-3.3.4.jar" />
+        <lib-file src="src/android/libs/jpush-android-3.3.8.jar" />
 
         <source-file src="src/android/PushService.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/cordova/push" />
