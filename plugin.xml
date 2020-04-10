@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.7.3">
+  version="3.7.4">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -105,6 +105,9 @@
             <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
             <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
             <uses-permission android:name="android.permission.GET_TASKS" />
+			
+			    <!--华为角标-->
+			<uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE "/>
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application" mode="merge">
@@ -196,6 +199,9 @@
 
             <!-- Required SDK核心功能-->
             <receiver android:name="cn.jpush.android.service.AlarmReceiver" android:exported="false"/>
+			
+			 <!-- 3.5.0新增，用于定时展示功能 -->
+			<receiver android:name="cn.jpush.android.service.SchedulerReceiver" android:exported="false"/>
 
             <!--since 3.3.0 接收JPush相关事件-->
             <receiver android:name="cn.jiguang.cordova.push.JPushEventReceiver">

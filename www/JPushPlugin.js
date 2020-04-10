@@ -475,6 +475,13 @@ JPushPlugin.prototype.setMaxGeofenceNumber = function(maxNumber) {
   }
 };
 
+//设置角标
+JPushPlugin.prototype.setBadgeNumber = function(badgeNumb) {
+  if (device.platform === "Android") {
+    this.callNative("setBadgeNumber", [badgeNumb], null);
+  }
+};
+
 if (!window.plugins) {
   window.plugins = {};
 }

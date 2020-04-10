@@ -246,3 +246,18 @@ window.JPush.setMaxGeofenceNumber(maxNumber)
 #### 参数说明
 
 - maxNumber: 最多允许保存的地理围栏个数
+
+
+### API - setBadgeNumber
+
+设置App角标，目前仅华为系手机支持。
+
+#### 接口定义
+
+```js
+window.JPush.setBadgeNumber(badgeNumb)
+```
+
+#### 参数说明
+
+- badgeNumb: 角标显示数字，小于或等0，角标显示数字清楚
