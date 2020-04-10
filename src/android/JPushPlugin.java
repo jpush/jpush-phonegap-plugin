@@ -637,6 +637,11 @@ public class JPushPlugin extends CordovaPlugin {
         JPushInterface.setMaxGeofenceNumber(mContext, maxNumber);
     }
 
+    void setBadgeNumber(JSONArray data, CallbackContext callbackContext) throws JSONException {
+        int badgeNumb = data.getInt(0);
+        JPushInterface.setBadgeNumber(mContext, badgeNumb);
+    }
+
     private boolean isValidHour(int hour) {
         return !(hour < 0 || hour > 23);
     }
