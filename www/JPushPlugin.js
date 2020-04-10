@@ -475,6 +475,12 @@ JPushPlugin.prototype.setMaxGeofenceNumber = function(maxNumber) {
   }
 };
 
+JPushPlugin.prototype.setBadgeNumber = function(badgeNumb) {
+  if (device.platform === "Android") {
+    this.callNative("setBadgeNumber", [badgeNumb], null);
+  }
+};
+
 if (!window.plugins) {
   window.plugins = {};
 }
