@@ -49,6 +49,7 @@
           }
         };
 
+        var badgeNumb = 0;
         var onOpenNotification = function(event) {
           try {
             var alertContent;
@@ -57,6 +58,11 @@
             } else {
               alertContent = event.aps.alert;
             }
+
+            badgeNumb = badgeNumb - 1;
+            badgeNumb = badgeNumb<=0 ? 0 : badgeNumb;
+            window.JPush.setBadgeNumber(badgeNumb);
+
             alert("open Notification:" + alertContent);
           } catch (exception) {
             console.log("JPushPlugin:onOpenNotification" + exception);
@@ -72,6 +78,9 @@
               alertContent = event.aps.alert;
             }
             $("#notificationResult").html(alertContent);
+
+             badgeNumb = badgeNumb + 1;
+            window.JPush.setBadgeNumber(badgeNumb);
           } catch (exception) {
             console.log(exception)
           }
@@ -86,10 +95,23 @@
               message = event.content;
             }
             $("#messageResult").html(message);
+
+            badgeNumb = badgeNumb + 1;
+            window.JPush.setBadgeNumber(badgeNumb);
           } catch (exception) {
             console.log("JPushPlugin:onReceiveMessage-->" + exception);
           }
         };
+
+         var onResume = function(event){
+          try {
+              badgeNumb = 0
+              window.JPush.setBadgeNumber(0);
+
+            } catch (exception) {
+              console.log("onResume-->" + exception);
+            }
+        }
 
         var initiateUI = function() {
           try {
@@ -184,6 +206,7 @@
         document.addEventListener("jpush.openNotification", onOpenNotification, false);
         document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
         document.addEventListener("jpush.receiveMessage", onReceiveMessage, false);
+        document.addEventListener("resume", onResume, false);
       </script>
   </head>
 
