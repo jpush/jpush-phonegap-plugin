@@ -475,7 +475,10 @@ JPushPlugin.prototype.setMaxGeofenceNumber = function(maxNumber) {
   }
 };
 
+<<<<<<< HEAD
 //设置角标
+=======
+>>>>>>> a9b5af06a50b0f0fe2efaeb1b88eaf8dc15f805e
 JPushPlugin.prototype.setBadgeNumber = function(badgeNumb) {
   if (device.platform === "Android") {
     this.callNative("setBadgeNumber", [badgeNumb], null);
