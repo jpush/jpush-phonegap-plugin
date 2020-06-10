@@ -9,7 +9,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen HXHG. All rights reserved.
  */
 
-#define JPUSH_VERSION_NUMBER 3.2.6
+#define JPUSH_VERSION_NUMBER 3.3.3
 
 #import <Foundation/Foundation.h>
 
@@ -46,6 +46,13 @@ typedef NS_OPTIONS(NSUInteger, JPAuthorizationOptions) {
     JPAuthorizationOptionProvidesAppNotificationSettings NS_AVAILABLE_IOS(12.0) = (1 << 5) ,      //An option indicating the system should display a button for in-app notification settings.
     JPAuthorizationOptionProvisional NS_AVAILABLE_IOS(12.0) = (1 << 6) ,     //The ability to post noninterrupting notifications provisionally to the Notification Center.
     JPAuthorizationOptionAnnouncement NS_AVAILABLE_IOS(13.0) = (1 << 7) , //The ability for Siri to automatically read out messages over AirPods.
+};
+
+typedef NS_ENUM(NSUInteger, JPAuthorizationStatus) {
+    JPAuthorizationNotDetermined    = 0,   // The user has not yet made a choice regarding whether the application may post user notifications.
+    JPAuthorizationStatusDenied,    // The application is not authorized to post user notifications.
+    JPAuthorizationStatusAuthorized,    // The application is authorized to post user notifications.
+    JPAuthorizationStatusProvisional NS_AVAILABLE_IOS(12.0),    // The application is authorized to post non-interruptive user notifications.
 };
 
 /*!
@@ -212,11 +219,37 @@ typedef NS_OPTIONS(NSUInteger, JPAuthorizationOptions) {
 
 + (void)registerDeviceToken:(NSData *)deviceToken;
 
-
 /*!
  * @abstract 处理收到的 APNs 消息
  */
 + (void)handleRemoteNotification:(NSDictionary *)remoteInfo;
+
+/*!
+ * @abstract  向极光服务器提交Token
+ *
+ * @param voipToken 推送使用的Voip Token
+ */
++ (void)registerVoipToken:(NSData *)voipToken;
+
+
+/*!
+ * @abstract  处理收到的 Voip 消息
+ *
+ * @param remoteInfo 下发的 Voip 内容
+ */
++ (void)handleVoipNotification:(NSDictionary *)remoteInfo;
+
+
+/*!
+* @abstract 检测通知授权状态
+* @param completion 授权结果通过status值返回，详见JPAuthorizationStatus
+*/
++ (void)requestNotificationAuthorization:(void (^)(JPAuthorizationStatus status))completion;
+
+/*!
+* @abstract 跳转至系统设置页面，iOS8及以上有效
+*/
++ (void)openSettingsForNotification:(void (^)(BOOL success))completionHandler NS_AVAILABLE_IOS(8_0);
 
 /*!
  * Tags操作接口
@@ -600,6 +633,14 @@ typedef NS_OPTIONS(NSUInteger, JPAuthorizationOptions) {
  */
 + (void)setLogOFF;
 
+/*!
+ * @abstract 设置SDK地理位置权限开关
+ *
+ * @discussion 关闭地理位置之后，SDK地理围栏的相关功能将受到影响，默认是开启。
+ *
+ */
++ (void)setLocationEanable:(BOOL)isEanble;
+
 ///----------------------------------------------------
 ///********************下列方法已过期********************
 ///**************请使用新版tag/alias操作接口**************
@@ -661,6 +702,13 @@ callbackSelector:(SEL)cbSelector
  * @param notification 当前管理的通知对象
  */
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center openSettingsForNotification:(UNNotification *)notification NS_AVAILABLE_IOS(12.0);
+
+/**
+ * 监测通知授权状态返回的结果
+ * @param status 授权通知状态，详见JPAuthorizationStatus
+ * @param info 更多信息，预留参数
+ */
+- (void)jpushNotificationAuthorization:(JPAuthorizationStatus)status withInfo:(NSDictionary *)info;
 
 @end
 
