@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.7.5">
+  version="3.7.6">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -49,7 +49,7 @@
         <source-file src="src/ios/Plugins/AppDelegate+JPush.m" />
 
         <header-file src="src/ios/lib/JPUSHService.h" />
-        <source-file src="src/ios/lib/jpush-ios-3.2.6.a" framework="true" />
+        <source-file src="src/ios/lib/jpush-ios-3.3.3.a" framework="true" />
         <resource-file src="src/ios/JPushConfig.plist" />
 
         <framework src="CFNetwork.framework" weak="true" />
@@ -255,7 +255,7 @@
 
         </config-file>
 
-        <lib-file src="src/android/libs/jpush-android-3.5.8.jar" />
+        <lib-file src="src/android/libs/jpush-android-3.6.6.jar" />
 
         <source-file src="src/android/PushService.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/cordova/push" />
@@ -278,6 +278,8 @@
           target="res/layout/jpush_webview_layout.xml" />
         <resource-file src="src/android/res/layout/push_notification.xml"
           target="res/layout/push_notification.xml" />
+        <resource-file src="src/android/res/layout-v21/push_notification.xml"
+          target="res/layout-v21/push_notification.xml" />
 
         <resource-file src="src/android/res/values/jpush_style.xml"
                        target="res/values/jpush_style.xml" />

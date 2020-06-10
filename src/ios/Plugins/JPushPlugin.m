@@ -61,7 +61,7 @@
 
 #else
 
-- (CDVPlugin*)initWithWebView:(UIWebView*)theWebView{
+- (CDVPlugin*)initWithWebView:(WKWebView*)theWebView{
     NSLog(@"### initWithWebView ");
     if (self=[super initWithWebView:theWebView]) {
     }
