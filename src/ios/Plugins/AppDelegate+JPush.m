@@ -41,7 +41,7 @@ NSDictionary *_launchOptions;
     }];
   
   if (notification != nil &&
-      [[UIDevice currentDevice].systemVersion floatValue] < 10.0) {// iOS 10 以后通过 openNotification 这个回调触发事件。
+      [[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {// iOS 10 以后通过 openNotification 这个回调触发事件。
         if (notification.userInfo) {
           
           if ([notification.userInfo valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey]) {
