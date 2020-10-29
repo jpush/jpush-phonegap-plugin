@@ -107,7 +107,7 @@
             <uses-permission android:name="android.permission.GET_TASKS" />
 			
 			    <!--华为角标-->
-			<uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE "/>
+			<uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE"/>
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application" mode="merge">
