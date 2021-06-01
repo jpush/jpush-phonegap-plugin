@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.8.0">
+  version="3.8.1">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -109,7 +109,7 @@
             <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
 			
 			    <!--华为角标-->
-			<uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE "/>
+			<uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE"/>
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application" mode="merge">
