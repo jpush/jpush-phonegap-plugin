@@ -1,6 +1,6 @@
 {
     "name": "jpush-phonegap-plugin",
-    "version": "3.7.6",
+    "version": "3.8.0",
     "description": "JPush for cordova plugin",
     "cordova": {
         "id": "jpush-phonegap-plugin",
@@ -23,7 +23,7 @@
     ],
     "devDependencies": {
         "cordova-plugin-device": "*",
-        "cordova-plugin-jcore": ">=1.3.0"
+        "cordova-plugin-jcore": ">=1.4.0"
     },
     "author": "JiGuang",
     "license": "MIT",

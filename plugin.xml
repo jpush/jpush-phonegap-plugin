@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.7.6">
+  version="3.8.0">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -49,7 +49,7 @@
         <source-file src="src/ios/Plugins/AppDelegate+JPush.m" />
 
         <header-file src="src/ios/lib/JPUSHService.h" />
-        <source-file src="src/ios/lib/jpush-ios-3.3.3.a" framework="true" />
+        <source-file src="src/ios/lib/jpush-ios-3.5.2.a" framework="true" />
         <resource-file src="src/ios/JPushConfig.plist" />
 
         <framework src="CFNetwork.framework" weak="true" />
@@ -64,6 +64,7 @@
         <framework src="AdSupport.framework" weak="true" />
         <framework src="UserNotifications.framework" weak="true" />
         <framework src="libresolv.tbd" weak="true" />
+        <framework src="StoreKit.framework" weak="true" />
 
         <config-file target="*JPushConfig.plist" parent="Appkey">
             <string>$APP_KEY</string>
@@ -105,6 +106,7 @@
             <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
             <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
             <uses-permission android:name="android.permission.GET_TASKS" />
+            <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
 			
 			    <!--华为角标-->
 			<uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE "/>
@@ -204,7 +206,8 @@
 			<receiver android:name="cn.jpush.android.service.SchedulerReceiver" android:exported="false"/>
 
             <!--since 3.3.0 接收JPush相关事件-->
-            <receiver android:name="cn.jiguang.cordova.push.JPushEventReceiver">
+            <receiver android:name="cn.jiguang.cordova.push.JPushEventReceiver"
+            android:exported="false">
                 <intent-filter>
                     <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
                     <category android:name="$PACKAGE_NAME"></category>
@@ -227,7 +230,8 @@
             <!-- 可配置android:process参数将PushService放在其他进程中 -->
             <!--User defined.  For test only 继承自cn.jpush.android.service.JCommonService-->
             <service android:name="cn.jiguang.cordova.push.PushService"
-                     android:process=":pushcore">
+                     android:process=":pushcore"
+                     android:exported="false">
                 <intent-filter>
                     <action android:name="cn.jiguang.user.service.action" />
                 </intent-filter>
@@ -255,7 +259,7 @@
 
         </config-file>
 
-        <lib-file src="src/android/libs/jpush-android-3.6.6.jar" />
+        <lib-file src="src/android/libs/jpush-android-4.1.0.jar" />
 
         <source-file src="src/android/PushService.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/cordova/push" />
@@ -266,11 +270,16 @@
           target="res/drawable/jpush_richpush_btn_selector.xml" />
         <resource-file src="src/android/res/drawable-hdpi/jpush_richpush_progressbar.xml"
           target="res/drawable/jpush_richpush_progressbar.xml" />
-
         <resource-file src="src/android/res/drawable-hdpi/jpush_ic_richpush_actionbar_back.png"
           target="res/drawable-hdpi/jpush_ic_richpush_actionbar_back.png" />
         <resource-file src="src/android/res/drawable-hdpi/jpush_ic_richpush_actionbar_divider.png"
           target="res/drawable-hdpi/jpush_ic_richpush_actionbar_divider.png" />
+        <resource-file src="src/android/res/drawable-hdpi/jpush_ic_action_cancle.png"
+          target="res/drawable-hdpi/jpush_ic_action_cancle.png" />
+        <resource-file src="src/android/res/drawable-hdpi/jpush_ic_action_close.png"
+          target="res/drawable-hdpi/jpush_ic_action_close.png" />
+        <resource-file src="src/android/res/drawable-hdpi/jpush_ic_action_close2.png"
+          target="res/drawable-hdpi/jpush_ic_action_close2.png" />
 
         <resource-file src="src/android/res/layout/jpush_popwin_layout.xml"
           target="res/layout/jpush_popwin_layout.xml" />
@@ -278,8 +287,19 @@
           target="res/layout/jpush_webview_layout.xml" />
         <resource-file src="src/android/res/layout/push_notification.xml"
           target="res/layout/push_notification.xml" />
+        <resource-file src="src/android/res/layout/push_notification_large.xml"
+          target="res/layout/push_notification_large.xml" />
+        <resource-file src="src/android/res/layout/push_notification_middle.xml"
+          target="res/layout/push_notification_middle.xml" />
+        <resource-file src="src/android/res/layout/jpush_inapp_banner.xml"
+          target="res/layout/jpush_inapp_banner.xml" />
+
         <resource-file src="src/android/res/layout-v21/push_notification.xml"
           target="res/layout-v21/push_notification.xml" />
+        <resource-file src="src/android/res/layout-v21/push_notification_middle.xml"
+          target="res/layout-v21/push_notification_middle.xml" />
+        <resource-file src="src/android/res/layout-v21/push_notification_large.xml"
+          target="res/layout-v21/push_notification_large.xml" />
 
         <resource-file src="src/android/res/values/jpush_style.xml"
                        target="res/values/jpush_style.xml" />
