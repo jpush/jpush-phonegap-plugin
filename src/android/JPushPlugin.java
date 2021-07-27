@@ -59,8 +59,9 @@ public class JPushPlugin extends CordovaPlugin {
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
         mContext = cordova.getActivity().getApplicationContext();
+        Log.d(TAG,"initialize plugin");
 
-        JPushInterface.init(mContext);
+//        JPushInterface.init(mContext);
 
         cordovaActivity = cordova.getActivity();
 
@@ -254,6 +255,7 @@ public class JPushPlugin extends CordovaPlugin {
         try {
             mode = data.getBoolean(0);
             JPushInterface.setDebugMode(mode);
+            JLogger.setLoggerEnable(mode);
             callbackContext.success();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -296,6 +298,7 @@ public class JPushPlugin extends CordovaPlugin {
         } catch (JSONException e) {
             e.printStackTrace();
             callbackContext.error("error reading num json");
+            return;
         }
         if (num != -1) {
             JPushInterface.setLatestNotificationNumber(mContext, num);
@@ -364,6 +367,7 @@ public class JPushPlugin extends CordovaPlugin {
         } catch (JSONException e) {
             e.printStackTrace();
             callbackContext.error("Parameters error.");
+            return;
         }
 
         JPushInterface.setAlias(mContext, sequence, alias);
@@ -379,6 +383,7 @@ public class JPushPlugin extends CordovaPlugin {
         } catch (JSONException e) {
             e.printStackTrace();
             callbackContext.error("Parameters error.");
+            return;
         }
 
         JPushInterface.deleteAlias(mContext, sequence);
@@ -394,6 +399,7 @@ public class JPushPlugin extends CordovaPlugin {
         } catch (JSONException e) {
             e.printStackTrace();
             callbackContext.error("Parameters error.");
+            return;
         }
 
         JPushInterface.getAlias(mContext, sequence);
@@ -416,6 +422,7 @@ public class JPushPlugin extends CordovaPlugin {
         } catch (JSONException e) {
             e.printStackTrace();
             callbackContext.error("Parameters error.");
+            return;
         }
 
         JPushInterface.setTags(mContext, sequence, tags);
@@ -438,6 +445,7 @@ public class JPushPlugin extends CordovaPlugin {
         } catch (JSONException e) {
             e.printStackTrace();
             callbackContext.error("Parameters error.");
+            return;
         }
 
         JPushInterface.addTags(mContext, sequence, tags);
@@ -460,6 +468,7 @@ public class JPushPlugin extends CordovaPlugin {
         } catch (JSONException e) {
             e.printStackTrace();
             callbackContext.error("Parameters error.");
+            return;
         }
 
         JPushInterface.deleteTags(mContext, sequence, tags);
@@ -476,6 +485,7 @@ public class JPushPlugin extends CordovaPlugin {
         } catch (JSONException e) {
             e.printStackTrace();
             callbackContext.error("Parameters error.");
+            return;
         }
 
         JPushInterface.cleanTags(mContext, sequence);
@@ -492,6 +502,7 @@ public class JPushPlugin extends CordovaPlugin {
         } catch (JSONException e) {
             e.printStackTrace();
             callbackContext.error("Parameters error.");
+            return;
         }
 
         JPushInterface.getAllTags(mContext, sequence);
@@ -510,6 +521,7 @@ public class JPushPlugin extends CordovaPlugin {
         } catch (JSONException e) {
             e.printStackTrace();
             callbackContext.error("Parameters error.");
+            return;
         }
 
         JPushInterface.checkTagBindState(mContext, sequence, tag);
@@ -640,6 +652,25 @@ public class JPushPlugin extends CordovaPlugin {
     void setBadgeNumber(JSONArray data, CallbackContext callbackContext) throws JSONException {
         int badgeNumb = data.getInt(0);
         JPushInterface.setBadgeNumber(mContext, badgeNumb);
+    }
+
+    void setMobileNumber(JSONArray data, CallbackContext callbackContext) throws JSONException {
+        int sequence = -1;
+        String number = null;
+
+        try {
+            JSONObject params = data.getJSONObject(0);
+            sequence = params.getInt("sequence");
+            number = params.getString("mobileNumber");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            callbackContext.error("Parameters error.");
+            return;
+        }
+
+        eventCallbackMap.put(sequence, callbackContext);
+        JPushInterface.setMobileNumber(mContext,sequence, number);
     }
 
     private boolean isValidHour(int hour) {
