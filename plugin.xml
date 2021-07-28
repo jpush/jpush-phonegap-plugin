@@ -215,16 +215,18 @@
             </receiver>
 
             <!--since 3.3.0 Required SDK核心功能-->
-            <activity
-                    android:name="cn.jpush.android.service.JNotifyActivity"
-                    android:exported="true"
-                    android:taskAffinity="jpush.custom"
-                    android:theme="@android:style/Theme.Translucent.NoTitleBar">
-                <intent-filter>
-                    <action android:name="cn.jpush.android.intent.JNotifyActivity" />
-                    <category android:name="$PACKAGE_NAME" />
-                </intent-filter>
-            </activity>
+            
+          <activity
+            android:name="cn.jpush.android.service.JNotifyActivity"
+            android:exported="true"
+            android:taskAffinity="jpush.custom"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.JNotifyActivity" />
+                <category android:name="android.intent.category.DEFAULT" /><!--Required SDK核心功能 since 4.2.2-->
+                <category android:name="$PACKAGE_NAME" />
+            </intent-filter>
+          </activity>
 
             <!-- since 3.3.0 Required SDK 核心功能-->
             <!-- 可配置android:process参数将PushService放在其他进程中 -->
@@ -259,12 +261,13 @@
 
         </config-file>
 
-        <lib-file src="src/android/libs/jpush-android-4.1.0.jar" />
+        <lib-file src="src/android/libs/jpush-android-4.2.8.jar" />
 
         <source-file src="src/android/PushService.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushReceiver.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushEventReceiver.java" target-dir="src/cn/jiguang/cordova/push" />
+        <source-file src="src/android/JLogger.java" target-dir="src/cn/jiguang/cordova/push" />
 
         <resource-file src="src/android/res/drawable-hdpi/jpush_richpush_btn_selector.xml"
           target="res/drawable/jpush_richpush_btn_selector.xml" />
