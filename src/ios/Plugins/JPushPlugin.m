@@ -510,6 +510,29 @@
     [[UNUserNotificationCenter currentNotificationCenter] setNotificationCategories:[NSSet setWithObject:category]];
 }
 
+#pragma mark - 设置手机号
+-(void)setMobileNumber:(CDVInvokedUrlCommand *)command {
+    NSDictionary* params = [command.arguments objectAtIndex:0];
+    NSNumber* sequence = params[@"sequence"];
+    NSString* number = params[@"mobileNumber"];
+    [JPUSHService setMobileNumber:number completion:^(NSError *error) {
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+        [dic setObject:sequence forKey:@"sequence"];
+        CDVPluginResult* result;
+        if (error) {
+            [dic setValue:[NSNumber numberWithUnsignedInteger:error.code] forKey:@"code"];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dic];
+        }
+        else {
+            // success
+            [dic setObject:number forKey:@"mobileNumber"];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
+        }
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    }];
+    
+}
+
 #pragma mark - 内部方法
 
 +(void)setupJPushSDK:(NSDictionary*)userInfo{

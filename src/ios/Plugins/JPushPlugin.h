@@ -73,6 +73,9 @@ static NSMutableDictionary *_jpushEventCache;
 -(void)addDismissActions:(CDVInvokedUrlCommand*)command;
 -(void)addNotificationActions:(CDVInvokedUrlCommand*)command;
 
+// 设置手机号
+-(void)setMobileNumber:(CDVInvokedUrlCommand*)command;
+
 /*
  *  以下为js中可监听到的事件
  *  jpush.openNotification      点击推送消息启动或唤醒app
