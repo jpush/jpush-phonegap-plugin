@@ -21,6 +21,8 @@
   - [cleanTags](#cleantags)
   - [getAllTags](#getalltags)
   - [checkTagBindState](#checktagbindstate)
+- [设置手机号](#设置手机号)
+  - [setMobileNumber](#setMobileNumber)
 - [获取点击通知内容](#获取点击通知内容)
   - [event - jpush.openNotification](#event---jpushopennotification)
 - [获取通知内容](#获取通知内容)
@@ -395,6 +397,37 @@ window.JPush.checkTagBindState({ sequence: 1, tag: 'tag1' },
 
 - sequence: number。用户自定义的操作序列号, 同操作结果一起返回，用来标识一次操作的唯一性。
 - tag: string，待查询的 tag。
+
+## 设置手机号
+
+提供设置手机号码的接口，用于短信补充功能。
+
+注：短信补充仅支持国内业务，号码格式为 11 位数字，有无 +86 前缀皆可。
+
+### setMobileNumber
+
+调用此 API 设置手机号码。该接口会控制调用频率，频率为 10s 之内最多 3 次。
+
+#### 代码示例
+
+```js
+window.JPush.setMobileNumber({ sequence: 5, mobileNumber: '111111' },
+  (result) => {
+    var sequence = result.sequence
+    var number = result.mobileNumber
+  }, (error) => {
+    var sequence = error.sequence
+    var errorCode = error.code
+  })
+```
+
+#### 参数说明
+
+- sequence: number。用户自定义的操作序列号, 同操作结果一起返回，用来标识一次操作的唯一性。
+- mobileNumber: string
+  - 手机号码。如果传空串则为解除号码绑定操作。
+  - 限制：只能以 “+” 或者 数字开头；后面的内容只能包含 “-” 和数字。
+
 
 ## 获取点击通知内容
 
