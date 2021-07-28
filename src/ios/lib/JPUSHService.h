@@ -9,7 +9,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen HXHG. All rights reserved.
  */
 
-#define JPUSH_VERSION_NUMBER 3.5.2
+#define JPUSH_VERSION_NUMBER 3.7.4
 
 #import <Foundation/Foundation.h>
 
@@ -20,6 +20,7 @@
 @class UNNotificationSettings;
 @class UNNotificationRequest;
 @class UNNotification;
+@class UIView;
 @protocol JPUSHRegisterDelegate;
 @protocol JPUSHGeofenceDelegate;
 @protocol JPushInMessageDelegate;
@@ -428,7 +429,14 @@ typedef NS_OPTIONS(NSUInteger, JPInMessageType) {
  默认值为 10 ，iOS系统默认地理围栏最大个数为20
  @param count 个数 count
  */
-+ (void)setGeofenecMaxCount:(NSInteger)count;
++ (void)setGeofeneceMaxCount:(NSInteger)count;
+
+/**
+ 设置地理围栏'圈内'类型的检测周期
+ 默认15分钟检测一次
+ */
++ (void)setGeofenecePeriodForInside:(NSInteger)seconds;
+
 /**
  注册地理围栏的代理
 
@@ -662,6 +670,14 @@ typedef NS_OPTIONS(NSUInteger, JPInMessageType) {
 */
 + (void)setInMessageDelegate:(id<JPushInMessageDelegate>)inMessageDelegate;
 
+/*!
+* @abstract 设置应用内消息的inMessageView的父控件
+*
+* @discussion 建议设置成当前展示的window，SDK默认取当前APP顶层的Window。
+*
+*/
++ (void)setInMessageSuperView:(UIView *)view;
+
 
 /*!
 * @abstract 主动拉取应用内消息的接口
@@ -669,7 +685,7 @@ typedef NS_OPTIONS(NSUInteger, JPInMessageType) {
 * @discussion 拉取结果的回调
 *
 */
-+ (void)pullInMessageCompletion:(JPUSHInMssageCompletion)completion;
++ (void)pullInMessageCompletion:(JPUSHInMssageCompletion)completion __attribute__((deprecated("JPush 3.7.0 版本已过期")));
 
 
 /*!
@@ -679,18 +695,61 @@ typedef NS_OPTIONS(NSUInteger, JPInMessageType) {
 *
 * @discussion 拉取结果的回调
 */
-+ (void)pullInMessageWithTypes:(NSUInteger)types completion:(JPUSHInMssageCompletion)completion;
++ (void)pullInMessageWithTypes:(NSUInteger)types completion:(JPUSHInMssageCompletion)completion __attribute__((deprecated("JPush 3.7.0 版本已过期")));
 
 
 /*!
-* @abstract 向sdk报告当前展示的控制器的名称
+* @abstract 主动拉取应用内消息的接口
+*
+* @param adPosition 广告位
+*
+* @discussion 拉取结果的回调
+*/
++ (void)pullInMessageWithAdPosition:(NSString *)adPosition completion:(JPUSHInMssageCompletion)completion;
+
+
+/*!
+* @abstract 主动拉取应用内消息的接口
+*
+* @param params 拉取条件 可传参数: @"adPosition" -> 广告位 NSString, @"event" -> 事件 NSString
+*
+* @discussion 拉取结果的回调
+*/
++ (void)pullInMessageWithParams:(NSDictionary *)params completion:(JPUSHInMssageCompletion)completion;
+
+
+/*!
+* @abstract 通过事件触发应用内消息下发
+*
+* @param event 事件
+*
+*/
++ (void)triggerInMessageByEvent:(NSString *)event;
+
+
+/*!
+* @abstract  在页面切换的时候调用，告诉sdk当前切换到的页面名称
 *
 * @param className 当前页面的类名
 *
-* @discussion 如果类名在黑名单内，就会关闭所有处于曝光状态的inapp
+* @discussion
+ 通过定向页面触发应用内消息下发的功能、页面跳转到黑名单页面隐藏正在曝光中的inapp的功能、inapp页面延迟展示功能都依赖于该接口调用。
+ 请在页面切换的时候调用此方法。确保在所有页面的viewDidAppear中调用此方法。不然可能会造成inapp部分功能不完善。建议在viewController的基类中调用，或者使用method swizzling方法交换viewController的viewDidAppear方法。
 *
 */
 + (void)currentViewControllerName:(NSString *)className;
+
+
+/*!
+* @abstract 通过定向页面触发应用内消息下发
+*
+* @param pageName 当前页面的类名
+*
+* @discussion 请在页面切换的时候调用此方法。确保在所有页面的viewDidAppear中调用此方法。不然可能会造成该功能不完善。建议在viewController的基类中调用，或者使用method swizzling方法交换viewController的viewDidAppear方法。
+*
+*/
++ (void)triggerInMessageByPageChange:(NSString *)pageName __attribute__((deprecated("JPush 3.7.4 版本已过期")));
+
 
 
 ///----------------------------------------------------
@@ -765,6 +824,20 @@ callbackSelector:(SEL)cbSelector
 @end
 
 @protocol JPUSHGeofenceDelegate <NSObject>
+/**
+ 触发地理围栏
+ @param geofence 地理围栏触发时返回的信息
+ @param error 错误信息
+ */
+- (void)jpushGeofenceRegion:(NSDictionary *)geofence
+                      error:(NSError *)error;
+
+/**
+ 拉取地理围栏列表的回调
+ 
+ @param geofenceList 地理围栏列表
+ */
+- (void)jpushCallbackGeofenceReceived:(NSArray<NSDictionary*> *)geofenceList;
 
 /**
  进入地理围栏区域
@@ -773,7 +846,7 @@ callbackSelector:(SEL)cbSelector
  @param userInfo 地理围栏触发时返回的信息
  @param error 错误信息
  */
-- (void)jpushGeofenceIdentifer:(NSString *)geofenceId didEnterRegion:(NSDictionary *)userInfo error:(NSError *)error;
+- (void)jpushGeofenceIdentifer:(NSString *)geofenceId didEnterRegion:(NSDictionary *)userInfo error:(NSError *)error __attribute__((deprecated("JPush 3.6.0 版本已过期")));
 
 /**
  离开地理围栏区域
@@ -782,7 +855,8 @@ callbackSelector:(SEL)cbSelector
  @param userInfo 地理围栏触发时返回的信息
  @param error 错误信息
  */
-- (void)jpushGeofenceIdentifer:(NSString *)geofenceId didExitRegion:(NSDictionary *)userInfo error:(NSError *)error;
+- (void)jpushGeofenceIdentifer:(NSString *)geofenceId didExitRegion:(NSDictionary *)userInfo error:(NSError *)error __attribute__((deprecated("JPush 3.6.0 版本已过期")));
+
 
 @end
 
@@ -797,7 +871,7 @@ callbackSelector:(SEL)cbSelector
 /**
  *应用内消息展示的回调
 */
-- (void)jPushInMessageAlreadyPop __attribute__((deprecated("JPush 3.4.0 版本已过期")));;
+- (void)jPushInMessageAlreadyPop __attribute__((deprecated("JPush 3.4.0 版本已过期")));
 
 /**
  *应用内消息已消失
