@@ -13,11 +13,13 @@
 
         <ImageButton
             android:id="@+id/imgRichpushBtnBack"
-            android:layout_width="wrap_content"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="9dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="9dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/jpush_richpush_btn_selector" />
 
         <ImageView
@@ -35,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="7dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="48dp"
             android:layout_toRightOf="@id/imgView"
             android:clickable="false"
             android:text=" "
@@ -50,10 +52,10 @@
         android:progress="0"
         android:progressDrawable="@drawable/jpush_richpush_progressbar"
         style="?android:attr/progressBarStyleHorizontal" />
-    <WebView
+    <!--<WebView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fullWebView"
-        android:background="#000000" />
+        android:background="#000000" />-->
 
 </cn.jpush.android.ui.FullScreenView>
