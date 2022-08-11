@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.8.2">
+  version="3.8.3">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -49,7 +49,7 @@
         <source-file src="src/ios/Plugins/AppDelegate+JPush.m" />
 
         <header-file src="src/ios/lib/JPUSHService.h" />
-        <source-file src="src/ios/lib/jpush-ios-3.7.4.a" framework="true" />
+        <source-file src="src/ios/lib/jpush-ios-4.6.6.a" framework="true" />
         <resource-file src="src/ios/JPushConfig.plist" />
 
         <framework src="CFNetwork.framework" weak="true" />
@@ -107,9 +107,11 @@
             <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
             <uses-permission android:name="android.permission.GET_TASKS" />
             <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
-			
+            <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 			    <!--华为角标-->
 			<uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE"/>
+            <!-- vivo 角标 -->
+            <uses-permission android:name="com.vivo.notification.permission.BADGE_ICON" />
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application" mode="merge">
@@ -117,9 +119,16 @@
 
             <!-- Rich push 核心功能 since 2.0.6-->
             <activity
-                    android:name="cn.jpush.android.ui.PopWinActivity"
-                    android:theme="@style/MyDialogStyle"
-                    android:exported="false">
+                android:name="cn.jpush.android.ui.PopWinActivity"
+                android:exported="true"
+                android:theme="@style/MyDialogStyle" >
+                <intent-filter>
+                    <category android:name="android.intent.category.DEFAULT" />
+
+                    <action android:name="cn.jpush.android.ui.PopWinActivity" />
+
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
             </activity>
 
             <!-- Required SDK核心功能-->
@@ -140,7 +149,8 @@
             <service
                     android:name="cn.jpush.android.service.PushService"
                     android:process=":pushcore"
-                    android:exported="false">
+                android:enabled="true"
+                android:exported="false">
                 <intent-filter>
                     <action android:name="cn.jpush.android.intent.REGISTER" />
                     <action android:name="cn.jpush.android.intent.REPORT" />
@@ -187,7 +197,7 @@
                     <category android:name="$PACKAGE_NAME" />
                 </intent-filter>
                 <intent-filter>
-                    <action android:name="android.intent.action.USER_PRESENT" />
+
                     <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 </intent-filter>
                 <!-- Optional -->
@@ -215,18 +225,33 @@
             </receiver>
 
             <!--since 3.3.0 Required SDK核心功能-->
-            
-          <activity
-            android:name="cn.jpush.android.service.JNotifyActivity"
-            android:exported="true"
-            android:taskAffinity="jpush.custom"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
-            <intent-filter>
-                <action android:name="cn.jpush.android.intent.JNotifyActivity" />
-                <category android:name="android.intent.category.DEFAULT" /><!--Required SDK核心功能 since 4.2.2-->
-                <category android:name="$PACKAGE_NAME" />
-            </intent-filter>
-          </activity>
+
+            <!-- since 3.3.0 Required SDK核心功能 -->
+            <activity
+                android:name="cn.jpush.android.service.JNotifyActivity"
+                android:exported="true"
+                android:taskAffinity="jpush.custom"
+                android:theme="@style/JPushTheme" >
+                <intent-filter>
+                    <action android:name="cn.jpush.android.intent.JNotifyActivity" />
+
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+            </activity>
+            <!-- since 4.6.0 Required SDK核心功能 -->
+            <activity
+                android:name="cn.android.service.JTransitActivity"
+                android:exported="true"
+                android:taskAffinity="jpush.custom"
+                android:theme="@style/JPushTheme" >
+                <intent-filter>
+                    <action android:name="cn.android.service.JTransitActivity" />
+
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+            </activity>
 
             <!-- since 3.3.0 Required SDK 核心功能-->
             <!-- 可配置android:process参数将PushService放在其他进程中 -->
@@ -238,7 +263,20 @@
                     <action android:name="cn.jiguang.user.service.action" />
                 </intent-filter>
             </service>
-
+            <!-- since 4.6.3 可选，适配Anroid7.0及以上，如果您的应用需要在Anroid7.0及以上环境运行 -->
+            <provider
+                android:name="cn.jiguang.union.ads.service.JAdFileProvider"
+                android:authorities="$PACKAGE_NAME.JAdFileProvider"
+                android:exported="false"
+                android:grantUriPermissions="true" >
+                <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/jpush_file_paths" />
+                <intent-filter>
+                    <action android:name="cn.jpush.android.intent.FileProvider" />
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+            </provider>
 
             <receiver
                     android:name="cn.jiguang.cordova.push.JPushReceiver"
@@ -261,7 +299,7 @@
 
         </config-file>
 
-        <lib-file src="src/android/libs/jpush-android-4.2.8.jar" />
+        <lib-file src="src/android/libs/jpush-android-4.7.2.jar" />
 
         <source-file src="src/android/PushService.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/cordova/push" />
@@ -283,6 +321,8 @@
           target="res/drawable-hdpi/jpush_ic_action_close.png" />
         <resource-file src="src/android/res/drawable-hdpi/jpush_ic_action_close2.png"
           target="res/drawable-hdpi/jpush_ic_action_close2.png" />
+        <resource-file src="src/android/res/drawable-hdpi/jpush_btn_bg_green_playable.xml"
+          target="res/drawable-hdpi/jpush_btn_bg_green_playable.xml" />
 
         <resource-file src="src/android/res/layout/jpush_popwin_layout.xml"
           target="res/layout/jpush_popwin_layout.xml" />
@@ -296,6 +336,8 @@
           target="res/layout/push_notification_middle.xml" />
         <resource-file src="src/android/res/layout/jpush_inapp_banner.xml"
           target="res/layout/jpush_inapp_banner.xml" />
+        <resource-file src="src/android/res/layout/push_download_notification_layout.xml"
+          target="res/layout/push_download_notification_layout.xml" />
 
         <resource-file src="src/android/res/layout-v21/push_notification.xml"
           target="res/layout-v21/push_notification.xml" />
@@ -311,5 +353,7 @@
 
         <resource-file src="src/android/res/values-zh/jpush_string.xml"
                        target="res/values-zh/jpush_string.xml" />
+        <resource-file src="src/android/res/xml/jpush_file_paths.xml"
+            target="res/xml/jpush_file_paths.xml" />
     </platform>
 </plugin>
