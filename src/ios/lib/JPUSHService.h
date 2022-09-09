@@ -9,7 +9,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen HXHG. All rights reserved.
  */
 
-#define JPUSH_VERSION_NUMBER 4.6.6
+#define JPUSH_VERSION_NUMBER 4.8.1
 
 #import <Foundation/Foundation.h>
 
@@ -28,6 +28,7 @@
 typedef void (^JPUSHTagsOperationCompletion)(NSInteger iResCode, NSSet *iTags, NSInteger seq);
 typedef void (^JPUSHTagValidOperationCompletion)(NSInteger iResCode, NSSet *iTags, NSInteger seq, BOOL isBind);
 typedef void (^JPUSHAliasOperationCompletion)(NSInteger iResCode, NSString *iAlias, NSInteger seq);
+typedef void (^JPUSHPropertiesOperationCompletion)(NSInteger iResCode, NSDictionary *properties, NSInteger seq);
 
 extern NSString *const kJPFNetworkIsConnectingNotification; // 正在连接中
 extern NSString *const kJPFNetworkDidSetupNotification;     // 建立连接
@@ -362,6 +363,49 @@ typedef NS_ENUM(NSUInteger, JPAuthorizationStatus) {
  * 建议设置 tags 前用此接口校验. SDK 内部也会基于此接口来做过滤.
  */
 + (NSSet *)filterValidTags:(NSSet *)tags;
+
+
+/*!
+ * Property操作接口
+ * 支持增加/删除/清空操作
+ * 详情请参考文档：https://docs.jiguang.cn/jpush/client/iOS/ios_api/）
+ */
+
+/**
+ 新增/更新用户属性
+ 
+ 如果某个用户属性之前已经存在了，则会更新；不存在，则会新增
+ 
+ @param properties  需要新增或者更新的的用户属性内容，类型为NSDictionary；
+                   Key 为用户属性名称，类型必须是 NSString 类型；Value为用户属性值，只支持 NSString、NSNumber、NSDate类型，如果属性为BOOL类型，传值时请转成NSNumber类型
+ @param completion 响应回调
+ @param seq 请求序列号
+ */
++ (void)setProperties:(NSDictionary *)properties
+           completion:(JPUSHPropertiesOperationCompletion)completion
+                  seq:(NSInteger)seq;
+
+
+/**
+ 删除指定属性
+
+ @param keys 需要删除的属性名称集合
+ @param completion 响应回调
+ @param seq 请求序列号
+ */
++ (void)deleteProperties:(NSSet<NSString *> *)keys
+              completion:(JPUSHPropertiesOperationCompletion)completion
+                     seq:(NSInteger)seq;
+
+
+/**
+ 清空所有属性
+ @param completion 响应回调
+ @param seq 请求序列号
+ */
++ (void)cleanProperties:(JPUSHPropertiesOperationCompletion)completion
+                    seq:(NSInteger)seq;
+
 
 ///----------------------------------------------------
 /// @name Stats 统计功能
