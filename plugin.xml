@@ -78,7 +78,7 @@
             </feature>
         </config-file>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest" mode="merge">
+        <config-file target="AndroidManifest.xml" parent="/manifest">
             <!-- Required  一些系统要求的权限，如访问网络等 -->
             <permission android:name="$PACKAGE_NAME.permission.JPUSH_MESSAGE"
                android:protectionLevel="signature" />
@@ -114,7 +114,7 @@
             <uses-permission android:name="com.vivo.notification.permission.BADGE_ICON" />
         </config-file>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest/application" mode="merge">
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
 
 
             <!-- Rich push 核心功能 since 2.0.6-->
