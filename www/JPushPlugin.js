@@ -482,6 +482,12 @@ JPushPlugin.prototype.setBadgeNumber = function(badgeNumb) {
   }
 };
 
+JPushPlugin.prototype.setAuth = function(isAuth){
+    if(device.platform === "Android"){
+        this.callNative("setAuth", [isAuth], null);
+    }
+}
+
 /**
  * 设置手机号。
  *

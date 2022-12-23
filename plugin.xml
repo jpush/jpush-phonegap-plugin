@@ -85,33 +85,30 @@
 
             <!-- Required  一些系统要求的权限，如访问网络等-->
             <uses-permission android:name="$PACKAGE_NAME.permission.JPUSH_MESSAGE" />
-            <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
             <uses-permission android:name="android.permission.INTERNET" />
             <uses-permission android:name="android.permission.READ_PHONE_STATE" />
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-            <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
             <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
+            <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
 
             <!-- Optional for location -->
             <uses-permission android:name="android.permission.VIBRATE" />
-            <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 用于开启 debug 版本的应用在6.0 系统上 层叠窗口权限 -->
             <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
             <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
             <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
             <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /><!-- Android Q后台定位权限-->
-            <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
             <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
             <uses-permission android:name="android.permission.GET_TASKS" />
             <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
-            <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 			    <!--华为角标-->
 			<uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE"/>
             <!-- vivo 角标 -->
             <uses-permission android:name="com.vivo.notification.permission.BADGE_ICON" />
+            <!--honor 角标-->
+            <uses-permission android:name="com.hihonor.android.launcher.permission.CHANGE_BADGE" />
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application" mode="merge">
@@ -136,7 +133,7 @@
                     android:name="cn.jpush.android.ui.PushActivity"
                     android:configChanges="orientation|keyboardHidden"
                     android:theme="@android:style/Theme.NoTitleBar"
-                    android:exported="false">
+                    android:exported="true">
                 <intent-filter>
                     <action android:name="cn.jpush.android.ui.PushActivity" />
                     <category android:name="android.intent.category.DEFAULT" />
@@ -230,7 +227,7 @@
             <activity
                 android:name="cn.jpush.android.service.JNotifyActivity"
                 android:exported="true"
-                android:taskAffinity="jpush.custom"
+                android:taskAffinity=""
                 android:theme="@style/JPushTheme" >
                 <intent-filter>
                     <action android:name="cn.jpush.android.intent.JNotifyActivity" />
@@ -243,7 +240,7 @@
             <activity
                 android:name="cn.android.service.JTransitActivity"
                 android:exported="true"
-                android:taskAffinity="jpush.custom"
+                android:taskAffinity=""
                 android:theme="@style/JPushTheme" >
                 <intent-filter>
                     <action android:name="cn.android.service.JTransitActivity" />
@@ -263,20 +260,6 @@
                     <action android:name="cn.jiguang.user.service.action" />
                 </intent-filter>
             </service>
-            <!-- since 4.6.3 可选，适配Anroid7.0及以上，如果您的应用需要在Anroid7.0及以上环境运行 -->
-            <provider
-                android:name="cn.jiguang.union.ads.service.JAdFileProvider"
-                android:authorities="$PACKAGE_NAME.JAdFileProvider"
-                android:exported="false"
-                android:grantUriPermissions="true" >
-                <meta-data
-                    android:name="android.support.FILE_PROVIDER_PATHS"
-                    android:resource="@xml/jpush_file_paths" />
-                <intent-filter>
-                    <action android:name="cn.jpush.android.intent.FileProvider" />
-                    <category android:name="$PACKAGE_NAME" />
-                </intent-filter>
-            </provider>
 
             <receiver
                     android:name="cn.jiguang.cordova.push.JPushReceiver"
@@ -299,7 +282,7 @@
 
         </config-file>
 
-        <lib-file src="src/android/libs/jpush-android-4.8.1.jar" />
+        <lib-file src="src/android/libs/jpush-android-4.8.5.jar" />
 
         <source-file src="src/android/PushService.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/cordova/push" />

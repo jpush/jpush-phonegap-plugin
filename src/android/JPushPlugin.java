@@ -31,6 +31,7 @@ import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import cn.jpush.android.data.JPushLocalNotification;
+import cn.jiguang.api.utils.JCollectionAuth;
 
 public class JPushPlugin extends CordovaPlugin {
 
@@ -672,6 +673,17 @@ public class JPushPlugin extends CordovaPlugin {
 
         eventCallbackMap.put(sequence, callbackContext);
         JPushInterface.setMobileNumber(mContext,sequence, number);
+    }
+
+    void setAuth(JSONArray data, CallbackContext callbackContext) {
+        boolean isAuth = false;
+        try {
+            isAuth = data.getBoolean(0);
+            JCollectionAuth.setAuth(mContext, isAuth);
+            callbackContext.success();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean isValidHour(int hour) {
