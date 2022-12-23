@@ -482,6 +482,7 @@ JPushPlugin.prototype.setBadgeNumber = function(badgeNumb) {
   }
 };
 
+//设备是否同意隐私协议
 JPushPlugin.prototype.setAuth = function(isAuth){
     if(device.platform === "Android"){
         this.callNative("setAuth", [isAuth], null);

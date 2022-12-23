@@ -261,3 +261,36 @@ window.JPush.setBadgeNumber(badgeNumb)
 #### 参数说明
 
 - badgeNumb: 角标显示数字，小于或等0，角标显示数字清楚
+
+### API - setAuth
+
+设置用户是否同意隐私协议
+
+#### 接口定义
+
+```js
+window.JPush.setAuth(isAuth)
+```
+
+#### 参数说明
+
+- isAuth: 是否同意隐私协议，true 已同意；false未同意
+
+#### 调用逻辑
+
+- 宿主 APP 在首次安装，冷启动
+- 用户隐私协议告知
+- 用户确认授权
+- 告知极光授权结果
+
+同意隐私协议：
+
+```js
+window.JPush.setAuth(true)
+```
+
+不同意隐私协议：
+
+```js
+window.JPush.setAuth(false)
+```
