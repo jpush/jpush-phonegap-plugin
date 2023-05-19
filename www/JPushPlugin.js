@@ -369,6 +369,20 @@ JPushPlugin.prototype.receiveMessageInAndroidCallback = function(data) {
   this.receiveMessage = JSON.parse(data);
   cordova.fireDocumentEvent("jpush.receiveMessage", this.receiveMessage);
 };
+JPushPlugin.prototype.receiveInAppMessageClickCallback = function(data) {
+  if (device.platform === "Android") {
+      data = JSON.stringify(data);
+      this.receiveMessage = JSON.parse(data);
+      cordova.fireDocumentEvent("jpush.receiveInAppMessageClick", this.receiveMessage);
+  }
+};
+JPushPlugin.prototype.receiveInAppMessageShowCallback = function(data) {
+  if (device.platform === "Android") {
+      data = JSON.stringify(data);
+      this.receiveMessage = JSON.parse(data);
+      cordova.fireDocumentEvent("jpush.receiveInAppMessageShow", this.receiveMessage);
+  }
+};
 
 JPushPlugin.prototype.openNotificationInAndroidCallback = function(data) {
   data = JSON.stringify(data);

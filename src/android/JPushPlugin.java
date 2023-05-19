@@ -175,6 +175,33 @@ public class JPushPlugin extends CordovaPlugin {
             }
         });
     }
+    static void transmitInAppMessageClick( JSONObject data) {
+        if (instance == null) {
+            return;
+        }
+        String format = "window.plugins.jPushPlugin.receiveInAppMessageClickCallback(%s);";
+        final String js = String.format(format, data.toString());
+        cordovaActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                instance.webView.loadUrl("javascript:" + js);
+            }
+        });
+    }
+    static void transmitInAppMessageShow( JSONObject data) {
+        if (instance == null) {
+            return;
+        }
+        String format = "window.plugins.jPushPlugin.receiveInAppMessageShowCallback(%s);";
+        final String js = String.format(format, data.toString());
+        cordovaActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                instance.webView.loadUrl("javascript:" + js);
+            }
+        });
+    }
+
 
     static void transmitNotificationOpen(String title, String alert, Map<String, Object> extras) {
         if (instance == null) {
