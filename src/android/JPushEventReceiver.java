@@ -121,7 +121,42 @@ public class JPushEventReceiver extends JPushMessageReceiver {
         super.onMultiActionClicked(context, intent);
         JLogger.d(TAG,"onMultiActionClicked:"+intent);
     }
+    @Override
+    public void onInAppMessageShow(Context context,final NotificationMessage message) {
+       JLogger.d(TAG, "[onInAppMessageShow], " + message.toString());
+        try {
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("title", message.inAppMsgTitle);
+            jsonObject.put("alert", message.inAppMsgContentBody);
+            jsonObject.put("messageId", message.msgId);
+            jsonObject.put("inAppShowTarget",  message.inAppExtras);
+            jsonObject.put("inAppClickAction",  message.inAppClickAction);
+            jsonObject.put("inAppExtras", message.inAppExtras);
+           cn.jiguang.cordova.push.JPushPlugin.transmitInAppMessageShow(jsonObject);
 
+        }catch (Throwable throwable){
+
+        }
+    }
+
+    @Override
+    public void onInAppMessageClick(Context context,final NotificationMessage message) {
+        JLogger.d(TAG, "[onInAppMessageClick], " + message.toString());
+        try {
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("title", message.inAppMsgTitle);
+            jsonObject.put("alert", message.inAppMsgContentBody);
+            jsonObject.put("messageId", message.msgId);
+            jsonObject.put("inAppShowTarget",  message.inAppExtras);
+            jsonObject.put("inAppClickAction",  message.inAppClickAction);
+            jsonObject.put("inAppExtras", message.inAppExtras);
+            cn.jiguang.cordova.push.JPushPlugin.transmitInAppMessageClick(jsonObject);
+
+        }catch (Throwable throwable){
+
+        }
+
+    }
     interface SuccessCallback{
         void onSuccessCallback(JSONObject resultJson) throws JSONException;
     }

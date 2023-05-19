@@ -141,20 +141,7 @@
                 </intent-filter>
             </activity>
 
-            <!-- Required SDK 核心功能-->
-            <!-- 可配置android:process参数将PushService放在其他进程中 -->
-            <service
-                    android:name="cn.jpush.android.service.PushService"
-                    android:process=":pushcore"
-                android:enabled="true"
-                android:exported="false">
-                <intent-filter>
-                    <action android:name="cn.jpush.android.intent.REGISTER" />
-                    <action android:name="cn.jpush.android.intent.REPORT" />
-                    <action android:name="cn.jpush.android.intent.PushService" />
-                    <action android:name="cn.jpush.android.intent.PUSH_TIME" />
-                </intent-filter>
-            </service>
+
 
             <!-- since 3.0.9 Required SDK 核心功能-->
             <provider
@@ -164,25 +151,7 @@
                     android:exported="false"
             />
 
-            <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
-            <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
-            <service
-                    android:name="cn.jpush.android.service.DaemonService"
-                    android:enabled="true"
-                    android:exported="true">
-                <intent-filter>
-                    <action android:name="cn.jpush.android.intent.DaemonService" />
-                    <category android:name="$PACKAGE_NAME" />
-                </intent-filter>
 
-            </service>
-
-            <!-- since 3.1.0 Required SDK 核心功能-->
-            <provider
-                    android:authorities="$PACKAGE_NAME.DownloadProvider"
-                    android:name="cn.jpush.android.service.DownloadProvider"
-                    android:exported="true"
-            />
 
             <!-- Required SDK核心功能-->
             <receiver
@@ -193,21 +162,9 @@
                     <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />   <!--Required  显示通知栏 -->
                     <category android:name="$PACKAGE_NAME" />
                 </intent-filter>
-                <intent-filter>
 
-                    <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                </intent-filter>
-                <!-- Optional -->
-                <intent-filter>
-                    <action android:name="android.intent.action.PACKAGE_ADDED" />
-                    <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
-                    <data android:scheme="package" />
-                </intent-filter>
             </receiver>
 
-            <!-- Required SDK核心功能-->
-            <receiver android:name="cn.jpush.android.service.AlarmReceiver" android:exported="false"/>
 			
 			 <!-- 3.5.0新增，用于定时展示功能 -->
 			<receiver android:name="cn.jpush.android.service.SchedulerReceiver" android:exported="false"/>
@@ -279,16 +236,34 @@
             <!-- Required  . Enable it you can get statistics data with channel -->
             <meta-data android:name="JPUSH_CHANNEL" android:value="$CHANNEL"/>
             <meta-data android:name="JPUSH_APPKEY" android:value="$APP_KEY" /> <!--  </>值来自开发者平台取得的AppKey-->
-
+            <provider
+                android:exported="false"
+                android:authorities="${applicationId}.jiguang.InitProvider"
+                android:name="cn.jpush.android.service.InitProvider"></provider>
         </config-file>
 
-        <lib-file src="src/android/libs/jpush-android-4.8.5.jar" />
+        <lib-file src="src/android/libs/jpush-android-5.0.3.jar" />
 
         <source-file src="src/android/PushService.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushReceiver.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushEventReceiver.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JLogger.java" target-dir="src/cn/jiguang/cordova/push" />
+
+        <resource-file src="src/android/res/drawable-hdpi/jpush_btn_blue_bg.xml"
+            target="res/drawable/jpush_btn_blue_bg.xml" />
+        <resource-file src="src/android/res/drawable-hdpi/jpush_btn_grey_bg.xml"
+        target="res/drawable/jpush_btn_grey_bg.xml" />
+        <resource-file src="src/android/res/drawable-hdpi/jpush_cancel_btn_bg.xml"
+        target="res/drawable/jpush_cancel_btn_bg.xml" />
+        <resource-file src="src/android/res/drawable-hdpi/jpush_close.xml"
+        target="res/drawable/jpush_close.xml" />
+        <resource-file src="src/android/res/drawable-hdpi/jpush_contain_bg.xml"
+        target="res/drawable/jpush_contain_bg.xml" />
+        <resource-file src="src/android/res/drawable-hdpi/jpush_interstitial_bg.xml"
+        target="res/drawable/jpush_interstitial_bg.xml" />
+
+
 
         <resource-file src="src/android/res/drawable-hdpi/jpush_richpush_btn_selector.xml"
           target="res/drawable/jpush_richpush_btn_selector.xml" />
@@ -321,6 +296,14 @@
           target="res/layout/jpush_inapp_banner.xml" />
         <resource-file src="src/android/res/layout/push_download_notification_layout.xml"
           target="res/layout/push_download_notification_layout.xml" />
+
+        <resource-file src="src/android/res/layout/jpush_interstitial.xml"
+            target="res/layout/jpush_interstitial.xml" />
+        <resource-file src="src/android/res/layout/jpush_full.xml"
+            target="res/layout/jpush_full.xml" />
+        <resource-file src="src/android/res/layout/jpush_banner.xml"
+            target="res/layout/jpush_banner.xml" />
+
 
         <resource-file src="src/android/res/layout-v21/push_notification.xml"
           target="res/layout-v21/push_notification.xml" />
