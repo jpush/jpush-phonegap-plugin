@@ -16,11 +16,32 @@
 @implementation AppDelegate (JPush)
 
 +(void)load{
-    Method origin1;
-    Method swizzle1;
-    origin1  = class_getInstanceMethod([self class],@selector(init));
-    swizzle1 = class_getInstanceMethod([self class], @selector(init_plus));
-    method_exchangeImplementations(origin1, swizzle1);
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Class class = [self class];
+        
+        SEL originalSelector = @selector(init);
+        SEL swizzledSelector = @selector(init_plus);
+        
+        Method origin = class_getInstanceMethod(class, originalSelector);
+        Method swizzle = class_getInstanceMethod(class, swizzledSelector);
+        
+        BOOL didAddMethod =
+        class_addMethod(class,
+                        originalSelector,
+                        method_getImplementation(swizzle),
+                        method_getTypeEncoding(swizzle));
+        
+        if (didAddMethod) {
+            class_replaceMethod(class,
+                                swizzledSelector,
+                                method_getImplementation(origin),
+                                method_getTypeEncoding(origin));
+        } else {
+            method_exchangeImplementations(origin, swizzle);
+        }
+    });
 }
 
 -(instancetype)init_plus{
