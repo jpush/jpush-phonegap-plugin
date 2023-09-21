@@ -1,6 +1,6 @@
 {
     "name": "jpush-phonegap-plugin",
-    "version": "5.0.3",
+    "version": "5.2.0",
     "description": "JPush for cordova plugin",
     "cordova": {
         "id": "jpush-phonegap-plugin",

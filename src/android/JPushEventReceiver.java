@@ -15,9 +15,9 @@ import cn.jpush.android.api.CustomMessage;
 import cn.jpush.android.api.JPushMessage;
 import cn.jpush.android.api.NotificationMessage;
 import cn.jpush.android.helper.Logger;
-import cn.jpush.android.service.JPushMessageReceiver;
+import cn.jpush.android.service.JPushMessageService;
 
-public class JPushEventReceiver extends JPushMessageReceiver {
+public class JPushEventReceiver extends JPushMessageService {
 
     private static final String TAG = JPushEventReceiver.class.getSimpleName();
 

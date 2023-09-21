@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.8.6">
+  version="5.2.0">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -170,13 +170,13 @@
 			<receiver android:name="cn.jpush.android.service.SchedulerReceiver" android:exported="false"/>
 
             <!--since 3.3.0 接收JPush相关事件-->
-            <receiver android:name="cn.jiguang.cordova.push.JPushEventReceiver"
+            <service android:name="cn.jiguang.cordova.push.JPushEventReceiver"
             android:exported="false">
                 <intent-filter>
                     <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
                     <category android:name="$PACKAGE_NAME"></category>
                 </intent-filter>
-            </receiver>
+            </service>
 
             <!--since 3.3.0 Required SDK核心功能-->
 
@@ -242,7 +242,7 @@
                 android:name="cn.jpush.android.service.InitProvider"></provider>
         </config-file>
 
-        <lib-file src="src/android/libs/jpush-android-5.0.3.jar" />
+        <lib-file src="src/android/libs/jpush-android-5.2.0.jar" />
 
         <source-file src="src/android/PushService.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/cordova/push" />
