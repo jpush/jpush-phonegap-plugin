@@ -243,7 +243,7 @@
                 android:writePermission="${applicationId}.permission.JPUSH_MESSAGE" />
         </config-file>
 
-        <lib-file src="src/android/libs/jpush-android-5.2.0.jar" />
+        <lib-file src="src/android/libs/jpush-android-5.4.0.jar" />
 
         <source-file src="src/android/PushService.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/cordova/push" />
