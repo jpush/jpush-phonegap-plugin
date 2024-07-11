@@ -117,7 +117,7 @@
             <activity
                 android:name="cn.jpush.android.ui.PopWinActivity"
                 android:exported="true"
-                android:theme="@style/MyDialogStyle" >
+                android:theme="@style/JPushDialogStyle" >
                 <intent-filter>
                     <category android:name="android.intent.category.DEFAULT" />
 
@@ -169,13 +169,13 @@
 			<receiver android:name="cn.jpush.android.service.SchedulerReceiver" android:exported="false"/>
 
             <!--since 3.3.0 接收JPush相关事件-->
-            <service android:name="cn.jiguang.cordova.push.JPushEventReceiver"
+            <receiver android:name="cn.jiguang.cordova.push.JPushEventReceiver"
             android:exported="false">
                 <intent-filter>
-                    <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+                    <action android:name="cn.jpush.android.intent.RECEIVER_MESSAGE" />
                     <category android:name="$PACKAGE_NAME"></category>
                 </intent-filter>
-            </service>
+            </receiver>
 
             <!--since 3.3.0 Required SDK核心功能-->
 
@@ -236,12 +236,14 @@
             <meta-data android:name="JPUSH_CHANNEL" android:value="$CHANNEL"/>
             <meta-data android:name="JPUSH_APPKEY" android:value="$APP_KEY" /> <!--  </>值来自开发者平台取得的AppKey-->
             <provider
-                android:exported="false"
+                android:name="cn.jpush.android.service.InitProvider"
                 android:authorities="${applicationId}.jiguang.InitProvider"
-                android:name="cn.jpush.android.service.InitProvider"></provider>
+                android:exported="false"
+                android:readPermission="${applicationId}.permission.JPUSH_MESSAGE"
+                android:writePermission="${applicationId}.permission.JPUSH_MESSAGE" />
         </config-file>
 
-        <lib-file src="src/android/libs/jpush-android-5.2.0.jar" />
+        <lib-file src="src/android/libs/jpush-android-5.4.0.jar" />
 
         <source-file src="src/android/PushService.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/cordova/push" />

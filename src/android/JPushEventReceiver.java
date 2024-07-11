@@ -15,16 +15,16 @@ import cn.jpush.android.api.CustomMessage;
 import cn.jpush.android.api.JPushMessage;
 import cn.jpush.android.api.NotificationMessage;
 import cn.jpush.android.helper.Logger;
-import cn.jpush.android.service.JPushMessageService;
+import cn.jpush.android.service.JPushMessageReceiver;
 
-public class JPushEventReceiver extends JPushMessageService {
+public class JPushEventReceiver extends JPushMessageReceiver {
 
     private static final String TAG = JPushEventReceiver.class.getSimpleName();
 
     @Override
     public void onTagOperatorResult(Context context, JPushMessage jPushMessage) {
         super.onTagOperatorResult(context, jPushMessage);
-        JLogger.d(TAG,"onTagOperatorResult:"+jPushMessage);
+        cn.jiguang.cordova.push.JLogger.d(TAG,"onTagOperatorResult:"+jPushMessage);
 
         tryCallback(jPushMessage, new SuccessCallback() {
             @Override
@@ -46,7 +46,7 @@ public class JPushEventReceiver extends JPushMessageService {
     public void onCheckTagOperatorResult(Context context, JPushMessage jPushMessage) {
         super.onCheckTagOperatorResult(context, jPushMessage);
 
-        JLogger.d(TAG,"onCheckTagOperatorResult:"+jPushMessage);
+        cn.jiguang.cordova.push.JLogger.d(TAG,"onCheckTagOperatorResult:"+jPushMessage);
 
         tryCallback(jPushMessage, new SuccessCallback() {
             @Override
@@ -61,7 +61,7 @@ public class JPushEventReceiver extends JPushMessageService {
     public void onAliasOperatorResult(Context context, JPushMessage jPushMessage) {
         super.onAliasOperatorResult(context, jPushMessage);
 
-        JLogger.d(TAG,"onAliasOperatorResult:"+jPushMessage);
+        cn.jiguang.cordova.push.JLogger.d(TAG,"onAliasOperatorResult:"+jPushMessage);
 
         tryCallback(jPushMessage, new SuccessCallback() {
             @Override
@@ -75,8 +75,8 @@ public class JPushEventReceiver extends JPushMessageService {
 
     @Override
     public void onRegister(Context context, String regId) {
-        JLogger.d(TAG,"onRegister:"+regId);
-        JPushPlugin.transmitReceiveRegistrationId(regId);
+        cn.jiguang.cordova.push.JLogger.d(TAG,"onRegister:"+regId);
+        cn.jiguang.cordova.push.JPushPlugin.transmitReceiveRegistrationId(regId);
     }
 
     @Override
@@ -92,19 +92,19 @@ public class JPushEventReceiver extends JPushMessageService {
     public void onNotifyMessageArrived(Context context, NotificationMessage notificationMessage) {
         super.onNotifyMessageArrived(context, notificationMessage);
 
-        JLogger.d(TAG,"onNotifyMessageArrived:"+notificationMessage);
+        cn.jiguang.cordova.push.JLogger.d(TAG,"onNotifyMessageArrived:"+notificationMessage);
     }
 
     @Override
     public void onNotifyMessageOpened(Context context, NotificationMessage notificationMessage) {
         super.onNotifyMessageOpened(context, notificationMessage);
-        JLogger.d(TAG,"onNotifyMessageOpened:"+notificationMessage);
+        cn.jiguang.cordova.push.JLogger.d(TAG,"onNotifyMessageOpened:"+notificationMessage);
     }
 
     @Override
     public void onMobileNumberOperatorResult(Context context, JPushMessage jPushMessage) {
         super.onMobileNumberOperatorResult(context, jPushMessage);
-        JLogger.d(TAG,"onMobileNumberOperatorResult:"+jPushMessage);
+        cn.jiguang.cordova.push.JLogger.d(TAG,"onMobileNumberOperatorResult:"+jPushMessage);
 
         tryCallback(jPushMessage, new SuccessCallback() {
             @Override
@@ -119,11 +119,11 @@ public class JPushEventReceiver extends JPushMessageService {
     @Override
     public void onMultiActionClicked(Context context, Intent intent) {
         super.onMultiActionClicked(context, intent);
-        JLogger.d(TAG,"onMultiActionClicked:"+intent);
+        cn.jiguang.cordova.push.JLogger.d(TAG,"onMultiActionClicked:"+intent);
     }
     @Override
     public void onInAppMessageShow(Context context,final NotificationMessage message) {
-       JLogger.d(TAG, "[onInAppMessageShow], " + message.toString());
+       cn.jiguang.cordova.push.JLogger.d(TAG, "[onInAppMessageShow], " + message.toString());
         try {
             JSONObject jsonObject=new JSONObject();
             jsonObject.put("title", message.inAppMsgTitle);
@@ -141,7 +141,7 @@ public class JPushEventReceiver extends JPushMessageService {
 
     @Override
     public void onInAppMessageClick(Context context,final NotificationMessage message) {
-        JLogger.d(TAG, "[onInAppMessageClick], " + message.toString());
+        cn.jiguang.cordova.push.JLogger.d(TAG, "[onInAppMessageClick], " + message.toString());
         try {
             JSONObject jsonObject=new JSONObject();
             jsonObject.put("title", message.inAppMsgTitle);
@@ -170,7 +170,7 @@ public class JPushEventReceiver extends JPushMessageService {
             e.printStackTrace();
         }
 
-        CallbackContext callback = JPushPlugin.eventCallbackMap.get(sequence);
+        CallbackContext callback = cn.jiguang.cordova.push.JPushPlugin.eventCallbackMap.get(sequence);
 
         if (callback == null) {
             Logger.i(TAG, "Unexpected error, callback is null!");
@@ -194,7 +194,7 @@ public class JPushEventReceiver extends JPushMessageService {
             callback.error(resultJson);
         }
 
-        JPushPlugin.eventCallbackMap.remove(sequence);
+        cn.jiguang.cordova.push.JPushPlugin.eventCallbackMap.remove(sequence);
 
     }
 }
