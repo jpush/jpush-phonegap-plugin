@@ -9,7 +9,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen HXHG. All rights reserved.
  */
 
-#define JPUSH_VERSION_NUMBER 5.2.0
+#define JPUSH_VERSION_NUMBER 5.4.0
 
 #import <Foundation/Foundation.h>
 
@@ -172,6 +172,19 @@ typedef NS_ENUM(NSUInteger, JPAuthorizationStatus) {
 @property (nonatomic, strong) NSArray  *target;      // 目标页面
 @property (nonatomic, copy)   NSString *clickAction; // 跳转地址
 @property (nonatomic, strong) NSDictionary *extras;  // 附加字段
+
+@end
+
+@interface JPushCollectControl : NSObject
+
+/* ssid SSID信息。设置为NO,不采集SSID信息。默认为YES。 */
+@property (nonatomic, assign) BOOL ssid;
+/* bssid BSSID信息。设置为NO,不采集BSSID信息。默认为YES。 */
+@property (nonatomic, assign) BOOL bssid;
+/* cell 基站信息。设置为NO,不采集基站信息。默认为YES。*/
+@property (nonatomic, assign) BOOL cell;
+/* gps 经纬度信息。设置为NO,不采集经纬度信息。默认为YES。 */
+@property (nonatomic, assign) BOOL gps;
 
 @end
 
@@ -764,6 +777,13 @@ typedef NS_ENUM(NSUInteger, JPAuthorizationStatus) {
 + (void)setLogOFF;
 
 /*!
+ 数据采集控制
+ 
+ @param control 数据采集配置。
+ */
++ (void)setCollectControl:(JPushCollectControl *)control;
+
+/*!
  * @abstract 设置SDK地理位置权限开关
  *
  * @discussion 关闭地理位置之后，SDK地理围栏的相关功能将受到影响，默认是开启。
@@ -779,6 +799,13 @@ typedef NS_ENUM(NSUInteger, JPAuthorizationStatus) {
  */
 + (void)setPushEnable:(BOOL)isEnable completion:(nullable void (^)(NSInteger iResCode))completion;
 
+/*!
+ * @abstract 设置用户分群推送功能开关
+ *
+ * @param isEnable YES:开启，NO:关闭，默认是开启。
+ *
+ */
++ (void)setSmartPushEnable:(BOOL)isEnable;
 
 /*!
 * @abstract 设置应用内提醒消息的代理
