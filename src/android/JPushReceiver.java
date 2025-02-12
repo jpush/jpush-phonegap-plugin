@@ -18,17 +18,17 @@ public class JPushReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String action = intent.getAction();
-        if (action.equals(JPushInterface.ACTION_REGISTRATION_ID)) {
-            String rId = intent.getStringExtra(JPushInterface.EXTRA_REGISTRATION_ID);
-            JPushPlugin.transmitReceiveRegistrationId(rId);
-        } else if (action.equals(JPushInterface.ACTION_MESSAGE_RECEIVED)) {
-            handlingMessageReceive(intent);
-        } else if (action.equals(JPushInterface.ACTION_NOTIFICATION_RECEIVED)) {
-            handlingNotificationReceive(context, intent);
-        } else if (action.equals(JPushInterface.ACTION_NOTIFICATION_OPENED)) {
-            handlingNotificationOpen(context, intent);
-        }
+//        String action = intent.getAction();
+//        if (action.equals(JPushInterface.ACTION_REGISTRATION_ID)) {
+//            String rId = intent.getStringExtra(JPushInterface.EXTRA_REGISTRATION_ID);
+//            JPushPlugin.transmitReceiveRegistrationId(rId);
+//        } else if (action.equals(JPushInterface.ACTION_MESSAGE_RECEIVED)) {
+//            handlingMessageReceive(intent);
+//        } else if (action.equals(JPushInterface.ACTION_NOTIFICATION_RECEIVED)) {
+//            handlingNotificationReceive(context, intent);
+//        } else if (action.equals(JPushInterface.ACTION_NOTIFICATION_OPENED)) {
+//            handlingNotificationOpen(context, intent);
+//        }
     }
 
     private void handlingMessageReceive(Intent intent) {
