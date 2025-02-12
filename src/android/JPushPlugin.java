@@ -42,12 +42,10 @@ public class JPushPlugin extends CordovaPlugin {
     private static JPushPlugin instance;
     private static Activity cordovaActivity;
 
-    static String notificationTitle;
-    static String notificationAlert;
+    static JSONObject notificationJson;
     static Map<String, Object> notificationExtras = new HashMap<String, Object>();
 
-    static String openNotificationTitle;
-    static String openNotificationAlert;
+    static JSONObject openNotificationJson;
     static Map<String, Object> openNotificationExtras = new HashMap<String, Object>();
 
     static Map<Integer, CallbackContext> eventCallbackMap = new HashMap<Integer, CallbackContext>();
@@ -68,22 +66,20 @@ public class JPushPlugin extends CordovaPlugin {
 
         // 如果同时缓存了打开事件 openNotificationAlert 和 消息事件 notificationAlert，只向 UI 发打开事件。
         // 这样做是为了和 iOS 统一。
-        if (openNotificationAlert != null) {
-            notificationAlert = null;
-            transmitNotificationOpen(openNotificationTitle, openNotificationAlert, openNotificationExtras);
+        if (openNotificationJson != null) {
+            transmitNotificationOpen(openNotificationJson);
         }
-        if (notificationAlert != null) {
-            transmitNotificationReceive(notificationTitle, notificationAlert, notificationExtras);
+        if (notificationJson != null) {
+            transmitNotificationReceive(notificationJson);
         }
     }
 
     public void onResume(boolean multitasking) {
-        if (openNotificationAlert != null) {
-            notificationAlert = null;
-            transmitNotificationOpen(openNotificationTitle, openNotificationAlert, openNotificationExtras);
+        if (openNotificationJson != null) {
+            transmitNotificationOpen(openNotificationJson);
         }
-        if (notificationAlert != null) {
-            transmitNotificationReceive(notificationTitle, notificationAlert, notificationExtras);
+        if (notificationJson != null) {
+            transmitNotificationReceive(notificationJson);
         }
     }
 
@@ -161,11 +157,11 @@ public class JPushPlugin extends CordovaPlugin {
         return data;
     }
 
-    static void transmitMessageReceive(String message, Map<String, Object> extras) {
+    static void transmitMessageReceive(JSONObject data) {
         if (instance == null) {
             return;
         }
-        JSONObject data = getMessageObject(message, extras);
+//        JSONObject data = getMessageObject(message, extras);
         String format = "window.plugins.jPushPlugin.receiveMessageInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
         cordovaActivity.runOnUiThread(new Runnable() {
@@ -203,11 +199,11 @@ public class JPushPlugin extends CordovaPlugin {
     }
 
 
-    static void transmitNotificationOpen(String title, String alert, Map<String, Object> extras) {
+    static void transmitNotificationOpen(JSONObject data) {
         if (instance == null) {
             return;
         }
-        JSONObject data = getNotificationObject(title, alert, extras);
+//        JSONObject data = getNotificationObject(title, alert, extras);
         String format = "window.plugins.jPushPlugin.openNotificationInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
         cordovaActivity.runOnUiThread(new Runnable() {
@@ -216,15 +212,14 @@ public class JPushPlugin extends CordovaPlugin {
                 instance.webView.loadUrl("javascript:" + js);
             }
         });
-        JPushPlugin.openNotificationTitle = null;
-        JPushPlugin.openNotificationAlert = null;
+        JPushPlugin.openNotificationJson = null;
     }
 
-    static void transmitNotificationReceive(String title, String alert, Map<String, Object> extras) {
+    static void transmitNotificationReceive(JSONObject data) {
         if (instance == null) {
             return;
         }
-        JSONObject data = getNotificationObject(title, alert, extras);
+//        JSONObject data = getNotificationObject(title, alert, extras);
         String format = "window.plugins.jPushPlugin.receiveNotificationInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
         cordovaActivity.runOnUiThread(new Runnable() {
@@ -233,8 +228,7 @@ public class JPushPlugin extends CordovaPlugin {
                 instance.webView.loadUrl("javascript:" + js);
             }
         });
-        JPushPlugin.notificationTitle = null;
-        JPushPlugin.notificationAlert = null;
+        JPushPlugin.notificationJson = null;
     }
 
     static void transmitReceiveRegistrationId(String rId) {

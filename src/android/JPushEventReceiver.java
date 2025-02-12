@@ -89,36 +89,38 @@ public class JPushEventReceiver extends JPushMessageReceiver {
     public void onMessage(Context context, CustomMessage customMessage) {
 //        super.onMessage(context,customMessage);
         cn.jiguang.cordova.push.JLogger.d(TAG,"onMessage:"+customMessage);
+        try {
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("message", customMessage.message);
+            jsonObject.put("alert", customMessage.title);
+            jsonObject.put(JPushInterface.EXTRA_EXTRA, stringToMap(customMessage.extra));
+            jsonObject.put(JPushInterface.EXTRA_MSG_ID, customMessage.messageId);
+            jsonObject.put(JPushInterface.EXTRA_CONTENT_TYPE, customMessage.contentType);
+            if (JPushConstants.SDK_VERSION_CODE >= 387) {
+                jsonObject.put(JPushInterface.EXTRA_TYPE_PLATFORM, customMessage.platform);
+            }
+            cn.jiguang.cordova.push.JPushPlugin.transmitNotificationReceive(jsonObject);
+        }catch (Throwable throwable){
+            cn.jiguang.cordova.push.JLogger.d(TAG,"onMessage throwable:"+throwable);
 
-        JPushPlugin.transmitMessageReceive(customMessage.message, getExtras(customMessage));
-
-//        String msg = customMessage.message;//intent.getStringExtra(JPushInterface.EXTRA_MESSAGE);
-//        Map<String, Object> extras = getNotificationExtras(intent);
-//        JPushPlugin.transmitMessageReceive(msg, extras);
-    }
-    private Map<String, Object> getExtras(CustomMessage customMessage) {
-        Map<String, Object> extra = new HashMap<>();
-        extra.put(JPushInterface.EXTRA_EXTRA, stringToMap(customMessage.extra));
-        extra.put(JPushInterface.EXTRA_MSG_ID, customMessage.messageId);
-        extra.put(JPushInterface.EXTRA_CONTENT_TYPE, customMessage.contentType);
-        if (JPushConstants.SDK_VERSION_CODE >= 387) {
-            extra.put(JPushInterface.EXTRA_TYPE_PLATFORM, customMessage.platform);
         }
-        return extra;
     }
+
     @Override
     public void onNotifyMessageArrived(Context context, NotificationMessage notificationMessage) {
 //        super.onNotifyMessageArrived(context, notificationMessage);
         cn.jiguang.cordova.push.JLogger.d(TAG,"onNotifyMessageArrived:"+notificationMessage);
-        String title = notificationMessage.notificationTitle;
-        JPushPlugin.notificationTitle = title;
+        try {
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("title", notificationMessage.notificationTitle);
+            jsonObject.put("alert", notificationMessage.notificationContent);
+            getExtras(jsonObject,notificationMessage);
+            JPushPlugin.notificationJson = jsonObject;
+            cn.jiguang.cordova.push.JPushPlugin.transmitNotificationReceive(jsonObject);
+        }catch (Throwable throwable){
+            cn.jiguang.cordova.push.JLogger.d(TAG,"onNotifyMessageArrived throwable:"+throwable);
 
-        String alert = notificationMessage.notificationContent;
-        JPushPlugin.notificationAlert = alert;
-
-        Map<String, Object> extras = getExtras(notificationMessage);
-        JPushPlugin.notificationExtras = extras;
-        JPushPlugin.transmitNotificationReceive(title, alert, extras);
+        }
     }
 
     @Override
@@ -126,15 +128,17 @@ public class JPushEventReceiver extends JPushMessageReceiver {
 //        super.onNotifyMessageOpened(context, notificationMessage);
         cn.jiguang.cordova.push.JLogger.d(TAG,"onNotifyMessageOpened:"+notificationMessage);
 
-        String title = notificationMessage.notificationTitle;
-        JPushPlugin.openNotificationTitle = title;
+        try {
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("title", notificationMessage.notificationTitle);
+            jsonObject.put("alert", notificationMessage.notificationContent);
+            getExtras(jsonObject,notificationMessage);
+            JPushPlugin.openNotificationJson = jsonObject;
+            cn.jiguang.cordova.push.JPushPlugin.transmitNotificationOpen(jsonObject);
+        }catch (Throwable throwable){
+            cn.jiguang.cordova.push.JLogger.d(TAG,"onNotifyMessageOpened throwable:"+throwable);
 
-        String alert = notificationMessage.notificationContent;
-        JPushPlugin.openNotificationAlert = alert;
-
-        Map<String, Object> extras = getExtras(notificationMessage);
-        JPushPlugin.openNotificationExtras = extras;
-        JPushPlugin.transmitNotificationOpen(title, alert, extras);
+        }
         Intent launch = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
         if (launch != null) {
             launch.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -142,8 +146,7 @@ public class JPushEventReceiver extends JPushMessageReceiver {
             context.startActivity(launch);
         }
     }
-    private Map<String, Object> getExtras(NotificationMessage notificationMessage) {
-        Map<String, Object> extras = new HashMap<>();
+    private void getExtras(JSONObject extras,NotificationMessage notificationMessage) {
         try {
             extras.put(JPushInterface.EXTRA_MSG_ID, notificationMessage.msgId);
             extras.put(JPushInterface.EXTRA_NOTIFICATION_ID, notificationMessage.notificationId);
@@ -171,7 +174,6 @@ public class JPushEventReceiver extends JPushMessageReceiver {
         } catch (Throwable e) {
             Log.e(TAG, "[onNotifyMessageUnShow] e:" + e.getMessage());
         }
-        return extras;
     }
     @Override
     public void onMobileNumberOperatorResult(Context context, JPushMessage jPushMessage) {
