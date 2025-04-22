@@ -48,7 +48,7 @@
         <header-file src="src/ios/Plugins/AppDelegate+JPush.h" />
         <source-file src="src/ios/Plugins/AppDelegate+JPush.m" />
 
-        <source-file src="src/ios/lib/jpush-ios-5.5.0.xcframework" framework="true" />
+        <source-file src="src/ios/lib/jpush-ios-5.6.0.xcframework" framework="true" />
         <resource-file src="src/ios/JPushConfig.plist" />
 
         <framework src="CFNetwork.framework" weak="true" />
