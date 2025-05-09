@@ -285,6 +285,17 @@ public class JPushPlugin extends CordovaPlugin {
         }
     }
 
+    void setDataInsightsEnable(JSONArray data, CallbackContext callbackContext) {
+        boolean mode;
+        try {
+            mode = data.getBoolean(0);
+            JPushInterface.setDataInsightsEnable(mContext,mode);
+            callbackContext.success();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     void stopPush(JSONArray data, CallbackContext callbackContext) {
         JPushInterface.stopPush(mContext);
         callbackContext.success();

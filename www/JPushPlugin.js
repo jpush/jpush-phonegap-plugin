@@ -59,6 +59,12 @@ JPushPlugin.prototype.setDebugMode = function(mode) {
   }
 };
 
+JPushPlugin.prototype.setDataInsightsEnable = function(mode) {
+  if (device.platform === "Android") {
+    this.callNative("setDataInsightsEnable", [mode], null);
+  } 
+};
+
 JPushPlugin.prototype.getRegistrationID = function(successCallback) {
   this.callNative("getRegistrationID", [], successCallback);
 };
