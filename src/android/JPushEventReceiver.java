@@ -19,6 +19,7 @@ import cn.jpush.android.api.CustomMessage;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.JPushMessage;
 import cn.jpush.android.api.NotificationMessage;
+import cn.jpush.android.api.NotificationCustomButton;
 import cn.jpush.android.helper.Logger;
 import cn.jpush.android.local.JPushConstants;
 import cn.jpush.android.service.JPushMessageReceiver;
@@ -230,6 +231,23 @@ public class JPushEventReceiver extends JPushMessageReceiver {
 
         }
 
+    }
+
+    @Override
+    public void onNotifyButtonClick(Context context, NotificationCustomButton notificationCustomButton) {
+        cn.jiguang.cordova.push.JLogger.d(TAG, "[onNotifyButtonClick], " + notificationCustomButton.toString());
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("msgId", notificationCustomButton.a);
+            jsonObject.put("platform", notificationCustomButton.b);
+            jsonObject.put("name", notificationCustomButton.c);
+            jsonObject.put("actionType", notificationCustomButton.d);
+            jsonObject.put("action", notificationCustomButton.e);
+            jsonObject.put("data", notificationCustomButton.f);
+            cn.jiguang.cordova.push.JPushPlugin.transmitNotifyButtonClick(jsonObject);
+        } catch (Throwable throwable) {
+            cn.jiguang.cordova.push.JLogger.d(TAG, "[onNotifyButtonClick] throwable:" + throwable);
+        }
     }
     interface SuccessCallback{
         void onSuccessCallback(JSONObject resultJson) throws JSONException;

@@ -5,6 +5,7 @@ var JPushPlugin = function() {};
 JPushPlugin.prototype.receiveMessage = {};
 JPushPlugin.prototype.openNotification = {};
 JPushPlugin.prototype.receiveNotification = {};
+JPushPlugin.prototype.notifyButtonClick = {};
 
 JPushPlugin.prototype.isPlatformIOS = function() {
   return (
@@ -390,6 +391,14 @@ JPushPlugin.prototype.receiveInAppMessageShowCallback = function(data) {
   }
 };
 
+JPushPlugin.prototype.receiveNotifyButtonClickCallback = function(data) {
+  if (device.platform === "Android") {
+      data = JSON.stringify(data);
+      this.notifyButtonClick = JSON.parse(data);
+      cordova.fireDocumentEvent("jpush.receiveNotifyButtonClick", this.notifyButtonClick);
+  }
+};
+
 JPushPlugin.prototype.openNotificationInAndroidCallback = function(data) {
   data = JSON.stringify(data);
   this.openNotification = JSON.parse(data);
@@ -521,6 +530,17 @@ JPushPlugin.prototype.setAuth = function(isAuth){
 ) {
      this.callNative("setMobileNumber", [params], successCallback, errorCallback);
 
+};
+
+/**
+ * 设置进入后台是否允许长连接 (iOS 5.9.0+)
+ *
+ * @param isEnable boolean 是否允许长连接
+ */
+JPushPlugin.prototype.setBackgroundEnable = function(isEnable) {
+  if (this.isPlatformIOS()) {
+    this.callNative("setBackgroundEnable", [isEnable], null);
+  }
 };
 
 if (!window.plugins) {

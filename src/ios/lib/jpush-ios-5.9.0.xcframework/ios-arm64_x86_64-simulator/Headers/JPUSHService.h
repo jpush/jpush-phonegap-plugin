@@ -9,7 +9,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen HXHG. All rights reserved.
  */
 
-#define JPUSH_VERSION_NUMBER 5.7.0
+#define JPUSH_VERSION_NUMBER 5.9.0
 
 #import <Foundation/Foundation.h>
 
@@ -821,6 +821,16 @@ typedef NS_ENUM(NSUInteger, JPAuthorizationStatus) {
  *
  */
 + (void)setPushEnable:(BOOL)isEnable completion:(nullable void (^)(NSInteger iResCode))completion;
+
+/*!
+ * @abstract 设置进入后台是否允许长连接
+ *
+ * @param isEnable YES:允许，NO:不允许，默认是NO,进入后台会关闭长连接，回到前台会重新接入。
+ *
+ * @discussion 请在初始化函数之前调用
+ *
+ */
++ (void)setBackgroundEnable:(BOOL)isEnable;
 
 /*!
  * @abstract 设置用户分群推送功能开关

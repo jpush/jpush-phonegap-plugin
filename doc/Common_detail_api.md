@@ -586,6 +586,27 @@ document.addEventListener("jpush.receiveMessage", function (event) {
 }
 ```
 
+## 获取通知点击的参数 (Android only)
+
+### event - jpush.receiveNotifyButtonClick
+
+#### 代码示例
+
+- 在你需要接收通知的的 js 文件中加入:
+
+```js
+document.addEventListener("jpush.receiveNotifyButtonClick", function (event) {
+  if(device.platform == "Android") {
+    var msgId = event.msgId;
+    var platform = event.platform;
+    var name = event.name;
+    var actionType = event.actionType;
+    var action = event.action;
+    var data = event.data;
+  } 
+}, false)
+```
+
 ## 判断系统设置中是否允许当前应用推送
 ### API - getUserNotificationSettings
 判断系统设置中是否允许当前应用推送。

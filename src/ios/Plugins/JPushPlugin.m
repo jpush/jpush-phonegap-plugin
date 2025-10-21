@@ -533,6 +533,12 @@
     
 }
 
+#pragma mark - 设置进入后台是否允许长连接 (iOS 5.9.0+)
+-(void)setBackgroundEnable:(CDVInvokedUrlCommand *)command {
+    NSNumber* isEnable = [command argumentAtIndex:0];
+    [JPUSHService setBackgroundEnable:[isEnable boolValue]];
+}
+
 #pragma mark - 内部方法
 
 +(void)setupJPushSDK:(NSDictionary*)userInfo{

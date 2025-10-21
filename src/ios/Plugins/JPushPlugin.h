@@ -76,10 +76,14 @@ static NSMutableDictionary *_jpushEventCache;
 // 设置手机号
 -(void)setMobileNumber:(CDVInvokedUrlCommand*)command;
 
+// 设置进入后台是否允许长连接 (iOS 5.9.0+)
+-(void)setBackgroundEnable:(CDVInvokedUrlCommand*)command;
+
 /*
  *  以下为js中可监听到的事件
  *  jpush.openNotification      点击推送消息启动或唤醒app
  *  jpush.receiveMessage        收到自定义消息
+ *  jpush.receiveNotifyButtonClick 收到通知栏自定义按钮点击事件
  *  jpush.receiveNotification   前台收到推送
  *  jpush.backgroundNotification 后台收到推送
  */
