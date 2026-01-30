@@ -7,6 +7,7 @@
   - [stopPush](#stoppush)
   - [resumePush](#resumepush)
   - [isPushStopped](#ispushstopped)
+  - [getPushStatus](#getpushstatus)
 - [开启 Debug 模式](#开启-debug-模式)
   - [setDebugMode](#setdebugmode)
 - [获取 RegistrationID](#获取-registrationid)
@@ -127,6 +128,37 @@ window.JPush.isPushStopped(function (result) {
     // 开启
   } else {
     // 关闭
+  }
+})
+```
+
+### getPushStatus
+
+- **Android 6.0.0+ / iOS 6.0.0+**：推荐使用本接口替代 `isPushStopped`，用于检查推送是否被停止。
+- 回调结果为 `{ code: number, isStopped: 0|1 }`：`code` 为 0 表示成功，非 0 表示错误码；**`isStopped` 仅在 `code === 0` 时有效**（0 表示推送未停止，1 表示推送已停止），当 `code !== 0` 时请勿依赖 `isStopped` 做业务判断。
+
+#### 接口定义
+
+```js
+window.JPush.getPushStatus(callback)
+```
+
+#### 参数说明
+
+- callback: 回调函数，参数为 `(result)`，result 为 `{ code: number, isStopped: 0|1 }`。**注意：`isStopped` 仅在 `code === 0` 时有效。**
+
+#### 代码示例
+
+```js
+window.JPush.getPushStatus(function (result) {
+  if (result.code !== 0) {
+    // 获取状态失败，不解析 isStopped
+    return;
+  }
+  if (result.isStopped === 0) {
+    // 推送未停止
+  } else if (result.isStopped === 1) {
+    // 推送已停止
   }
 })
 ```

@@ -42,6 +42,8 @@ export declare class JPush extends IonicNativePlugin {
     stopPush(): Promise<any>;
     resumePush(): Promise<any>;
     isPushStopped(): Promise<any>;
+    /** isStopped 仅在 code 为 0 时有效 */
+    getPushStatus(): Promise<{ code: number; isStopped: 0 | 1 }>;
     setTags(params: TagOptions): Promise<any>;
     addTags(params: TagOptions): Promise<any>;
     deleteTags(params: TagOptions): Promise<any>;

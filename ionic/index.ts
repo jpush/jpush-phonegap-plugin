@@ -48,6 +48,9 @@ export class JPush extends IonicNativePlugin {
   isPushStopped(): Promise<any> { return; }
 
   @Cordova()
+  getPushStatus(): Promise<{ code: number; isStopped: 0 | 1 }> { return; }
+
+  @Cordova()
   setTags(params: TagOptions): Promise<any> { return; }
 
   @Cordova()

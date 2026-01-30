@@ -82,6 +82,14 @@ JPushPlugin.prototype.isPushStopped = function(successCallback) {
   this.callNative("isPushStopped", [], successCallback);
 };
 
+/**
+ * 检查推送是否被停止（推荐，SDK 6.0+ 新增接口，替代 isPushStopped）
+ * @param successCallback 回调 (result) => {}，result 为 { code: number, isStopped: 0|1 }，code 为 0 表示成功，isStopped 为 1 表示已停止
+ */
+JPushPlugin.prototype.getPushStatus = function(successCallback) {
+  this.callNative("getPushStatus", [], successCallback);
+};
+
 JPushPlugin.prototype.clearLocalNotifications = function() {
   if (device.platform === "Android") {
     this.callNative("clearLocalNotifications", [], null);

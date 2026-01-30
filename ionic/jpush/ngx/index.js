@@ -42,6 +42,7 @@ var JPush = /** @class */ (function (_super) {
     JPush.prototype.stopPush = function () { return cordova(this, "stopPush", {}, arguments); };
     JPush.prototype.resumePush = function () { return cordova(this, "resumePush", {}, arguments); };
     JPush.prototype.isPushStopped = function () { return cordova(this, "isPushStopped", {}, arguments); };
+    JPush.prototype.getPushStatus = function () { return cordova(this, "getPushStatus", {}, arguments); };
     JPush.prototype.setTags = function (params) { return cordova(this, "setTags", {}, arguments); };
     JPush.prototype.addTags = function (params) { return cordova(this, "addTags", {}, arguments); };
     JPush.prototype.deleteTags = function (params) { return cordova(this, "deleteTags", {}, arguments); };

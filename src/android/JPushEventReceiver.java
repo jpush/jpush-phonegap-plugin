@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import cn.jpush.android.api.CmdMessage;
 import cn.jpush.android.api.CustomMessage;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.JPushMessage;
@@ -84,6 +85,17 @@ public class JPushEventReceiver extends JPushMessageReceiver {
     public void onRegister(Context context, String regId) {
         cn.jiguang.cordova.push.JLogger.d(TAG,"onRegister:"+regId);
         cn.jiguang.cordova.push.JPushPlugin.transmitReceiveRegistrationId(regId);
+    }
+
+    @Override
+    public void onCommandResult(Context context, CmdMessage cmdMessage) {
+        super.onCommandResult(context, cmdMessage);
+        if (cmdMessage == null) return;
+        // cmd 2003: getPushStatus / isPushStopped 状态回调。errorCode: 0=未停止, 1=已停止, 其他=异常
+        if (cmdMessage.cmd == 2003) {
+            cn.jiguang.cordova.push.JLogger.d(TAG, "[onCommandResult] getPushStatus, errorCode=" + cmdMessage.errorCode);
+            cn.jiguang.cordova.push.JPushPlugin.onGetPushStatusResult(cmdMessage.errorCode);
+        }
     }
 
     @Override

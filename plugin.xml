@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
   id="jpush-phonegap-plugin"
-  version="5.9.0">
+  version="6.0.1">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -48,7 +49,12 @@
         <header-file src="src/ios/Plugins/AppDelegate+JPush.h" />
         <source-file src="src/ios/Plugins/AppDelegate+JPush.m" />
 
-        <source-file src="src/ios/lib/jpush-ios-5.9.0.xcframework" framework="true" />
+        <!-- JPush SDK 通过 CocoaPods 集成 -->
+        <podspec>
+            <pods>
+                <pod name="JPush" spec="6.0.0" />
+            </pods>
+        </podspec>
         <resource-file src="src/ios/JPushConfig.plist" />
 
         <framework src="CFNetwork.framework" weak="true" />
@@ -72,6 +78,11 @@
     </platform>
 
     <platform name="android">
+        <!-- aar 合并时与 cn.jiguang.sdk:jpush 的 meta-data 冲突，需声明 tools 并用 tools:replace 覆盖 -->
+        <edit-config file="AndroidManifest.xml" target="/manifest" mode="merge">
+            <manifest xmlns:tools="http://schemas.android.com/tools" />
+        </edit-config>
+
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="JPushPlugin">
                 <param name="android-package" value="cn.jiguang.cordova.push.JPushPlugin" />
@@ -113,58 +124,6 @@
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
 
-
-            <!-- Rich push 核心功能 since 2.0.6-->
-            <activity
-                android:name="cn.jpush.android.ui.PopWinActivity"
-                android:exported="true"
-                android:theme="@style/JPushDialogStyle" >
-                <intent-filter>
-                    <category android:name="android.intent.category.DEFAULT" />
-
-                    <action android:name="cn.jpush.android.ui.PopWinActivity" />
-
-                    <category android:name="$PACKAGE_NAME" />
-                </intent-filter>
-            </activity>
-
-            <!-- Required SDK核心功能-->
-            <activity
-                    android:name="cn.jpush.android.ui.PushActivity"
-                    android:configChanges="orientation|keyboardHidden"
-                    android:theme="@android:style/Theme.NoTitleBar"
-                    android:exported="true">
-                <intent-filter>
-                    <action android:name="cn.jpush.android.ui.PushActivity" />
-                    <category android:name="android.intent.category.DEFAULT" />
-                    <category android:name="$PACKAGE_NAME" />
-                </intent-filter>
-            </activity>
-
-
-
-            <!-- since 3.0.9 Required SDK 核心功能-->
-            <provider
-                    android:authorities="$PACKAGE_NAME.DataProvider"
-                    android:name="cn.jpush.android.service.DataProvider"
-                    android:process=":pushcore"
-                    android:exported="false"
-            />
-
-
-
-            <!-- Required SDK核心功能-->
-            <receiver
-                    android:name="cn.jpush.android.service.PushReceiver"
-                    android:enabled="true"
-                    android:exported="false">
-                <intent-filter android:priority="1000">
-                    <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />   <!--Required  显示通知栏 -->
-                    <category android:name="$PACKAGE_NAME" />
-                </intent-filter>
-
-            </receiver>
-
 			
 			 <!-- 3.5.0新增，用于定时展示功能 -->
 			<receiver android:name="cn.jpush.android.service.SchedulerReceiver" android:exported="false"/>
@@ -178,35 +137,7 @@
                 </intent-filter>
             </receiver>
 
-            <!--since 3.3.0 Required SDK核心功能-->
-
-            <!-- since 3.3.0 Required SDK核心功能 -->
-            <activity
-                android:name="cn.jpush.android.service.JNotifyActivity"
-                android:exported="true"
-                android:taskAffinity=""
-                android:theme="@style/JPushTheme" >
-                <intent-filter>
-                    <action android:name="cn.jpush.android.intent.JNotifyActivity" />
-
-                    <category android:name="android.intent.category.DEFAULT" />
-                    <category android:name="$PACKAGE_NAME" />
-                </intent-filter>
-            </activity>
-            <!-- since 4.6.0 Required SDK核心功能 -->
-            <activity
-                android:name="cn.android.service.JTransitActivity"
-                android:exported="true"
-                android:taskAffinity=""
-                android:theme="@style/JPushTheme" >
-                <intent-filter>
-                    <action android:name="cn.android.service.JTransitActivity" />
-
-                    <category android:name="android.intent.category.DEFAULT" />
-                    <category android:name="$PACKAGE_NAME" />
-                </intent-filter>
-            </activity>
-
+           
             <!-- since 3.3.0 Required SDK 核心功能-->
             <!-- 可配置android:process参数将PushService放在其他进程中 -->
             <!--User defined.  For test only 继承自cn.jpush.android.service.JCommonService-->
@@ -233,9 +164,9 @@
 <!--                </intent-filter>-->
             </receiver>
 
-            <!-- Required  . Enable it you can get statistics data with channel -->
-            <meta-data android:name="JPUSH_CHANNEL" android:value="$CHANNEL"/>
-            <meta-data android:name="JPUSH_APPKEY" android:value="$APP_KEY" /> <!--  </>值来自开发者平台取得的AppKey-->
+            <!-- Required：SDK 从合并后的 AndroidManifest 读取。aar 内也有同名 meta-data，用 tools:replace 覆盖占位符 -->
+            <meta-data android:name="JPUSH_CHANNEL" android:value="$CHANNEL" tools:replace="android:value" />
+            <meta-data android:name="JPUSH_APPKEY" android:value="$APP_KEY" tools:replace="android:value" />
             <provider
                 android:name="cn.jpush.android.service.InitProvider"
                 android:authorities="${applicationId}.jiguang.InitProvider"
@@ -244,7 +175,8 @@
                 android:writePermission="${applicationId}.permission.JPUSH_MESSAGE" />
         </config-file>
 
-        <lib-file src="src/android/libs/jpush-android-5.9.0.jar" />
+        <!-- JPush SDK 通过 Maven 集成，替代本地 jar -->
+        <framework src="cn.jiguang.sdk:jpush:6.0.1" />
 
         <source-file src="src/android/PushService.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/cordova/push" />

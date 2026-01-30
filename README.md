@@ -18,6 +18,8 @@
 >如果需要安装之前版本的插件，请先安装 v1.2.0 以下版本（建议安装 v1.1.12）的 [cordova-plugin-jcore](https://github.com/jpush/cordova-plugin-jcore)，再安装旧版本插件（比如 v3.3.2），否则运行会报错。
 >
 >[Cordova Android版本与原生版本对应表](http://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html#requirements-and-support)
+>
+>**集成方式说明**：Android 通过 Maven 拉取 `cn.jiguang.sdk:jpush`，iOS 通过 CocoaPods 拉取 `JPush` pod，无需再依赖插件内的本地 SDK 包。
 ## Install
 
 > 注意：
@@ -31,6 +33,7 @@
   ```
 
 - 或直接通过 url 安装：
+
 
   ```shell
   cordova plugin add https://github.com/jpush/jpush-phonegap-plugin.git --variable APP_KEY=your_jpush_appkey

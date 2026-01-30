@@ -50,6 +50,9 @@ public class JPushPlugin extends CordovaPlugin {
 
     static Map<Integer, CallbackContext> eventCallbackMap = new HashMap<Integer, CallbackContext>();
 
+    /** getPushStatus 异步结果通过 JPushMessageReceiver.onCommandResult(cmd==2003) 回调，此处暂存 CallbackContext */
+    static CallbackContext getPushStatusCallbackContext;
+
     public JPushPlugin() {
         instance = this;
     }
@@ -327,6 +330,35 @@ public class JPushPlugin extends CordovaPlugin {
         } else {
             callbackContext.success(0);
         }
+    }
+
+    void getPushStatus(JSONArray data, CallbackContext callbackContext) {
+        getPushStatusCallbackContext = callbackContext;
+        JPushInterface.getPushStatus(mContext);
+        // 结果在 JPushEventReceiver.onCommandResult 中当 cmd==2003 时回调
+    }
+
+    /**
+     * 由 JPushEventReceiver.onCommandResult 在 cmd==2003 时调用，传递 getPushStatus 异步结果。
+     * 与 iOS 对齐：code=0 表示成功，非 0 表示错误码；isStopped=0 未停止，1 已停止。
+     * Android errorCode: 0=未停止, 1=已停止, 其他=异常。
+     */
+    static void onGetPushStatusResult(int errorCode) {
+        if (getPushStatusCallbackContext == null) return;
+        try {
+            JSONObject result = new JSONObject();
+            if (errorCode == 0 || errorCode == 1) {
+                result.put("code", 0);
+                result.put("isStopped", errorCode == 1 ? 1 : 0);
+            } else {
+                result.put("code", errorCode);
+                result.put("isStopped", 0);
+            }
+            getPushStatusCallbackContext.success(result);
+        } catch (JSONException e) {
+            getPushStatusCallbackContext.error("getPushStatus result error");
+        }
+        getPushStatusCallbackContext = null;
     }
 
     void areNotificationEnabled(JSONArray data, final CallbackContext callback) {

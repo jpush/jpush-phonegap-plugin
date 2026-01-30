@@ -48,6 +48,18 @@
     [self handleResultWithValue:result command:command];
 }
 
+-(void)getPushStatus:(CDVInvokedUrlCommand*)command{
+    WEAK_SELF(weakSelf)
+    [JPUSHService getPushStatus:^(NSInteger iResCode, BOOL isStopped) {
+        NSDictionary *result = @{
+            @"code": @(iResCode),
+            @"isStopped": isStopped ? @1 : @0
+        };
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];
+        [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
 -(void)initial:(CDVInvokedUrlCommand*)command{
     //do nithng,because Cordova plugin use lazy load mode.
 }

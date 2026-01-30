@@ -20,13 +20,11 @@
 
 请按照以下步骤完成：
 
-1. 找到需要升级的iOS JPush SDK，替换src/ios/jpush-ios-x.x.x.xcframework 为需要更新的版本。
-2. 将plugin.xml中关于jpush-ios-x.x.x.xcframework相关的引用，替换为需要更新的版本。
-3. 找到需要升级的Android JPush SDK，替换src/android/jpush-android-x.x.x.jar 为需要更新的版本。
-4. 将plugin.xml中关于jpush-android-x.x.x.jar相关的引用，替换为需要更新的版本。
-5. 封装新增的方法。(如果没有新增的方法就不用执行这一步)
-6. 在plugin.xml中更新插件版本号，使用安卓SDK包的版本号。
-7. 在package.json中更新插件版本号，使用安卓SDK包的版本号。
+1. iOS 使用 CocoaPods 集成：在 plugin.xml 的 iOS 平台下修改 `<pod name="JPush" spec="x.x.x" />` 中的版本号（固定版本，如 6.0.0）即可。
+2. Android 使用 Maven 集成：在 plugin.xml 的 Android 平台下修改 `<framework src="cn.jiguang.sdk:jpush:x.x.x" />` 中的版本号即可。
+3. 封装新增的方法。(如果没有新增的方法就不用执行这一步)
+4. 在 plugin.xml 中更新插件版本号，使用安卓 SDK 包的版本号。
+5. 在 package.json 中更新插件版本号，使用安卓 SDK 包的版本号。
 
 
 

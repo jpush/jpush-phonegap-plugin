@@ -42,6 +42,8 @@ export declare class JPushOriginal extends IonicNativePlugin {
     stopPush(): Promise<any>;
     resumePush(): Promise<any>;
     isPushStopped(): Promise<any>;
+    /** 检查推送是否被停止（SDK 6.0+ 推荐），返回 { code: number, isStopped: 0|1 }。isStopped 仅在 code 为 0 时有效 */
+    getPushStatus(): Promise<{ code: number; isStopped: 0 | 1 }>;
     setTags(params: TagOptions): Promise<any>;
     addTags(params: TagOptions): Promise<any>;
     deleteTags(params: TagOptions): Promise<any>;

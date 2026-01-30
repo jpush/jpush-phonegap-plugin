@@ -52,6 +52,8 @@ static NSMutableDictionary *_jpushEventCache;
 -(void)stopPush:(CDVInvokedUrlCommand*)command;
 -(void)resumePush:(CDVInvokedUrlCommand*)command;
 -(void)isPushStopped:(CDVInvokedUrlCommand*)command;
+// 检查推送是否被停止（iOS 6.0.0+ 推荐，替代 isPushStopped）
+-(void)getPushStatus:(CDVInvokedUrlCommand*)command;
 
 //开关日志
 -(void)setDebugModeFromIos:(CDVInvokedUrlCommand*)command;
