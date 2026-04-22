@@ -112,7 +112,6 @@
             <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
             <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /><!-- Android Q后台定位权限-->
             <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-            <uses-permission android:name="android.permission.GET_TASKS" />
             <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
 			    <!--华为角标-->
 			<uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE"/>
