@@ -78,10 +78,8 @@
     </platform>
 
     <platform name="android">
-        <!-- aar 合并时与 cn.jiguang.sdk:jpush 的 meta-data 冲突，需声明 tools 并用 tools:replace 覆盖 -->
-        <edit-config file="AndroidManifest.xml" target="/manifest" mode="merge">
-            <manifest xmlns:tools="http://schemas.android.com/tools" />
-        </edit-config>
+        <!-- xmlns:tools 由 hooks/androidManifestToolsNs.js 在 prepare 后按需注入，避免与其它插件/工程 edit-config 冲突 -->
+        <hook type="after_prepare" src="hooks/androidManifestToolsNs.js" />
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="JPushPlugin">
