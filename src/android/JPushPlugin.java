@@ -764,6 +764,30 @@ public class JPushPlugin extends CordovaPlugin {
         }
     }
 
+    void setBackgroundEnable(JSONArray data, CallbackContext callbackContext) {
+        try {
+            boolean keep = data.getBoolean(0);
+            JPushInterface.setKeepLongConnInBackground(mContext, keep);
+            callbackContext.success();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void transmitVoipMessage(JSONObject data) {
+        if (instance == null) {
+            return;
+        }
+        String format = "window.plugins.jPushPlugin.receiveVoipMessageInAndroidCallback(%s);";
+        final String js = String.format(format, data.toString());
+        cordovaActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                instance.webView.loadUrl("javascript:" + js);
+            }
+        });
+    }
+
     private boolean isValidHour(int hour) {
         return !(hour < 0 || hour > 23);
     }

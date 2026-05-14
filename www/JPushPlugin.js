@@ -546,9 +546,16 @@ JPushPlugin.prototype.setAuth = function(isAuth){
  * @param isEnable boolean 是否允许长连接
  */
 JPushPlugin.prototype.setBackgroundEnable = function(isEnable) {
-  if (this.isPlatformIOS()) {
-    this.callNative("setBackgroundEnable", [isEnable], null);
-  }
+  this.callNative("setBackgroundEnable", [isEnable], null);
+};
+
+/**
+ * Android VOIP 消息回调（由 Native 调用，触发 jpush.receiveVoipMessage 事件）
+ */
+JPushPlugin.prototype.receiveVoipMessageInAndroidCallback = function(data) {
+  data = JSON.stringify(data);
+  this.voipMessage = JSON.parse(data);
+  cordova.fireDocumentEvent("jpush.receiveVoipMessage", this.voipMessage);
 };
 
 if (!window.plugins) {

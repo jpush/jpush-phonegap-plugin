@@ -21,6 +21,7 @@ import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.JPushMessage;
 import cn.jpush.android.api.NotificationMessage;
 import cn.jpush.android.api.NotificationCustomButton;
+import cn.jpush.android.api.VoipDataMessage;
 import cn.jpush.android.helper.Logger;
 import cn.jpush.android.local.JPushConstants;
 import cn.jpush.android.service.JPushMessageReceiver;
@@ -243,6 +244,20 @@ public class JPushEventReceiver extends JPushMessageReceiver {
 
         }
 
+    }
+
+    @Override
+    public void onVoipMessage(Context context, VoipDataMessage voipDataMessage) {
+        cn.jiguang.cordova.push.JLogger.d(TAG, "onVoipMessage:" + voipDataMessage);
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("messageId", voipDataMessage.getMessageId());
+            jsonObject.put("extraData", voipDataMessage.getExtraData());
+            jsonObject.put("platform", voipDataMessage.getPlatform());
+            cn.jiguang.cordova.push.JPushPlugin.transmitVoipMessage(jsonObject);
+        } catch (Throwable throwable) {
+            cn.jiguang.cordova.push.JLogger.d(TAG, "onVoipMessage throwable:" + throwable);
+        }
     }
 
     @Override
