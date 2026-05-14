@@ -67,3 +67,8 @@ ionic/example/src/app/app\.scss
 ionic/example/src/app/main\.ts
 
 # End of https://www.gitignore.io/api/macos,apachecordova
+
+# Claude update-sdk skill temp files
+.claude/skills/update-sdk/scripts/.sdk_download_result.json
+.claude/skills/update-sdk/scripts/.changelog_cache.json
+.claude/settings.local.json
