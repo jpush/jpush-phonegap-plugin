@@ -7,6 +7,7 @@
 - [设置保留最近通知条数](#设置保留最近通知条数)
 - [本地通知](#本地通知)
 - [获取推送连接状态](#获取推送连接状态)
+- [请求小米订阅消息通道](#请求小米订阅消息通道)
 - [地理围栏](#地理围栏)
 
 ## 获取集成日志（同时适用于 iOS）
@@ -216,6 +217,41 @@ window.JPush.getConnectionState(function (result) {
   }
 })
 ```
+
+## 请求小米订阅消息通道
+
+### API - requestSubscribeChannel
+
+JPush Android SDK 6.2.0 起支持请求订阅厂商通知通道。当前仅支持已集成并注册
+小米通道的小米设备，调用时应用需要处于前台且屏幕已点亮。
+
+单次必须传入 1～3 个在小米后台审核通过的订阅类 channel ID。请求结果通过
+`jpush.onCommandResult` 事件返回，其中 `command` 为 2012。
+
+#### 接口定义
+
+```js
+window.JPush.requestSubscribeChannel(channelIds)
+```
+
+#### 代码示例
+
+```js
+document.addEventListener("jpush.onCommandResult", function (event) {
+  if (event.command === 2012) {
+    console.log("result:", event.commandResult)
+    console.log("channel result:", event.openChannelResult)
+    console.log("platform:", event.platform)
+  }
+}, false)
+
+window.JPush.requestSubscribeChannel([
+  "YOUR_XIAOMI_SUBSCRIBE_CHANNEL_ID"
+])
+```
+
+参数不合法时方法会抛出 `TypeError` 或 `RangeError`。`commandExtra` 保留 SDK
+返回的完整扩展字段；小米平台标识 `platform` 为 1。
 
 ## 地理围栏
 

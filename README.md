@@ -1,7 +1,7 @@
 # JPush PhoneGap / Cordova Plugin
 
 [![Build Status](https://travis-ci.org/jpush/jpush-phonegap-plugin.svg?branch=master)](https://travis-ci.org/jpush/jpush-phonegap-plugin)
-[![release](https://img.shields.io/badge/release-3.4.1-blue.svg)](https://github.com/jpush/jpush-phonegap-plugin/releases)
+[![release](https://img.shields.io/badge/release-6.0.4-blue.svg)](https://github.com/jpush/jpush-phonegap-plugin/releases)
 [![platforms](https://img.shields.io/badge/platforms-iOS%7CAndroid-lightgrey.svg)](https://github.com/jpush/jpush-phonegap-plugin)
 [![weibo](https://img.shields.io/badge/weibo-JPush-blue.svg)](http://weibo.com/jpush?refer_flag=1001030101_&is_all=1)
 
@@ -19,7 +19,9 @@
 >
 >[Cordova Android版本与原生版本对应表](http://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html#requirements-and-support)
 >
->**集成方式说明**：Android 通过 Maven 拉取 `cn.jiguang.sdk:jpush`，iOS 通过 CocoaPods 拉取 `JPush` pod，无需再依赖插件内的本地 SDK 包。
+>**集成方式说明**：Android 通过 Maven 拉取 JPush 6.2.0，iOS 通过 CocoaPods 拉取
+>JPush 6.2.0；配套的 `cordova-plugin-jcore` 5.3.2 集成 Android/iOS JCore 5.5.0，
+>无需再依赖插件内的本地 SDK 包。
 ## Install
 
 > 注意：
@@ -73,7 +75,7 @@
 ```shell
 npm install --save @jiguang-ionic/jpush@1.0.2
 
-# npm install --save @jiguang-ionic/jpush@2.0.0 for ionic4+
+# npm install --save @jiguang-ionic/jpush@2.0.1 for ionic4+
 ```
 
 然后在 *app.module.ts* 中增加：
@@ -82,7 +84,7 @@ npm install --save @jiguang-ionic/jpush@1.0.2
 // @jiguang-ionic/jpush@1.0.0+
 import { JPush } from '@jiguang-ionic/jpush';
 
-// @jiguang-ionic/jpush@2.0.0+
+// @jiguang-ionic/jpush@2.0.1+
 import { JPush } from '@jiguang-ionic/jpush/ngx';
 ...
   providers: [

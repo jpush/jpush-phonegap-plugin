@@ -78,6 +78,33 @@ JPushPlugin.prototype.resumePush = function() {
   this.callNative("resumePush", [], null);
 };
 
+/**
+ * 请求订阅厂商通知通道。当前仅支持已集成小米通道的 Android 小米设备。
+ *
+ * @param channelIds 非空字符串数组，单次最多 3 个订阅类 channel ID。
+ * @platform Android
+ */
+JPushPlugin.prototype.requestSubscribeChannel = function(channelIds) {
+  if (device.platform !== "Android") {
+    return;
+  }
+  if (!Array.isArray(channelIds)) {
+    throw new TypeError("channelIds must be an array");
+  }
+  if (channelIds.length === 0 || channelIds.length > 3) {
+    throw new RangeError("channelIds must contain 1 to 3 items");
+  }
+  for (var i = 0; i < channelIds.length; i++) {
+    if (
+      typeof channelIds[i] !== "string" ||
+      channelIds[i].trim().length === 0
+    ) {
+      throw new TypeError("channelIds must contain non-empty strings");
+    }
+  }
+  this.callNative("requestSubscribeChannel", [channelIds], null);
+};
+
 JPushPlugin.prototype.isPushStopped = function(successCallback) {
   this.callNative("isPushStopped", [], successCallback);
 };
@@ -420,6 +447,12 @@ JPushPlugin.prototype.receiveNotificationInAndroidCallback = function(data) {
     "jpush.receiveNotification",
     this.receiveNotification
   );
+};
+
+JPushPlugin.prototype.receiveCommandResultInAndroidCallback = function(data) {
+  data = JSON.stringify(data);
+  var event = JSON.parse(data);
+  cordova.fireDocumentEvent("jpush.onCommandResult", event);
 };
 
 JPushPlugin.prototype.clearAllNotification = function() {

@@ -2,6 +2,7 @@ package cn.jiguang.cordova.push;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -96,6 +97,23 @@ public class JPushEventReceiver extends JPushMessageReceiver {
         if (cmdMessage.cmd == 2003) {
             cn.jiguang.cordova.push.JLogger.d(TAG, "[onCommandResult] getPushStatus, errorCode=" + cmdMessage.errorCode);
             cn.jiguang.cordova.push.JPushPlugin.onGetPushStatusResult(cmdMessage.errorCode);
+        }
+        try {
+            JSONObject result = new JSONObject();
+            result.put("command", cmdMessage.cmd);
+            result.put("commandResult", cmdMessage.errorCode);
+            result.put("commandMessage",
+                cmdMessage.msg == null ? JSONObject.NULL : cmdMessage.msg);
+            result.put("commandExtra", bundleToJson(cmdMessage.extra));
+            if (cmdMessage.cmd == 2012 && cmdMessage.extra != null) {
+                result.put("openChannelResult",
+                    cmdMessage.extra.getString("open_channel_result", ""));
+                result.put("platform", cmdMessage.extra.getInt("jg_platform", 0));
+            }
+            cn.jiguang.cordova.push.JPushPlugin.transmitCommandResult(result);
+        } catch (JSONException e) {
+            cn.jiguang.cordova.push.JLogger.d(TAG,
+                "[onCommandResult] convert result failed:" + e.getMessage());
         }
     }
 
@@ -279,6 +297,27 @@ public class JPushEventReceiver extends JPushMessageReceiver {
     interface SuccessCallback{
         void onSuccessCallback(JSONObject resultJson) throws JSONException;
     }
+
+    private static JSONObject bundleToJson(Bundle bundle) throws JSONException {
+        JSONObject result = new JSONObject();
+        if (bundle == null) {
+            return result;
+        }
+        for (String key : bundle.keySet()) {
+            Object value = bundle.get(key);
+            if (value == null) {
+                result.put(key, JSONObject.NULL);
+            } else if (value instanceof Number
+                    || value instanceof Boolean
+                    || value instanceof String) {
+                result.put(key, value);
+            } else {
+                result.put(key, String.valueOf(value));
+            }
+        }
+        return result;
+    }
+
     public void tryCallback(JPushMessage jPushMessage,SuccessCallback successCallback){
         JSONObject resultJson = new JSONObject();
 

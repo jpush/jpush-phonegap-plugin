@@ -92,6 +92,7 @@ export declare class JPush extends IonicNativePlugin {
     removeLocalNotification(notificationId: number): Promise<any>;
     reportNotificationOpened(msgId: number): Promise<any>;
     requestPermission(): Promise<any>;
+    requestSubscribeChannel(channelIds: Array<string>): void;
     setSilenceTime(startHour: number, startMinute: number, endHour: number, endMinute: number): Promise<any>;
     setPushTime(weekdays: Array<string>, startHour: number, endHour: number): Promise<any>;
 }
