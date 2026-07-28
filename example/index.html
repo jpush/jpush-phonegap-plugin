@@ -103,6 +103,14 @@
           }
         };
 
+        var onCommandResult = function(event) {
+          try {
+            $("#commandResult").html(JSON.stringify(event));
+          } catch (exception) {
+            console.log("JPushPlugin:onCommandResult-->" + exception);
+          }
+        };
+
          var onResume = function(event){
           try {
               badgeNumb = 0
@@ -220,12 +228,18 @@
               $("#pushStatusResult").html(text);
             });
           });
+
+          $("#requestSubscribeChannel").click(function () {
+            var channelId = $("#subscribeChannelId").val();
+            window.JPush.requestSubscribeChannel([channelId]);
+          });
         };
 
         document.addEventListener("deviceready", onDeviceReady, false);
         document.addEventListener("jpush.openNotification", onOpenNotification, false);
         document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
         document.addEventListener("jpush.receiveMessage", onReceiveMessage, false);
+        document.addEventListener("jpush.onCommandResult", onCommandResult, false);
         document.addEventListener("resume", onResume, false);
       </script>
   </head>
@@ -279,6 +293,14 @@
                   </td>
                 </tr>
               </table>
+              <label>Xiaomi Subscribe Channel ID: </label>
+              <table>
+                <tr>
+                  <td>
+                    <input type="text" id="subscribeChannelId" />
+                  </td>
+                </tr>
+              </table>
             </div>
 
             <div data-role="fieldcontain">
@@ -302,6 +324,10 @@
             </div>
 
             <div data-role="fieldcontain">
+              <input type="button" id="requestSubscribeChannel" value="Request subscribe channel" />
+            </div>
+
+            <div data-role="fieldcontain">
               <label id="tagsPrompt">设置 Tag 的结果:</label>
               <label id="tagsResult">null</label>
             </div>
@@ -316,6 +342,10 @@
             <div data-role="fieldcontain">
               <label id="pushStatusPrompt">Get push status 结果 (code=0 成功, isStopped 仅当 code 为 0 时有效):</label>
               <label id="pushStatusResult">null</label>
+            </div>
+            <div data-role="fieldcontain">
+              <label id="commandPrompt">Command 回调结果:</label>
+              <label id="commandResult">null</label>
             </div>
             <div data-role="fieldcontain">
               <label id="notificationPrompt">接受的通知内容:</label>

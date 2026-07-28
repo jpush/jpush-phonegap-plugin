@@ -58,6 +58,7 @@ var JPushOriginal = /** @class */ (function (_super) {
     JPushOriginal.prototype.removeLocalNotification = function (notificationId) { return cordova(this, "removeLocalNotification", {}, arguments); };
     JPushOriginal.prototype.reportNotificationOpened = function (msgId) { return cordova(this, "reportNotificationOpened", {}, arguments); };
     JPushOriginal.prototype.requestPermission = function () { return cordova(this, "requestPermission", {}, arguments); };
+    JPushOriginal.prototype.requestSubscribeChannel = function (channelIds) { return cordova(this, "requestSubscribeChannel", { "sync": true, "platforms": ["Android"] }, arguments); };
     JPushOriginal.prototype.setSilenceTime = function (startHour, startMinute, endHour, endMinute) { return cordova(this, "setSilenceTime", {}, arguments); };
     JPushOriginal.prototype.setPushTime = function (weekdays, startHour, endHour) { return cordova(this, "setPushTime", {}, arguments); };
     JPushOriginal.pluginName = "JPush";

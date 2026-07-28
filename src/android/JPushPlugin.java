@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -320,6 +321,27 @@ public class JPushPlugin extends CordovaPlugin {
 
     void resumePush(JSONArray data, CallbackContext callbackContext) {
         JPushInterface.resumePush(mContext);
+        callbackContext.success();
+    }
+
+    void requestSubscribeChannel(JSONArray data, CallbackContext callbackContext) {
+        JSONArray channelIds = data.optJSONArray(0);
+        if (channelIds == null || channelIds.length() == 0 || channelIds.length() > 3) {
+            callbackContext.error("channelIds must contain 1 to 3 items");
+            return;
+        }
+
+        ArrayList<String> channels = new ArrayList<String>();
+        for (int i = 0; i < channelIds.length(); i++) {
+            Object value = channelIds.opt(i);
+            if (!(value instanceof String) || TextUtils.isEmpty(((String) value).trim())) {
+                callbackContext.error("channelIds must contain non-empty strings");
+                return;
+            }
+            channels.add((String) value);
+        }
+
+        JPushInterface.requestSubscribeChannel(mContext, channels);
         callbackContext.success();
     }
 
@@ -779,6 +801,20 @@ public class JPushPlugin extends CordovaPlugin {
             return;
         }
         String format = "window.plugins.jPushPlugin.receiveVoipMessageInAndroidCallback(%s);";
+        final String js = String.format(format, data.toString());
+        cordovaActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                instance.webView.loadUrl("javascript:" + js);
+            }
+        });
+    }
+
+    static void transmitCommandResult(JSONObject data) {
+        if (instance == null) {
+            return;
+        }
+        String format = "window.plugins.jPushPlugin.receiveCommandResultInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
         cordovaActivity.runOnUiThread(new Runnable() {
             @Override

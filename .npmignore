@@ -1,2 +1,4 @@
-cursor.md
+.claude/
 .cursor/
+.DS_Store
+*.tgz

@@ -203,6 +203,12 @@ export class JPush extends IonicNativePlugin {
   @Cordova()
   requestPermission(): Promise<any> { return; }
 
+  @Cordova({
+    sync: true,
+    platforms: ['Android']
+  })
+  requestSubscribeChannel(channelIds: Array<string>): void {  }
+
   @Cordova()
   setSilenceTime(startHour: number, startMinute: number, endHour: number, endMinute: number): Promise<any> { return; }
 
