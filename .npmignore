@@ -1,4 +1,8 @@
-.claude/
-.cursor/
-.DS_Store
+tests/
+node_modules/
 *.tgz
+*.log
+**/build/
+**/Pods/
+**/local.properties
+**/*.keystore

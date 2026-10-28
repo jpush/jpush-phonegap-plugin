@@ -600,3 +600,27 @@ if (!window.plugins.jPushPlugin) {
 }
 
 module.exports = new JPushPlugin();
+
+JPushPlugin.prototype._invokeUpgrade = function(name, args, platforms, success, error) {
+  var fail = typeof error === 'function' ? error : this.errorCallback;
+  var platform = device.platform === 'Android' ? 'Android' : this.isPlatformIOS() ? 'iOS' : device.platform;
+  if (platforms.indexOf(platform) === -1) { fail('UNSUPPORTED_PLATFORM'); return; }
+  this.callNative(name, args, success, fail);
+};
+JPushPlugin.prototype.requestSubscribeChannels = function(channels, success, error) {
+  var fail = typeof error === 'function' ? error : this.errorCallback;
+  if (!Array.isArray(channels) || channels.length < 1 || channels.length > 3 || channels.some(function(value, i) {
+    return typeof value !== 'string' || !value.trim() || channels.indexOf(value) !== i;
+  })) { fail('INVALID_ARGUMENT'); return; }
+  this._invokeUpgrade('requestSubscribeChannels', [channels], ['Android'], success, error);
+};
+JPushPlugin.prototype.turnOffPush = function(success, error) { this._invokeUpgrade('turnOffPush', [], ['Android','iOS'], success, error); };
+JPushPlugin.prototype.turnOnPush = function(success, error) { this._invokeUpgrade('turnOnPush', [], ['Android','iOS'], success, error); };
+JPushPlugin.prototype.initCrashHandler = function(success, error) { this._invokeUpgrade('initCrashHandler', [], ['Android'], success, error); };
+JPushPlugin.prototype.stopCrashHandler = function(success, error) { this._invokeUpgrade('stopCrashHandler', [], ['Android'], success, error); };
+JPushPlugin.prototype.setLiveActivityTokenReportEnabled = function(enable, success, error) {
+  if (typeof enable !== 'boolean') { (error || this.errorCallback)('INVALID_ARGUMENT'); return; }
+  this._invokeUpgrade('setLiveActivityTokenReportEnabled', [enable], ['iOS'], success, error);
+};
+JPushPlugin.prototype.registerLiveActivityPushToken = function(params, success, error) { this._invokeUpgrade('registerLiveActivityPushToken', [params], ['iOS'], success, error); };
+JPushPlugin.prototype.registerLiveActivityPushToStartToken = function(params, success, error) { this._invokeUpgrade('registerLiveActivityPushToStartToken', [params], ['iOS'], success, error); };

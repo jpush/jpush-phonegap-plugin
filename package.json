@@ -1,34 +1,37 @@
 {
-    "name": "jpush-phonegap-plugin",
-    "version": "6.0.4",
-    "description": "JPush for cordova plugin",
-    "cordova": {
-        "id": "jpush-phonegap-plugin",
-        "platforms": [
-            "ios",
-            "android"
-        ]
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/jpush/jpush-phonegap-plugin.git"
-    },
-    "keywords": [
-        "JPush",
-        "push",
-        "Push",
-        "ecosystem:cordova",
-        "cordova-ios",
-        "cordova-android"
-    ],
-    "devDependencies": {
-        "cordova-plugin-device": "*",
-        "cordova-plugin-jcore": ">=5.3.2 <6.0.0"
-    },
-    "author": "JiGuang",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/jpush/jpush-phonegap-plugin/issues"
-    },
-    "homepage": "https://github.com/jpush/jpush-phonegap-plugin#readme"
+  "name": "jpush-phonegap-plugin",
+  "version": "6.3.0",
+  "description": "JPush for cordova plugin",
+  "cordova": {
+    "id": "jpush-phonegap-plugin",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpush/jpush-phonegap-plugin.git"
+  },
+  "keywords": [
+    "JPush",
+    "push",
+    "Push",
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "devDependencies": {
+    "cordova-plugin-device": "*",
+    "cordova-plugin-jcore": ">=5.6.0 <6.0.0"
+  },
+  "author": "JiGuang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jpush/jpush-phonegap-plugin/issues"
+  },
+  "homepage": "https://github.com/jpush/jpush-phonegap-plugin#readme",
+  "scripts": {
+    "test": "node --test tests/*.test.cjs"
+  }
 }

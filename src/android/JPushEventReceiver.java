@@ -110,6 +110,11 @@ public class JPushEventReceiver extends JPushMessageReceiver {
                     cmdMessage.extra.getString("open_channel_result", ""));
                 result.put("platform", cmdMessage.extra.getInt("jg_platform", 0));
             }
+            if (cmdMessage.cmd == 2013 && cmdMessage.extra != null) {
+                JSONObject commandData = SubscriptionResultCodec.fromBundle(cmdMessage.extra);
+                result.put("commandData", commandData);
+                if (commandData.has("channels")) result.put("channels", commandData.get("channels"));
+            }
             cn.jiguang.cordova.push.JPushPlugin.transmitCommandResult(result);
         } catch (JSONException e) {
             cn.jiguang.cordova.push.JLogger.d(TAG,
@@ -266,12 +271,12 @@ public class JPushEventReceiver extends JPushMessageReceiver {
 
     @Override
     public void onVoipMessage(Context context, VoipDataMessage voipDataMessage) {
-        cn.jiguang.cordova.push.JLogger.d(TAG, "onVoipMessage:" + voipDataMessage);
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("messageId", voipDataMessage.getMessageId());
             jsonObject.put("extraData", voipDataMessage.getExtraData());
             jsonObject.put("platform", voipDataMessage.getPlatform());
+            jsonObject.put("voipSupportStatus", voipDataMessage.getVoipSupportStatus());
             cn.jiguang.cordova.push.JPushPlugin.transmitVoipMessage(jsonObject);
         } catch (Throwable throwable) {
             cn.jiguang.cordova.push.JLogger.d(TAG, "onVoipMessage throwable:" + throwable);

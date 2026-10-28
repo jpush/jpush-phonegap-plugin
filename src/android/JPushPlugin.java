@@ -6,6 +6,10 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
+import cn.jpush.android.ups.JPushUPSManager;
+import cn.jpush.android.ups.UPSTurnCallBack;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -39,6 +43,10 @@ public class JPushPlugin extends CordovaPlugin {
     private static final String TAG = JPushPlugin.class.getSimpleName();
 
     private Context mContext;
+    private final PendingCallbackRegistry serviceReplies = new PendingCallbackRegistry();
+    private volatile boolean foreground = true;
+    private volatile boolean destroyed;
+    private volatile long pageGeneration;
 
     private static JPushPlugin instance;
     private static Activity cordovaActivity;
@@ -79,6 +87,7 @@ public class JPushPlugin extends CordovaPlugin {
     }
 
     public void onResume(boolean multitasking) {
+        foreground = true;
         if (openNotificationJson != null) {
             transmitNotificationOpen(openNotificationJson);
         }
@@ -90,9 +99,17 @@ public class JPushPlugin extends CordovaPlugin {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        cordovaActivity = null;
-        instance = null;
+        destroyed = true;
+        ++pageGeneration;
+        serviceReplies.clear();
+        if (instance == this) {
+            cordovaActivity = null;
+            instance = null;
+        }
     }
+
+    @Override public void onPause(boolean multitasking) { foreground = false; super.onPause(multitasking); }
+    @Override public void onReset() { ++pageGeneration; serviceReplies.clear(); super.onReset(); }
 
     private static JSONObject getMessageObject(String message, Map<String, Object> extras) {
         JSONObject data = new JSONObject();
@@ -272,6 +289,18 @@ public class JPushPlugin extends CordovaPlugin {
     @Override
     public boolean execute(final String action, final JSONArray data, final CallbackContext callbackContext)
             throws JSONException {
+        if ("requestSubscribeChannels".equals(action) || "turnOffPush".equals(action)
+                || "turnOnPush".equals(action) || "initCrashHandler".equals(action) || "stopCrashHandler".equals(action)) {
+            final long generation = pageGeneration;
+            new Handler(Looper.getMainLooper()).post(() -> {
+                if (destroyed || generation != pageGeneration) return;
+                try {
+                    Method method = JPushPlugin.class.getDeclaredMethod(action, JSONArray.class, CallbackContext.class);
+                    method.invoke(JPushPlugin.this, data, callbackContext);
+                } catch (Exception error) { callbackContext.error("NATIVE_EXCEPTION"); }
+            });
+            return true;
+        }
         cordova.getThreadPool().execute(new Runnable() {
             @Override
             public void run() {
@@ -279,12 +308,63 @@ public class JPushPlugin extends CordovaPlugin {
                     Method method = JPushPlugin.class.getDeclaredMethod(action, JSONArray.class, CallbackContext.class);
                     method.invoke(JPushPlugin.this, data, callbackContext);
                 } catch (Exception e) {
-                    Log.e(TAG, e.toString());
+                    callbackContext.error("NATIVE_EXCEPTION");
                 }
             }
         });
         return true;
     }
+
+    void requestSubscribeChannels(JSONArray data, CallbackContext callback) throws JSONException {
+        JSONArray input = data.optJSONArray(0);
+        ArrayList<String> channels = new ArrayList<>();
+        if (input == null || input.length() < 1 || input.length() > 3) { callback.error("INVALID_ARGUMENT"); return; }
+        for (int i = 0; i < input.length(); i++) {
+            Object value = input.opt(i);
+            if (!(value instanceof String) || ((String) value).trim().isEmpty() || channels.contains(value)) {
+                callback.error("INVALID_ARGUMENT"); return;
+            }
+            channels.add((String) value);
+        }
+        PendingCallbackRegistry replies = serviceReplies;
+        long request = replies.add(callback);
+        new Handler(Looper.getMainLooper()).post(() -> {
+            if (!replies.contains(request)) return;
+            Activity activity = cordova.getActivity();
+            if (destroyed || !foreground || activity == null || activity.isFinishing()
+                    || activity.isDestroyed() || !activity.hasWindowFocus()) {
+                replies.error(request, "NO_ACTIVITY"); return;
+            }
+            try { JPushInterface.requestSubscribeChannels(activity, channels); replies.success(request, null); }
+            catch (RuntimeException error) { replies.error(request, "NATIVE_EXCEPTION"); }
+        });
+    }
+
+    void turnOffPush(JSONArray data, CallbackContext callback) { turnService(false, callback); }
+    void turnOnPush(JSONArray data, CallbackContext callback) { turnService(true, callback); }
+    private void turnService(boolean enabled, CallbackContext callback) {
+        PendingCallbackRegistry replies = serviceReplies;
+        long request = replies.add(callback);
+        Context context = mContext;
+        new Handler(Looper.getMainLooper()).post(() -> {
+            if (!replies.contains(request)) return;
+            UPSTurnCallBack completion = value -> {
+                if (value == null) { replies.error(request, "NATIVE_EXCEPTION"); return; }
+                try {
+                    JSONObject result = new JSONObject();
+                    result.put("code", value.getReturnCode());
+                    if (enabled) result.put("dispatched", true);
+                    replies.success(request, result);
+                } catch (JSONException error) { replies.error(request, "NATIVE_EXCEPTION"); }
+            };
+            try {
+                if (enabled) JPushUPSManager.turnOnPush(context, completion);
+                else JPushUPSManager.turnOffPush(context, completion);
+            } catch (RuntimeException error) { replies.error(request, "NATIVE_EXCEPTION"); }
+        });
+    }
+    void initCrashHandler(JSONArray data, CallbackContext callback) { JPushInterface.initCrashHandler(mContext); callback.success(); }
+    void stopCrashHandler(JSONArray data, CallbackContext callback) { JPushInterface.stopCrashHandler(mContext); callback.success(); }
 
     void init(JSONArray data, CallbackContext callbackContext) {
         JPushInterface.setNotificationCallBackEnable(mContext, true);

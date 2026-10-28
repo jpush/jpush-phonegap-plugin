@@ -5,6 +5,7 @@
 #import <UserNotifications/UserNotifications.h>
 #import "AppDelegate+JPush.h"
 #import "JPushDefine.h"
+#import "JPCordovaBridgeSupport.h"
 
 @implementation NSDictionary (JPush)
 -(NSString*)toJsonString{
@@ -25,10 +26,88 @@
 @end
 
 @interface JPushPlugin()
+@property(nonatomic,strong) JPCordovaReplyRegistry *serviceReplies;
 
 @end
 
 @implementation JPushPlugin
+
+- (JPCordovaReplyRegistry *)serviceReplies {
+    if (!_serviceReplies) _serviceReplies = [JPCordovaReplyRegistry new];
+    return _serviceReplies;
+}
+- (void)onReset { [self.serviceReplies invalidate]; self.serviceReplies = nil; [super onReset]; }
+- (void)dispose { [self.serviceReplies invalidate]; [super dispose]; }
+- (NSString *)registerBridgeCommand:(CDVInvokedUrlCommand *)command {
+    __weak id<CDVCommandDelegate> delegate = self.commandDelegate;
+    NSString *callback = command.callbackId;
+    return [self.serviceReplies registerResolve:^(id value) {
+        CDVPluginResult *result = [value isKindOfClass:[NSDictionary class]]
+          ? [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:value]
+          : [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [delegate sendPluginResult:result callbackId:callback];
+    } reject:^(NSString *code, NSString *message, NSError *error) {
+        [delegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:code] callbackId:callback];
+    }];
+}
+- (void)bridgeError:(NSString *)code command:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:code] callbackId:command.callbackId];
+}
+- (void)turnOffPush:(CDVInvokedUrlCommand *)command {
+    JPCordovaReplyRegistry *replies = self.serviceReplies;
+    NSString *request = [self registerBridgeCommand:command];
+    if (!request) return;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (![replies isPending:request]) return;
+        @try { [JPUSHService turnOffPush:^(NSInteger code) { [replies resolve:request value:@{@"code": @(code)}]; }]; }
+        @catch (NSException *e) { [replies reject:request code:@"NATIVE_EXCEPTION" message:@"Push invocation failed"]; }
+    });
+}
+- (void)turnOnPush:(CDVInvokedUrlCommand *)command {
+    JPCordovaReplyRegistry *replies = self.serviceReplies;
+    NSString *request = [self registerBridgeCommand:command];
+    if (!request) return;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (![replies isPending:request]) return;
+        @try { [JPUSHService turnOnPush]; [replies resolve:request value:@{@"dispatched": @YES}]; }
+        @catch (NSException *e) { [replies reject:request code:@"NATIVE_EXCEPTION" message:@"Push invocation failed"]; }
+    });
+}
+- (void)setLiveActivityTokenReportEnabled:(CDVInvokedUrlCommand *)command {
+    id enable = [command.arguments firstObject];
+    if (![JPCordovaBridgeSupport isBoolean:enable]) { [self bridgeError:@"INVALID_ARGUMENT" command:command]; return; }
+    JPCordovaReplyRegistry *replies = self.serviceReplies;
+    NSString *request = [self registerBridgeCommand:command];
+    if (!request) return;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (![replies isPending:request]) return;
+        @try { [JPUSHService setLiveActivityTokenReportEnabled:[enable boolValue]]; [replies resolve:request value:nil]; }
+        @catch (NSException *e) { [replies reject:request code:@"NATIVE_EXCEPTION" message:@"Diagnostic switch failed"]; }
+    });
+}
+- (void)registerLiveActivityPushToken:(CDVInvokedUrlCommand *)command { [self registerLiveActivity:command pushToStart:NO]; }
+- (void)registerLiveActivityPushToStartToken:(CDVInvokedUrlCommand *)command { [self registerLiveActivity:command pushToStart:YES]; }
+- (void)registerLiveActivity:(CDVInvokedUrlCommand *)command pushToStart:(BOOL)pushToStart {
+    if (pushToStart) { if (@available(iOS 17.2, *)) {} else { [self bridgeError:@"UNSUPPORTED_OS" command:command]; return; } }
+    else { if (@available(iOS 16.1, *)) {} else { [self bridgeError:@"UNSUPPORTED_OS" command:command]; return; } }
+    NSString *identifier = nil; NSData *token = nil; NSInteger sequence = 0;
+    if (![JPCordovaBridgeSupport readParameters:[command.arguments firstObject] identifierKey:pushToStart ? @"activityAttributes" : @"activityId" identifier:&identifier token:&token sequence:&sequence]) {
+        [self bridgeError:@"INVALID_ARGUMENT" command:command]; return;
+    }
+    JPCordovaReplyRegistry *replies = self.serviceReplies;
+    NSString *request = [self registerBridgeCommand:command];
+    if (!request) return;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (![replies isPending:request]) return;
+        JPUSHLiveActivityTokenCompletion completion = ^(NSInteger code, NSString *activityId, NSData *value, NSInteger seq) {
+            [replies resolve:request value:@{@"code": @(code), @"activityId": activityId ?: [NSNull null], @"token": [JPCordovaBridgeSupport hexToken:value] ?: [NSNull null], @"sequence": @(seq)}];
+        };
+        @try {
+            if (pushToStart) [JPUSHService registerLiveActivity:identifier pushToStartToken:token completion:completion seq:sequence];
+            else [JPUSHService registerLiveActivity:identifier pushToken:token completion:completion seq:sequence];
+        } @catch (NSException *e) { [replies reject:request code:@"NATIVE_EXCEPTION" message:@"Live Activity invocation failed"]; }
+    });
+}
 
 -(void)startJPushSDK:(CDVInvokedUrlCommand*)command{
     [(AppDelegate*)[UIApplication sharedApplication].delegate startJPushSDK];

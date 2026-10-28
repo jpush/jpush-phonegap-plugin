@@ -196,3 +196,5 @@ Please contribute! [Look at the issues](https://github.com/jpush/jpush-phonegap-
 ## License
 
 MIT © [JiGuang](/license)
+
+本轮候选更新原生SDK：JPush6.3.0/JCore5.6.0；实现不等于发布。接口和兼容迁移见[升级说明](doc/SDK-6.3-upgrade.md)。

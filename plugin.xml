@@ -3,7 +3,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   id="jpush-phonegap-plugin"
-  version="6.0.4">
+  version="6.3.0">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -11,6 +11,8 @@
     <keywords>JPush,push</keywords>
     <license>MIT License</license>
 
+    <hook type="after_prepare" src="hooks/iosSwiftSupport.js" />
+    <hook type="before_plugin_uninstall" src="hooks/iosSwiftSupport.js" />
     <preference name="APP_KEY" />
     <preference name="CHANNEL" default="developer-default" />
 
@@ -20,7 +22,7 @@
 
     <!-- dependencies -->
     <dependency id="cordova-plugin-device" />
-    <dependency id="cordova-plugin-jcore" version=">=5.3.2 &lt;6.0.0" />
+    <dependency id="cordova-plugin-jcore" version=">=5.6.0 &lt;6.0.0" />
 
     <js-module src="www/JPushPlugin.js" name="JPushPlugin">
         <clobbers target="JPush" />
@@ -43,6 +45,8 @@
         <config-file target="*-Release.plist" parent="aps-environment">
             <string>production</string>
         </config-file>
+        <header-file src="src/ios/Plugins/JPCordovaBridgeSupport.h" />
+        <source-file src="src/ios/Plugins/JPCordovaBridgeSupport.m" />
         <header-file src="src/ios/Plugins/JPushDefine.h" />
         <header-file src="src/ios/Plugins/JPushPlugin.h" />
         <source-file src="src/ios/Plugins/JPushPlugin.m" />
@@ -51,8 +55,9 @@
 
         <!-- JPush SDK 通过 CocoaPods 集成 -->
         <podspec>
+            <config />
             <pods>
-                <pod name="JPush" spec="6.2.0" />
+                <pod name="JPush" spec="6.3.0" />
             </pods>
         </podspec>
         <resource-file src="src/ios/JPushConfig.plist" />
@@ -172,8 +177,10 @@
         </config-file>
 
         <!-- JPush SDK 通过 Maven 集成，替代本地 jar -->
-        <framework src="cn.jiguang.sdk:jpush:6.2.0" />
+        <framework src="cn.jiguang.sdk:jpush:6.3.0" />
 
+        <source-file src="src/android/PendingCallbackRegistry.java" target-dir="src/cn/jiguang/cordova/push" />
+        <source-file src="src/android/SubscriptionResultCodec.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/PushService.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/cordova/push" />
         <source-file src="src/android/JPushReceiver.java" target-dir="src/cn/jiguang/cordova/push" />
