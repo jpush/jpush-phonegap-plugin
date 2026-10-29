@@ -1,6 +1,6 @@
-# Cordova6.3.0 / Core5.6.0候选升级
+# Cordova 6.3.0 / Core 5.6.0 升级说明
 
-JPush Android/iOS6.2.0→6.3.0、JCore5.5.0→5.6.0。插件版本按本仓cursor.md随SDK版本；Core必须先发布且公开可用，再发布依赖>=5.6.0<6的主插件。当前仅本地候选与PR，不发布。
+JPush Android/iOS6.2.0→6.3.0、JCore5.5.0→5.6.0。主插件要求配套 cordova-plugin-jcore >=5.6.0 <6.0.0，升级时请同时检查两包版本。
 
 | API/载荷 | 旧版与目标差分 | 本版契约 |
 | --- | --- | --- |
@@ -15,7 +15,7 @@ JPush Android/iOS6.2.0→6.3.0、JCore5.5.0→5.6.0。插件版本按本仓curso
 
 新接口非支持平台均error('UNSUPPORTED_PLATFORM')；旧接口签名及事件保持。每调用独立Callback，重复原生回调只完成一次，Android reset/destroy与iOS reset/dispose释放待回调避免迟到污染。现有旧getPushStatus单回调历史结构未在本次扩展重构；新UPS不复用该存储。
 
-原生权限/Manifest与最低平台声明不新增提高；实际宿主工具链自身最低系统和插件原声明分别记录。Ionic源码和classic/ngx运行时与类型同步新增API，wrapper仍为独立发布单元，未擅自发布/改版。
+原生权限/Manifest与最低平台声明保持；实际部署系统需同时满足所用 Cordova 平台及原生 SDK 的要求。本文 JS API 适用于本 Cordova 插件；独立 Ionic wrapper 具有独立版本，使用时应核对其实际提供的接口。
 
 ```js
 JPush.requestSubscribeChannels(['your_channel'], function () {
@@ -26,10 +26,10 @@ JPush.turnOnPush(function (result) { /* iOS仅dispatched，Android另有code */ 
 JPush.registerLiveActivityPushToken({activityId:'activity', token:null, sequence:1}, function(result){}, function(code){});
 ```
 
-回退需要主/Core原版本整组与依赖一起还原，不混用旧Core。测试与构建实际结论见PR，未覆盖场景不外推。
+回退需要主/Core原版本整组与依赖一起还原，不混用旧Core。升级及回退时请同时满足两包的依赖约束。
 
 ## Cordova构建兼容
 
-iOS Pod在纯ObjC宿主真实链接暴露Swift兼容库缺失，本插件after_prepare向Cordova原生include的build-extras.xcconfig添加可识别块：保留宿主（含条件）LIBRARY_SEARCH_PATHS和inherited，附TOOLCHAIN_DIR/SDKROOT平台Swift路径、标准Swift库嵌入YES。重复prepare幂等，卸载仅移除自己的标记块并恢复原文件，不修改其它宿主配置、不提高部署目标、不增加假Swift源。
+为支持纯 Objective-C 宿主使用 SDK 所需的 Swift 兼容库，本插件 after_prepare 向 Cordova 原生 include 的 build-extras.xcconfig 添加可识别块：保留宿主（含条件）LIBRARY_SEARCH_PATHS和inherited，附TOOLCHAIN_DIR/SDKROOT平台Swift路径、标准Swift库嵌入YES。重复prepare幂等，卸载仅移除自己的标记块并恢复原文件，不修改其它宿主配置、不提高部署目标、不增加假Swift源。
 
-两仓podspec加入空config以兼容cordova-ios7卸载：缺config时getPodSpecs.sources为null而removePodSpecs直接Object.keys，原版实测卸载失败；空config得到{}，没有新Pod source。最终包安装/卸载/重装须验证。
+两插件的 podspec 使用空 config 结构以兼容 cordova-ios 7 的卸载流程，不增加 Pod source。卸载只移除本插件写入的配置，保留宿主自有内容。

@@ -1,5 +1,5 @@
-## 6.3.0（候选）
-- 原生JPush6.3.0、配套Core>=5.6.0；补齐新订阅/UPS/crash/LiveActivity公开接口与VoIP状态字段，更新Ionic及独立回调生命周期。
+## 6.3.0
+- 原生JPush6.3.0、配套Core>=5.6.0；补齐新订阅/UPS/crash/LiveActivity公开接口与VoIP状态字段，同步附带Ionic封装，维持逐调用回调生命周期。
 
 ## 6.0.4 (2026-07-28)
 

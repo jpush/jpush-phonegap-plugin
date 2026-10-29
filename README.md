@@ -197,4 +197,4 @@ Please contribute! [Look at the issues](https://github.com/jpush/jpush-phonegap-
 
 MIT © [JiGuang](/license)
 
-本轮候选更新原生SDK：JPush6.3.0/JCore5.6.0；实现不等于发布。接口和兼容迁移见[升级说明](doc/SDK-6.3-upgrade.md)。
+jpush-phonegap-plugin 6.3.0 使用 Android/iOS JPush 6.3.0，要求 cordova-plugin-jcore >=5.6.0 <6.0.0（原生 JCore 5.6.0）。接口和兼容迁移见[升级说明](doc/SDK-6.3-upgrade.md)。
