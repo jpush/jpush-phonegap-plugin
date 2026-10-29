@@ -36,6 +36,30 @@ export class JPush extends IonicNativePlugin {
   setDebugMode(enable: boolean): void {  }
 
   @Cordova()
+  requestSubscribeChannels(channels: string[]): Promise<void> { return; }
+
+  @Cordova()
+  turnOffPush(): Promise<{code:number}> { return; }
+
+  @Cordova()
+  turnOnPush(): Promise<{code?:number;dispatched:boolean}> { return; }
+
+  @Cordova()
+  initCrashHandler(): Promise<void> { return; }
+
+  @Cordova()
+  stopCrashHandler(): Promise<void> { return; }
+
+  @Cordova()
+  setLiveActivityTokenReportEnabled(enable: boolean): Promise<void> { return; }
+
+  @Cordova()
+  registerLiveActivityPushToken(params: {activityId:string;token:string|null;sequence:number}): Promise<{code:number;activityId:string|null;token:string|null;sequence:number}> { return; }
+
+  @Cordova()
+  registerLiveActivityPushToStartToken(params: {activityAttributes:string;token:string|null;sequence:number}): Promise<{code:number;activityId:string|null;token:string|null;sequence:number}> { return; }
+
+  @Cordova()
   getRegistrationID(): Promise<any> { return; }
 
   @Cordova()

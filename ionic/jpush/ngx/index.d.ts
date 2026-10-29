@@ -38,6 +38,14 @@ export declare class JPush extends IonicNativePlugin {
     functionName(arg1: string, arg2: number): Promise<any>;
     init(): void;
     setDebugMode(enable: boolean): void;
+    requestSubscribeChannels(channels: string[]): Promise<void>;
+    turnOffPush(): Promise<{code:number}>;
+    turnOnPush(): Promise<{code?:number;dispatched:boolean}>;
+    initCrashHandler(): Promise<void>;
+    stopCrashHandler(): Promise<void>;
+    setLiveActivityTokenReportEnabled(enable: boolean): Promise<void>;
+    registerLiveActivityPushToken(params: {activityId:string;token:string|null;sequence:number}): Promise<{code:number;activityId:string|null;token:string|null;sequence:number}>;
+    registerLiveActivityPushToStartToken(params: {activityAttributes:string;token:string|null;sequence:number}): Promise<{code:number;activityId:string|null;token:string|null;sequence:number}>;
     getRegistrationID(): Promise<any>;
     stopPush(): Promise<any>;
     resumePush(): Promise<any>;

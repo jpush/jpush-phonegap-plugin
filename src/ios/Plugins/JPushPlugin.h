@@ -14,6 +14,12 @@ static NSMutableDictionary *_jpushEventCache;
 
 }
 
+-(void)turnOffPush:(CDVInvokedUrlCommand*)command;
+-(void)turnOnPush:(CDVInvokedUrlCommand*)command;
+-(void)setLiveActivityTokenReportEnabled:(CDVInvokedUrlCommand*)command;
+-(void)registerLiveActivityPushToken:(CDVInvokedUrlCommand*)command;
+-(void)registerLiveActivityPushToStartToken:(CDVInvokedUrlCommand*)command;
+
 //注册通知服务并启动 SDK
 -(void)startJPushSDK:(CDVInvokedUrlCommand*)command;
 
